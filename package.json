@@ -1,0 +1,27 @@
+{
+    "name": "spray-socketio",
+    "version": "0.0.1",
+    "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
+    "description": "TODO",
+    "main": "./lib/spray.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chat-wane/LSEQTree.git"
+    },
+    "keywords": [
+        "Random Peer Sampling",
+        "Adaptive"
+    ],
+    "dependencies": {
+        "socket.io": "latest"
+        "socket.io-client": "latest"
+    },
+    "bundledDependencies": [
+	      "socket.io",
+        "socket.io-client"
+    ],
+    "license": "MIT",
+    "engines": {
+	      "node": ">=0.10.28"
+    }
+}
