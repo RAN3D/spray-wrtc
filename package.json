@@ -1,27 +1,27 @@
 {
-    "name": "spray-socketio",
+    "name": "spray-wrtc",
     "version": "0.0.1",
     "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
-    "description": "TODO",
-    "main": "./lib/spray.js",
+    "description": "Adaptive random peer sampling protocol running on top of WebRTC",
+    "main": "./lib/main.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/chat-wane/LSEQTree.git"
+        "url": "https://github.com/justayak/spray-wrtc.git"
     },
     "keywords": [
         "Random Peer Sampling",
-        "Adaptive"
+        "Adaptive",
+        "WebRTC"
     ],
     "dependencies": {
-        "socket.io": "latest"
-        "socket.io-client": "latest"
+        "simple-peer": "5.9.x"
     },
     "bundledDependencies": [
-	      "socket.io",
-        "socket.io-client"
+        "simple-peer"
     ],
-    "license": "MIT",
-    "engines": {
-	      "node": ">=0.10.28"
-    }
+    "scripts":{
+        "debug": "browserify lib/main.js --debug --s spray-wrtc > build/spray-wrtc.bundle.debug.js",
+        "build": "browserify lib/main.js --s spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js"
+    },
+    "license": "MIT"
 }
