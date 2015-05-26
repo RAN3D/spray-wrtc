@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
     "description": "Adaptive random peer sampling protocol running on top of WebRTC",
-    "main": "./lib/main.js",
+    "main": "./lib/membership.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/justayak/spray-wrtc.git"
@@ -20,8 +20,8 @@
         "simple-peer"
     ],
     "scripts":{
-        "debug": "browserify lib/main.js --debug --s spray-wrtc > build/spray-wrtc.bundle.debug.js",
-        "build": "browserify lib/main.js --s spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js"
+        "debug": "browserify -r ./lib/membership.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
+        "build": "browserify lib/membership.js --s spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js"
     },
     "license": "MIT"
 }
