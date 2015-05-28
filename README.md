@@ -29,12 +29,17 @@ browser, put the following line in your html:
 ```html
 <script src='./build/spray-wrtc.bundle.js'></script>
 ```
-In both case, spray-wrtc provides:
+In both case:
 ```javascript
 var Spray = require('spray-wrtc');
 
 (TODO)
 ```
+
+## Misc
+
+Peersim [4] simulations of Spray are available at
+[peersim-spray](https://github.com/justayak/peersim-spray).
 
 ## References
 
@@ -49,3 +54,7 @@ Management</i>, 13(2):197–217, 2005.
 [3] A. Ganesh, A.-M. Kermarrec, and L. Massoulié. Peer-to-peer membership
 management for gossip-based protocols. <i>IEEE Transactions on Computers</i>,
 52(2):139–149, Feb 2003.
+
+[4] A. Montresor and M. Jelasity. Peersim: A scalable P2P simulator. <i>Proc. of
+the 9th Int. Conference on Peer-to-Peer (P2P’09)</i>, pages 99–100, Seattle, WA,
+Sept. 2009.
