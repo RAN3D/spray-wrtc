@@ -1,0 +1,103 @@
+<html>
+  <head> <title>spray-wrtc</title> </head>
+  <body>
+    <textarea rows="5" cols="80" id="textID"></textarea><br/>
+    <button type="button" id="offer">1. Make offer</button>
+    <button type="button" id="join">2. Accept offer</button>
+    <button type="button" id="handshake">3. Confirm handshake</button>
+    <button type="button" id="disconnect">Disconnect</button>
+    <br/>  <!-- ugly but whatever, just an example -->
+    <br/>
+    <div id="idPeer">Wait...</div>
+    <div id="idPartialView"></div>
+    <div id="idSockets"></div>
+    <div id="idForwards"></div>
+    <div id="idPending"></div> <br />
+    
+    <div id="log"></div>
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <script>
+      var peerConnectionConfig;
+
+      $.ajax({
+        type: "POST",
+        url: "https://api.xirsys.com/getIceServers",
+        data: {
+          ident: "chatwane",
+          secret: "8105d907-564a-4213-8c91-21b0a2f7344b",
+          domain: "www.crate.com",
+          application: "crate",
+          room: "default",
+          secure: 1
+        },
+        success: function (data, status) {
+          // data.d is where the iceServers object lives
+          var object = JSON.parse(data);
+          peerConnectionConfig = object.d;
+          onSuccess(peerConnectionConfig);
+        },
+        timeout: 10000, // 10seconds
+        error: function(x, t, m){
+        if (t==='timeout'){$('#idPeer').html('Error. Try again...')};
+        },
+        async: true
+      });
+    </script>
+
+
+    
+    <script src="../build/spray-wrtc.bundle.debug.js"></script>
+    <script>
+      var Spray = require('spray-wrtc');
+      function onSuccess(config){
+        var id = Math.floor(Math.random()*1000);
+        var n = new Spray(id, config);
+
+        $("#idPeer").html("Ready - ID: "+id);
+
+        setInterval(function(){
+          var stringPartialView = ""
+          if (n.rps.partialView.length()>0){
+            stringPartialView = " @@@@@ ";
+            for (var i = 0; i < n.rps.partialView.length(); ++i){
+              stringPartialView += n.rps.partialView.array.arr[i].id + "; ";
+            };
+          };               
+          $("#idPartialView").html("|partialView|: "+n.rps.partialView.length()+
+                              stringPartialView);
+          $("#idSockets").html("|sockets|: " +n.rps.sockets.length());
+          $("#idForwards").html("|forwards|: "+n.rps.forwards.length());
+          $("#idPending").html("|pending|: "+n.rps.pending.length());
+        },1000);
+
+      
+        $("#disconnect").click(function(){
+        //(TODO)
+        });
+      
+        $("#offer").click(function(){
+          n.launch(function(message){
+            $("#textID").val(JSON.stringify(message));
+          });
+        });
+      
+        $("#join").click(function(){
+        var message = JSON.parse($("#textID").val());
+          n.answer(message, function(stamped){
+            $("#textID").val(JSON.stringify(stamped));
+          });
+        });
+        $("#handshake").click(function(){
+          var message = JSON.parse($("#textID").val());
+          n.handshake(message);
+        });
+
+        n.on("receive", function(message){
+          $("#log").html( $("#log").html() + "received: " + message + "<br/>" );
+        });
+      };
+    </script>
+  </body>
+</html>

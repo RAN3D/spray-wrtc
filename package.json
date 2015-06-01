@@ -21,7 +21,7 @@
     ],
     "scripts":{
         "debug": "browserify -r ./lib/membership.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
-        "build": "browserify lib/membership.js --s spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js"
+        "build": "browserify -r ./lib/membership.js:spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js"
     },
     "license": "MIT"
 }
