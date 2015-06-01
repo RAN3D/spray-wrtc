@@ -29,14 +29,42 @@ browser, put the following line in your html:
 ```html
 <script src='./build/spray-wrtc.bundle.js'></script>
 ```
-In both case:
+In any cases:
 ```javascript
 var Spray = require('spray-wrtc');
 
 (TODO)
 ```
 
-## Misc
+## Examples (TODO)
+
+### Browser
+
+### Node.js
+
+First, go to the example folder containing the [Node.js](http://nodejs.org)
+example file:
+```
+$ cd ./example/
+```
+
+Second, install the dependencies (make sure that the node packet manager is
+installed):
+```
+$ npm install socket.io-client wrtc
+```
+
+Thirdly, run a peer with a public access key:
+```
+$ node node.js --public=<key>
+```
+
+Finally, run a peer that accesses to a public peer
+```
+$ node node.js [--public=<key>] --access=<public_key>
+```
+
+## Miscellaneous
 
 Peersim [4] simulations of Spray are available at
 [peersim-spray](https://github.com/justayak/peersim-spray).
