@@ -5,6 +5,8 @@ var GUID = require('../lib/guid.js');
 
 var PUBLIC = null;
 var ACCESS = null;
+var SIGNAL = 'https://ancient-shelf-9067.herokuapp.com';
+var STUN = null;
 
 process.argv.forEach(function (val, index, array) {
     var splitedArgs = val.split('=');
@@ -12,15 +14,19 @@ process.argv.forEach(function (val, index, array) {
         switch (splitedArgs[0]) {
         case '--public': PUBLIC = splitedArgs[1]; break;
         case '--access': ACCESS = splitedArgs[1]; break;
+        case '--signal': SIGNAL = splitedArgs[1]; break;
+        case '--stun'  : STUN   = splitedArgs[1]; break;
         default: console.log('unknown option: ' + splitedArgs[0]); break;
         };
     };
 });
 
 // #1 create the websocket to access to the signaling server
-var signaling = io.connect('https://ancient-shelf-9067.herokuapp.com');
+var signaling = io.connect(SIGNAL);
 // #2 create the random peer sampling protocol
-var n = new Spray(GUID(), {wrtc:wrtc});
+var options = {wrtc:wrtc};
+if (STUN !== null){options.iceServers = [{url: STUN}];};
+var n = new Spray(GUID(), options);
 // #3 set the events
 signaling.on('connect', function(){
     console.log('Successful connection to the signaling service');
