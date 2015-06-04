@@ -59,17 +59,17 @@
 
         setInterval(function(){
           var stringPartialView = ""
-          if (n.rps.partialView.length()>0){
+          if (n.partialView.length()>0){
             stringPartialView = " @@@@@ ";
-            for (var i = 0; i < n.rps.partialView.length(); ++i){
-              stringPartialView += n.rps.partialView.array.arr[i].id + "; ";
+            for (var i = 0; i < n.partialView.length(); ++i){
+              stringPartialView += n.partialView.array.arr[i].id + "; ";
             };
           };               
-          $("#idPartialView").html("|partialView|: "+n.rps.partialView.length()+
+          $("#idPartialView").html("|partialView|: "+n.partialView.length()+
                               stringPartialView);
-          $("#idSockets").html("|sockets|: " +n.rps.sockets.length());
-          $("#idForwards").html("|forwards|: "+n.rps.forwards.length());
-          $("#idPending").html("|pending|: "+n.rps.pending.length());
+          $("#idSockets").html("|sockets|: " +n.sockets.length());
+          $("#idForwards").html("|forwards|: "+n.forwards.length());
+          $("#idPending").html("|pending|: "+n.pending.length());
         },1000);
 
       

@@ -1,6 +1,6 @@
 var io = require('socket.io-client');
 var wrtc = require('wrtc');
-var Spray = require('../lib/membership.js');
+var Spray = require('../lib/spray.js');
 var GUID = require('../lib/guid.js');
 
 var PUBLIC = null;
