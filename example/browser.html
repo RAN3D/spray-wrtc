@@ -72,7 +72,10 @@
           $("#idPending").html("|pending|: "+n.pending.length());
         },1000);
 
-      
+        n.on('statechange', function(state){
+          $("#idPeer").html("Ready - ID: "+id+" ("+state+")");
+        });
+         
         $("#disconnect").click(function(){
         //(TODO)
         });
