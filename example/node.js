@@ -34,7 +34,9 @@ signaling.on('connect', function(){
     if (ACCESS !== null){
         n.launch(function(offerTicket){
             console.log('Create an offer ticket');
-            signaling.emit('launch', ACCESS, offerTicket.id, offerTicket);
+            signaling.emit('launch',
+                           ACCESS, PUBLIC || offerTicket.id,
+                           offerTicket);
         });
     };
 });
@@ -43,16 +45,15 @@ signaling.on('disconnect', function(){
     console.log('Disconnected from the signaling service');
 });
 
-signaling.on('launchResponse', function(offerTicket){
+signaling.on('launchResponse', function(destUid, offerTicket){
     n.answer(offerTicket, function(stampedTicket){
         console.log('Create a stamped ticket');
-        stampedTicket.destUid = offerTicket.id;
-        signaling.emit('answer', PUBLIC, stampedTicket);
+        signaling.emit('answer', PUBLIC, destUid, stampedTicket);
     });
 });
 
 signaling.on('answerResponse', function(stampedTicket){
     console.log('Handshake');
     n.handshake(stampedTicket);
-    if (PUBLIC === null){ signaling.disconnect(); };
+    if (PUBLIC === null){ signaling.disconnect(); }
 });
