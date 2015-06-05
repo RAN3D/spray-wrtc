@@ -34,8 +34,8 @@ In any cases:
 var Spray = require('spray-wrtc');
 
 // #0 initialize the membership protocol with a unique identifier and WebRTC
-options. Spray allows options.deltatime (interval of time betwen the proactive
-exchanges) and option.timeout.
+// options. Spray allows options.deltatime (interval of time betwen the
+// proactive exchanges) and option.timeout.
 var spray = new Spray(uid, options);
 
 // #A setup the first connection (@joining peer) - first step
@@ -57,8 +57,8 @@ spray.ready( function(){
 };
 
 // #2 get a set of links to communicate with the neighborhood. The parameter k
-is the number of neigbhors requested. The membership protocol provides as much
-peer as possible to meet the request.
+// is the number of neigbhors requested. The membership protocol provides as
+// much peer as possible to meet the request.
 var links = spray.getPeers(k);
 
 // #3 events
@@ -70,9 +70,9 @@ spray.on('statechange', function(state){
 });
 
 // #B emmited when the membership protocol receives a message. It requires that
-the message carries a 'protocol' property. For instance, Spray handles the event
-'spray-receive'. The arguments are the socket from which the message is
-received, and the message itself.
+// the message carries a 'protocol' property. For instance, Spray handles the
+// event 'spray-receive'. The arguments are the socket from which the message is
+// received, and the message itself.
 spray.on('<protocol_name>-receive', function(socket, message){
   console.log('I received a message for the protocol '+ message.protocol);
   socket.send(new ReponseMessageExample('Thank you!'));
