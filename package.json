@@ -11,13 +11,16 @@
     "keywords": [
         "Random Peer Sampling",
         "Adaptive",
+        "browser-to-browser communication",
         "WebRTC"
     ],
     "dependencies": {
-        "simple-peer": "5.9.x"
+        "simple-peer": "5.9.x",
+        "sorted-cmp-array": "2.0.x"
     },
     "bundledDependencies": [
-        "simple-peer"
+        "simple-peer",
+        "sorted-cmp-array"
     ],
     "scripts":{
         "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
