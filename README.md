@@ -34,7 +34,7 @@ In any case:
 var Spray = require('spray-wrtc');
 
 // #0 initialize the membership protocol with a unique identifier and WebRTC
-// options. Spray allows options.deltatime (interval of time betwen the
+// options. Spray allows options.deltatime (interval of time between the
 // proactive exchanges) and option.timeout.
 var spray = new Spray(uid, options);
 
@@ -57,7 +57,7 @@ spray.ready( function(){
 });
 
 // #2 get a set of links to communicate with the neighborhood. The parameter k
-// is the number of neigbhors requested. The membership protocol provides as
+// is the number of neighbors requested. The membership protocol provides as
 // much peer as possible to meet the request.
 var links = spray.getPeers(k);
 
@@ -69,7 +69,7 @@ spray.on('statechange', function(state){
   if (state==='disconnect') {console.log('I am disconnected');};
 });
 
-// #B emmited when the membership protocol receives a message. It requires that
+// #B emitted when the membership protocol receives a message. It requires that
 // the message carries a 'protocol' property. For instance, Spray handles the
 // event 'spray-receive'. The arguments are the socket from which the message is
 // received, and the message itself.
@@ -81,14 +81,35 @@ spray.on('<protocol_name>-receive', function(socket, message){
 
 ## Examples (TODO)
 
+<i>/!\ The signaling server option does not work yet since the default server
+running on [heroku](https://www.heroku.com) is not up-to-date.  To make it work,
+run the
+[simple-signaling-server](https://github.com/Chat-Wane/simple-signaling-server.git)
+and pass the server address as argument:
+* node.js: in the command line --signal=http://address_signaling:port
+* browser: in the url address &signal=http://address_signaling:port
+</i>
+
 ### Browser
 
-### Node.js
+First, go to the example folder containing the browser.html file.
+```
+$ cd ./example/
+```
 
-<i>/!\ Does not work yet since the default signaling server is not up-to-date.
-To make it work, run the
-[simple-signaling-server](https://github.com/Chat-Wane/simple-signaling-server.git)
-and pass the server address as argument --signal=http://address_signaling:port </i>
+Second, install the dependencies (make sure that [bower](http://bower.io) is
+installed):
+```
+$ bower install socket.io-client jquery
+```
+
+Thirdly, open the browser.html file (optional arguments for signaling server,
+i.e., <path/to/browser.html?public=<key>&access=<public_key>).
+
+(TODO) Explain manual connection.
+
+
+### Node.js
 
 First, go to the example folder containing the [Node.js](http://nodejs.org)
 example file:
@@ -96,8 +117,8 @@ example file:
 $ cd ./example/
 ```
 
-Second, install the dependencies (make sure that the node packet manager is
-installed):
+Second, install the dependencies (make sure that the [node packet
+manager](https://www.npmjs.com) is installed):
 ```
 $ npm install socket.io-client wrtc
 ```
