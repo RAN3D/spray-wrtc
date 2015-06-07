@@ -5,7 +5,6 @@
     <button type="button" id="offer">1. Make offer</button>
     <button type="button" id="join">2. Accept offer</button>
     <button type="button" id="handshake">3. Confirm handshake</button>
-    <button type="button" id="disconnect">Disconnect</button>
     <br/>  <!-- ugly but whatever, just an example -->
     <br/>
     <div id="idPeer">Wait...</div>
@@ -16,91 +15,117 @@
     
     <div id="log"></div>
 
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="./bower_components/jquery/dist/jquery.min.js"></script>
 
     <script>
-      var peerConnectionConfig;
-
-      $.ajax({
-        type: "POST",
-        url: "https://api.xirsys.com/getIceServers",
-        data: {
-          ident: "chatwane",
-          secret: "8105d907-564a-4213-8c91-21b0a2f7344b",
-          domain: "www.crate.com",
-          application: "crate",
-          room: "default",
-          secure: 1
-        },
-        success: function (data, status) {
-          // data.d is where the iceServers object lives
-          var object = JSON.parse(data);
-          peerConnectionConfig = object.d;
-          onSuccess(peerConnectionConfig);
-        },
-        timeout: 10000, // 10seconds
-        error: function(x, t, m){
-        if (t==='timeout'){$('#idPeer').html('Error. Try again...')};
-        },
-        async: true
-      });
+      var SIGNAL = null;
+      var PUBLIC = null;
+      var ACCESS = null;
+      var args = document.URL.split("?");
+      if (args.length > 1){
+        var splittedArgs = args[1].split("&");
+        for (var i = 0; i < splittedArgs.length; ++i){
+          var arg = splittedArgs[i].split("=");                          
+          switch (arg[0]){
+          case "signal": SIGNAL = arg[1]; break;
+          case "public": PUBLIC = arg[1]; break;
+          case "access": ACCESS = arg[1]; break;
+          default: console.log("Unknow argument"); break;
+          };
+        };
+      };
     </script>
 
-
-    
     <script src="../build/spray-wrtc.bundle.debug.js"></script>
+    <script src="./bower_components/socket.io-client/socket.io.js"></script>
+    
     <script>
-      var Spray = require('spray-wrtc');
-      function onSuccess(config){
-        var id = Math.floor(Math.random()*1000);
-        var n = new Spray(id, config);
+      var Spray = require("spray-wrtc");
 
-        $("#idPeer").html("Ready - ID: "+id);
+     
+      var n = new Spray();
+      var id = n.ID;
 
-        setInterval(function(){
-          var stringPartialView = ""
-          if (n.partialView.length()>0){
-            stringPartialView = " @@@@@ ";
-            for (var i = 0; i < n.partialView.length(); ++i){
-              stringPartialView += n.partialView.array.arr[i].id + "; ";
-            };
-          };               
-          $("#idPartialView").html("|partialView|: "+n.partialView.length()+
-                              stringPartialView);
-          $("#idSockets").html("|sockets|: " +n.sockets.length());
-          $("#idForwards").html("|forwards|: "+n.forwards.length());
-          $("#idPending").html("|pending|: "+n.pending.length());
-        },1000);
-
-        n.on('statechange', function(state){
-          $("#idPeer").html("Ready - ID: "+id+" ("+state+")");
-        });
-         
-        $("#disconnect").click(function(){
-        //(TODO)
-        });
+      console.log("SIGNAL = "+ SIGNAL);
+      console.log("ACCESS = "+ ACCESS);
+      console.log("PUBLIC = "+ PUBLIC);
       
-        $("#offer").click(function(){
-          n.launch(function(message){
-            $("#textID").val(JSON.stringify(message));
+      var signaling = null;
+      if ( SIGNAL !== null ){
+        signaling = io.connect(SIGNAL);
+      
+        signaling.on('connect', function(){
+          console.log('Successful connection to the signaling service');
+          if (PUBLIC !== null){ signaling.emit('share', PUBLIC); };
+          if (ACCESS !== null){
+          n.launch(function(offerTicket){
+            console.log('Create an offer ticket');
+            signaling.emit('launch',
+              ACCESS, PUBLIC || offerTicket.id,
+              offerTicket);
+            });
+          };
+        });
+
+        signaling.on('disconnect', function(){
+          console.log('Disconnected from the signaling service');
+        });
+
+        signaling.on('launchResponse', function(destUid, offerTicket){
+          n.answer(offerTicket, function(stampedTicket){
+            console.log('Create a stamped ticket');
+            signaling.emit('answer', PUBLIC, destUid, stampedTicket);
           });
         });
-      
-        $("#join").click(function(){
-        var message = JSON.parse($("#textID").val());
-          n.answer(message, function(stamped){
-            $("#textID").val(JSON.stringify(stamped));
-          });
-        });
-        $("#handshake").click(function(){
-          var message = JSON.parse($("#textID").val());
-          n.handshake(message);
-        });
 
-        n.on("receive", function(message){
-          $("#log").html( $("#log").html() + "received: " + message + "<br/>" );
+        signaling.on('answerResponse', function(stampedTicket){
+          console.log('Handshake');
+          n.handshake(stampedTicket);
+          if (PUBLIC === null){ signaling.disconnect(); }
         });
+      
       };
+
+
+      $("#idPeer").html("Ready - ID: "+id);
+
+      setInterval(function(){
+        var stringPartialView = ""
+        if (n.partialView.length()>0){
+          stringPartialView = " @@@@@ ";
+          for (var i = 0; i < n.partialView.length(); ++i){
+            stringPartialView += n.partialView.array.arr[i].id + "; ";
+          };
+        };               
+        $("#idPartialView").html("|partialView|: "+n.partialView.length()+
+                            stringPartialView);
+        $("#idSockets").html("|sockets|: " +n.sockets.length());
+        $("#idForwards").html("|forwards|: "+n.forwards.length());
+        $("#idPending").html("|pending|: "+n.pending.length());
+      },1000);
+
+                              
+      n.on('statechange', function(state){
+        $("#idPeer").html("Ready - ID: "+id+" ("+state+")");
+      });
+        
+      $("#offer").click(function(){
+        n.launch(function(message){
+          $("#textID").val(JSON.stringify(message));
+        });
+      });
+      
+      $("#join").click(function(){
+      var message = JSON.parse($("#textID").val());
+        n.answer(message, function(stamped){
+          $("#textID").val(JSON.stringify(stamped));
+        });
+      });
+      $("#handshake").click(function(){
+        var message = JSON.parse($("#textID").val());
+        n.handshake(message);
+      });
+
     </script>
   </body>
 </html>

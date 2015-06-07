@@ -29,7 +29,7 @@ browser, put the following line in your html:
 ```html
 <script src='./build/spray-wrtc.bundle.js'></script>
 ```
-In any cases:
+In any case:
 ```javascript
 var Spray = require('spray-wrtc');
 
@@ -54,7 +54,7 @@ spray.handshake(stampedTicket);
 // #1 check if the network is ready to emit messages with callback
 spray.ready( function(){
   console.log('I can send messages');
-};
+});
 
 // #2 get a set of links to communicate with the neighborhood. The parameter k
 // is the number of neigbhors requested. The membership protocol provides as
