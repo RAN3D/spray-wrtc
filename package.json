@@ -6,7 +6,7 @@
     "main": "./lib/spray.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/justayak/spray-wrtc.git"
+        "url": "https://github.com/chat-wane/spray-wrtc.git"
     },
     "keywords": [
         "Random Peer Sampling",
