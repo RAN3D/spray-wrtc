@@ -5,10 +5,13 @@
     <button type="button" id="offer">1. Make offer</button>
     <button type="button" id="join">2. Accept offer</button>
     <button type="button" id="handshake">3. Confirm handshake</button>
+    <button type="button" id="disconnect"> Disconnect</button>
+    
     <br/>  <!-- ugly but whatever, just an example -->
     <br/>
     <div id="idPeer">Wait...</div>
     <div id="idPartialView"></div>
+    <div id="idInView"></div>
     <div id="idSockets"></div>
     <div id="idForwards"></div>
     <div id="idPending"></div> <br />
@@ -98,7 +101,8 @@
           };
         };               
         $("#idPartialView").html("|partialView|: "+n.partialView.length()+
-                            stringPartialView);
+                                 stringPartialView);
+        $("#idInView").html("|inView|: " + n.inView.length());
         $("#idSockets").html("|sockets|: " +n.sockets.length());
         $("#idForwards").html("|forwards|: "+n.forwards.length());
         $("#idPending").html("|pending|: "+n.pending.length());
@@ -108,7 +112,11 @@
       n.on('statechange', function(state){
         $("#idPeer").html("Ready - ID: "+id+" ("+state+")");
       });
-        
+
+      $("#disconnect").click(function(){
+        n.leave();
+      });
+                              
       $("#offer").click(function(){
         n.launch(function(message){
           $("#textID").val(JSON.stringify(message));
