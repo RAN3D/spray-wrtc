@@ -1,0 +1,5 @@
+{
+    "name": "spray-wrtc",
+    "version": "0.0.2",
+    "main": "build/spray-wrtc.bundle.js"
+}
