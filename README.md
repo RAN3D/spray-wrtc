@@ -11,7 +11,7 @@ Scamp [3]. It adapts the partial view of each member to the network size using
 local knowledge only. Therefore, without any configurations, each peer
 automatically adjust itself to the need of the network.
 
-## Installation (NOT RELEASED YET)
+## Installation
 
 ```
 $ npm install spray-wrtc
