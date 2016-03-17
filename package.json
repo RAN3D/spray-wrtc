@@ -1,6 +1,6 @@
 {
     "name": "spray-wrtc",
-    "version": "0.0.2",
+    "version": "0.1.1",
     "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
     "description": "Adaptive random peer sampling protocol running on top of WebRTC",
     "main": "./lib/spray.js",
@@ -15,13 +15,16 @@
         "WebRTC"
     ],
     "dependencies": {
-        "simple-peer": "5.9.x",
-        "sorted-cmp-array": "2.0.x"
+        "sorted-cmp-array": "2.0.x",
+        "n2n-overlay-wrtc": "0.0.x"
     },
     "bundledDependencies": [
-        "simple-peer",
-        "sorted-cmp-array"
+        "sorted-cmp-array",
+        "n2n-overlay-wrtc"
     ],
+    "devDependencies": {
+        "browserify": "6.2.x"
+    },
     "scripts":{
         "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
         "build": "browserify -r ./lib/spray.js:spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js"
