@@ -21,10 +21,12 @@ var callbacks = function(src, dest){
     };
 };
 
-// #1 establishing a connection from n1 to n2
+// #1 s1 joins s2 and creates a 2-peers networks
 var id1 = s1.connection(callbacks(s1, s2));
-// #2 establishing a connection from n1 to n3
-// var id2 = n1.connection(callbacks(n1, n3));
-// > console: should see 4 "connection established" messages
+// #2 after a bit, s3 joins the network through s1
+setTimeout(function(){
+    var id2 = s3.connection(callbacks(s3, s1));
+}, 5000);
+
 
 
