@@ -1,7 +1,6 @@
 var S = require('spray-wrtc');
 
-var opts = {protocol: 'john-snow',
-            deltatime: 1000*60*60,
+var opts = {deltatime: 1000*60*1,
             webrtc: {trickle:true}};
 
 // # create 3 peers 

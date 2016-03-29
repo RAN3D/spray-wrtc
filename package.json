@@ -16,11 +16,13 @@
     ],
     "dependencies": {
         "sorted-cmp-array": "2.0.x",
-        "n2n-overlay-wrtc": "0.0.x"
+        "n2n-overlay-wrtc": "0.0.x",
+        "clone": "1.0.x"
     },
     "bundledDependencies": [
         "sorted-cmp-array",
-        "n2n-overlay-wrtc"
+        "n2n-overlay-wrtc",
+        "clone"
     ],
     "devDependencies": {
         "browserify": "6.2.x"
