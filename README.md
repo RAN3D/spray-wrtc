@@ -133,6 +133,21 @@ Finally, run a peer that accesses to a public peer
 $ node node.js [--public=<key>] --access=<public_key>
 ```
 
+## Run test and coverage
+
+First, go in the root directory and run :
+```
+$ npm install
+```
+Then, to run unit tests :
+```
+$ npm run test
+```
+Or, to run code coverage :
+```
+$ npm run coverage
+```
+
 ## Miscellaneous
 
 Peersim [4] simulations of Spray are available at
