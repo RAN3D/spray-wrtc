@@ -1,5 +1,5 @@
 import test from 'ava';
-const GUID = require('./guid.js');
+const GUID = require('../lib/guid.js');
 
 test('GUID test', t => {
 	

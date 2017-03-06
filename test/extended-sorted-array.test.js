@@ -1,5 +1,5 @@
 import test from 'ava';
-const SortedArray = require('./extended-sorted-array.js');
+const SortedArray = require('../lib/extended-sorted-array.js');
 
 test('Extended Sorted Array test', t => {
 

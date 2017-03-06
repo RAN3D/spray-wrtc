@@ -1,5 +1,5 @@
 import test from 'ava';
-const MExchange = require('./messages.js').MExchange;
+const MExchange = require('../lib/messages.js').MExchange;
 
 test('Messages test', t => {
 

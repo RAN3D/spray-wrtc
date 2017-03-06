@@ -1,5 +1,5 @@
 import test from 'ava';
-const Spray = require('./spray.js');
+const Spray = require('../lib/spray.js');
 
 test.beforeEach(t => {
 

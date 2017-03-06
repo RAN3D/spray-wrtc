@@ -1,5 +1,5 @@
 import test from 'ava';
-const PartialView = require('./partialview.js');
+const PartialView = require('../lib/partialview.js');
 
 test('PartialView test', t => {
 
