@@ -25,11 +25,15 @@
         "clone"
     ],
     "devDependencies": {
-        "browserify": "6.2.x"
+        "browserify": "6.2.x",
+        "ava": "0.18.x",
+        "nyc": "10.1.x"
     },
     "scripts":{
         "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
-        "build": "browserify -r ./lib/spray.js:spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js"
+        "build": "browserify -r ./lib/spray.js:spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js",
+        "test": "ava -v --watch",
+        "coverage": "nyc ava"
     },
     "license": "MIT"
 }
