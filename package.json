@@ -32,7 +32,8 @@
     "scripts":{
         "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
         "build": "browserify -r ./lib/spray.js:spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js",
-        "test": "ava -v --watch",
+        "test": "ava -v",
+	"watch": "ava -v --watch",
         "coverage": "nyc ava"
     },
     "license": "MIT"
