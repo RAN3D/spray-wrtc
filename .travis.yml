@@ -6,6 +6,6 @@ deploy:
   api_key: $NPM
   on:
     tags: true
-    repo: ran3d/spray-wrtc
+    repo: RAN3D/spray-wrtc
 notifications:
   email: false
