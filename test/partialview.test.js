@@ -3,12 +3,19 @@ const PartialView = require('../lib/partialview.js');
 
 test('PartialView test', t => {
 
-  let partialView = new PartialView();
+  let partialView = new PartialView({
+    usedCoef: 0.5
+  });
   let id = 1;
   t.is(partialView.length(),0,'length should be 0');
 
-  partialView.addNeighbor(id);
+  const config = (id) => {
+    return {age: 0, id: id};
+  };
+  
+  partialView.addNeighbor(config(id));
   t.is(partialView.length(),1,'length should be 1');
+  console.log(partialView.get());
 
   t.deepEqual(partialView.get(),[{age: 0, id: id}],'get() should return [{age: 0, id: 1}]');
 
@@ -20,7 +27,7 @@ test('PartialView test', t => {
   t.is(partialView.contains(22),false,'contains(22) should be false');
 
   let id2 = 2;
-  partialView.addNeighbor(id2);
+  partialView.addNeighbor(config(id2));
 
   t.deepEqual(partialView.get(),[{age: 0, id: 2 },{age: 0, id: 1 }],'get() should return [{age: 0, id: 1},{age: 0, id: 2}]');
 
@@ -39,7 +46,7 @@ test('PartialView test', t => {
   const idsList = [1, 2, 3, 5, 7];
 
   idsList.map( (id) => {
-    partialView.addNeighbor(id);
+    partialView.addNeighbor(config(id));
   });
 
   let sample = partialView.getSample({age: 0, id: 1}, false);

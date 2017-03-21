@@ -1,39 +1,47 @@
 {
-    "name": "spray-wrtc",
-    "version": "0.1.2",
-    "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
-    "description": "Adaptive random peer sampling protocol running on top of WebRTC",
-    "main": "./lib/spray.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/chat-wane/spray-wrtc.git"
-    },
-    "keywords": [
-        "Random Peer Sampling",
-        "Adaptive",
-        "browser-to-browser communication",
-        "WebRTC"
-    ],
-    "dependencies": {
-        "sorted-cmp-array": "2.0.x",
-        "n2n-overlay-wrtc": "0.0.x",
-        "clone": "1.0.x"
-    },
-    "bundledDependencies": [
-        "sorted-cmp-array",
-        "n2n-overlay-wrtc",
-        "clone"
-    ],
-    "devDependencies": {
-        "browserify": "6.2.x",
-        "ava": "0.18.x",
-        "nyc": "10.1.x"
-    },
-    "scripts":{
-        "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
-        "build": "browserify -r ./lib/spray.js:spray-wrtc | uglifyjs > build/spray-wrtc.bundle.js",
-        "test": "ava -v",
-        "coverage": "nyc ava"
-    },
-    "license": "MIT"
+  "name": "spray-wrtc",
+  "version": "1.0.0",
+  "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
+  "description": "Adaptive random peer sampling protocol running on top of WebRTC",
+  "main": "./lib/spray.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chat-wane/spray-wrtc.git"
+  },
+  "keywords": [
+    "Random Peer Sampling",
+    "Adaptive",
+    "browser-to-browser communication",
+    "WebRTC"
+  ],
+  "dependencies": {
+    "sorted-cmp-array": "2.0.x",
+    "n2n-overlay-wrtc": "1.x.x",
+    "clone": "1.0.x"
+  },
+  "bundledDependencies": [
+    "sorted-cmp-array",
+    "n2n-overlay-wrtc"
+  ],
+  "devDependencies": {
+    "ava": "0.18.x",
+    "babel-preset-es2015": "^6.24.0",
+    "babelify": "^7.3.0",
+    "browserify": "6.2.x",
+    "esdoc": "^0.5.2",
+    "esdoc-node": "^1.0.1",
+    "nyc": "10.1.x"
+  },
+  "scripts": {
+    "debug": "browserify -r ./lib/spray.js:spray-wrtc -t [ babelify --presets [ es2015 ] ] --debug > build/spray-wrtc.bundle.debug.js",
+    "build": "browserify -r ./lib/spray.js:spray-wrtc -t [ babelify --presets [ es2015 ] ] > build/spray-wrtc.bundle.js",
+    "esdoc": "esdoc && npm run esdoc:example",
+    "esdoc:example": "cp -R ./build ./example ./docs",
+    "test": "npm run all",
+    "ava": "ava -v",
+    "watch": "ava -v --watch",
+    "coverage": "nyc ava",
+    "all": "npm run debug && npm run build && npm run ava && npm run esdoc"
+  },
+  "license": "MIT"
 }
