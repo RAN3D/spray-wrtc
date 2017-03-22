@@ -16,7 +16,7 @@ git init
 git config user.name "Grall Arnaud"
 git config user.email "dev.arnaudgrall@gmail.com"
 
-git remote add upstream "https://$GH_TOKEN@github.com/ran3d/n2n-overlay-wrtc.git"
+git remote add upstream "https://$GH_TOKEN@github.com/ran3d/spray-wrtc.git"
 git fetch upstream
 git reset upstream/gh-pages
 
