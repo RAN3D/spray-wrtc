@@ -16,8 +16,7 @@
   ],
   "dependencies": {
     "sorted-cmp-array": "2.0.x",
-    "n2n-overlay-wrtc": "1.x.x",
-    "clone": "1.0.x"
+    "n2n-overlay-wrtc": "1.x.x"
   },
   "bundledDependencies": [
     "sorted-cmp-array",

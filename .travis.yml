@@ -1,5 +1,10 @@
 language: node_js
 node_js: node
+script:
+  - npm test
+after_success:
+  - bash deploy_doc.sh
+
 deploy:
   provider: npm
   email: grumpy.chat.wane@gmail.com
