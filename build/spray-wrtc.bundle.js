@@ -19378,7 +19378,7 @@ module.exports = Neighbor;
 
 },{"./messages.js":13,"events":8,"lodash":15,"neighborhood-wrtc":18}],15:[function(require,module,exports){
 module.exports=require(12)
-},{"/home/stagiaire-gdd/Documents/github/ran3d/spray-wrtc/node_modules/lodash/lodash.js":12}],16:[function(require,module,exports){
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":12}],16:[function(require,module,exports){
 var SortedArray = require('sorted-cmp-array');
 
 SortedArray.prototype.get = function(entry){
@@ -19931,7 +19931,7 @@ module.exports = Neighborhood;
 
 },{"./extended-sorted-array.js":16,"./multiset.js":17,"events":8,"lodash":15,"simple-peer":37,"uuid/v4":43}],19:[function(require,module,exports){
 module.exports=require(5)
-},{"/home/stagiaire-gdd/Documents/github/ran3d/spray-wrtc/node_modules/binary-search/index.js":5}],20:[function(require,module,exports){
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/binary-search/index.js":5}],20:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -23974,7 +23974,7 @@ process.chdir = function (dir) {
 
 },{}],45:[function(require,module,exports){
 module.exports=require(38)
-},{"/home/stagiaire-gdd/Documents/github/ran3d/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/sorted-cmp-array/index.js":38,"binary-search":5}],"spray-wrtc":[function(require,module,exports){
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/sorted-cmp-array/index.js":38,"binary-search":5}],"spray-wrtc":[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">N2N-Overlay-Wrtc API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/chat-wane/spray-wrtc.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html">PartialView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/spray.js~Spray.html">Spray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MExchange">MExchange</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SortedArray">SortedArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EventEmitter">EventEmitter</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="spray-wrtc">spray-wrtc</h1>
+<p>&lt;i&gt;Keywords: Random peer sampling, adaptive, browser-to-browser communication,
+WebRTC&lt;/i&gt;</p>
+<p>This project aims to provide a <a href="http://www.webrtc.org">WebRTC</a> implementation of
+Spray.</p>
+<p>Spray is a random peer sampling protocol [1] inspired by both Cyclon [2] and
+Scamp [3]. It adapts the partial view of each member to the network size using
+local knowledge only. Therefore, without any configurations, each peer
+automatically adjust itself to the need of the network.</p>
+<h2 id="installation">Installation</h2>
+<pre><code><code class="source-code prettyprint">$ npm install spray-wrtc</code>
+</code></pre><p>or</p>
+<pre><code><code class="source-code prettyprint">$ bower install spray-wrtc</code>
+</code></pre><h2 id="usage">Usage</h2>
+<p>The module has been <a href="http://browserify.org">browserified</a> and
+<a href="https://github.com/mishoo/UglifyJS">uglified</a>. To include spray-wrtc within your
+browser, put the following line in your html:</p>
+<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script src=&apos;./build/spray-wrtc.bundle.js&apos;&gt;&lt;/script&gt;</code>
+</code></pre>
+<p>In any case:</p>
+<pre><code class="lang-javascript"><code class="source-code prettyprint">var Spray = require(&apos;spray-wrtc&apos;);
+
+// #0 initialize the membership protocol with a unique identifier and WebRTC
+// options. Spray allows options.deltatime (interval of time between the
+// proactive exchanges) and option.timeout.
+var spray = new Spray(uid, options);
+
+// #A setup the first connection (@joining peer) - first step
+spray.launch( function(offerTicket){
+  manuallyGiveToTheKnownPeer(offerTicket);
+});
+
+// #B setup the first connection (@known peer) - second step
+spray.answer(offerTicket, function(stampedTicket){
+  manuallyGiveToTheJoiningPeer(stampedTicket);
+});
+
+// #C setup the first connection (@joining peer) - third step
+spray.handshake(stampedTicket);
+
+// #1 check if the network is ready to emit messages with callback
+spray.ready( function(){
+  console.log(&apos;I can send messages&apos;);
+});
+
+// #2 get a set of links to communicate with the neighborhood. The parameter k
+// is the number of neighbors requested. The membership protocol provides as
+// much peer as possible to meet the request.
+var links = spray.getPeers(k);
+
+// #3 events
+// #A emitted when the network state change; the possible states are 
+spray.on(&apos;statechange&apos;, function(state){
+  if (state===&apos;connect&apos;) {console.log(&apos;I am connected!&apos;);};
+  if (state===&apos;partial&apos;) {console.log(&apos;Temporary state. Hopefully... &apos;);};
+  if (state===&apos;disconnect&apos;) {console.log(&apos;I am disconnected&apos;);};
+});
+
+// #B emitted when the membership protocol receives a message. It requires that
+// the message carries a &apos;protocol&apos; property. For instance, Spray handles the
+// event &apos;spray-receive&apos;. The arguments are the socket from which the message is
+// received, and the message itself.
+spray.on(&apos;&lt;protocol_name&gt;-receive&apos;, function(socket, message){
+  console.log(&apos;I received a message for the protocol &apos;+ message.protocol);
+  socket.send(new ReponseMessageExample(&apos;Thank you!&apos;));
+});</code>
+</code></pre>
+<h2 id="examples-todo-">Examples (TODO)</h2>
+<p>&lt;i&gt;/!\ The signaling server option does not work yet since the default server
+running on <a href="https://www.heroku.com">heroku</a> is not up-to-date.  To make it work,
+run the
+<a href="https://github.com/Chat-Wane/simple-signaling-server.git">simple-signaling-server</a>
+and pass the server address as argument:</p>
+<ul>
+<li>node.js: in the command line --signal=<a href="http://address_signaling:port">http://address_signaling:port</a></li>
+<li>browser: in the url address &amp;signal=<a href="http://address_signaling:port">http://address_signaling:port</a>
+&lt;/i&gt;</li>
+</ul>
+<h3 id="browser">Browser</h3>
+<p>First, go to the example folder containing the browser.html file.</p>
+<pre><code><code class="source-code prettyprint">$ cd ./example/</code>
+</code></pre><p>Second, install the dependencies (make sure that <a href="http://bower.io">bower</a> is
+installed):</p>
+<pre><code><code class="source-code prettyprint">$ bower install socket.io-client jquery</code>
+</code></pre><p>Thirdly, open the browser.html file (optional arguments for signaling server,
+i.e., &lt;path/to/browser.html?public=&lt;key&gt;&amp;access=&lt;public_key&gt;).</p>
+<p>(TODO) Explain manual connection.</p>
+<h3 id="node-js">Node.js</h3>
+<p>First, go to the example folder containing the <a href="http://nodejs.org">Node.js</a>
+example file:</p>
+<pre><code><code class="source-code prettyprint">$ cd ./example/</code>
+</code></pre><p>Second, install the dependencies (make sure that the <a href="https://www.npmjs.com">node packet
+manager</a> is installed):</p>
+<pre><code><code class="source-code prettyprint">$ npm install socket.io-client wrtc</code>
+</code></pre><p>Thirdly, run a peer with a public access key:</p>
+<pre><code><code class="source-code prettyprint">$ node node.js --public=&lt;key&gt;</code>
+</code></pre><p>Finally, run a peer that accesses to a public peer</p>
+<pre><code><code class="source-code prettyprint">$ node node.js [--public=&lt;key&gt;] --access=&lt;public_key&gt;</code>
+</code></pre><h2 id="run-test-and-coverage">Run test and coverage</h2>
+<p>First, go in the root directory and run :</p>
+<pre><code><code class="source-code prettyprint">$ npm install</code>
+</code></pre><p>Then, to run unit tests :</p>
+<pre><code><code class="source-code prettyprint">$ npm run test</code>
+</code></pre><p>Or, to run code coverage :</p>
+<pre><code><code class="source-code prettyprint">$ npm run coverage</code>
+</code></pre><h2 id="miscellaneous">Miscellaneous</h2>
+<p>Peersim [4] simulations of Spray are available at
+<a href="https://github.com/justayak/peersim-spray">peersim-spray</a>.</p>
+<h2 id="references">References</h2>
+<p>[1] M. Jelasity, S. Voulgaris, R. Guerraoui, A.-M. Kermarrec, and M. Van
+Steen. Gossip-based peer sampling. &lt;i&gt;ACM Transactions on Computer Systems
+(TOCS)&lt;/i&gt;, 25(3):8, 2007.</p>
+<p>[2] S. Voulgaris, D. Gavidia, and M. van Steen. Cyclon: Inexpensive membership
+management for unstructured p2p overlays. &lt;i&gt;Journal of Network and Systems
+Management&lt;/i&gt;, 13(2):197&#x2013;217, 2005.</p>
+<p>[3] A. Ganesh, A.-M. Kermarrec, and L. Massouli&#xE9;. Peer-to-peer membership
+management for gossip-based protocols. &lt;i&gt;IEEE Transactions on Computers&lt;/i&gt;,
+52(2):139&#x2013;149, Feb 2003.</p>
+<p>[4] A. Montresor and M. Jelasity. Peersim: A scalable P2P simulator. &lt;i&gt;Proc. of
+the 9th Int. Conference on Peer-to-Peer (P2P&#x2019;09)&lt;/i&gt;, pages 99&#x2013;100, Seattle, WA,
+Sept. 2009.</p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
