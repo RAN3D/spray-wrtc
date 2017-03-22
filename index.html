@@ -54,7 +54,10 @@ automatically adjust itself to the need of the network.</p>
 <pre><code><code class="source-code prettyprint">$ npm install spray-wrtc</code>
 </code></pre><p>or</p>
 <pre><code><code class="source-code prettyprint">$ bower install spray-wrtc</code>
-</code></pre><h2 id="usage">Usage</h2>
+</code></pre><h2 id="documentation">Documentation</h2>
+<p>The documentation is avalaible <a href="https://ran3d.github.io/spray-wrtc/">here</a></p>
+<h2 id="-live-example-https-ran3d-github-io-spray-wrtc-example-browser-html-"><a href="https://ran3d.github.io/spray-wrtc/example/browser.html">Live Example</a></h2>
+<h2 id="usage">Usage</h2>
 <p>The module has been <a href="http://browserify.org">browserified</a> and
 <a href="https://github.com/mishoo/UglifyJS">uglified</a>. To include spray-wrtc within your
 browser, put the following line in your html:</p>
@@ -92,7 +95,7 @@ spray.ready( function(){
 var links = spray.getPeers(k);
 
 // #3 events
-// #A emitted when the network state change; the possible states are 
+// #A emitted when the network state change; the possible states are
 spray.on(&apos;statechange&apos;, function(state){
   if (state===&apos;connect&apos;) {console.log(&apos;I am connected!&apos;);};
   if (state===&apos;partial&apos;) {console.log(&apos;Temporary state. Hopefully... &apos;);};
