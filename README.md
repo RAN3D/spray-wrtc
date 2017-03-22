@@ -21,6 +21,12 @@ or
 $ bower install spray-wrtc
 ```
 
+## Documentation
+
+The documentation is avalaible [here](https://ran3d.github.io/spray-wrtc/)
+
+## [Live Example](https://ran3d.github.io/spray-wrtc/example/browser.html)
+
 ## Usage
 
 The module has been [browserified](http://browserify.org) and
@@ -62,7 +68,7 @@ spray.ready( function(){
 var links = spray.getPeers(k);
 
 // #3 events
-// #A emitted when the network state change; the possible states are 
+// #A emitted when the network state change; the possible states are
 spray.on('statechange', function(state){
   if (state==='connect') {console.log('I am connected!');};
   if (state==='partial') {console.log('Temporary state. Hopefully... ');};
