@@ -348,7 +348,7 @@ class Spray extends EventEmitter {
 		while (!oldest &amp;&amp; !sent &amp;&amp; this.partialView.length() &gt; 0) {
 			// oldest = this.partialView.getOldest();
 			oldest = this.partialView.getOldest();
-			const message = new MExchange(null, this.neighborhoods.i.ID, this.neighborhoods.o.ID);
+			const message = MExchange(null, this.neighborhoods.i.ID, this.neighborhoods.o.ID);
 			sent = this.send(oldest.id, message, 0);
 		}
 		if (this.partialView.length() === 0) {
