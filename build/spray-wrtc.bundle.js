@@ -1,347 +1,298 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var SortedArray = require('sorted-cmp-array');
-
-SortedArray.prototype.get = function (entry) {
-	var index = this.indexOf(entry);
-	return index >= 0 && this.arr[index] || null;
-};
-
-SortedArray.prototype.contains = function (entry) {
-	return this.arr.includes(entry);
-};
-
-module.exports = SortedArray;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4dGVuZGVkLXNvcnRlZC1hcnJheS5qcyJdLCJuYW1lcyI6WyJTb3J0ZWRBcnJheSIsInJlcXVpcmUiLCJwcm90b3R5cGUiLCJnZXQiLCJlbnRyeSIsImluZGV4IiwiaW5kZXhPZiIsImFyciIsImNvbnRhaW5zIiwiaW5jbHVkZXMiLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiQUFBQTs7QUFFQSxJQUFNQSxjQUFjQyxRQUFRLGtCQUFSLENBQXBCOztBQUVBRCxZQUFZRSxTQUFaLENBQXNCQyxHQUF0QixHQUE0QixVQUFVQyxLQUFWLEVBQWlCO0FBQzVDLEtBQU1DLFFBQVEsS0FBS0MsT0FBTCxDQUFhRixLQUFiLENBQWQ7QUFDQSxRQUFTQyxTQUFTLENBQVYsSUFBYyxLQUFLRSxHQUFMLENBQVNGLEtBQVQsQ0FBZixJQUFtQyxJQUExQztBQUNBLENBSEQ7O0FBTUFMLFlBQVlFLFNBQVosQ0FBc0JNLFFBQXRCLEdBQWlDLFVBQVVKLEtBQVYsRUFBaUI7QUFDakQsUUFBUSxLQUFLRyxHQUFMLENBQVNFLFFBQVQsQ0FBa0JMLEtBQWxCLENBQVI7QUFDQSxDQUZEOztBQUlBTSxPQUFPQyxPQUFQLEdBQWlCWCxXQUFqQiIsImZpbGUiOiJleHRlbmRlZC1zb3J0ZWQtYXJyYXkuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbmNvbnN0IFNvcnRlZEFycmF5ID0gcmVxdWlyZSgnc29ydGVkLWNtcC1hcnJheScpO1xuXG5Tb3J0ZWRBcnJheS5wcm90b3R5cGUuZ2V0ID0gZnVuY3Rpb24gKGVudHJ5KSB7XG5cdGNvbnN0IGluZGV4ID0gdGhpcy5pbmRleE9mKGVudHJ5KTtcblx0cmV0dXJuICgoaW5kZXggPj0gMCkmJnRoaXMuYXJyW2luZGV4XSkgfHwgbnVsbDtcbn07XG5cblxuU29ydGVkQXJyYXkucHJvdG90eXBlLmNvbnRhaW5zID0gZnVuY3Rpb24gKGVudHJ5KSB7XG5cdHJldHVybiAodGhpcy5hcnIuaW5jbHVkZXMoZW50cnkpKTtcbn07XG5cbm1vZHVsZS5leHBvcnRzID0gU29ydGVkQXJyYXk7XG4iXX0=
-},{"sorted-cmp-array":45}],2:[function(require,module,exports){
-'use strict';
 /**
- * message requesting an exchange of neighborhood
- * @param {string} inview the identifier of the inview
- * @param {string} outview the identifier of the outview
- * @param {string} protocol the protocol that creates the message
- 
- * @return {object} Return an object with all parameters and some other details
+ * Exception that rises when the partial view is used as if there were neighbors
+ * populating it, whereas there are none.
  */
 
-var MExchange = function MExchange(inview, outview, protocol) {
-  return {
-    protocol: protocol || 'spray-wrtc',
-    type: 'MExchange',
-    inview: inview,
-    outview: outview
-  };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ExEmptyView =
+/**
+ * @param {string} source The function that throws the exception.
+ */
+function ExEmptyView(source) {
+  _classCallCheck(this, ExEmptyView);
+
+  this.source = source;
+  this.message = 'Partial view is used as it was not empty, yet it is.';
 };
 
-module.exports = MExchange;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1lc3NhZ2VzLmpzIl0sIm5hbWVzIjpbIk1FeGNoYW5nZSIsImludmlldyIsIm91dHZpZXciLCJwcm90b2NvbCIsInR5cGUiLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBOzs7Ozs7Ozs7QUFRQSxJQUFNQSxZQUFZLFNBQVpBLFNBQVksQ0FBQ0MsTUFBRCxFQUFTQyxPQUFULEVBQWtCQyxRQUFsQixFQUErQjtBQUNoRCxTQUFPO0FBQ05BLGNBQVVBLFlBQVksWUFEaEI7QUFFTkMsVUFBTSxXQUZBO0FBR05ILFlBQVFBLE1BSEY7QUFJSkMsYUFBU0E7QUFKTCxHQUFQO0FBTUMsQ0FQRjs7QUFTQUcsT0FBT0MsT0FBUCxHQUFpQk4sU0FBakIiLCJmaWxlIjoibWVzc2FnZXMuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG4vKipcbiAqIG1lc3NhZ2UgcmVxdWVzdGluZyBhbiBleGNoYW5nZSBvZiBuZWlnaGJvcmhvb2RcbiAqIEBwYXJhbSB7c3RyaW5nfSBpbnZpZXcgdGhlIGlkZW50aWZpZXIgb2YgdGhlIGludmlld1xuICogQHBhcmFtIHtzdHJpbmd9IG91dHZpZXcgdGhlIGlkZW50aWZpZXIgb2YgdGhlIG91dHZpZXdcbiAqIEBwYXJhbSB7c3RyaW5nfSBwcm90b2NvbCB0aGUgcHJvdG9jb2wgdGhhdCBjcmVhdGVzIHRoZSBtZXNzYWdlXG4gXG4gKiBAcmV0dXJuIHtvYmplY3R9IFJldHVybiBhbiBvYmplY3Qgd2l0aCBhbGwgcGFyYW1ldGVycyBhbmQgc29tZSBvdGhlciBkZXRhaWxzXG4gKi9cbmNvbnN0IE1FeGNoYW5nZSA9IChpbnZpZXcsIG91dHZpZXcsIHByb3RvY29sKSA9PiB7XG5cdHJldHVybiB7XG5cdFx0cHJvdG9jb2w6IHByb3RvY29sIHx8ICdzcHJheS13cnRjJyxcblx0XHR0eXBlOiAnTUV4Y2hhbmdlJyxcblx0XHRpbnZpZXc6IGludmlldyxcbiAgICBvdXR2aWV3OiBvdXR2aWV3XG5cdH07XG4gfTtcblxubW9kdWxlLmV4cG9ydHMgPSBNRXhjaGFuZ2U7XG4iXX0=
+;
+
+module.exports = ExEmptyView;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4ZW1wdHl2aWV3LmpzIl0sIm5hbWVzIjpbIkV4RW1wdHlWaWV3Iiwic291cmNlIiwibWVzc2FnZSIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBOzs7Ozs7O0lBSU1BLFc7QUFDRjs7O0FBR0EscUJBQWFDLE1BQWIsRUFBcUI7QUFBQTs7QUFDakIsT0FBS0EsTUFBTCxHQUFjQSxNQUFkO0FBQ0EsT0FBS0MsT0FBTCxHQUFlLHNEQUFmO0FBQ0gsQzs7QUFDSjs7QUFFREMsT0FBT0MsT0FBUCxHQUFpQkosV0FBakIiLCJmaWxlIjoiZXhlbXB0eXZpZXcuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbi8qKlxuICogRXhjZXB0aW9uIHRoYXQgcmlzZXMgd2hlbiB0aGUgcGFydGlhbCB2aWV3IGlzIHVzZWQgYXMgaWYgdGhlcmUgd2VyZSBuZWlnaGJvcnNcbiAqIHBvcHVsYXRpbmcgaXQsIHdoZXJlYXMgdGhlcmUgYXJlIG5vbmUuXG4gKi9cbmNsYXNzIEV4RW1wdHlWaWV3IHtcbiAgICAvKipcbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gc291cmNlIFRoZSBmdW5jdGlvbiB0aGF0IHRocm93cyB0aGUgZXhjZXB0aW9uLlxuICAgICAqL1xuICAgIGNvbnN0cnVjdG9yIChzb3VyY2UpIHtcbiAgICAgICAgdGhpcy5zb3VyY2UgPSBzb3VyY2U7XG4gICAgICAgIHRoaXMubWVzc2FnZSA9ICdQYXJ0aWFsIHZpZXcgaXMgdXNlZCBhcyBpdCB3YXMgbm90IGVtcHR5LCB5ZXQgaXQgaXMuJztcbiAgICB9O1xufTtcblxubW9kdWxlLmV4cG9ydHMgPSBFeEVtcHR5VmlldztcblxuIl19
+},{}],2:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception that rises when the peer looked for does not exist in the partial
+ * view.
+ */
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ExPeerNotFound =
+/**
+ * @param {string} source The function that throw the error.
+ * @param {string} [peerId = 'unknown'] The identifier of the peer if
+ * defined.
+ */
+function ExPeerNotFound(source) {
+  var peerId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'unknown';
+
+  _classCallCheck(this, ExPeerNotFound);
+
+  this.source = source;
+  this.peer = peerId;
+};
+
+;
+
+module.exports = ExPeerNotFound;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4cGVlcm5vdGZvdW5kLmpzIl0sIm5hbWVzIjpbIkV4UGVlck5vdEZvdW5kIiwic291cmNlIiwicGVlcklkIiwicGVlciIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBOzs7Ozs7O0lBSU1BLGM7QUFDRjs7Ozs7QUFLQSx3QkFBYUMsTUFBYixFQUF5QztBQUFBLE1BQXBCQyxNQUFvQix1RUFBWCxTQUFXOztBQUFBOztBQUNyQyxPQUFLRCxNQUFMLEdBQWNBLE1BQWQ7QUFDQSxPQUFLRSxJQUFMLEdBQVlELE1BQVo7QUFDSCxDOztBQUNKOztBQUdERSxPQUFPQyxPQUFQLEdBQWlCTCxjQUFqQiIsImZpbGUiOiJleHBlZXJub3Rmb3VuZC5qcyIsInNvdXJjZXNDb250ZW50IjpbIid1c2Ugc3RyaWN0JztcblxuLyoqXG4gKiBFeGNlcHRpb24gdGhhdCByaXNlcyB3aGVuIHRoZSBwZWVyIGxvb2tlZCBmb3IgZG9lcyBub3QgZXhpc3QgaW4gdGhlIHBhcnRpYWxcbiAqIHZpZXcuXG4gKi9cbmNsYXNzIEV4UGVlck5vdEZvdW5kIHtcbiAgICAvKipcbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gc291cmNlIFRoZSBmdW5jdGlvbiB0aGF0IHRocm93IHRoZSBlcnJvci5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gW3BlZXJJZCA9ICd1bmtub3duJ10gVGhlIGlkZW50aWZpZXIgb2YgdGhlIHBlZXIgaWZcbiAgICAgKiBkZWZpbmVkLlxuICAgICAqL1xuICAgIGNvbnN0cnVjdG9yIChzb3VyY2UsIHBlZXJJZCA9ICd1bmtub3duJykge1xuICAgICAgICB0aGlzLnNvdXJjZSA9IHNvdXJjZTtcbiAgICAgICAgdGhpcy5wZWVyID0gcGVlcklkO1xuICAgIH07XG59O1xuXG5cbm1vZHVsZS5leHBvcnRzID0gRXhQZWVyTm90Rm91bmQ7XG4iXX0=
 },{}],3:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message requesting an exchange of neighborhood.
+ */
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var MExchange =
+/**
+ * @param {string} inview The identifier of the inview.
+ */
+function MExchange(inview, outview) {
+  _classCallCheck(this, MExchange);
+
+  this.inview = inview;
+  this.type = 'MExchange';
+};
+
+;
+
+module.exports = MExchange;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1leGNoYW5nZS5qcyJdLCJuYW1lcyI6WyJNRXhjaGFuZ2UiLCJpbnZpZXciLCJvdXR2aWV3IiwidHlwZSIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBOzs7Ozs7SUFHTUEsUztBQUNGOzs7QUFHQSxtQkFBYUMsTUFBYixFQUFxQkMsT0FBckIsRUFBOEI7QUFBQTs7QUFDMUIsT0FBS0QsTUFBTCxHQUFjQSxNQUFkO0FBQ0EsT0FBS0UsSUFBTCxHQUFZLFdBQVo7QUFDSCxDOztBQUNIOztBQUVGQyxPQUFPQyxPQUFQLEdBQWlCTCxTQUFqQiIsImZpbGUiOiJtZXhjaGFuZ2UuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbi8qKlxuICogTWVzc2FnZSByZXF1ZXN0aW5nIGFuIGV4Y2hhbmdlIG9mIG5laWdoYm9yaG9vZC5cbiAqL1xuY2xhc3MgTUV4Y2hhbmdlIHtcbiAgICAvKipcbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gaW52aWV3IFRoZSBpZGVudGlmaWVyIG9mIHRoZSBpbnZpZXcuXG4gICAgICovXG4gICAgY29uc3RydWN0b3IgKGludmlldywgb3V0dmlldykge1xuICAgICAgICB0aGlzLmludmlldyA9IGludmlldztcbiAgICAgICAgdGhpcy50eXBlID0gJ01FeGNoYW5nZSc7XG4gICAgfTtcbiB9O1xuXG5tb2R1bGUuZXhwb3J0cyA9IE1FeGNoYW5nZTtcbiJdfQ==
+},{}],4:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message sent by a newcommer to its contact when it joins the network.
+ */
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var MJoin = function MJoin() {
+  _classCallCheck(this, MJoin);
+};
+
+;
+
+module.exports = MJoin;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1qb2luLmpzIl0sIm5hbWVzIjpbIk1Kb2luIiwibW9kdWxlIiwiZXhwb3J0cyJdLCJtYXBwaW5ncyI6IkFBQUE7O0FBRUE7Ozs7OztJQUdNQSxLLEdBQ0YsaUJBQWU7QUFBQTtBQUNkLEM7O0FBQ0o7O0FBRURDLE9BQU9DLE9BQVAsR0FBaUJGLEtBQWpCIiwiZmlsZSI6Im1qb2luLmpzIiwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBzdHJpY3QnO1xuXG4vKipcbiAqIE1lc3NhZ2Ugc2VudCBieSBhIG5ld2NvbW1lciB0byBpdHMgY29udGFjdCB3aGVuIGl0IGpvaW5zIHRoZSBuZXR3b3JrLlxuICovXG5jbGFzcyBNSm9pbiB7XG4gICAgY29uc3RydWN0b3IgKCkge1xuICAgIH07XG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IE1Kb2luO1xuIl19
+},{}],5:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var SortedArray = require('./extended-sorted-array.js');
+var ExPeerNotFound = require('./exceptions/expeernotfound.js');
 
 /**
  * Structure containing the neighborhood of a peer.
- * @class PartialView
+ * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k
  */
 
 var PartialView = function () {
-	/**
-  * Constructor of PartialView
-  * @constructor
-  * @param {object} options Object containing all options
-  * @param {double} options.usedCoef Represents the amount of clients shuffled between [0;1]
-  */
-	function PartialView(options) {
-		_classCallCheck(this, PartialView);
+    function PartialView() {
+        _classCallCheck(this, PartialView);
 
-		// #1 initialize the partial view as an array sorted by age
-		// entries are {age, id, socketId}
+        this.view = new Map();
+        this.length = 0;
+    }
 
-		// Coef : [0;1]
-		this.usedCoef = options.usedCoef;
-
-		this.comparator = function (a, b) {
-			var first = a.age || a;
-			var second = b.age || b;
-			if (first < second) {
-				return -1;
-			}
-			if (first > second) {
-				return 1;
-			}
-			return 0;
-		};
-
-		this.array = new SortedArray(this.comparator);
-	}
-
-	/**
-  * Get the oldest peer in the partialView
-  * @return {object} the oldest peer in the array
-  */
+    _createClass(PartialView, [{
+        key: 'getOldest',
 
 
-	_createClass(PartialView, [{
-		key: 'getOldest',
-		value: function getOldest() {
-			return this.array.arr[0];
-		}
+        /**
+         * Get the oldest peer in the partial view.
+         * @returns {string} The oldest peer in the array.
+         */
+        value: function getOldest() {
+            if (this.view.size <= 0) {
+                throw new ExPeerNotFound('getOldest');
+            };
+            var oldestPeer = null;
+            var oldestAge = 0;
+            this.view.forEach(function (ages, peerId) {
+                if (oldestAge <= ages[ages.length - 1]) {
+                    oldestPeer = peerId;
+                    oldestAge = ages[ages.length - 1];
+                };
+            });
+            return oldestPeer;
+        }
+    }, {
+        key: 'increment',
 
-		/**
-   * Increment the age of the whole partial view
-   * @return {void}
-   */
 
-	}, {
-		key: 'increment',
-		value: function increment() {
-			for (var i = 0; i < this.array.arr.length; ++i) {
-				this.array.arr[i].age += 1;
-			}
-		}
+        /**
+         * Increment the age of the whole partial view
+         */
+        value: function increment() {
+            var _this = this;
 
-		/**
-   * Get a sample of the partial view
-   * @param {string} neighbor the neighbor which performs the exchange with us
-   * @param {boolean} isInitiator whether or not the caller is the initiator of the
-   * exchange
-   * @return {array} an array containing neighbors from this partial view
-   */
+            this.view.forEach(function (ages, peerId) {
+                _this.view.set(peerId, ages.map(function (age) {
+                    return age + 1;
+                }));
+            });
+        }
+    }, {
+        key: 'getSample',
 
-	}, {
-		key: 'getSample',
-		value: function getSample(neighbor, isInitiator) {
-			var sample = [];
-			// #1 copy the partial view
-			var clone = new SortedArray(this.comparator);
-			for (var _i = 0; _i < this.array.arr.length; ++_i) {
-				clone.arr.push(this.array.arr[_i]);
-			}
-			// #2 process the size of the sample
-			var sampleSize = Math.ceil(this.array.arr.length * this.usedCoef);
-			if (isInitiator) {
-				//        console.log('neighbor ', neighbor);
-				var found = false;
-				var i = 0;
-				while (!found && i < clone.arr.length) {
-					if (clone.arr[i].id === neighbor.id) {
-						found = true;
-					} else {
-						++i;
-					};
-				};
-				// #A remove an occurrence of the chosen neighbor
-				clone.arr.splice(i, 1);
-				sample.push(neighbor);
-			}
 
-			// #3 randomly add neighbors to the sample
-			while (sample.length < sampleSize) {
-				var rn = Math.floor(Math.random() * clone.arr.length);
-				sample.push(clone.arr[rn]);
-				clone.arr.splice(rn, 1);
-			}
+        /**
+         * Get a sample of the partial view.
+         * @param {string} [peerId] The identifier of the oldest neighbor chosen to
+         * perform a view exchange.
+         * @return {string[]} An array containing the identifiers of neighbors from
+         * this partial view.
+         */
+        value: function getSample(peerId) {
+            var sample = [];
+            // #1 create a flatten version of the partial view
+            var flatten = [];
+            this.view.forEach(function (ages, neighbor) {
+                ages.forEach(function (age) {
+                    flatten.push(neighbor);
+                });
+            });
+            // #2 process the size of the sample
+            var sampleSize = Math.ceil(flatten.length / 2);
+            // #3 initiator removes a chosen neighbor entry and adds it to sample
+            if (typeof peerId === 'undefined') {
+                flatten.splice(flatten.indexOf(peerId), 1);
+                sample.push(peerId);
+            };
+            // #4 add neighbors to the sample chosen at random
+            while (sample.length < sampleSize) {
+                var rn = Math.floor(Math.random() * flatten.length);
+                sample.push(flatten[rn]);
+                flatten.splice(rn, 1);
+            };
+            return sample;
+        }
+    }, {
+        key: 'addNeighbor',
 
-			return sample;
-		}
 
-		/**
-   * Replace the occurrences of the old peer by the fresh one
-   * @param {array} sample the sample to modify
-   * @param {object} old the old reference to replace
-   * @param {object} fresh the new reference to insert
-   * @return {array} an array with the replaced occurences
-   */
+        /**
+         * Add the peer to the partial view with an age of 0.
+         * @param {string} peerId The identifier of the peer added to the partial
+         * view.
+         */
+        value: function addNeighbor(peerId) {
+            !this.view.has(peerId) && this.view.set(peerId, new Array());
+            this.view.get(peerId).unshift(0); // add 0 in front of the array
+            this.length += 1;
+        }
+    }, {
+        key: 'removeNeighbor',
 
-	}, {
-		key: 'replace',
-		value: function replace(sample, old, fresh) {
-			var result = [];
-			for (var i = 0; i < sample.length; ++i) {
-				if (sample[i].id === old.id) {
-					result.push(fresh);
-				} else {
-					result.push(sample[i]);
-				}
-			}
-			return result;
-		}
 
-		/**
-   * Add the neigbhor to the partial view with an age of 0
-   * @param {object} config the peer to add to the partial view
-   * @return {void}
-   */
+        /**
+         * Remove the newest entry of the peer from the partial view.
+         * @param {string} peerId The identifier of the peer to remove from the 
+         * partial view. 
+         */
+        value: function removeNeighbor(peerId) {
+            if (!this.view.has(peerId)) {
+                throw new ExPeerNotFound('removeNeighbor', peerId);
+            };
+            this.view.get(peerId).shift();
+            this.view.get(peerId).length === 0 && this.view.delete(peerId);
+            this.length -= 1;
+        }
+    }, {
+        key: 'removeAllNeighbor',
 
-	}, {
-		key: 'addNeighbor',
-		value: function addNeighbor(config) {
-			this.array.insert(config);
-		}
 
-		/**
-   * Get the index of the peer in the partialview
-   * @param {string} id The id of the peer inside the partialView.
-   * @return {integer} the index of the peer in the array, -1 if not found
-   */
+        /**
+         * Remove all entries of the peer from the partial view.
+         * @param {string} peerId The identifier of the peer to remove from the 
+         * partial view.
+         * @returns {number} The number of occurrences of peerId removed.
+         */
+        value: function removeAllNeighbor(peerId) {
+            if (!this.view.has(peerId)) {
+                throw new ExPeerNotFound('removeNeighbor', peerId);
+            };
+            var occ = this.view.get(peerId).length;
+            this.view.delete(peerId);
+            return occ;
+        }
+    }, {
+        key: 'removeSample',
 
-	}, {
-		key: 'getIndex',
-		value: function getIndex(id) {
-			var i = this.array.arr.length - 1;
-			var index = -1;
-			var found = false;
-			while (!found && i >= 0) {
-				if (id === this.array.arr[i].id) {
-					found = true;
-					index = i;
-				}
-				--i;
-			}
-			return index;
-		}
 
-		/**
-   * Remove the peer from the partial view
-   * @param {string} id the peer to remove
-   * @param {integer} age The age of the peer
-   * @return {object} the removed entry if it exists, null otherwise
-   */
+        /**
+         * Remove all the elements contained in the sample in argument
+         * @param {array} sample the elements to remove
+         * @return {void}
+         */
+        value: function removeSample(sample) {
+            for (var i = 0; i < sample.length; ++i) {
+                this.removePeer(sample[i].id, sample[i].age);
+            }
+        }
+    }, {
+        key: 'contains',
 
-	}, {
-		key: 'removePeer',
-		value: function removePeer(id, age) {
-			if (!age) {
-				var index = this.getIndex(id);
-				var removedEntry = null;
-				if (index > -1) {
-					removedEntry = this.array.arr[index];
-					this.array.arr.splice(index, 1);
-				}
-				return removedEntry;
-			} else {
-				return this.removePeerAge(id, age);
-			}
-		}
 
-		/**
-   * Remove all occurrences of the peer and return the number of removals
-   * @param {string} id the peer to remove
-   * @return {integer} the number of occurrences of the removed peer
-   */
+        /**
+         * Check if the partial view contains the identifier of the neighbor.
+         * @param {string} peerId The identifier of the peer to check.
+         * @return {boolean} true if the identifier is in the partial view, false
+         * otherwise.
+         */
+        value: function contains(peerId) {
+            return this.store.has(peerId);
+        }
+    }, {
+        key: 'getLeastFrequent',
 
-	}, {
-		key: 'removeAll',
-		value: function removeAll(id) {
-			var occ = 0;
-			var i = 0;
-			while (i < this.array.arr.length) {
-				if (this.array.arr[i].id === id) {
-					this.array.arr.splice(i, 1);
-					occ += 1;
-				} else {
-					++i;
-				}
-			}
-			return occ;
-		}
 
-		/**
-   * Remove all the elements contained in the sample in argument
-   * @param {array} sample the elements to remove
-   * @return {void}
-   */
+        /**
+         * Get the least frequent peer. If multiple peers have the same number of
+         * occurrences, it chooses one among them at random.
+         * @returns {string} The identifier of a least frequent peer.
+         */
+        value: function getLeastFrequent() {
+            var leastFrequent = [];
+            var frequency = Infinity;
+            this.store.forEach(function (ages, peerId) {
+                if (ages.length < frequency) {
+                    leastFrequent = [];
+                    frequency = ages.length;
+                };
+                ages.length === frequency && leastFrequent.push(peerId);
+            });
+            return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
+        }
+    }]);
 
-	}, {
-		key: 'removeSample',
-		value: function removeSample(sample) {
-			for (var i = 0; i < sample.length; ++i) {
-				this.removePeer(sample[i].id, sample[i].age);
-			}
-		}
-
-		/**
-   * Get the size of the partial view
-   * @return {integer} the size of the partial view
-   */
-
-	}, {
-		key: 'length',
-		value: function length() {
-			return this.array.arr.length;
-		}
-
-		/**
-   * Check if the partial view contains the reference
-   * @param {string} id the peer to check
-   * @return {boolean} true if the peer is in the partial view, false otherwise
-   */
-
-	}, {
-		key: 'contains',
-		value: function contains(id) {
-			return this.getIndex(id) >= 0;
-		}
-
-		/**
-   * brief remove all elements from the partial view
-   * @return {void}
-   */
-
-	}, {
-		key: 'clear',
-		value: function clear() {
-			this.array.arr.splice(0, this.array.arr.length);
-		}
-
-		/**
-   * Get the array containing views
-   * @return {array} Array with all views
-   */
-
-	}, {
-		key: 'get',
-		value: function get() {
-			return this.array.arr;
-		}
-
-		/**
-   * Remove the peer with the associated age from the partial view
-   * @param {string} id the peer to remove
-   * @param {integer} age the age of the peer to remove
-   * @return {object} the removed entry if it exists, null otherwise
-   */
-
-	}, {
-		key: 'removePeerAge',
-		value: function removePeerAge(id, age) {
-			var found = false;
-			var i = 0;
-			var removedEntry = null;
-			while (!found && i < this.array.arr.length) {
-				if (id === this.array.arr[i].id && age === this.array.arr[i].age) {
-					found = true;
-					removedEntry = this.array.arr[i];
-					this.array.arr.splice(i, 1);
-				}
-				++i;
-			}
-			return removedEntry;
-		}
-	}]);
-
-	return PartialView;
+    return PartialView;
 }();
 
 module.exports = PartialView;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhcnRpYWx2aWV3LmpzIl0sIm5hbWVzIjpbIlNvcnRlZEFycmF5IiwicmVxdWlyZSIsIlBhcnRpYWxWaWV3Iiwib3B0aW9ucyIsInVzZWRDb2VmIiwiY29tcGFyYXRvciIsImEiLCJiIiwiZmlyc3QiLCJhZ2UiLCJzZWNvbmQiLCJhcnJheSIsImFyciIsImkiLCJsZW5ndGgiLCJuZWlnaGJvciIsImlzSW5pdGlhdG9yIiwic2FtcGxlIiwiY2xvbmUiLCJwdXNoIiwic2FtcGxlU2l6ZSIsIk1hdGgiLCJjZWlsIiwiZm91bmQiLCJpZCIsInNwbGljZSIsInJuIiwiZmxvb3IiLCJyYW5kb20iLCJvbGQiLCJmcmVzaCIsInJlc3VsdCIsImNvbmZpZyIsImluc2VydCIsImluZGV4IiwiZ2V0SW5kZXgiLCJyZW1vdmVkRW50cnkiLCJyZW1vdmVQZWVyQWdlIiwib2NjIiwicmVtb3ZlUGVlciIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7QUFFQSxJQUFNQSxjQUFjQyxRQUFRLDRCQUFSLENBQXBCOztBQUVBOzs7OztJQUlNQyxXO0FBQ0w7Ozs7OztBQU1BLHNCQUFhQyxPQUFiLEVBQXNCO0FBQUE7O0FBQ3JCO0FBQ0E7O0FBRUE7QUFDQSxPQUFLQyxRQUFMLEdBQWdCRCxRQUFRQyxRQUF4Qjs7QUFFQSxPQUFLQyxVQUFMLEdBQWtCLFVBQUNDLENBQUQsRUFBSUMsQ0FBSixFQUFVO0FBQzNCLE9BQU1DLFFBQVFGLEVBQUVHLEdBQUYsSUFBU0gsQ0FBdkI7QUFDQSxPQUFNSSxTQUFTSCxFQUFFRSxHQUFGLElBQVNGLENBQXhCO0FBQ0EsT0FBSUMsUUFBUUUsTUFBWixFQUFvQjtBQUNuQixXQUFPLENBQUMsQ0FBUjtBQUNBO0FBQ0QsT0FBSUYsUUFBUUUsTUFBWixFQUFvQjtBQUNuQixXQUFPLENBQVA7QUFDQTtBQUNELFVBQU8sQ0FBUDtBQUNBLEdBVkQ7O0FBWUEsT0FBS0MsS0FBTCxHQUFhLElBQUlYLFdBQUosQ0FBZ0IsS0FBS0ss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QUwsQ0FBV0MsR0FBWCxDQUFlYSxNQUFmLENBQXNCWixDQUF0QixFQUF5QixDQUF6QjtBQUNBO0FBQ0QsTUFBRUEsQ0FBRjtBQUNBO0FBQ0QsVUFBT3VCLFlBQVA7QUFDQTs7Ozs7O0FBSUZJLE9BQU9DLE9BQVAsR0FBaUJ2QyxXQUFqQiIsImZpbGUiOiJwYXJ0aWFsdmlldy5qcyIsInNvdXJjZXNDb250ZW50IjpbIid1c2Ugc3RyaWN0JztcblxuY29uc3QgU29ydGVkQXJyYXkgPSByZXF1aXJlKCcuL2V4dGVuZGVkLXNvcnRlZC1hcnJheS5qcycpO1xuXG4vKipcbiAqIFN0cnVjdHVyZSBjb250YWluaW5nIHRoZSBuZWlnaGJvcmhvb2Qgb2YgYSBwZWVyLlxuICogQGNsYXNzIFBhcnRpYWxWaWV3XG4gKi9cbmNsYXNzIFBhcnRpYWxWaWV3IHtcblx0LyoqXG5cdCAqIENvbnN0cnVjdG9yIG9mIFBhcnRpYWxWaWV3XG5cdCAqIEBjb25zdHJ1Y3RvclxuXHQgKiBAcGFyYW0ge29iamVjdH0gb3B0aW9ucyBPYmplY3QgY29udGFpbmluZyBhbGwgb3B0aW9uc1xuXHQgKiBAcGFyYW0ge2RvdWJsZX0gb3B0aW9ucy51c2VkQ29lZiBSZXByZXNlbnRzIHRoZSBhbW91bnQgb2YgY2xpZW50cyBzaHVmZmxlZCBiZXR3ZWVuIFswOzFdXG5cdCAqL1xuXHRjb25zdHJ1Y3RvciAob3B0aW9ucykge1xuXHRcdC8vICMxIGluaXRpYWxpemUgdGhlIHBhcnRpYWwgdmlldyBhcyBhbiBhcnJheSBzb3J0ZWQgYnkgYWdlXG5cdFx0Ly8gZW50cmllcyBhcmUge2FnZSwgaWQsIHNvY2tldElkfVxuXG5cdFx0Ly8gQ29lZiA6IFswOzFdXG5cdFx0dGhpcy51c2VkQ29lZiA9IG9wdGlvbnMudXNlZENvZWY7XG5cblx0XHR0aGlzLmNvbXBhcmF0b3IgPSAoYSwgYikgPT4ge1xuXHRcdFx0Y29uc3QgZmlyc3QgPSBhLmFnZSB8fCBhO1xuXHRcdFx0Y29uc3Qgc2Vjb25kID0gYi5hZ2UgfHwgYjtcblx0XHRcdGlmIChmaXJzdCA8IHNlY29uZCkge1xuXHRcdFx0XHRyZXR1cm4gLTE7XG5cdFx0XHR9XG5cdFx0XHRpZiAoZmlyc3QgPiBzZWNvbmQpIHtcblx0XHRcdFx0cmV0dXJuIDE7XG5cdFx0XHR9XG5cdFx0XHRyZXR1cm4gMDtcblx0XHR9O1xuXG5cdFx0dGhpcy5hcnJheSA9IG5ldyBTb3J0ZWRBcnJheSh0aGlzLmNvbXBhcmF0b3IpO1xuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgb2xkZXN0IHBlZXIgaW4gdGhlIHBhcnRpYWxWaWV3XG5cdCAqIEByZXR1cm4ge29iamVjdH0gdGhlIG9sZGVzdCBwZWVyIGluIHRoZSBhcnJheVxuXHQgKi9cblx0Z2V0T2xkZXN0ICgpIHtcblx0XHRyZXR1cm4gdGhpcy5hcnJheS5hcnJbMF07XG5cdH1cblxuXG5cdC8qKlxuXHQgKiBJbmNyZW1lbnQgdGhlIGFnZSBvZiB0aGUgd2hvbGUgcGFydGlhbCB2aWV3XG5cdCAqIEByZXR1cm4ge3ZvaWR9XG5cdCAqL1xuXHRpbmNyZW1lbnQgKCkge1xuXHRcdGZvciAobGV0IGkgPSAwOyBpIDwgdGhpcy5hcnJheS5hcnIubGVuZ3RoOyArK2kpIHtcblx0XHRcdHRoaXMuYXJyYXkuYXJyW2ldLmFnZSArPSAxO1xuXHRcdH1cblx0fVxuXG5cdC8qKlxuXHQgKiBHZXQgYSBzYW1wbGUgb2YgdGhlIHBhcnRpYWwgdmlld1xuXHQgKiBAcGFyYW0ge3N0cmluZ30gbmVpZ2hib3IgdGhlIG5laWdoYm9yIHdoaWNoIHBlcmZvcm1zIHRoZSBleGNoYW5nZSB3aXRoIHVzXG5cdCAqIEBwYXJhbSB7Ym9vbGVhbn0gaXNJbml0aWF0b3Igd2hldGhlciBvciBub3QgdGhlIGNhbGxlciBpcyB0aGUgaW5pdGlhdG9yIG9mIHRoZVxuXHQgKiBleGNoYW5nZVxuXHQgKiBAcmV0dXJuIHthcnJheX0gYW4gYXJyYXkgY29udGFpbmluZyBuZWlnaGJvcnMgZnJvbSB0aGlzIHBhcnRpYWwgdmlld1xuXHQgKi9cblx0Z2V0U2FtcGxlIChuZWlnaGJvciwgaXNJbml0aWF0b3IpIHtcblx0XHRsZXQgc2FtcGxlID0gW107XG5cdFx0Ly8gIzEgY29weSB0aGUgcGFydGlhbCB2aWV3XG5cdFx0bGV0IGNsb25lID0gbmV3IFNvcnRlZEFycmF5KHRoaXMuY29tcGFyYXRvcik7XG5cdFx0Zm9yIChsZXQgaSA9IDA7IGkgPCB0aGlzLmFycmF5LmFyci5sZW5ndGg7ICsraSkge1xuXHRcdFx0Y2xvbmUuYXJyLnB1c2godGhpcy5hcnJheS5hcnJbaV0pO1xuXHRcdH1cblx0XHQvLyAjMiBwcm9jZXNzIHRoZSBzaXplIG9mIHRoZSBzYW1wbGVcblx0XHRjb25zdCBzYW1wbGVTaXplID0gTWF0aC5jZWlsKHRoaXMuYXJyYXkuYXJyLmxlbmd0aCAqIHRoaXMudXNlZENvZWYpO1xuICAgIGlmIChpc0luaXRpYXRvcikge1xuLy8gICAgICAgIGNvbnNvbGUubG9nKCduZWlnaGJvciAnLCBuZWlnaGJvcik7XG4gICAgICAgIHZhciBmb3VuZCA9IGZhbHNlO1xuICAgICAgICB2YXIgaSA9IDA7XG4gICAgICAgIHdoaWxlKCFmb3VuZCAmJiBpPGNsb25lLmFyci5sZW5ndGgpe1xuICAgICAgICAgICAgaWYgKGNsb25lLmFycltpXS5pZD09PW5laWdoYm9yLmlkKXtcbiAgICAgICAgICAgICAgICBmb3VuZCA9IHRydWU7XG4gICAgICAgICAgICB9IGVsc2Uge1xuICAgICAgICAgICAgICAgICsraTtcbiAgICAgICAgICAgIH07XG4gICAgICAgIH07XG5cdFx0XHQvLyAjQSByZW1vdmUgYW4gb2NjdXJyZW5jZSBvZiB0aGUgY2hvc2VuIG5laWdoYm9yXG5cdCAgICBjbG9uZS5hcnIuc3BsaWNlKGksMSk7XG5cdFx0XHRzYW1wbGUucHVzaChuZWlnaGJvcik7XG5cdFx0fVxuXG5cdFx0Ly8gIzMgcmFuZG9tbHkgYWRkIG5laWdoYm9ycyB0byB0aGUgc2FtcGxlXG5cdFx0d2hpbGUgKHNhbXBsZS5sZW5ndGggPCBzYW1wbGVTaXplKSB7XG5cdFx0XHRjb25zdCBybiA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIGNsb25lLmFyci5sZW5ndGgpO1xuXHRcdFx0c2FtcGxlLnB1c2goY2xvbmUuYXJyW3JuXSk7XG5cdFx0XHRjbG9uZS5hcnIuc3BsaWNlKHJuLCAxKTtcblx0XHR9XG5cblx0XHRyZXR1cm4gc2FtcGxlO1xuXHR9XG5cblx0LyoqXG5cdCAqIFJlcGxhY2UgdGhlIG9jY3VycmVuY2VzIG9mIHRoZSBvbGQgcGVlciBieSB0aGUgZnJlc2ggb25lXG5cdCAqIEBwYXJhbSB7YXJyYXl9IHNhbXBsZSB0aGUgc2FtcGxlIHRvIG1vZGlmeVxuXHQgKiBAcGFyYW0ge29iamVjdH0gb2xkIHRoZSBvbGQgcmVmZXJlbmNlIHRvIHJlcGxhY2Vcblx0ICogQHBhcmFtIHtvYmplY3R9IGZyZXNoIHRoZSBuZXcgcmVmZXJlbmNlIHRvIGluc2VydFxuXHQgKiBAcmV0dXJuIHthcnJheX0gYW4gYXJyYXkgd2l0aCB0aGUgcmVwbGFjZWQgb2NjdXJlbmNlc1xuXHQgKi9cblx0cmVwbGFjZSAoc2FtcGxlLCBvbGQsIGZyZXNoKSB7XG5cdFx0Y29uc3QgcmVzdWx0ID0gW107XG5cdFx0Zm9yIChsZXQgaSA9IDA7IGkgPCBzYW1wbGUubGVuZ3RoOyArK2kpIHtcblx0XHRcdGlmIChzYW1wbGVbaV0uaWQgPT09IG9sZC5pZCkge1xuXHRcdFx0XHRyZXN1bHQucHVzaChmcmVzaCk7XG5cdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHRyZXN1bHQucHVzaChzYW1wbGVbaV0pO1xuXHRcdFx0fVxuXHRcdH1cblx0XHRyZXR1cm4gcmVzdWx0O1xuXHR9XG5cblx0LyoqXG5cdCAqIEFkZCB0aGUgbmVpZ2Job3IgdG8gdGhlIHBhcnRpYWwgdmlldyB3aXRoIGFuIGFnZSBvZiAwXG5cdCAqIEBwYXJhbSB7b2JqZWN0fSBjb25maWcgdGhlIHBlZXIgdG8gYWRkIHRvIHRoZSBwYXJ0aWFsIHZpZXdcblx0ICogQHJldHVybiB7dm9pZH1cblx0ICovXG5cdGFkZE5laWdoYm9yIChjb25maWcpIHtcblx0XHR0aGlzLmFycmF5Lmluc2VydChjb25maWcpO1xuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgaW5kZXggb2YgdGhlIHBlZXIgaW4gdGhlIHBhcnRpYWx2aWV3XG5cdCAqIEBwYXJhbSB7c3RyaW5nfSBpZCBUaGUgaWQgb2YgdGhlIHBlZXIgaW5zaWRlIHRoZSBwYXJ0aWFsVmlldy5cblx0ICogQHJldHVybiB7aW50ZWdlcn0gdGhlIGluZGV4IG9mIHRoZSBwZWVyIGluIHRoZSBhcnJheSwgLTEgaWYgbm90IGZvdW5kXG5cdCAqL1xuXHRnZXRJbmRleCAoaWQpIHtcblx0XHRsZXQgaSA9IHRoaXMuYXJyYXkuYXJyLmxlbmd0aCAtIDE7XG5cdFx0bGV0IGluZGV4ID0gLTE7XG5cdFx0bGV0IGZvdW5kID0gZmFsc2U7XG5cdFx0d2hpbGUgKCFmb3VuZCAmJiBpID49IDApIHtcblx0XHRcdGlmIChpZCA9PT0gdGhpcy5hcnJheS5hcnJbaV0uaWQpIHtcblx0XHRcdFx0Zm91bmQgPSB0cnVlO1xuXHRcdFx0XHRpbmRleCA9IGk7XG5cdFx0XHR9XG5cdFx0XHQtLWk7XG5cdFx0fVxuXHRcdHJldHVybiBpbmRleDtcblx0fVxuXG5cdC8qKlxuXHQgKiBSZW1vdmUgdGhlIHBlZXIgZnJvbSB0aGUgcGFydGlhbCB2aWV3XG5cdCAqIEBwYXJhbSB7c3RyaW5nfSBpZCB0aGUgcGVlciB0byByZW1vdmVcblx0ICogQHBhcmFtIHtpbnRlZ2VyfSBhZ2UgVGhlIGFnZSBvZiB0aGUgcGVlclxuXHQgKiBAcmV0dXJuIHtvYmplY3R9IHRoZSByZW1vdmVkIGVudHJ5IGlmIGl0IGV4aXN0cywgbnVsbCBvdGhlcndpc2Vcblx0ICovXG5cdHJlbW92ZVBlZXIgKGlkLCBhZ2UpIHtcblx0XHRpZiAoIWFnZSkge1xuXHRcdFx0Y29uc3QgaW5kZXggPSB0aGlzLmdldEluZGV4KGlkKTtcblx0XHRcdGxldCByZW1vdmVkRW50cnkgPSBudWxsO1xuXHRcdFx0aWYgKGluZGV4ID4gLTEpIHtcblx0XHRcdFx0cmVtb3ZlZEVudHJ5ID0gdGhpcy5hcnJheS5hcnJbaW5kZXhdO1xuXHRcdFx0XHR0aGlzLmFycmF5LmFyci5zcGxpY2UoaW5kZXgsIDEpO1xuXHRcdFx0fVxuXHRcdFx0cmV0dXJuIHJlbW92ZWRFbnRyeTtcblx0XHR9IGVsc2Uge1xuXHRcdFx0cmV0dXJuIHRoaXMucmVtb3ZlUGVlckFnZShpZCwgYWdlKTtcblx0XHR9XG5cdH1cblxuXHQvKipcblx0ICogUmVtb3ZlIGFsbCBvY2N1cnJlbmNlcyBvZiB0aGUgcGVlciBhbmQgcmV0dXJuIHRoZSBudW1iZXIgb2YgcmVtb3ZhbHNcblx0ICogQHBhcmFtIHtzdHJpbmd9IGlkIHRoZSBwZWVyIHRvIHJlbW92ZVxuXHQgKiBAcmV0dXJuIHtpbnRlZ2VyfSB0aGUgbnVtYmVyIG9mIG9jY3VycmVuY2VzIG9mIHRoZSByZW1vdmVkIHBlZXJcblx0ICovXG5cdHJlbW92ZUFsbCAoaWQpIHtcblx0XHRsZXQgb2NjID0gMDtcblx0XHRsZXQgaSA9IDA7XG5cdFx0d2hpbGUgKGkgPCB0aGlzLmFycmF5LmFyci5sZW5ndGgpIHtcblx0XHRcdGlmICh0aGlzLmFycmF5LmFycltpXS5pZCA9PT0gaWQpIHtcblx0XHRcdFx0dGhpcy5hcnJheS5hcnIuc3BsaWNlKGksIDEpO1xuXHRcdFx0XHRvY2MgKz0gMTtcblx0XHRcdH0gZWxzZSB7XG5cdFx0XHRcdCsraTtcblx0XHRcdH1cblx0XHR9XG5cdFx0cmV0dXJuIG9jYztcblx0fVxuXG5cdC8qKlxuXHQgKiBSZW1vdmUgYWxsIHRoZSBlbGVtZW50cyBjb250YWluZWQgaW4gdGhlIHNhbXBsZSBpbiBhcmd1bWVudFxuXHQgKiBAcGFyYW0ge2FycmF5fSBzYW1wbGUgdGhlIGVsZW1lbnRzIHRvIHJlbW92ZVxuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0cmVtb3ZlU2FtcGxlIChzYW1wbGUpIHtcblx0XHRmb3IgKGxldCBpID0gMDsgaSA8IHNhbXBsZS5sZW5ndGg7ICsraSkge1xuXHRcdFx0dGhpcy5yZW1vdmVQZWVyKHNhbXBsZVtpXS5pZCwgc2FtcGxlW2ldLmFnZSk7XG5cdFx0fVxuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgc2l6ZSBvZiB0aGUgcGFydGlhbCB2aWV3XG5cdCAqIEByZXR1cm4ge2ludGVnZXJ9IHRoZSBzaXplIG9mIHRoZSBwYXJ0aWFsIHZpZXdcblx0ICovXG5cdGxlbmd0aCAoKSB7XG5cdFx0cmV0dXJuIHRoaXMuYXJyYXkuYXJyLmxlbmd0aDtcblx0fVxuXG5cdC8qKlxuXHQgKiBDaGVjayBpZiB0aGUgcGFydGlhbCB2aWV3IGNvbnRhaW5zIHRoZSByZWZlcmVuY2Vcblx0ICogQHBhcmFtIHtzdHJpbmd9IGlkIHRoZSBwZWVyIHRvIGNoZWNrXG5cdCAqIEByZXR1cm4ge2Jvb2xlYW59IHRydWUgaWYgdGhlIHBlZXIgaXMgaW4gdGhlIHBhcnRpYWwgdmlldywgZmFsc2Ugb3RoZXJ3aXNlXG5cdCAqL1xuXHRjb250YWlucyAoaWQpIHtcblx0XHRyZXR1cm4gdGhpcy5nZXRJbmRleChpZCkgPj0gMDtcblx0fVxuXG5cdC8qKlxuXHQgKiBicmllZiByZW1vdmUgYWxsIGVsZW1lbnRzIGZyb20gdGhlIHBhcnRpYWwgdmlld1xuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0Y2xlYXIgKCkge1xuXHRcdHRoaXMuYXJyYXkuYXJyLnNwbGljZSgwLCB0aGlzLmFycmF5LmFyci5sZW5ndGgpO1xuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgYXJyYXkgY29udGFpbmluZyB2aWV3c1xuXHQgKiBAcmV0dXJuIHthcnJheX0gQXJyYXkgd2l0aCBhbGwgdmlld3Ncblx0ICovXG5cdGdldCAoKSB7XG5cdFx0cmV0dXJuIHRoaXMuYXJyYXkuYXJyO1xuXHR9XG5cblx0LyoqXG5cdCAqIFJlbW92ZSB0aGUgcGVlciB3aXRoIHRoZSBhc3NvY2lhdGVkIGFnZSBmcm9tIHRoZSBwYXJ0aWFsIHZpZXdcblx0ICogQHBhcmFtIHtzdHJpbmd9IGlkIHRoZSBwZWVyIHRvIHJlbW92ZVxuXHQgKiBAcGFyYW0ge2ludGVnZXJ9IGFnZSB0aGUgYWdlIG9mIHRoZSBwZWVyIHRvIHJlbW92ZVxuXHQgKiBAcmV0dXJuIHtvYmplY3R9IHRoZSByZW1vdmVkIGVudHJ5IGlmIGl0IGV4aXN0cywgbnVsbCBvdGhlcndpc2Vcblx0ICovXG5cdHJlbW92ZVBlZXJBZ2UgKGlkLCBhZ2UpIHtcblx0XHRsZXQgZm91bmQgPSBmYWxzZTtcblx0XHRsZXQgaSA9IDA7XG5cdFx0bGV0IHJlbW92ZWRFbnRyeSA9IG51bGw7XG5cdFx0d2hpbGUgKCFmb3VuZCAmJiBpIDwgdGhpcy5hcnJheS5hcnIubGVuZ3RoKSB7XG5cdFx0XHRpZiAoaWQgPT09IHRoaXMuYXJyYXkuYXJyW2ldLmlkICYmIGFnZSA9PT0gdGhpcy5hcnJheS5hcnJbaV0uYWdlKSB7XG5cdFx0XHRcdGZvdW5kID0gdHJ1ZTtcblx0XHRcdFx0cmVtb3ZlZEVudHJ5ID0gdGhpcy5hcnJheS5hcnJbaV07XG5cdFx0XHRcdHRoaXMuYXJyYXkuYXJyLnNwbGljZShpLCAxKTtcblx0XHRcdH1cblx0XHRcdCsraTtcblx0XHR9XG5cdFx0cmV0dXJuIHJlbW92ZWRFbnRyeTtcblx0fVxufVxuXG5cbm1vZHVsZS5leHBvcnRzID0gUGFydGlhbFZpZXc7XG4iXX0=
-},{"./extended-sorted-array.js":1}],4:[function(require,module,exports){
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhcnRpYWx2aWV3LmpzIl0sIm5hbWVzIjpbIkV4UGVlck5vdEZvdW5kIiwicmVxdWlyZSIsIlBhcnRpYWxWaWV3IiwidmlldyIsIk1hcCIsImxlbmd0aCIsInNpemUiLCJvbGRlc3RQZWVyIiwib2xkZXN0QWdlIiwiZm9yRWFjaCIsImFnZXMiLCJwZWVySWQiLCJzZXQiLCJtYXAiLCJhZ2UiLCJzYW1wbGUiLCJmbGF0dGVuIiwibmVpZ2hib3IiLCJwdXNoIiwic2FtcGxlU2l6ZSIsIk1hdGgiLCJjZWlsIiwic3BsaWNlIiwiaW5kZXhPZiIsInJuIiwiZmxvb3IiLCJyYW5kb20iLCJoYXMiLCJBcnJheSIsImdldCIsInVuc2hpZnQiLCJzaGlmdCIsImRlbGV0ZSIsIm9jYyIsImkiLCJyZW1vdmVQZWVyIiwiaWQiLCJzdG9yZSIsImxlYXN0RnJlcXVlbnQiLCJmcmVxdWVuY3kiLCJJbmZpbml0eSIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7QUFFQSxJQUFNQSxpQkFBaUJDLFFBQVEsZ0NBQVIsQ0FBdkI7O0FBRUE7Ozs7O0lBSU1DLFc7QUFDRiwyQkFBZTtBQUFBOztBQUNYLGFBQUtDLElBQUwsR0FBWSxJQUFJQyxHQUFKLEVBQVo7QUFDQSxhQUFLQyxNQUFMLEdBQWMsQ0FBZDtBQUNIOzs7Ozs7QUFFRDs7OztvQ0FJYTtBQUNULGdCQUFJLEtBQUtGLElBQUwsQ0FBVUcsSUFBVixJQUFrQixDQUF0QixFQUF5QjtBQUFFLHNCQUFNLElBQUlOLGNBQUosQ0FBbUIsV0FBbkIsQ0FBTjtBQUF3QztBQUNuRSxnQkFBSU8sYUFBYSxJQUFqQjtBQUNBLGdCQUFJQyxZQUFZLENBQWhCO0FBQ0EsaUJBQUtMLElBQUwsQ0FBVU0sT0FBVixDQUFtQixVQUFDQyxJQUFELEVBQU9DLE1BQVAsRUFBa0I7QUFDakMsb0JBQUlILGFBQWFFLEtBQUtBLEtBQUtMLE1BQUwsR0FBYyxDQUFuQixDQUFqQixFQUF3QztBQUNwQ0UsaUNBQWFJLE1BQWI7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LE1BQWxDO0FBQ0EsaUJBQUtGLElBQUwsQ0FBVTZCLE1BQVYsQ0FBaUJyQixNQUFqQjtBQUNBLG1CQUFPc0IsR0FBUDtBQUNIOzs7OztBQUdEOzs7OztxQ0FLY2xCLE0sRUFBUTtBQUNsQixpQkFBSyxJQUFJbUIsSUFBSSxDQUFiLEVBQWdCQSxJQUFJbkIsT0FBT1YsTUFBM0IsRUFBbUMsRUFBRTZCLENBQXJDLEVBQXdDO0FBQ3BDLHFCQUFLQyxVQUFMLENBQWdCcEIsT0FBT21CLENBQVAsRUFBVUUsRUFBMUIsRUFBOEJyQixPQUFPbUIsQ0FBUCxFQUFVcEIsR0FBeEM7QUFDSDtBQUNKOzs7OztBQUVEOzs7Ozs7aUNBTVVILE0sRUFBUTtBQUNkLG1CQUFPLEtBQUswQixLQUFMLENBQVdWLEdBQVgsQ0FBZWhCLE1BQWYsQ0FBUDtBQUNIOzs7OztBQUVEOzs7OzsyQ0FLb0I7QUFDaEIsZ0JBQUkyQixnQkFBZ0IsRUFBcEI7QUFDQSxnQkFBSUMsWUFBWUMsUUFBaEI7QUFDQSxpQkFBS0gsS0FBTCxDQUFXNUIsT0FBWCxDQUFvQixVQUFDQyxJQUFELEVBQU9DLE1BQVAsRUFBa0I7QUFDbEMsb0JBQUlELEtBQUtMLE1BQUwsR0FBY2tDLFNBQWxCLEVBQTRCO0FBQ3hCRCxvQ0FBZ0IsRUFBaEI7QUFDQUMsZ0NBQVk3QixLQUFLTCxNQUFqQjtBQUNIO0FBQ0FLLHFCQUFLTCxNQUFMLEtBQWdCa0MsU0FBakIsSUFBK0JELGNBQWNwQixJQUFkLENBQW1CUCxNQUFuQixDQUEvQjtBQUNILGFBTkQ7QUFPQSxtQkFBTzJCLGNBQWNsQixLQUFLSyxLQUFMLENBQVdMLEtBQUtNLE1BQUwsS0FBZ0JZLGNBQWNqQyxNQUF6QyxDQUFkLENBQVA7QUFFSDs7Ozs7O0FBS0xvQyxPQUFPQyxPQUFQLEdBQWlCeEMsV0FBakIiLCJmaWxlIjoicGFydGlhbHZpZXcuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbmNvbnN0IEV4UGVlck5vdEZvdW5kID0gcmVxdWlyZSgnLi9leGNlcHRpb25zL2V4cGVlcm5vdGZvdW5kLmpzJyk7XG5cbi8qKlxuICogU3RydWN0dXJlIGNvbnRhaW5pbmcgdGhlIG5laWdoYm9yaG9vZCBvZiBhIHBlZXIuXG4gKiBNYXAgb2Yge2lkUGVlciA9PiBbYWdlXzEsIGFnZV8yLi4gYWdlX2tdfSB3aGVyZSBhZ2VfMSA8PSBhZ2VfMiA8PSAuLiA8PSBhZ2Vfa1xuICovXG5jbGFzcyBQYXJ0aWFsVmlldyB7XG4gICAgY29uc3RydWN0b3IgKCkge1xuICAgICAgICB0aGlzLnZpZXcgPSBuZXcgTWFwKCk7XG4gICAgICAgIHRoaXMubGVuZ3RoID0gMDtcbiAgICB9O1xuICAgIFxuICAgIC8qKlxuICAgICAqIEdldCB0aGUgb2xkZXN0IHBlZXIgaW4gdGhlIHBhcnRpYWwgdmlldy5cbiAgICAgKiBAcmV0dXJucyB7c3RyaW5nfSBUaGUgb2xkZXN0IHBlZXIgaW4gdGhlIGFycmF5LlxuICAgICAqL1xuICAgIGdldE9sZGVzdCAoKSB7XG4gICAgICAgIGlmICh0aGlzLnZpZXcuc2l6ZSA8PSAwKSB7IHRocm93IG5ldyBFeFBlZXJOb3RGb3VuZCgnZ2V0T2xkZXN0Jyk7IH07XG4gICAgICAgIGxldCBvbGRlc3RQZWVyID0gbnVsbDtcbiAgICAgICAgbGV0IG9sZGVzdEFnZSA9IDA7XG4gICAgICAgIHRoaXMudmlldy5mb3JFYWNoKCAoYWdlcywgcGVlcklkKSA9PiB7XG4gICAgICAgICAgICBpZiAob2xkZXN0QWdlIDw9IGFnZXNbYWdlcy5sZW5ndGggLSAxXSkge1xuICAgICAgICAgICAgICAgIG9sZGVzdFBlZXIgPSBwZWVySWQ7XG4gICAgICAgICAgICAgICAgb2xkZXN0QWdlID0gYWdlc1thZ2VzLmxlbmd0aCAtIDFdO1xuICAgICAgICAgICAgfTtcbiAgICAgICAgfSk7XG4gICAgICAgIHJldHVybiBvbGRlc3RQZWVyO1xuICAgIH07XG5cblxuICAgIC8qKlxuICAgICAqIEluY3JlbWVudCB0aGUgYWdlIG9mIHRoZSB3aG9sZSBwYXJ0aWFsIHZpZXdcbiAgICAgKi9cbiAgICBpbmNyZW1lbnQgKCkge1xuICAgICAgICB0aGlzLnZpZXcuZm9yRWFjaCggKGFnZXMsIHBlZXJJZCkgPT4ge1xuICAgICAgICAgICAgdGhpcy52aWV3LnNldChwZWVySWQsIGFnZXMubWFwKCAoYWdlKSA9PiB7cmV0dXJuIGFnZSsxO30gKSk7XG4gICAgICAgIH0pO1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBHZXQgYSBzYW1wbGUgb2YgdGhlIHBhcnRpYWwgdmlldy5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gW3BlZXJJZF0gVGhlIGlkZW50aWZpZXIgb2YgdGhlIG9sZGVzdCBuZWlnaGJvciBjaG9zZW4gdG9cbiAgICAgKiBwZXJmb3JtIGEgdmlldyBleGNoYW5nZS5cbiAgICAgKiBAcmV0dXJuIHtzdHJpbmdbXX0gQW4gYXJyYXkgY29udGFpbmluZyB0aGUgaWRlbnRpZmllcnMgb2YgbmVpZ2hib3JzIGZyb21cbiAgICAgKiB0aGlzIHBhcnRpYWwgdmlldy5cbiAgICAgKi9cbiAgICBnZXRTYW1wbGUgKHBlZXJJZCkge1xuICAgICAgICBsZXQgc2FtcGxlID0gW107XG4gICAgICAgIC8vICMxIGNyZWF0ZSBhIGZsYXR0ZW4gdmVyc2lvbiBvZiB0aGUgcGFydGlhbCB2aWV3XG4gICAgICAgIGxldCBmbGF0dGVuID0gW107XG4gICAgICAgIHRoaXMudmlldy5mb3JFYWNoKCAoYWdlcywgbmVpZ2hib3IpID0+IHtcbiAgICAgICAgICAgIGFnZXMuZm9yRWFjaCggKGFnZSkgPT4ge1xuICAgICAgICAgICAgICAgIGZsYXR0ZW4ucHVzaChuZWlnaGJvcik7XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgfSk7ICAgICAgIFxuICAgICAgICAvLyAjMiBwcm9jZXNzIHRoZSBzaXplIG9mIHRoZSBzYW1wbGVcbiAgICAgICAgY29uc3Qgc2FtcGxlU2l6ZSA9IE1hdGguY2VpbChmbGF0dGVuLmxlbmd0aCAvIDIpO1xuICAgICAgICAvLyAjMyBpbml0aWF0b3IgcmVtb3ZlcyBhIGNob3NlbiBuZWlnaGJvciBlbnRyeSBhbmQgYWRkcyBpdCB0byBzYW1wbGVcbiAgICAgICAgaWYgKHR5cGVvZiBwZWVySWQgPT09ICd1bmRlZmluZWQnKSB7XG4gICAgICAgICAgICBmbGF0dGVuLnNwbGljZShmbGF0dGVuLmluZGV4T2YocGVlcklkKSwgMSk7XG4gICAgICAgICAgICBzYW1wbGUucHVzaChwZWVySWQpO1xuICAgICAgICB9O1xuICAgICAgICAvLyAjNCBhZGQgbmVpZ2hib3JzIHRvIHRoZSBzYW1wbGUgY2hvc2VuIGF0IHJhbmRvbVxuICAgICAgICB3aGlsZSAoc2FtcGxlLmxlbmd0aCA8IHNhbXBsZVNpemUpIHtcbiAgICAgICAgICAgIGNvbnN0IHJuID0gTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICogZmxhdHRlbi5sZW5ndGgpO1xuICAgICAgICAgICAgc2FtcGxlLnB1c2goZmxhdHRlbltybl0pO1xuICAgICAgICAgICAgZmxhdHRlbi5zcGxpY2Uocm4sIDEpO1xuICAgICAgICB9O1xuICAgICAgICByZXR1cm4gc2FtcGxlO1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBBZGQgdGhlIHBlZXIgdG8gdGhlIHBhcnRpYWwgdmlldyB3aXRoIGFuIGFnZSBvZiAwLlxuICAgICAqIEBwYXJhbSB7c3RyaW5nfSBwZWVySWQgVGhlIGlkZW50aWZpZXIgb2YgdGhlIHBlZXIgYWRkZWQgdG8gdGhlIHBhcnRpYWxcbiAgICAgKiB2aWV3LlxuICAgICAqL1xuICAgIGFkZE5laWdoYm9yIChwZWVySWQpIHtcbiAgICAgICAgKCF0aGlzLnZpZXcuaGFzKHBlZXJJZCkpICYmIHRoaXMudmlldy5zZXQocGVlcklkLCBuZXcgQXJyYXkoKSk7ICAgICAgICBcbiAgICAgICAgdGhpcy52aWV3LmdldChwZWVySWQpLnVuc2hpZnQoMCk7IC8vIGFkZCAwIGluIGZyb250IG9mIHRoZSBhcnJheVxuICAgICAgICB0aGlzLmxlbmd0aCArPSAxO1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBSZW1vdmUgdGhlIG5ld2VzdCBlbnRyeSBvZiB0aGUgcGVlciBmcm9tIHRoZSBwYXJ0aWFsIHZpZXcuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB0byByZW1vdmUgZnJvbSB0aGUgXG4gICAgICogcGFydGlhbCB2aWV3LiBcbiAgICAgKi9cbiAgICByZW1vdmVOZWlnaGJvciAocGVlcklkKSB7XG4gICAgICAgIGlmICghdGhpcy52aWV3LmhhcyhwZWVySWQpKSB7IHRocm93IG5ldyBFeFBlZXJOb3RGb3VuZCgncmVtb3ZlTmVpZ2hib3InLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGVlcklkKTsgfTtcbiAgICAgICAgdGhpcy52aWV3LmdldChwZWVySWQpLnNoaWZ0KCk7XG4gICAgICAgICh0aGlzLnZpZXcuZ2V0KHBlZXJJZCkubGVuZ3RoID09PSAwKSAmJiB0aGlzLnZpZXcuZGVsZXRlKHBlZXJJZCk7XG4gICAgICAgIHRoaXMubGVuZ3RoIC09IDE7XG4gICAgfTtcblxuICAgIC8qKlxuICAgICAqIFJlbW92ZSBhbGwgZW50cmllcyBvZiB0aGUgcGVlciBmcm9tIHRoZSBwYXJ0aWFsIHZpZXcuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB0byByZW1vdmUgZnJvbSB0aGUgXG4gICAgICogcGFydGlhbCB2aWV3LlxuICAgICAqIEByZXR1cm5zIHtudW1iZXJ9IFRoZSBudW1iZXIgb2Ygb2NjdXJyZW5jZXMgb2YgcGVlcklkIHJlbW92ZWQuXG4gICAgICovXG4gICAgcmVtb3ZlQWxsTmVpZ2hib3IgKHBlZXJJZCkge1xuICAgICAgICBpZiAoIXRoaXMudmlldy5oYXMocGVlcklkKSkgeyB0aHJvdyBuZXcgRXhQZWVyTm90Rm91bmQoJ3JlbW92ZU5laWdoYm9yJyxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBlZXJJZCk7IH07XG4gICAgICAgIGNvbnN0IG9jYyA9IHRoaXMudmlldy5nZXQocGVlcklkKS5sZW5ndGg7XG4gICAgICAgIHRoaXMudmlldy5kZWxldGUocGVlcklkKTtcbiAgICAgICAgcmV0dXJuIG9jYztcbiAgICB9O1xuICAgIFxuICAgIFxuICAgIC8qKlxuICAgICAqIFJlbW92ZSBhbGwgdGhlIGVsZW1lbnRzIGNvbnRhaW5lZCBpbiB0aGUgc2FtcGxlIGluIGFyZ3VtZW50XG4gICAgICogQHBhcmFtIHthcnJheX0gc2FtcGxlIHRoZSBlbGVtZW50cyB0byByZW1vdmVcbiAgICAgKiBAcmV0dXJuIHt2b2lkfVxuICAgICAqL1xuICAgIHJlbW92ZVNhbXBsZSAoc2FtcGxlKSB7XG4gICAgICAgIGZvciAobGV0IGkgPSAwOyBpIDwgc2FtcGxlLmxlbmd0aDsgKytpKSB7XG4gICAgICAgICAgICB0aGlzLnJlbW92ZVBlZXIoc2FtcGxlW2ldLmlkLCBzYW1wbGVbaV0uYWdlKTtcbiAgICAgICAgfVxuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBDaGVjayBpZiB0aGUgcGFydGlhbCB2aWV3IGNvbnRhaW5zIHRoZSBpZGVudGlmaWVyIG9mIHRoZSBuZWlnaGJvci5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gcGVlcklkIFRoZSBpZGVudGlmaWVyIG9mIHRoZSBwZWVyIHRvIGNoZWNrLlxuICAgICAqIEByZXR1cm4ge2Jvb2xlYW59IHRydWUgaWYgdGhlIGlkZW50aWZpZXIgaXMgaW4gdGhlIHBhcnRpYWwgdmlldywgZmFsc2VcbiAgICAgKiBvdGhlcndpc2UuXG4gICAgICovXG4gICAgY29udGFpbnMgKHBlZXJJZCkge1xuICAgICAgICByZXR1cm4gdGhpcy5zdG9yZS5oYXMocGVlcklkKTtcbiAgICB9O1xuXG4gICAgLyoqXG4gICAgICogR2V0IHRoZSBsZWFzdCBmcmVxdWVudCBwZWVyLiBJZiBtdWx0aXBsZSBwZWVycyBoYXZlIHRoZSBzYW1lIG51bWJlciBvZlxuICAgICAqIG9jY3VycmVuY2VzLCBpdCBjaG9vc2VzIG9uZSBhbW9uZyB0aGVtIGF0IHJhbmRvbS5cbiAgICAgKiBAcmV0dXJucyB7c3RyaW5nfSBUaGUgaWRlbnRpZmllciBvZiBhIGxlYXN0IGZyZXF1ZW50IHBlZXIuXG4gICAgICovXG4gICAgZ2V0TGVhc3RGcmVxdWVudCAoKSB7XG4gICAgICAgIGxldCBsZWFzdEZyZXF1ZW50ID0gW107XG4gICAgICAgIGxldCBmcmVxdWVuY3kgPSBJbmZpbml0eTtcbiAgICAgICAgdGhpcy5zdG9yZS5mb3JFYWNoKCAoYWdlcywgcGVlcklkKSA9PiB7XG4gICAgICAgICAgICBpZiAoYWdlcy5sZW5ndGggPCBmcmVxdWVuY3kpe1xuICAgICAgICAgICAgICAgIGxlYXN0RnJlcXVlbnQgPSBbXTtcbiAgICAgICAgICAgICAgICBmcmVxdWVuY3kgPSBhZ2VzLmxlbmd0aDtcbiAgICAgICAgICAgIH07XG4gICAgICAgICAgICAoYWdlcy5sZW5ndGggPT09IGZyZXF1ZW5jeSkgJiYgbGVhc3RGcmVxdWVudC5wdXNoKHBlZXJJZCk7XG4gICAgICAgIH0pO1xuICAgICAgICByZXR1cm4gbGVhc3RGcmVxdWVudFtNYXRoLmZsb29yKE1hdGgucmFuZG9tKCkgKiBsZWFzdEZyZXF1ZW50Lmxlbmd0aCldO1xuICAgICAgICBcbiAgICB9O1xuICAgIFxufVxuXG5cbm1vZHVsZS5leHBvcnRzID0gUGFydGlhbFZpZXc7XG4iXX0=
+},{"./exceptions/expeernotfound.js":2}],6:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -463,54 +414,121 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],5:[function(require,module,exports){
-module.exports = function(haystack, needle, comparator, low, high) {
-  var mid, cmp;
+},{}],7:[function(require,module,exports){
 
-  if(low === undefined)
-    low = 0;
+},{}],8:[function(require,module,exports){
+(function (global){
+'use strict';
 
-  else {
-    low = low|0;
-    if(low < 0 || low >= haystack.length)
-      throw new RangeError("invalid lower bound");
+var buffer = require('buffer');
+var Buffer = buffer.Buffer;
+var SlowBuffer = buffer.SlowBuffer;
+var MAX_LEN = buffer.kMaxLength || 2147483647;
+exports.alloc = function alloc(size, fill, encoding) {
+  if (typeof Buffer.alloc === 'function') {
+    return Buffer.alloc(size, fill, encoding);
+  }
+  if (typeof encoding === 'number') {
+    throw new TypeError('encoding must not be number');
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size > MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  var enc = encoding;
+  var _fill = fill;
+  if (_fill === undefined) {
+    enc = undefined;
+    _fill = 0;
+  }
+  var buf = new Buffer(size);
+  if (typeof _fill === 'string') {
+    var fillBuf = new Buffer(_fill, enc);
+    var flen = fillBuf.length;
+    var i = -1;
+    while (++i < size) {
+      buf[i] = fillBuf[i % flen];
+    }
+  } else {
+    buf.fill(_fill);
+  }
+  return buf;
+}
+exports.allocUnsafe = function allocUnsafe(size) {
+  if (typeof Buffer.allocUnsafe === 'function') {
+    return Buffer.allocUnsafe(size);
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size > MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  return new Buffer(size);
+}
+exports.from = function from(value, encodingOrOffset, length) {
+  if (typeof Buffer.from === 'function' && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
+    return Buffer.from(value, encodingOrOffset, length);
+  }
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number');
+  }
+  if (typeof value === 'string') {
+    return new Buffer(value, encodingOrOffset);
+  }
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    var offset = encodingOrOffset;
+    if (arguments.length === 1) {
+      return new Buffer(value);
+    }
+    if (typeof offset === 'undefined') {
+      offset = 0;
+    }
+    var len = length;
+    if (typeof len === 'undefined') {
+      len = value.byteLength - offset;
+    }
+    if (offset >= value.byteLength) {
+      throw new RangeError('\'offset\' is out of bounds');
+    }
+    if (len > value.byteLength - offset) {
+      throw new RangeError('\'length\' is out of bounds');
+    }
+    return new Buffer(value.slice(offset, offset + len));
+  }
+  if (Buffer.isBuffer(value)) {
+    var out = new Buffer(value.length);
+    value.copy(out, 0, 0, value.length);
+    return out;
+  }
+  if (value) {
+    if (Array.isArray(value) || (typeof ArrayBuffer !== 'undefined' && value.buffer instanceof ArrayBuffer) || 'length' in value) {
+      return new Buffer(value);
+    }
+    if (value.type === 'Buffer' && Array.isArray(value.data)) {
+      return new Buffer(value.data);
+    }
   }
 
-  if(high === undefined)
-    high = haystack.length - 1;
-
-  else {
-    high = high|0;
-    if(high < low || high >= haystack.length)
-      throw new RangeError("invalid upper bound");
+  throw new TypeError('First argument must be a string, Buffer, ' + 'ArrayBuffer, Array, or array-like object.');
+}
+exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
+  if (typeof Buffer.allocUnsafeSlow === 'function') {
+    return Buffer.allocUnsafeSlow(size);
   }
-
-  while(low <= high) {
-    /* Note that "(low + high) >>> 1" may overflow, and results in a typecast
-     * to double (which gives the wrong results). */
-    mid = low + (high - low >> 1);
-    cmp = +comparator(haystack[mid], needle, mid, haystack);
-
-    /* Too low. */
-    if(cmp < 0.0)
-      low  = mid + 1;
-
-    /* Too high. */
-    else if(cmp > 0.0)
-      high = mid - 1;
-
-    /* Key found. */
-    else
-      return mid;
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
   }
-
-  /* Key not found. */
-  return ~low;
+  if (size >= MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  return new SlowBuffer(size);
 }
 
-},{}],6:[function(require,module,exports){
-
-},{}],7:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"buffer":9}],9:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1564,7 +1582,662 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":4,"ieee754":9,"is-array":10}],8:[function(require,module,exports){
+},{"base64-js":6,"ieee754":16,"is-array":18}],10:[function(require,module,exports){
+(function (Buffer){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = Buffer.isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+}).call(this,{"isBuffer":require("../../is-buffer/index.js")})
+},{"../../is-buffer/index.js":19}],11:[function(require,module,exports){
+/**
+ * Helpers.
+ */
+
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} options
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {}
+  var type = typeof val
+  if (type === 'string' && val.length > 0) {
+    return parse(val)
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ?
+			fmtLong(val) :
+			fmtShort(val)
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+}
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str)
+  if (str.length > 10000) {
+    return
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  if (!match) {
+    return
+  }
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd'
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h'
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm'
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's'
+  }
+  return ms + 'ms'
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms'
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's'
+}
+
+},{}],12:[function(require,module,exports){
+(function (process){
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = require('./debug');
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
+    return true;
+  }
+
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && document && 'WebkitAppearance' in document.documentElement.style) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (typeof window !== 'undefined' && window && window.console && (console.firebug || (console.exception && console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit')
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
+  }
+
+  return r;
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+}).call(this,require('_process'))
+},{"./debug":13,"_process":46}],13:[function(require,module,exports){
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
+exports.coerce = coerce;
+exports.disable = disable;
+exports.enable = enable;
+exports.enabled = enabled;
+exports.humanize = require('ms');
+
+/**
+ * The currently active debug mode names, and names to skip.
+ */
+
+exports.names = [];
+exports.skips = [];
+
+/**
+ * Map of special "%n" handling functions, for the debug "format" argument.
+ *
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+ */
+
+exports.formatters = {};
+
+/**
+ * Previous log timestamp.
+ */
+
+var prevTime;
+
+/**
+ * Select a color.
+ * @param {String} namespace
+ * @return {Number}
+ * @api private
+ */
+
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+
+  return exports.colors[Math.abs(hash) % exports.colors.length];
+}
+
+/**
+ * Create a debugger with the given `namespace`.
+ *
+ * @param {String} namespace
+ * @return {Function}
+ * @api public
+ */
+
+function createDebug(namespace) {
+
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
+
+    var self = debug;
+
+    // set `diff` timestamp
+    var curr = +new Date();
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
+    self.prev = prevTime;
+    self.curr = curr;
+    prevTime = curr;
+
+    // turn the `arguments` into a proper Array
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    args[0] = exports.coerce(args[0]);
+
+    if ('string' !== typeof args[0]) {
+      // anything else let's inspect with %O
+      args.unshift('%O');
+    }
+
+    // apply any `formatters` transformations
+    var index = 0;
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+      // if we encounter an escaped % then don't increase the array index
+      if (match === '%%') return match;
+      index++;
+      var formatter = exports.formatters[format];
+      if ('function' === typeof formatter) {
+        var val = args[index];
+        match = formatter.call(self, val);
+
+        // now we need to remove `args[index]` since it's inlined in the `format`
+        args.splice(index, 1);
+        index--;
+      }
+      return match;
+    });
+
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
+
+    var logFn = debug.log || exports.log || console.log.bind(console);
+    logFn.apply(self, args);
+  }
+
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
+
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
+
+  return debug;
+}
+
+/**
+ * Enables a debug mode by namespaces. This can include modes
+ * separated by a colon and wildcards.
+ *
+ * @param {String} namespaces
+ * @api public
+ */
+
+function enable(namespaces) {
+  exports.save(namespaces);
+
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (namespaces || '').split(/[\s,]+/);
+  var len = split.length;
+
+  for (var i = 0; i < len; i++) {
+    if (!split[i]) continue; // ignore empty strings
+    namespaces = split[i].replace(/\*/g, '.*?');
+    if (namespaces[0] === '-') {
+      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+    } else {
+      exports.names.push(new RegExp('^' + namespaces + '$'));
+    }
+  }
+}
+
+/**
+ * Disable debug output.
+ *
+ * @api public
+ */
+
+function disable() {
+  exports.enable('');
+}
+
+/**
+ * Returns true if the given mode name is enabled, false otherwise.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
+
+function enabled(name) {
+  var i, len;
+  for (i = 0, len = exports.skips.length; i < len; i++) {
+    if (exports.skips[i].test(name)) {
+      return false;
+    }
+  }
+  for (i = 0, len = exports.names.length; i < len; i++) {
+    if (exports.names[i].test(name)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Coerce `val`.
+ *
+ * @param {Mixed} val
+ * @return {Mixed}
+ * @api private
+ */
+
+function coerce(val) {
+  if (val instanceof Error) return val.stack || val.message;
+  return val;
+}
+
+},{"ms":11}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1867,7 +2540,24 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
+// originally pulled out of simple-peer
+
+module.exports = function getBrowserRTC () {
+  if (typeof window === 'undefined') return null
+  var wrtc = {
+    RTCPeerConnection: window.RTCPeerConnection || window.mozRTCPeerConnection ||
+      window.webkitRTCPeerConnection,
+    RTCSessionDescription: window.RTCSessionDescription ||
+      window.mozRTCSessionDescription || window.webkitRTCSessionDescription,
+    RTCIceCandidate: window.RTCIceCandidate || window.mozRTCIceCandidate ||
+      window.webkitRTCIceCandidate
+  }
+  if (!wrtc.RTCPeerConnection) return null
+  return wrtc
+}
+
+},{}],16:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -1953,7 +2643,32 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],10:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],18:[function(require,module,exports){
 
 /**
  * isArray
@@ -1988,7 +2703,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],11:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -2011,7 +2726,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],12:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],21:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19099,1655 +19821,1468 @@ function isSlowBuffer (obj) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],13:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 /**
- * @access private
+ * Message that requires from-peer to initiate a WebRTC connection with to
+ * to-peer.
  */
-const MConnectTo = (protocol, from, to) => {
-    return {
-      protocol,
-      type: 'MConnectTo',
-      from,
-      to
+class MConnectTo {
+    /**
+     * @param {string} from The identifier of the peer that should initiate the
+     * WebRTC connection.
+     * @param {string} to The identifier of the peer that should accept the
+     * WebRTC connection.
+     */
+    constructor (from, to) {
+        this.from = from;
+        this.to = to;
+        this.type = 'MConnectTo';
     };
 };
 
-/**
- * @access private
- */
-const MForwardTo = (from, to, message, protocol) => {
-    return {
-      protocol,
-      type: 'MForwardTo',
-      from,
-      to,
-      message
-    };
-};
+module.exports = MConnectTo;
 
-/**
- * @access private
- */
-const MForwarded = (from, to, message, protocol) => {
-    return {
-      protocol: protocol,
-      type: 'MForwarded',
-      from: from,
-      to: to,
-      message: message
-    };
-};
-
-/**
- * @access private
- */
-const MDirect = (from, message, protocol) => {
-    return {
-      protocol,
-      type: 'MDirect',
-      from,
-      message
-    };
-};
-
-module.exports = { MConnectTo, MForwardTo, MForwarded, MDirect };
-
-},{}],14:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
+/**
+ * Messages traveling between two direct neighbors. It requests from the
+ * receiving peer that it initiates a connection with the emitter.
+ */
+class MDirect {
+    constructor () {
+        this.type = 'MDirect';
+    };
+};
+
+module.exports = MDirect;
+
+},{}],24:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message piggybacking another message that has been forwarded by an
+ * intermediate peer.
+ */
+class MForwarded {
+    /**
+     * @param {string} from The departure of the piggybacked message.
+     * @param {string} to The arrival of the piggybacked message.
+     * @param {object} message The piggybacked message to deliver.
+     */
+    constructor (from, to, message) {
+        this.from = from;
+        this.to = to;
+        this.message = message;
+        this.type = 'MForwarded';
+    };
+};
+
+module.exports = MForwarded;
+
+},{}],25:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message that asks a peer to forward the piggybacked message to to-peer.
+ */
+class MForwardTo {
+    /**
+     * @param {string} from The departure of the message.
+     * @param {string} to The arrival of the piggybacked message.
+     * @param {object} message The message to piggyback.
+     */
+    constructor (from, to, message) {
+        this.from = from;
+        this.to = to;
+        this.message = message;
+        this.type = 'MForwardTo';        
+    };
+};
+
+module.exports = MForwardTo;
+
+},{}],26:[function(require,module,exports){
+'use strict';
+
+const debug = require('debug')('n2n-overlay-wrtc');
 const Neighborhood = require('neighborhood-wrtc');
 const EventEmitter = require('events');
 const _ = require('lodash');
+const uuid = require('uuid/v4');
 
-const MForwardTo = require('./messages.js').MForwardTo;
-const MForwarded = require('./messages.js').MForwarded;
-const MConnectTo = require('./messages.js').MConnectTo;
-const MDirect = require('./messages.js').MDirect;
 
+const MForwardTo = require('./messages/mforwardto.js');
+const MForwarded = require('./messages/mforwarded.js');
+const MConnectTo = require('./messages/mconnectto.js');
+const MDirect = require('./messages/mdirect.js');
 
 /**
- * A neighbor has an inview and an outview and is able to act as a bridge
- * between its neighbors so they can establish their own communication channels
- * @access public
- * @extends {EventEmitter}
+ * A peer has an inview and an outview, i.e., tables containing sockets to
+ * communicate with remote peers. This module transforms a peer so it can act as
+ * a bridge between its direct neighbors. Consequently, these neighbors can
+ * create their own communication channels: necessary data to establish the 
+ * connection travel through the bridge; once the connection is successfully 
+ * established, they communicate using their own direct connection.
  */
 class Neighbor extends EventEmitter {
+    /**
+     * @param {object} [options] options represented as an object (refer to
+     * neighborhood-wrtc for other options).
+     * @param {string} [options.pid] The unique identifier of the protocol.
+     * @param {Neighborhood} [options.inview] The neighborhood used for inviews,
+     * i.e., incoming arcs.
+     * @param {Neighborhood} [options.outview] The neigbhorhood used for
+     * outviews, i.e., outgoing arcs.
+     */
+    constructor (options) {
+        super();
 
-  /**
-   * @param {object} options options represented as an object (refer to neighborhood-wrtc for other options)
-   * @param {object} options.protocol Name of the protocol
-   * @param {object} options.inview Inview Socket
-   * @param {object} options.outview Outview Socket
-   *
-   */
-  constructor (options) {
-    super();
-
-    this.options = {
-      protocol: 'n2n-overlay-wrtc'
-    };
-    this.options = _.merge(this.options, options);
-
-    // #1 dissociate entering arcs from outgoing arcs
-    this.inview = (this.options && this.options.inview) || new Neighborhood(this.options);
-    this.outview = (this.options && this.options.outview) || new Neighborhood(this.options);
-    // #2 concise access
-    this.i = this.inview;
-    this.o = this.outview;
-
-    const self = this;
-    // #A callbacks when there is a bridge to create a connection
-    this.callbacks = (id, message, view) => {
-        return {
-            onInitiate: (offer) => {
-                self.send(id, MForwardTo(message.from, message.to,
-                                         offer,
-                                         this.options.protocol));
-            },
-            onAccept: (offer) => {
-                self.send(id, MForwardTo(message.to, message.from,
-                                         offer,
-                                         this.options.protocol));
-            }
-        };
-    };
-    // #B callbacks when it establishes a connection to a neighbor, either
-    // this -> neighbor or neigbhor -> this. It is worth noting that if it
-    // a channel exists in the inview and we want to create an identical in the
-    // outview, a new channel must be created; for the peer that owns the arc
-    // in its outview can destroy it without warning.
-    this.directCallbacks = (id, idView, view) => {
-        return {
-            onInitiate: (offer) => {
-                self.send(id, MDirect(idView, offer, this.options.protocol));
-            },
-            onAccept: (offer) => {
-                self.send(id, MDirect(idView, offer, this.options.protocol));
-            }
-        };
+        // #0 process the options
+        this.options = { pid: uuid() }; // default
+        this.options = _.merge(this.options, options);
+        // #1 initialize unmutable protocolId
+        this.PID = this.options.pid;
+        // #2 initialize the neighborhoods /!\ i.peer and o.peer must be ≠
+        this.NI = this.options.inview || new Neighborhood(this.options);
+        this.NO = this.options.outview || new Neighborhood(this.options);
+        // #3 initialize the interfaces
+        this.II = this.NI.register(this);
+        this.IO = this.NO.register(this);
+        this.PEER = this.II.peer + '|' + this.IO.peer;
+        debug('[%s] registered to ==> %s ==>', this.PID, this.PEER);
+        // #4 intialize the tables
+        this.i = new Map();
+        this.o = new Map();
     };
 
-    // #C receive a message from an arc, it forwards it to a listener
-    // of this module, otherwise, it keeps and interprets it.
-    let receive = (id, message) => {
-        // #1 redirect
-        if (!message.protocol || message.protocol!==this.options.protocol){
-            self.emit('receive', id, message);
-            return; // ugly early return
-        }
-        // #2 otherwise, interpret
-        switch (message.type){
-        case 'MConnectTo': // #A a neighbor asks us to connect to a remote one
-            if (message.to && message.from){
-                self.connection(this.callbacks(id, message, 'outview'));
-            } else { // #B a neighbor asks us to connect to him
-                self.connection(this.directCallbacks(id, self.outview.ID,'outview'));
-            }
-            break;
-        case 'MForwardTo': // #C a message is to be forwarded to a neighbor
-            self.send(message.to, MForwarded(message.from, message.to, message.message, message.protocol));
-            break;
-        case 'MForwarded': // #D a message has been forwarded to us, deliver
-            self.inview.connection(this.callbacks(id, message, 'inview'), message.message) || self.outview.connection(message.message);
-            break;
-        case 'MDirect': // #E a direct neigbhor sends offers to accept
-            self.inview.connection(this.directCallbacks(id, message.from, 'inview'), message.message) || self.outview.connection(message.message);
-            break;
+    /**
+     * @private
+     * The getter of the identifier of this protocol.
+     * @returns {string} The identifier of this protocol.
+     */
+    _pid () {
+        return this.PID;
+    };
+    
+    /**
+     * @private
+     * Behavior when this protocol receives a message from peerId.
+     * @param {string} peerId The identifier of the peer that we received a 
+     * message from.
+     * @param {object} message The message received.
+     */
+    _received (peerId, message) {
+        if (message.type) {
+            if (message.type === 'MConnectTo' ||
+                message.type === 'MForwarded' ||
+                message.type === 'MForwardTo') {
+                this._bridge(peerId, message);
+            } else if (message.type === 'MResponse' ||
+                       message.type === 'MRequest' ||
+                       message.type === 'MDirect') {
+                this._direct(peerId, message);
+            } else {
+                this.emit('receive', peerId, message);
+            };
+        } else {
+            this.emit('receive', peerId, message);
         };
     };
 
-    this.inview.on('receive', receive);
-    this.outview.on('receive', receive);
 
-    // #D an arc in one of the view is ready, redirect event
-    this.inview.on('ready-'+this.options.protocol, (id) => self.emit('ready', id, 'inview'));
-    this.outview.on('ready-'+this.options.protocol, (id) => self.emit('ready', id, 'outview'));
+    /**
+     * @private
+     * Behavior when this protocol receives a stream from peerId.
+     * @param {string} peerId The identifier of the peer that we received a 
+     * message from.
+     * @param {object} stream The stream received.
+     */
+    _streamed (peerId, stream) {
+        this.emit('stream', peerId, stream);
+    };
 
-    // #E a connection failed to establish
-    this.inview.on('fail', (reason) => this.emit('failed', 'i', 'inview', reason));
-		this.outview.on('fail', (reason) => this.emit('failed', 'o', 'outview', reason));
+    
+    /**
+     * @private
+     * Update the local view.
+     * @param {string} peerId The identifier of the peer reachable through the
+     * newly added arc.
+     * @param {boolean} isOutgoing State if the added arc is outgoing or not.
+     */
+    _connected (peerId, isOutgoing) {
+        if (isOutgoing){
+            if (!this.o.has(peerId)){
+                this.o.set(peerId, 0);
+            };
+            this.o.set(peerId, this.o.get(peerId) + 1 );
+            this.emit('ready', peerId); // only consider outgoing arcs
+        } else {
+            if (!this.i.has(peerId)){
+                this.i.set(peerId, 0);
+            };
+            this.i.set(peerId, this.i.get(peerId) + 1 );
+        };
+    };
 
-    // #F an arc has been remove
-    this.inview.on('disconnect', (id) => self.emit('disconnect', id, 'inview'));
-    this.outview.on('disconnect', (id) => self.emit('disconnect', id, 'outview'));
-  }
-  /**
-   * connect the peers at the other ends of sockets identified
-   * @param {string} from the identifier of the socket leading to a peer which will add
-   * a socket in its outview
-   * @param {string} to the identifier of the socket leading to a peer which will add
-   * a socket in its inview
-   * @return {void}
-   */
-  connect (from, to){
-    if (!from && to){
-        // #A only the 'to' argument implicitly means from = this
-        // this -> to
-        this.connection(this.directCallbacks( to, this.outview.ID, 'outview'));
-    } else if (from && !to){
-        // #B only the 'from' argument implicitly means to = this
-        // from -> this
-        this.send(from, MConnectTo(this.options.protocol));
-    } else {
-        // #C ask to the from-peer to the to-peer
-        // from -> to
-        this.send(from, MConnectTo(this.options.protocol, from, to));
+    /**
+     * @private
+     * Update the local view.
+     * @param {string} peerId The identifier of the peer that removed an arc.
+     */
+    _disconnected (peerId) {
+        if (this.o.has(peerId)){
+            this.o.set(peerId, this.o.get(peerId) - 1 );
+            (this.o.get(peerId) <= 0) && this.o.delete(peerId);
+        } else if (this.i.has(peerId)){
+            this.i.set(peerId, this.i.get(peerId) - 1 );
+            (this.i.get(peerId) <= 0) && this.i.delete(peerId);
+        };
+    };
+
+    /**
+     * @private
+     * Notify failure
+     * @param {string} peerId The identifier of the peer we failed to establish
+     * a connection with.
+     * @param {boolean} isOutgoing State whether or not the failed arc was 
+     * supposed to be an outgoing arc.
+     */
+    _failed (peerId, isOutgoing) {
+        // only takes into account the outgoing arcs
+        isOutgoing && this.emit('fail', peerId);
     }
-  }
+    
 
-  /**
-   * bootstrap the network, i.e. first join the network. This peer
-   * will add a peer which already belong to the network. The rest of
-   * protocol can be done inside the network with the function connect.
-   * @param {callback} callbacks see callbacks of neighborhood-wrtc
-   * @param {object} message see messages of neighborhood-wrtc
-   * @return {string} the id of the socket
-   */
-  connection (callbacks, message){
-    if (!message || (message && message.type==='MResponse')){
-        return this.outview.connection(callbacks, message, this.options.protocol);
-    } else {
-        return this.inview.connection(callbacks, message, this.options.protocol);
+    /**
+     * @private
+     * Function that execute to bridge a connection establishement between two
+     * peers: we start from (i -> b -> a) to get (i -> b -> a) and (i -> a).
+     * @param {string} peerId The identifier of the peer that sent us the 
+     * message
+     * @param {MConnectTo|MForwardTo|MForwarded} msg The message received.
+     */
+    _bridge (peerId, msg) {
+        // #1 we are the initiator
+        (msg.type === 'MConnectTo') && this.IO.connect( (req) => {
+            this.send(peerId, new MForwardTo(msg.from, msg.to, req));
+        });
+        // #2 we are the bridge
+        (msg.type === 'MForwardTo') &&
+            this.send(msg.to, new MForwarded(msg.from, msg.to, msg.message));
+        // #3 we are the acceptor
+        (msg.type === 'MForwarded') && (msg.message.type === 'MRequest') &&
+            this.II.connect( (res) => {
+                this.send(peerId, new MForwardTo(msg.to, msg.from, res));
+            }, msg.message );
+        // #4 reapplies #2
+        // #5 we are the finalizor
+        (msg.type === 'MForwarded') && (msg.message.type === 'MResponse') &&
+            this.IO.connect( msg.message );
+    };
+
+    /**
+     * @private
+     * Create a connection with a neighbor: from (i -> a) we obtain 
+     * either (i <-> a) or (i => a). In the former case, assuming that Peer a 
+     * does not already have a connection to Peer i, it must create a WebRTC 
+     * connection to a. In the latter case, Peer i only duplicates its arc to
+     * Peer a. Thus, it must disconnect twice to truly destroy the connection.
+     * @param {string} peerId The identifier of the peer that we received a
+     * message from.
+     * @param {string} message The received message.
+     */ 
+    _direct(peerId, message){
+        (message.type === 'MDirect') &&
+            this.IO.connect( (req) => this.send(peerId, req) );
+        (message.type === 'MRequest') &&
+            this.II.connect( (res) => this.send(peerId, res), message);
+        (message.type === 'MResponse') &&
+            this.IO.connect( message );
+    };
+
+    
+    /**
+     * Send a message using either the inview or the outview.
+     * @param {string} peerId The identifier of the receiver.
+     * @param {object} message The message to send.
+     * @param {number} [retry = 10] Number of times it retries to send a
+     * message.
+     * @return {promise} Promise that resolves if the message is sent, reject 
+     * otherwise.
+     */
+    send(peerId, message, retry = 10){
+        let promise;
+        // #1 normal behavior
+        if (this.i.has(peerId)) {
+            promise = this.II.send(peerId, message, retry);
+        } else if (this.o.has(peerId)) {
+            promise = this.IO.send(peerId, message, retry);
+        } else {
+            // #2 last chance behavior
+            promise = new Promise( (resolve, reject) => {
+                const _send = (r) => {
+                    this.IO.send(peerId, message, 0)
+                        .then( () => resolve() )
+                        .catch( (e) => this.II.send(peerId, message, 0)
+                                .then( () => resolve() )
+                                .catch( (e) => {
+                                    if (r<=retry){
+                                        setTimeout( () => {
+                                            _send (r+1);
+                                        }, 1000);
+                                    } else {
+                                        reject(e);
+                                    }
+                                }));};
+                _send(0);
+            });
+        };
+        return promise;
+    };
+
+    /**
+     * Create an arc (establishes a WebRTC connection if need be) from 'from' to
+     * 'to'. (TODO) explain function args
+     * @param {string} from The identifier of the peer that must initiate the
+     * connection. Null implicitely means this.
+     * @param {string} to The identifier of the peer that must accept the
+     * connection. Null implicitely means this.
+     */
+    connect (arg1 = null, arg2 = null) {
+        // #1 handle bootstrap using other communication channels than our
+        // own.
+        if (typeof arg1 === 'function' && arg2 === null) {
+            this.IO.connect( (req) => arg1(req) ); // arg1: callback
+        } else if (typeof arg1 === 'function' && arg2 !== null) {
+            debug('[%s] %s <π= ??? =π= %s',
+                  this.PID, this.getInviewId(), arg2.peer);
+            this.II.connect( (res) => arg1(res), arg2); // arg1: cb; arg2: msg
+        } else if (arg1 !== null && typeof arg1 === 'object' && arg2 === null) {
+            this.IO.connect( arg1 ); // arg1: msg
+        } else {
+            // #2 handle n2n connections
+            // #A replace our own identifier by null
+            if (arg1!==null && (arg1===this.IO.peer || arg1===this.II.peer)) {
+                arg1 = null;
+            };
+            if (arg2!==null && (arg2===this.IO.peer || arg2===this.II.peer)) {
+                arg2 = null;
+            };
+            
+            if (arg1 !== null && arg2 !== null){ 
+                // #1 arg1: from; arg2: to
+                // from -> this -> to  creates  from -> to
+                debug('[%s] %s =π= %s =π> %s', this.PID, arg1, this.PEER, arg2);
+                this.send(arg1, new MConnectTo(arg1, arg2));
+            } else if (arg1 !== null) {
+                // #2 arg1: from
+                // from -> this  becomes  from => this
+                this.send(arg1, new MDirect());
+            } else if (arg2 !== null) {
+                // #3 arg2: to
+                // this -> to becomes this => to
+                this._direct(arg2, new MDirect()); // emulate a MDirect receipt
+            };
+        };        
+    };
+
+    /**
+     * remove an arc of the outview or all arcs
+     * @param {string} peerId The identifier of the arc to remove.
+     */
+    disconnect (peerId) {
+        if (typeof peerId === 'undefined') {
+            this.II.disconnect();
+            this.IO.disconnect();
+        } else {
+            this.IO.disconnect(peerId);
+        };
     }
-  }
-  /**
-   * remove an arc of the outview or all arcs
-   * @param {string} id the arc to remove, if none, remove all arcs
-   */
-  disconnect (id) {
-    if (!id){
-        this.outview.disconnect();
-        this.inview.disconnect();
-        return true;
-    } else {
-        return this.outview.disconnect(id);
-    }
-  }
 
+    /**
+     * Getter of the inview.
+     * @returns {Map} A new map comprising {peerId => occurrences}.
+     */
+    getInview () {
+        return new Map(this.i);
+    };
 
+    /**
+     * Getter of the inview ID.
+     * @returns {string} The identifier of the inview.
+     */
+    getInviewId () {
+        return this.NI.peer;
+    };
 
-  /**
-   * Send the message to the peer identified by id
-   * @param {string} id the identifier of the socket used to send the message
-   * @param {object} message the message to send
-   * @return {boolean} true if the message has been sent, false otherwise
-   */
-  send (id, message) {
-      return this.outview.send(id, message) || this.inview.send(id, message);
-  }
+    /**
+     * Getter of the outview.
+     * @returns {Map} A new map comprising {peerId => occurrences}.
+     */
+    getOutview () {
+        return new Map(this.o);
+    };
 
-  /**
-   * get the socket corresponding to the id in argument and views
-   * @param {string} idOrView string id or 'inview' or 'outview'
-   * @return a list of entries or an entry
-   */
-  get (idOrView) {
-    return  ((idOrView==='inview') && this.inview.living.ms.arr) ||// all inview
-    ((idOrView==='outview') && this.outview.living.ms.arr) || // all outview
-    (idOrView && (this.outview.get(idOrView) ||
-                  this.inview.get(idOrView))); // cherry picking
-  }
+    /**
+     * Getter of the inview ID.
+     * @returns {string} The identifier of the outview.
+     */
+    getOutviewId () {
+        return this.NO.peer;
+    };
 
-  /**
-   * simple string representing the in and out views
-   * @return {void} a string with in and out views
-   */
-  toString () {
-      var result = '';
-      result += 'IDS [' + this.inview.ID +', '+ this.outview.ID +'] ';
-      result += 'In {';
-      var I = this.get('inview');
-      for (var i = 0; i < I.length; ++i){
-          result +=  I[i].id + ' x' + I[i].occ + '; ';
-      };
-      result += '}  Out {';
-      var O = this.get('outview');
-      for (var i = 0; i < O.length; ++i){
-          result +=  O[i].id + ' x' + O[i].occ + '; ';
-      };
-      result += '}';
-      return result;
-  }
-
-
-}
+};
 
 module.exports = Neighbor;
 
-},{"./messages.js":13,"events":8,"lodash":15,"neighborhood-wrtc":18}],15:[function(require,module,exports){
-module.exports=require(12)
-},{"/home/stagiaire-gdd/Documents/github/ran3d/spray-wrtc/node_modules/lodash/lodash.js":12}],16:[function(require,module,exports){
-var SortedArray = require('sorted-cmp-array');
-
-SortedArray.prototype.get = function(entry){
-    var index = this.indexOf(entry);
-    return ((index >= 0)&&this.arr[index]) || null;
-};
-
-
-SortedArray.prototype.contains = function(entry){
-    return (this.indexOf(entry) >= 0);
-};
-
-module.exports = SortedArray;
-
-},{"sorted-cmp-array":38}],17:[function(require,module,exports){
-var SortedArray = require('./extended-sorted-array');
-
-function MultiSet(Comparator){
-    this.ms = new SortedArray(Comparator||defaultComparator);
-};
-
-MultiSet.prototype.insert = function(entryOrId){
-    var object = this.ms.get(entryOrId);
-    if (object){
-        // #1 if the object already exists, increment its occurrence
-        object.occ += 1;
-    } else {
-        // #2 initalize the occurrence to 1 and insert it otherwise
-        entryOrId.occ = 1;
-        this.ms.insert(entryOrId);
-    };
-    return object;
-};
-
-MultiSet.prototype.remove = function(entryOrId){
-    var object = this.ms.get(entryOrId);
-    if (object){
-        object.occ -= 1;
-        (object.occ <= 0) && this.ms.remove(entryOrId);
-    };
-    return object;
-};
-
-MultiSet.prototype.removeAll = function(entryOrId){
-    var object = this.ms.get(entryOrId);
-    if (object){
-//        object.occ = 0;
-        this.ms.remove(entryOrId);
-    };
-    return object;
-};
-
-MultiSet.prototype.contains = function(entryOrId){
-    return this.ms.contains(entryOrId);
-};
-
-MultiSet.prototype.get = function(entryOrId){
-    return this.ms.get(entryOrId);
-};
-
-function defaultComparator(a, b){
-    var first = a.id || a;
-    var second = b.id || b;
-    if (first < second){return -1};
-    if (first > second){return  1};
-    return 0;
-};
-
-
-module.exports = MultiSet;
-
-},{"./extended-sorted-array":16}],18:[function(require,module,exports){
-'use strict';
-
-const EventEmitter = require('events');
-const _ = require('lodash');
-const uuid = require('uuid/v4');
-const SortedArray = require('./extended-sorted-array.js');
-const MultiSet = require('./multiset.js');
-const SimplePeer = require('simple-peer');
-
+},{"./messages/mconnectto.js":22,"./messages/mdirect.js":23,"./messages/mforwarded.js":24,"./messages/mforwardto.js":25,"debug":12,"events":14,"lodash":21,"neighborhood-wrtc":41,"uuid/v4":29}],27:[function(require,module,exports){
 /**
- * Easy-to-use interface on SimplePeer (npm: simple-peer)
- * @param {object} options the options available to the connections, e.g. timeout before
- * @param {string} options.protocol Protocol to use
- * @param {object} options.webrtc Webrtc options
- * @param {number} options.timeout Time to wait for socket destruction or failed message (time in milliseconds)
- * @param {function} options.encoding Method to customize message sent, default: return JSON.stringify(data);
- * @param {function} options.decoding Method to decode a received message, default: return JSON.parse(data);
- * @param {boolean} options.verbose Print log message: default false
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
  */
-class Neighborhood extends EventEmitter {
-	constructor (options) {
-		super();
-    // #1 save options
-    this.options = {
-      protocol: 'default',
-      webrtc: {
-        iceServers: [],
-        trickle: false,
-        initiator: false
-      },
-      config: {},
-      trickle: false,
-      timeout: 2 * 60 * 1000,
-      encoding: (d) => {
-        return JSON.stringify(d);
-      },
-      decoding: (d) => {
-        return JSON.parse(d);
-      },
-      verbose: false
-    };
-    this.options = _.merge(this.options, options);
-    // Override config to match webrtc options
-    this.options.config = this.options.webrtc;
-
-    this.protocol = this.options.protocol + '-neighborhood-wrtc';
-
-		this.encoding = this.options.encoding;
-		this.decoding = this.options.decoding;
-		this.ID = uuid();
-
-		if(options && options.verbose) {
-			this.verbose = options.verbose;
-		}
-
-    /*!
-     * \brief compare the id of entries in tables
-     */
-    this.Comparator = (a, b) => {
-        var first = a.id || a;
-        var second = b.id || b;
-        if (first < second){ return -1; };
-        if (first > second){ return  1; };
-        return 0;
-    };
-    // #2 initialize tables
-    this.pending = new SortedArray(this.Comparator); // not finalized yet
-    this.living = new MultiSet(this.Comparator); // live and usable
-    this.dying = new SortedArray(this.Comparator); // being remove
-	}
-
-  /**
-   * @private
-   */
-	MResponse (tid, pid, offer, protocol) {
-		return {
-			tid: tid,
-			pid: pid,
-			protocol: protocol,
-			type: 'MResponse',
-			offer: offer
-		};
-	}
-  /**
-   * @private
-   */
-	MRequest (tid, pid, offer, protocol) {
-		return {
-			tid: tid,
-			pid: pid,
-			protocol: protocol,
-			type: 'MRequest',
-			offer: offer
-		};
-	}
-
-  /**
-   * @private
-   */
-	log (...args) {
-		if(this.verbose) {
-			console.log('[NEIGHBORHOOD] ', args);
-		}
-	}
-
-  /**
-   * Disconnect one of the arc with the identifier in argument. If
-   * it was the last arc with such id, the socket is relocated to the dying
-   * table. The socket will be destroy after a bit. If there is no argument,
-   * disconnect the whole.
-   * @param {string|undefined} id Id provided to just disconnect the arc or if undefined disconnect all arcs
-   */
-  disconnect (id) {
-    let result = true;
-    if (!id) {
-      // #1 disconnect everything
-      this.pending.arr.forEach((e) => {
-          e.socket && e.socket.destroy();
-      });
-      while (this.living.ms.arr.length > 0) {
-          const e = this.living.ms.arr[0];
-          e.socket && e.socket.destroy();
-      }
-      while (this.dying.arr.length > 0) {
-          const e = this.dying.arr[0];
-          e.socket && e.socket.destroy();
-      }
-    } else {
-      // #2 remove one arc
-      let entry = this.living.remove(id);
-      entry && this.emit('disconnect', entry.id);
-      if (entry && entry.occ <= 0) {
-          entry.timeout = setTimeout(function () {
-              entry.socket.destroy();
-          }, this.options.timeout);
-          this.dying.insert(entry);
-      }
-      result = entry && true || false;
-    }
-    return result;
-  }
-
-	/**
-	 * New method to encode the message as we want
-	 * @param  {object} message The message to encode
-	 * @return {string|binary} Encoded message
-	 */
-	encode (message) {
-		return this.encoding(message);
-	}
-
-	/**
-	 * New method to encode the message as we want
-	 * @param  {object} message The message to encode
-	 * @return {string|binary} Encoded message
-	 */
-	decode (message) {
-		return this.decoding(message);
-	}
-
-	/**
-	 * Send a message to the socket in argument
-	 * @param {string} id the identifier of the socket
-	 * @param {object} message the message to send
-	 * @return {boolean} true if the message is sent, false otherwise
-	 */
-	send (id, message) {
-		// #1 convert message to string (TODO) check if there is a better way
-		let msg = ((message instanceof String) && message) || this.encode(message);
-		// #2 get the socket to use
-		let entry = this.get(id);
-		let socket = entry && entry.socket;
-		// #3 send
-		let result = msg && socket && socket.connected && socket._channel && (socket._channel.readyState === 'open');
-		// result && socket.send(msg);
-		try {
-			result && socket.send(msg);
-			// DONT SET RESULT TO TRUE !
-		} catch (e) {
-			this.log('[NEIGHBORHOOD:SEND:ERROR] ', new Error(e));
-			result = false;
-		}
-		return result;
-	}
-
-	/**
-	* creates a new incomming or outgoing connection depending on arguments
-	* @param {callback} callbacks the callback function when the stun/ice server returns the
-	* offer
-	* @param {object} message empty if it must initiate a connection, or the message received
-	* if it must answer or finalize one
-	* @param {string} protocol the connection is established for a specific protocol
-	* @return {string} the id of the socket
-	*/
-	connection (callbacks, message, protocol) {
-
-		let msg = (callbacks && callbacks.type && callbacks) || message;
-		let result;
-
-		if (!msg) {
-			result = this.initiate(callbacks, protocol);
-		} else if (msg.type==='MRequest') {
-
-			if(message && message.pid && this.ID !== message.pid) {
-				result = this.accept(msg, callbacks);
-				result = this.alreadyExists(msg, callbacks) || result;
-			}
-
-		} else if (msg.type==='MResponse') {
-			result = this.finalize(msg);
-			result = this.alreadyExists(msg) || result;
-		}
-
-		return result && result.id;
-	}
-
-  /**
-   * Get the entry corresponding to the id in argument. The entry contains
-   * the socket.
-   * @param {string} id the identifier of the socket to retrieve
-   * @return {object} an entry from tables. It priorizes entries in living, then dying,
-   * then pending.
-   */
-  get(id){
-      return this.living.get(id) || this.dying.get(id) || this.pending.get(id);
-  }
-
-	/**
-	 * @private
-	 * Common behavior to initiating and accepting sockets
-	 * @param {object} entry the entry in the neighborhood table
-	 * @return {void}
-	 */
-	common (entry) {
-		const self = this, socket = entry.socket;
-
-		socket.on('data', (message) => {
-			message = self.decode(message);
-			self.emit('receive', entry.pid, message);
-		});
-		socket.on('stream', (stream) => {
-			self.emit('stream', entry.pid, stream);
-		});
-
-		socket.on('error', err => {
-			self.emit('error', new Error(err));
-		});
-	}
-
-	/**
-	 * @private
-	 * initiates a connection with another peer -- the id of which is unknown
-	 * @param {callback} callbacks the function to call when signaling info are received and
-	 * when the connection is ready to be used
-	 * @param {string} protocol The protocol
-	 * @return {object} entry
-	 */
-	initiate (callbacks, protocol) {
-		const self = this;
-		let opts = self.options.config;
-		opts.initiator = true;
-		let socket = new SimplePeer(opts);
-		let entry = {
-			id: uuid(),
-			socket: socket,
-			protocol: protocol,
-			successful: false, // not yet
-			onOffer: callbacks && callbacks.onInitiate,
-			onReady: callbacks && callbacks.onReady
-		};
-
-		this.pending.insert(entry);
-		socket.on('signal', (offer) => {
-			entry.onOffer && entry.onOffer(self.MRequest(entry.id, self.ID, offer, protocol));
-		});
-
-		entry.timeout = setTimeout(() => {
-			let e = self.pending.get(entry.id);
-			if (e && !e.successful) {
-				self.emit('fail', '[FAIL:INITIATE] an error occured during removing the entry');
-			}
-			self.pending.remove(entry) && socket.destroy();
-		}, this.options.timeout);
-		return entry;
-	}
-
-
-	/**
-	 * @private
-	 * accept the offer of another peer
-	 * @param {object} message the received message containing id and offer
-	 * @param {callback} callbacks the function call after receiving the offer and
-	 * when the connection is ready
-	 * @return {object} Entry
-	 */
-	accept (message, callbacks) {
-		// #1 if already exists, use it
-
-
-		let prior = this.pending.get(message.tid);
-		if (prior) {
-			return prior;
-		}
-		// #2 otherwise, create the socket
-		const self = this;
-		// let opts=JSON.parse(JSON.stringify(this.options));// quick but ugly copy
-		let opts = this.options.config;
-		opts.initiator = false;
-		let socket = new SimplePeer(opts);
-		let entry = {
-			id: message.tid,
-			pid: message.pid,
-			protocol: message.protocol,
-			socket: socket,
-			successful: false,
-			onOffer: callbacks && callbacks.onAccept,
-			onReady: callbacks && callbacks.onReady
-		};
-
-		this.pending.insert(entry);
-		socket.on('signal', function (offer) {
-			entry.onOffer && entry.onOffer(self.MResponse(entry.id, self.ID, offer, entry.protocol));
-		});
-		socket.on('connect', function () {
-			self.get(entry.pid) && socket.destroy();
-			self.pending.remove(entry);
-			self.living.insert({
-				id: entry.pid,
-				socket: entry.socket,
-				onReady: entry.onReady,
-				onOffer: entry.onOffer
-			});
-
-
-			entry.onReady && entry.onReady(entry.pid);
-			self.emit('ready', entry.pid);
-			entry.protocol && self.emit('ready-'+entry.protocol, entry.pid);
-
-			clearTimeout(entry.timeout);
-			entry.timeout = null;
-		});
-		socket.on('close', function () {
-			if (self.pending.contains(entry.id)) {
-				// #A pending: entry is kept until automatic destruction
-				entry.socket = null;
-			} else {
-				// #B living or dying: clear the tables
-				entry.timeout && clearTimeout(entry.timeout);
-				entry.timeout = null;
-				let live = self.living.removeAll(entry.pid);
-				if (live) {
-					for (let i = 0; i < live.occ; ++i) {
-						self.emit('disconnect', entry.pid);
-					}
-				}
-				self.dying.remove(entry.pid);
-			}
-		});
-
-		this.common(entry);
-
-		entry.timeout = setTimeout(function () {
-			let e = self.pending.get(entry.id);
-			if (e && !e.successful) {
-				self.emit('fail', '[FAIL:ACCEPT] an error occured during removing the entry');
-			}
-			self.pending.remove(entry.id) && socket.destroy();
-		}, this.options.timeout);
-		return entry;
-	}
-
-
-	/**
-	 * @private
-	* finalize the behavior of an initiating socket
-	* @param {object} message the received message possibly containing an answer to the
-	* proposed offer
-	* @return {object} Return prior entry
-	*/
-	finalize (message) {
-		// #1 if it does not exists, stop; or if it exists but already setup
-		// return it
-		let prior = this.pending.get(message.tid);
-		if (!prior || prior.pid) {
-			return prior;
-		}
-		// #2 otherwise set the events correctly
-		prior.pid = message.pid;
-
-		let entry = {
-			id: message.pid,
-			socket: prior.socket,
-			protocol: prior.protocol,
-			onReady: prior.onReady,
-			onOffer: prior.onOffer
-		};
-
-		const self = this;
-		let socket = entry.socket;
-		socket.on('connect', function () {
-
-			self.get(entry.id) && socket.destroy();
-			self.pending.remove(prior);
-			self.living.insert(entry);
-			entry.onReady && entry.onReady(prior.pid);
-			self.emit('ready', prior.pid);
-			entry.protocol && self.emit('ready-'+entry.protocol, prior.pid);
-			clearTimeout(prior.timeout);
-
-		});
-		socket.on('close', function () {
-			if (self.pending.contains(message.tid)) {
-				self.pending.get(message.tid).socket = null;
-			} else {
-				prior.timeout && clearTimeout(prior.timeout);
-				prior.timeout = null;
-				let live = self.living.removeAll(prior.pid);
-				if (live) {
-					for (let i = 0; i < live.occ; ++i) {
-						self.emit('disconnect', prior.pid);
-					}
-				}
-				self.dying.remove(prior.pid);
-			}
-		});
-
-		this.common(prior);
-
-		return prior;
-	}
-
-	/**
-	 * @private
-	*  the peer id already exists in the tables
-	*  @param {object} message The message
-	*  @param {callback} callbacks the callbacks
-	*  @return {object} alreaydExist
-	*/
-	alreadyExists (message, callbacks) {
-		const self = this;
-		let alreadyExists = this.get(message.pid);
-		if  (!alreadyExists) {
-			// #A does not already exists but pending
-			let entry = this.pending.get(message.tid);
-			entry && entry.socket && message.offer && entry.socket.signal(message.offer);
-		} else {
-			// #B already exists and pending
-			let toRemove = this.pending.get(message.tid);
-			if (toRemove && toRemove.socket) { // exists but socket still w8in
-				if (!alreadyExists.timeout) {
-					// #1 already in living socket, add an occurrence
-					this.living.insert(message.pid);
-					toRemove.successful = true;
-				} else {
-					// #2 was dying, resurect the socket
-					this.dying.remove(alreadyExists);
-					clearTimeout(alreadyExists.timeout);
-					alreadyExists.timeout = null;
-					this.living.insert(alreadyExists);
-					toRemove.successful = true;
-				}
-				toRemove.socket.destroy();
-				// #C standard on accept function if it exists in arg
-				message.offer && callbacks && callbacks.onAccept && callbacks.onAccept(self.MResponse(message.tid, this.ID,	null,	message.protocol));
-
-				(callbacks &&	callbacks.onReady && callbacks.onReady(alreadyExists.id)) ||	(toRemove && 	toRemove.onReady &&	toRemove.onReady(alreadyExists.id));
-				this.emit('ready', alreadyExists.id);
-				message.protocol && this.emit('ready-'+message.protocol, alreadyExists.id);
-			}
-		}
-		return alreadyExists;
-	}
-
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
 }
 
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  return  bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]];
+}
+
+module.exports = bytesToUuid;
+
+},{}],28:[function(require,module,exports){
+(function (global){
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+var rng;
+
+var crypto = global.crypto || global.msCrypto; // for IE 11
+if (crypto && crypto.getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16);
+  rng = function whatwgRNG() {
+    crypto.getRandomValues(rnds8);
+    return rnds8;
+  };
+}
+
+if (!rng) {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var  rnds = new Array(16);
+  rng = function() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+module.exports = rng;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],29:[function(require,module,exports){
+var rng = require('./lib/rng');
+var bytesToUuid = require('./lib/bytesToUuid');
+
+function v4(options, buf, offset) {
+  var i = buf && offset || 0;
+
+  if (typeof(options) == 'string') {
+    buf = options == 'binary' ? new Array(16) : null;
+    options = null;
+  }
+  options = options || {};
+
+  var rnds = options.random || (options.rng || rng)();
+
+  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+  // Copy bytes to buffer, if provided
+  if (buf) {
+    for (var ii = 0; ii < 16; ++ii) {
+      buf[i + ii] = rnds[ii];
+    }
+  }
+
+  return buf || bytesToUuid(rnds);
+}
+
+module.exports = v4;
+
+},{"./lib/bytesToUuid":27,"./lib/rng":28}],30:[function(require,module,exports){
+'use strict';
+
+const ELiving = require('./entries/eliving.js');
+
+const ExSocketNotFound = require('./exceptions/exsocketnotfound.js');
+
+/**
+ * Table that contains all living sockets that might be in use. Peers can
+ * comprise multiples protocols that may use multiple times an arc.
+ */
+class ArcStore {
+    constructor () {
+        this.store = new Map();
+    };
+
+    /**
+     * ProtocolId adds another arc leading to peerId in the store
+     * @param {string} peerId The identifier of the peer reachable through the
+     * socket.
+     * @param {string} protocolId The identifier of the protocol that adds the
+     * arc.
+     * @param {object} socket The WebRTC socket. Can be null if the socket to
+     * peerId is known to be in the store.
+     */
+    insert (peerId, protocolId, socket) {
+        // #1 make sure the peerId exists if the socket is not set.
+        if (socket === null && !this.store.has(peerId)){
+            throw new ExSocketNotFound(
+                'arcStore',
+                peerId,
+                protocolId,
+                'Try to add an arc to a peer that does not exists');
+        };
+
+        // #2 the peerId is not known yet, create the entry
+        if (!this.store.has(peerId)){
+            let entry = new ELiving(peerId, protocolId, socket);
+            this.store.set(peerId, entry);
+        } else {
+            // #3 increment the number of arcs of protocolId
+            this.store.get(peerId).increment(protocolId);
+        }
+    };
+
+    /**
+     * ProtocolId removes an arc to the peerId.
+     * @param {string} peerId The identifier of the peer accessible through the
+     * arc to delete.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * remove the arc.
+     * @returns {ELiving} The entry if no protocol is using the socket, null
+     * otherwise.
+     */
+    remove (peerId, protocolId) {
+        let unusedSocket = null;
+        // #1 check if a socket to the arc exists
+        if (!this.store.has(peerId)){
+            throw new ExSocketNotFound(
+                'arcStore',
+                peerId,
+                protocolId,
+                'Try to remove an arc to a peer that does not exists');
+        };
+        // #2 check if the protocol has such arc
+        if (!this.store.get(peerId).decrement(protocolId)){
+            throw new ExSocketNotFound(
+                'arcStore',
+                peerId,
+                protocolId,
+                'Try to remove an arc from a protocol that does not have this arc');
+        };
+        // #3 remove the entry if no protocol use it
+        if (this.store.get(peerId).sum() <= 0){
+            unusedSocket = this.store.get(peerId);
+            this.store.delete(peerId);            
+        };
+        return unusedSocket;
+    };
+
+    /**
+     * ProtocolId removes all its arcs.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * remove all its arcs.
+     * @returns {object[]} Objects comprising {peer, socket, occ}; peer being
+     * the identifier of the peer reachable through the socket, socket being a 
+     * WebRTC connection that is not used by any protocols, null if protocols
+     * still use it, occ being the number of arcs removed by protocolId.
+     */
+    removeAll (protocolId) {
+        let result = [];
+        this.store.forEach( (v, k) => {
+            if (v.protocols.has(protocolId)){
+                let occ = v.protocols.get(protocolId);
+                let entry = {peer: v.peer, socket: null, occ: occ };
+                for (let i=0; i<occ; ++i){
+                    let unusedSocket = this.remove(k, protocolId);
+                    if (unusedSocket !== null){
+                        entry.socket = unusedSocket.socket;
+                        result.push(entry);
+                    };
+                };
+            };
+        });
+        return result;
+    };
+
+    /**
+     * Remove all arcs leading to peerId.
+     * @param {string} peerId The identifier of the peer reachable by a WebRTC
+     * connection to remove.
+     * @returns {Map} Map where key is the identifier of the protocol that sees
+     * its arcs being removed, and value is the number of arcs removed;
+     */
+    removePeer (peerId){
+        let result;
+        if (this.store.has(peerId)){
+            result = this.store.get(peerId).protocols;
+            this.store.delete(peerId);
+        } else {
+            result = new Map();
+        }
+        return result;
+    };
+
+    /**
+     * Check if the store has at least one occurrence of the peer.
+     * @param {string} peerId The identifier of the peer to check.
+     * @returns {boolean} true if it exists, false otherwise.
+     */
+    contains (peerId) {
+        return this.store.has(peerId);
+    };
+
+    /**
+     * Get the entry of the arc leading to PeerId
+     * @param {string} peerId The identifier of the remote peer
+     * @returns {ELiving} The entry containing peerId, null if it does not
+     * exists.
+     */
+    get (peerId) {
+        let entry = null;
+        if (this.contains(peerId)){
+            entry = this.store.get(peerId);
+        };
+        return entry;
+    };
+    
+};
+
+module.exports = ArcStore;
+
+},{"./entries/eliving.js":32,"./exceptions/exsocketnotfound.js":36}],31:[function(require,module,exports){
+'use strict';
+
+/**
+ * Entry of the dying table containing sockets being removed.
+ */
+class EDying {
+    /**
+     * @param {string} peerId The identifier of the peer reachable through the
+     * socket.
+     * @param {object} socket The WebRTC socket.
+     * @param {number} timeout Time before the connexion is completely removed 
+     * and destroyed.
+     */
+    constructor (peerId, socket, timeout){
+        this.peer = peerId; // key
+        this.socket = socket;
+        this.timeout = timeout;
+    };
+};
+
+module.exports = EDying;
+
+},{}],32:[function(require,module,exports){
+'use strict';
+
+/**
+ * Entry of the living table containing sockets still in use.
+ */
+class ELiving {
+    /**
+     * @param {string} peerId The identifier of the peer reachable through the 
+     * socket.
+     * @param {string} protocolId The identifier of the protocol that creates an
+     * arc to this peer using this socket. Protocols can have multiple arcs
+     * leading to a same peer. Multiple protocols can share a same socket.
+     * @param {object} socket The WebRTC socket.
+     */
+    constructor (peerId, protocolId, socket) {
+        this.peer = peerId; // key
+        this.socket = socket;
+
+        this.protocols = new Map();
+        this.increment(protocolId);
+    };
+
+    /**
+     * Add an occurrence of the arc to the protocol
+     * @param {string} protocolId The identifier of the protocol.
+     */
+    increment (protocolId) {
+        if (!this.protocols.has(protocolId)){
+            this.protocols.set(protocolId, 0);
+        };
+        this.protocols.set(protocolId, this.protocols.get(protocolId) + 1);
+    };
+
+    /**
+     * Remove an occurrence of the arc to the protocol
+     * @param {string} protocolId The identifier of the protocol.
+     * @returns {boolean} True if an arc has been remove, false if the protocol
+     * do not have such arc.
+     */
+    decrement (protocolId) {
+        let found = false;
+        if (this.protocols.has(protocolId)){
+            this.protocols.set(protocolId, this.protocols.get(protocolId) - 1);
+            if (this.protocols.get(protocolId) <= 0){
+                this.protocols.delete(protocolId);
+            };
+            found = true;
+        };
+        return found;        
+    };
+
+    /**
+     * Count the number of arcs leading to this peer
+     * @returns {integer} The sum of occurrences of protocols using this
+     * socket.
+     */
+    sum () {
+        let result = 0;
+        this.protocols.forEach( (v, k) => {
+            result += v;
+        });
+        return result;
+    };
+};
+
+module.exports = ELiving;
+
+},{}],33:[function(require,module,exports){
+'use strict';
+
+/**
+ * Entry of the pending table containing sockets being created.
+ */
+class EPending {
+    /**
+     * @param {string} temporaryId A temporary id used to retrieve the entry.
+     * @param {string} peerId The identifier of the peer reachable through the
+     * socket. Null if the peerId is yet to be known.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * establish the connexion.
+     * @param {object} socket The WebRTC socket. 
+     * @param {number} timeout Maximum time for a connexion to establish.
+     */
+    constructor (temporaryId, peerId, protocolId, socket, timeout) {    
+        this.tid = temporaryId; // key
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.socket = socket;
+        this.successful = false;
+        this.alreadyExists = false;
+        this.timeout = timeout;
+    };
+};
+
+module.exports = EPending;
+
+},{}],34:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception that fires when a message arrives too late and the entry in the
+ * table has already been purged.
+ */
+class ExLateMessage {
+    /**
+     * @param {string} source The function name that throw the exception.
+     * @param {object} message The late message
+     */
+    constructor (source, msg) {
+        this.source = source;
+        this.msg = msg;
+        this.message = 'The message arrives too late';
+    };
+};
+
+module.exports = ExLateMessage;
+
+},{}],35:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception that rise when a protocol registers and its identifier already
+ * exists in registered protocols of neighborhood-wrtc.
+ */
+class ExProtocolExists {
+    /**
+     * @param {string} protocolId The identifier of the protocol that already
+     * exists
+     */
+    constructor (protocolId) {
+        this.pid = protocolId;
+        this.message = 'The idenfifier of the registering protocol already exists.';
+    };
+};
+
+module.exports = ExProtocolExists;
+
+},{}],36:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception that fires when trying to access or use a socket that does not
+ * exist.
+ */
+class ExSocketNotFound {
+    /**
+     * @param {string} source The source of the exception.
+     * @param {string} peerId The identifier of the peer that has been tried.
+     * @param {string} protocolId The identifier of the protocol that failed.
+     * @param {string} message A error message.
+     */
+    constructor (source, peerId, protocolId, message) {
+        this.source = source;
+        this.peer = peerId;
+        this.protocolId = protocolId;
+        this.message = message;
+    };
+};
+
+module.exports = ExSocketNotFound;
+
+},{}],37:[function(require,module,exports){
+'use strict';
+
+/**
+ * Interface of functions that are available to a protocol that registered
+ * to this module.
+ */
+class INeighborhood {
+    /**
+     * @param {string} peerId The identifier of the peer that created this
+     * interface.
+     * @param {function} connect The connection function provided by this
+     * module.
+     * @param {function} disconnect The disconnection function provided by this
+     * module.
+     * @param {function} send The send function provided by this module.
+     */
+    constructor (peerId, connect, disconnect, send) {
+        this.peer = peerId;
+        this.connect = connect;
+        this.disconnect = disconnect;
+        this.send = send;        
+    };
+
+    /**
+     * Create a WebRTC connexion.
+     * @param {function|object} arg1 Either a callback function to send the
+     * message to the remote peer (for instance, it can use a signaling server
+     * or the already created WebRTC connexions), or a message received from the
+     * remote peer.
+     * @param {object} arg2 The message received from a peer that initialized a 
+     * WebRTC connexion.
+     */
+    connect (arg1, arg2) {
+        this.connect(arg1, arg2);
+    };
+        
+    /**
+     * Remove an arc that led to peerId.
+     * @param {string} peerId The identifier of the remote peer.
+     * @returns {promise} Resolved when the arc is removed.
+     */
+    disconnect (peerId) {
+        return this.disconnect(peerId);
+    };
+
+    /**
+     * Send message to peerId.
+     * @param {string} peerId The identifier of the remote peer.
+     * @param {string} message The message to send.
+     * @param {number} [retry=10] Retry few times to send the message before
+     * giving up.
+     * @returns {promise} Resolved when the message is sent, reject
+     * otherwise. Note that loss of messages is not handled by default.
+     */
+    send (peerId, message, retry){
+        return this.send(peerId, message);
+    };
+};
+
+module.exports = INeighborhood;
+
+},{}],38:[function(require,module,exports){
+'use strict';
+
+/**
+ * The message containing the request to create a WebRTC connexion
+ */
+class MRequest {
+    /**
+     * @param {string} temporaryId A temporary identifier during the socket
+     * creation. The key will be changed to peerId when the connexion is
+     * established successfully.
+     * @param {string} peerId The identifier of the peer that will be reachable
+     * through the socket being created. Null if it is yet to be known.
+     * @param {string} protocolId The identifier of the protocol to route 
+     * messages.
+     * @param {object} offer The WebRTC offer containing ways to establish a
+     * direct peer-to-peer connexions. See WebRTC for more information.
+     */
+    constructor (temporaryId, peerId, protocolId, offer) {
+        this.tid = temporaryId;
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.offer = offer;
+        this.type = 'MRequest';
+    };
+};
+
+module.exports = MRequest;
+
+},{}],39:[function(require,module,exports){
+'use strict';
+
+/**
+ * The message containing the response to create a WebRTC connexion
+ */
+class MResponse {
+    /**
+     * @param {string} temporaryId A temporary identifier during the socket
+     * creation. The key will be changed to peerId when the connexion is established
+     * successfully.
+     * @param {string} peerId The identifier of the peer that will be reachable
+     * through the socket being created. Null if it is yet to be known.
+     * @param {string} protocolId The identifier of the protocol to route messages.
+     * @param {object} offer The WebRTC offer containing ways to establish a direct 
+     * peer-to-peer connexions. See WebRTC for more information.
+     */
+    constructor (temporaryId, peerId, protocolId, offer) {
+        this.tid = temporaryId;
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.offer = offer;
+        this.type = 'MResponse';
+    };
+};
+
+module.exports = MResponse;
+
+},{}],40:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message sent when protocolId wishes to send payload. It is a basic
+ * encapsualtion of protocolId.
+ */
+class MSend {
+    /**
+     * @param {string} peerId The identifier of the peer that sent the message
+     * @param {string} protocolId The identifier of the protocol that sent the
+     * message
+     * @param {object} payload The payload of the message.
+     */
+    constructor (peerId, protocolId, payload){
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.payload = payload;
+        this.type = 'MSend';
+    };
+};
+
+module.exports = MSend;
+
+},{}],41:[function(require,module,exports){
+'use strict';
+
+const debug = require('debug')('neighborhood-wrtc');
+
+const _ = require('lodash');
+const uuid = require('uuid/v4');
+const Socket = require('simple-peer');
+
+const ArcStore = require('./arcstore.js');
+const EPending = require('./entries/epending.js');
+const EDying = require('./entries/edying.js');
+
+const INeighborhood = require('./interfaces/ineighborhood.js');
+
+const MResponse = require('./messages/mresponse.js');
+const MRequest = require('./messages/mrequest.js');
+const MSend = require('./messages/msend.js');
+
+const ExLateMessage = require('./exceptions/exlatemessage.js');
+const ExProtocolExists = require('./exceptions/exprotocolexists.js');
+
+/**
+ * Easy-to-use interface to establish multiple WebRTC connections using
+ * SimplePeer (npm: simple-peer)
+ */
+class Neighborhood {
+    /**
+     * @param {object} [options] the options available to the connections, e.g. 
+     * timeout before
+     * @param {object} [options.config] simple-peer options
+     * @param {number} [options.timeout = 60000] Time to wait (in milliseconds)
+     * before neighborhood-wrtc assumes that a connection establishment failed,
+     * or before an unused connection is removed.
+     * @param {function} [options.encoding] Method to customize message sent, 
+     * default: return JSON.stringify(data);
+     * @param {function} [options.decoding] Method to decode a received message,
+     * default: return JSON.parse(data);
+     */
+    constructor (options) {
+        // #1 save options
+        this.options = {
+            peer: uuid(),
+            config: { iceServers: [], trickle: false, initiator: false },
+            timeout: 1 * 60 * 1000,
+            encoding: (d) => { return JSON.stringify(d); },
+            decoding: (d) => { return JSON.parse(d); }
+        };
+        this.options = _.merge(this.options, options);
+        this.encode = this.options.encoding; // not sure it should stay that
+        this.decode = this.options.decoding; // way
+        
+        // #2 unmutable values
+        this.PEER = this.options.peer;
+        debug('[%s] initialized.', this.PEER);
+        
+        // #3 initialize tables
+        this.pending = new Map(); // not finalized yet
+        this.living = new ArcStore(); // live and usable
+        this.dying = new Map(); // being removed
+
+        // #4 table of all registered protocols
+        this.protocols = new Map();
+    }
+
+
+    /**
+     * The protocolId asks this module to get an interface. The interface
+     * comprises functions such as connect, disconnect, or send. ProtocolId
+     * should provide some functions as well such as failed, opened, received,
+     * pid.
+     * @param {IProtocol} protocol The protocol that requires the interface.
+     * @returns {INeighborhood} The interface to use this module easily.
+     */
+    register (protocol) {
+        if (!this.protocols.has(protocol._pid())){
+            debug('[%s] protocol %s just registered.',
+                  this.PEER, protocol._pid());
+            this.protocols.set(protocol._pid(), protocol);
+            return new INeighborhood(
+                this.PEER,
+                this._connect.bind(this, protocol._pid()),
+                this._disconnect.bind(this, protocol._pid()),
+                this._send.bind(this, protocol._pid())
+            );
+        } else {
+            throw new ExProtocolExists(protocol._pid());
+        };
+    };
+
+    // (TODO) unregister ?
+    
+    /**
+     * @private
+     * Create a WebRTC connection.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * establish an new connection.
+     * @param {function|object} arg1 Either a callback function to send the
+     * message to the remote peer (for instance, it can use a signaling server
+     * or the already created WebRTC connexions), or a message received from the
+     * remote peer.
+     * @param {object} arg2 The message received from a peer that initialized a
+     * WebRTC connection.
+     */
+    _connect (protocolId, arg1, arg2){
+        if (typeof arg1 === 'function' && typeof arg2 === 'undefined') {
+            this._initiate(protocolId, arg1); // arg1: callback for offers
+        } else if (typeof arg1 === 'function' && typeof arg2 !== 'undefined'){
+            this._accept(protocolId, arg1, arg2); // arg1:callback, arg2:request
+        } else {
+            this._finalize(protocolId, arg1); // arg1: response
+        };
+    };
+    
+    /**
+     * @private
+     * Initiate the creation of a WebRTC connection. At this point, the identity
+     * of the remote peer is unknown.
+     * @param {string} protocolId The identifier of the protocol that creates a 
+     * connection.
+     * @param {function} sender A function called at each offer
+     */
+    _initiate (protocolId, sender) {
+        // #1 create an initiator
+        this.options.config.initiator = true;
+        let socket = new Socket(this.options.config);
+        // #2 insert the new entry in the pending table
+        let entry = new EPending(uuid(), null, protocolId, socket);
+        this.pending.set(entry.tid, entry);
+        
+        // #3 define events
+        socket.once('connect', () => {
+            entry.successful = true;
+            if (this.living.contains(entry.peer)){
+                entry.alreadyExists = true;
+                entry.successful = true;
+                this.living.insert(entry.peer, protocolId);
+                debug('[%s] --- arc --> %s', this.PEER, entry.peer);
+                entry.peer = null; // becomes the unknown soldier
+            } else {
+                this.living.insert(entry.peer, protocolId, socket);
+                debug('[%s] --- WebRTC --> %s', this.PEER, entry.peer);
+            };
+            this.protocols.get(protocolId)._connected(entry.peer, true);
+        });
+        socket.once('close', () => {
+            if (entry.peer !== null){ // if not the unknown soldier
+                if (this.living.contains(entry.peer)){
+                    // #A remove the socket from the table of living connections
+                    let toNotify = this.living.removePeer(entry.peer);
+                    // #B notify all protocols that were using this socket
+                    toNotify.forEach( (occ, pid) => {
+                        for (let i = 0; i<occ; ++i){
+                            this.protocols.get(pid)._disconnected(entry.peer);
+                        };
+                    });
+                } else if (this.dying.has(entry.peer)){
+                    let d = this.dying.get(entry.peer);
+                    clearTimeout(d.timeout);
+                    this.dying.delete(entry.peer);
+                };
+                debug('[%s] -‡- WebRTC -‡> %s', this.PEER, entry.peer);
+            } else {
+                debug('[%s] -‡- WebRTC -‡> %s', this.PEER, 'unknown');
+            };           
+        });
+        
+        socket.on('data', (d) => {
+            let msg = this.decode(d);
+            this.protocols.get(msg.pid)._received(msg.peer, msg.payload);
+        });
+        socket.on('stream', (s) => {
+            this.protocols.get(entry.pid)._streamed(entry.peer, s);
+        });
+        socket.on('error', (e) => {
+            // Nothing here, for the failure are detected and handled after
+            // this.options.timeout milliseconds.
+            // console.log(e);
+        });
+        // #4 send offer message using sender
+        socket.on('signal', (offer) => {
+            sender(new MRequest(entry.tid, this.PEER, protocolId, offer));
+        });
+        
+        // #5 check if the socket has been established correctly
+        setTimeout( () => {
+            // (TODO) on destroy notify protocols that still use the socket
+            // (TODO) send MDisconnect messages to notify remote peer of the
+            // removal of an arc
+            (!entry.successful || entry.alreadyExists) &&
+                entry.socket.destroy();
+            !entry.successful &&
+                this.protocols.get(protocolId)._failed(entry.peer, true);
+            this.pending.delete(entry.tid);
+        }, this.options.timeout);
+        
+    };
+    
+    /**
+     * @private
+     * Try to finalize the WebRTC connection using the remote offers.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * open a connection.
+     * @param {MResponse} msg The message containing an offer, a peerId etc.
+     */ 
+    _finalize(protocolId, msg) {
+        if (!this.pending.has(msg.tid)){
+            throw new ExLateMessage('_finalize', msg);
+        };
+        
+        let entry = this.pending.get(msg.tid);
+        if (entry.alreadyExists || entry.successful) { return ;};
+        
+        // #A check if the connection already exists
+        if (this.living.contains(msg.peer)){
+            entry.alreadyExists = true;
+            entry.successful = true;
+            this.living.insert(msg.peer, protocolId);
+            debug('[%s] --- arc --> %s', this.PEER, msg.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, true);
+        } else if (this.dying.has(msg.peer)){
+            // #B rise from the dead
+            entry.alreadyExists = true;
+            entry.successful = true;
+            let rise = this.dying.get(msg.peer);
+            clearTimeout(rise.timeout);
+            this.dying.delete(msg.peer);
+            this.living.insert(msg.peer, protocolId, rise.socket);
+            debug('[%s] -¡- arc -¡> %s', this.PEER, msg.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, true);
+        } else {
+            // #C just signal the offer
+            entry.peer = msg.peer;
+            entry.socket.signal(msg.offer);
+        };
+    };
+
+    /**
+     * @private
+     * Establish a connection in response to the request of remote peer.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * create a connection.
+     * @param {function} sender The function that send the offer to the remote
+     * initiating peer.
+     * @param {MRequest} msg The request message containing offers, peerId, etc.
+     **/
+    _accept (protocolId, sender, msg) {        
+        // #1 initialize the entry if it does not exist
+        let firstCall = false;
+        if (!this.pending.has(msg.tid)) {
+            firstCall = true;
+            let entry = new EPending(msg.tid, msg.peer, protocolId);
+            this.pending.set(entry.tid, entry);
+            
+            setTimeout( () => {
+                (!entry.successful || entry.alreadyExists) &&
+                    entry.socket && entry.socket.destroy();
+                !entry.successful &&
+                    this.protocols.get(protocolId)._failed(entry.peer, true);
+                this.pending.delete(entry.tid);
+            }, this.options.timeout);            
+        };
+        
+        // #2 check if a WebRTC connection to peerId already exists
+        let entry = this.pending.get(msg.tid);
+        if (entry.alreadyExists || entry.successful) { return ;};
+        
+        // #A check if the connection already exists
+        if (this.living.contains(msg.peer)){
+            entry.alreadyExists = true;
+            entry.successful = true;
+            this.living.insert(msg.peer, protocolId);
+            debug('[%s] <-- arc --- %s', this.PEER, entry.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, false);
+            firstCall && sender(new MResponse(entry.tid,
+                                              this.PEER,
+                                              protocolId,
+                                              null));
+        } else if (this.dying.has(msg.peer)){
+            // #B rise from the dead
+            entry.alreadyExists = true;
+            entry.successful = true;
+            let rise = this.dying.get(msg.peer);
+            clearTimeout(rise.timeout);
+            this.dying.delete(msg.peer);
+            this.living.insert(msg.peer, protocolId, rise.socket);
+            debug('[%s] <¡- arc -¡- %s', this.PEER, msg.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, false);
+            firstCall && sender(new MResponse(entry.tid,
+                                              this.PEER,
+                                              protocolId,
+                                              null));            
+        } else {
+            // #3 create the events and signal the offer
+            if (firstCall && !entry.socket){
+                // #A create a socket
+                this.options.config.initiator = false;
+                let socket = new Socket(this.options.config);
+                // #B update the entry
+                entry.socket = socket;
+                // #C define events
+                socket.once('connect', () => {
+                    entry.successful = true;
+                    if (this.living.contains(entry.peer)) {
+                        entry.alreadyExists = true;
+                        entry.successful = true;
+                        this.living.insert(entry.peer, protocolId);
+                        debug('[%s] <-- arc --- %s', this.PEER, entry.peer);
+                        entry.peer = null; // becomes the unknown soldier
+                    } else {
+                        this.living.insert(entry.peer, protocolId, socket);
+                        debug('[%s] <-- WebRTC --- %s', this.PEER, entry.peer);
+                    };                    
+                    this.protocols.get(protocolId)._connected(entry.peer,false);
+                });
+                socket.once('close', () => {
+                    if (entry.peer !== null){ // if not the unknown soldier
+                        if (this.living.contains(entry.peer)){
+                            // #A remove the socket from the table of
+                            // living connections
+                            let toNotify = this.living.removePeer(entry.peer);
+                            // #B notify all protocols that were using
+                            // this socket
+                            toNotify.forEach( (occ, pid) => {
+                                for (let i = 0; i<occ; ++i){
+                                    this.protocols.get(pid)
+                                        ._disconnected(entry.peer);
+                                };
+                            });
+                        } else if (this.dying.has(entry.peer)){
+                            let d = this.dying.get(entry.peer);
+                            clearTimeout(d.timeout);
+                            this.dying.delete(entry.peer);
+                        };
+                        debug('[%s] <‡- WebRTC -‡- %s', this.PEER, entry.peer);
+                    } else {
+                        debug('[%s] <‡- WebRTC -‡- %s', this.PEER, 'unknown');
+                    };
+                });
+                
+                socket.on('data', (d) => {
+                    let msg = this.decode(d);
+                    this.protocols.get(msg.pid)._received(msg.peer,msg.payload);
+                });
+                socket.on('stream', (s) => {
+                    this.protocols.get(entry.pid)._streamed(entry.peer, s); 
+                });
+                socket.on('error', (e) => {
+                    // Nothing here, for the failure are detected and handled
+                    // after this.options.timeout milliseconds.
+                    // console.log(e);
+                });
+                // #4 send offer message using sender
+                socket.on('signal', (offer) => {
+                    sender(new MResponse(entry.tid,this.PEER,protocolId,offer));
+                });
+            };
+            entry.socket.signal(msg.offer);
+        };
+    };
+
+
+    /**
+     * @private
+     * Remove an arc from protocolId leading to peerId. If it was the last arc,
+     * the WebRTC connexion is downgraded to the dying table. In this table, the
+     * connexion will be closed if none create it.
+     * @param {string} protocolId The identifier of the protocol that removes an
+     * arc
+     * @param {string|undefined} peerId The identifier of the peer. If no arg,
+     * remove all arcs of protocolId.
+     */
+    _disconnect (protocolId, peerId) {
+        if (typeof peerId === 'undefined'){
+            // #1 remove all arcs
+            var entries = this.living.removeAll(protocolId);
+            entries.forEach( (entry) => {
+                if (entry.socket !== null){                    
+                    var dying = new EDying(entry.peer,
+                                           entry.socket,
+                                           setTimeout( () => {
+                                               entry.socket.destroy();
+                                           }, this.options.timeout));
+                    this.dying.set(dying.peer, dying);
+                };
+
+                for (let i=0; i<entry.occ; ++i){
+                    if (entry.socket === null ||
+                        (entry.socket !== null && i<entry.occ-1) ) {
+                        debug('[%s] ††† arc ††† %s', this.PEER, peerId);
+                    } else {
+                        debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId);
+                    };              
+                    this.protocols.get(protocolId)._disconnected(entry.peer);
+                };
+            });
+        } else {
+            // #2 remove one arc 
+            var entry = this.living.remove(peerId, protocolId);
+            if (entry) {
+                var dying = new EDying(entry.peer,
+                                       entry.socket,
+                                       setTimeout( () => {
+                                           entry.socket.destroy();
+                                       }, this.options.timeout));
+                this.dying.set(dying.peer, dying);
+                debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId);
+            } else {
+                debug('[%s] ††† arc ††† %s', this.PEER, peerId);
+            };            
+            this.protocols.get(protocolId)._disconnected(peerId);
+        };
+    };
+
+    /**
+     * @private 
+     * Send a message to a remote peer. It encapsulates the message
+     * from protocolId to help the remote peer to route the message to the
+     * proper protocol.
+     * @param {string} protocolId The identifier of the protocol sending the
+     * message
+     * @param {string} peerId The remote peer to send the message to.
+     * @param {object} message The message to send.
+     * @param {number} [retry=10] Retry few times to send the message before
+     * giving up.
+     * @returns {promise} Resolved when the message is sent, reject
+     * otherwise. Note that loss of messages is not handled by default.
+     */
+    _send (protocolId, peerId, message, retry = 10) {
+        return new Promise( (resolve, reject) => {
+            // #1 get the proper entry in the tables
+            let entry = null;
+            if (this.living.contains(peerId)){
+                entry = this.living.get(peerId);
+            } else if (this.dying.has(peerId)){
+                entry = this.dying.get(peerId); // (TODO) warn: not safe
+            };
+
+            // #2 define the recursive sending function
+            let __send = (r) => {
+                try {
+                    entry.socket.send(this.encode(new MSend(this.PEER,
+                                                            protocolId,
+                                                            message)));
+                    debug('[%s] --- msg --> %s:%s',
+                          this.PEER, peerId, protocolId);
+                    resolve();
+                } catch (e) {
+                    debug('[%s] -X- msg -X> %s:%s',
+                          this.PEER, peerId, protocolId);
+                    if (r <= retry){
+                        setTimeout ( () => { __send(r+1); }, 1000);
+                    } else {
+                        reject(e);
+                    };
+                };
+            };
+            // #3 start to send
+            __send(0);
+        });
+    };
+};
 
 module.exports = Neighborhood;
 
-},{"./extended-sorted-array.js":16,"./multiset.js":17,"events":8,"lodash":15,"simple-peer":37,"uuid/v4":43}],19:[function(require,module,exports){
-module.exports=require(5)
-},{"/home/stagiaire-gdd/Documents/github/ran3d/spray-wrtc/node_modules/binary-search/index.js":5}],20:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var buffer = require('buffer');
-var Buffer = buffer.Buffer;
-var SlowBuffer = buffer.SlowBuffer;
-var MAX_LEN = buffer.kMaxLength || 2147483647;
-exports.alloc = function alloc(size, fill, encoding) {
-  if (typeof Buffer.alloc === 'function') {
-    return Buffer.alloc(size, fill, encoding);
-  }
-  if (typeof encoding === 'number') {
-    throw new TypeError('encoding must not be number');
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size > MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  var enc = encoding;
-  var _fill = fill;
-  if (_fill === undefined) {
-    enc = undefined;
-    _fill = 0;
-  }
-  var buf = new Buffer(size);
-  if (typeof _fill === 'string') {
-    var fillBuf = new Buffer(_fill, enc);
-    var flen = fillBuf.length;
-    var i = -1;
-    while (++i < size) {
-      buf[i] = fillBuf[i % flen];
-    }
-  } else {
-    buf.fill(_fill);
-  }
-  return buf;
-}
-exports.allocUnsafe = function allocUnsafe(size) {
-  if (typeof Buffer.allocUnsafe === 'function') {
-    return Buffer.allocUnsafe(size);
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size > MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  return new Buffer(size);
-}
-exports.from = function from(value, encodingOrOffset, length) {
-  if (typeof Buffer.from === 'function' && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
-    return Buffer.from(value, encodingOrOffset, length);
-  }
-  if (typeof value === 'number') {
-    throw new TypeError('"value" argument must not be a number');
-  }
-  if (typeof value === 'string') {
-    return new Buffer(value, encodingOrOffset);
-  }
-  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
-    var offset = encodingOrOffset;
-    if (arguments.length === 1) {
-      return new Buffer(value);
-    }
-    if (typeof offset === 'undefined') {
-      offset = 0;
-    }
-    var len = length;
-    if (typeof len === 'undefined') {
-      len = value.byteLength - offset;
-    }
-    if (offset >= value.byteLength) {
-      throw new RangeError('\'offset\' is out of bounds');
-    }
-    if (len > value.byteLength - offset) {
-      throw new RangeError('\'length\' is out of bounds');
-    }
-    return new Buffer(value.slice(offset, offset + len));
-  }
-  if (Buffer.isBuffer(value)) {
-    var out = new Buffer(value.length);
-    value.copy(out, 0, 0, value.length);
-    return out;
-  }
-  if (value) {
-    if (Array.isArray(value) || (typeof ArrayBuffer !== 'undefined' && value.buffer instanceof ArrayBuffer) || 'length' in value) {
-      return new Buffer(value);
-    }
-    if (value.type === 'Buffer' && Array.isArray(value.data)) {
-      return new Buffer(value.data);
-    }
-  }
-
-  throw new TypeError('First argument must be a string, Buffer, ' + 'ArrayBuffer, Array, or array-like object.');
-}
-exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
-  if (typeof Buffer.allocUnsafeSlow === 'function') {
-    return Buffer.allocUnsafeSlow(size);
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size >= MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  return new SlowBuffer(size);
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":7}],21:[function(require,module,exports){
-(function (Buffer){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-
-function isArray(arg) {
-  if (Array.isArray) {
-    return Array.isArray(arg);
-  }
-  return objectToString(arg) === '[object Array]';
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = Buffer.isBuffer;
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-}).call(this,{"isBuffer":require("../../../../../../is-buffer/index.js")})
-},{"../../../../../../is-buffer/index.js":11}],22:[function(require,module,exports){
-(function (process){
-/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = require('./debug');
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // NB: In an Electron preload script, document will be defined but not fully
-  // initialized. Since we know we're in Chrome, we'll just detect this case
-  // explicitly
-  if (typeof window !== 'undefined' && window && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
-    return true;
-  }
-
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && document && 'WebkitAppearance' in document.documentElement.style) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (typeof window !== 'undefined' && window && window.console && (console.firebug || (console.exception && console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
-    // double check webkit in userAgent just in case we are in a worker
-    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function(v) {
-  try {
-    return JSON.stringify(v);
-  } catch (err) {
-    return '[UnexpectedJSONParseError]: ' + err.message;
-  }
-};
-
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs(args) {
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return;
-
-  var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit')
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-zA-Z%]/g, function(match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch(e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    r = exports.storage.debug;
-  } catch(e) {}
-
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = process.env.DEBUG;
-  }
-
-  return r;
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage() {
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-
-}).call(this,require('_process'))
-},{"./debug":23,"_process":44}],23:[function(require,module,exports){
-
-/**
- * This is the common logic for both the Node.js and web browser
- * implementations of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
-exports.coerce = coerce;
-exports.disable = disable;
-exports.enable = enable;
-exports.enabled = enabled;
-exports.humanize = require('ms');
-
-/**
- * The currently active debug mode names, and names to skip.
- */
-
-exports.names = [];
-exports.skips = [];
-
-/**
- * Map of special "%n" handling functions, for the debug "format" argument.
- *
- * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
- */
-
-exports.formatters = {};
-
-/**
- * Previous log timestamp.
- */
-
-var prevTime;
-
-/**
- * Select a color.
- * @param {String} namespace
- * @return {Number}
- * @api private
- */
-
-function selectColor(namespace) {
-  var hash = 0, i;
-
-  for (i in namespace) {
-    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
-    hash |= 0; // Convert to 32bit integer
-  }
-
-  return exports.colors[Math.abs(hash) % exports.colors.length];
-}
-
-/**
- * Create a debugger with the given `namespace`.
- *
- * @param {String} namespace
- * @return {Function}
- * @api public
- */
-
-function createDebug(namespace) {
-
-  function debug() {
-    // disabled?
-    if (!debug.enabled) return;
-
-    var self = debug;
-
-    // set `diff` timestamp
-    var curr = +new Date();
-    var ms = curr - (prevTime || curr);
-    self.diff = ms;
-    self.prev = prevTime;
-    self.curr = curr;
-    prevTime = curr;
-
-    // turn the `arguments` into a proper Array
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-
-    args[0] = exports.coerce(args[0]);
-
-    if ('string' !== typeof args[0]) {
-      // anything else let's inspect with %O
-      args.unshift('%O');
-    }
-
-    // apply any `formatters` transformations
-    var index = 0;
-    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
-      // if we encounter an escaped % then don't increase the array index
-      if (match === '%%') return match;
-      index++;
-      var formatter = exports.formatters[format];
-      if ('function' === typeof formatter) {
-        var val = args[index];
-        match = formatter.call(self, val);
-
-        // now we need to remove `args[index]` since it's inlined in the `format`
-        args.splice(index, 1);
-        index--;
-      }
-      return match;
-    });
-
-    // apply env-specific formatting (colors, etc.)
-    exports.formatArgs.call(self, args);
-
-    var logFn = debug.log || exports.log || console.log.bind(console);
-    logFn.apply(self, args);
-  }
-
-  debug.namespace = namespace;
-  debug.enabled = exports.enabled(namespace);
-  debug.useColors = exports.useColors();
-  debug.color = selectColor(namespace);
-
-  // env-specific initialization logic for debug instances
-  if ('function' === typeof exports.init) {
-    exports.init(debug);
-  }
-
-  return debug;
-}
-
-/**
- * Enables a debug mode by namespaces. This can include modes
- * separated by a colon and wildcards.
- *
- * @param {String} namespaces
- * @api public
- */
-
-function enable(namespaces) {
-  exports.save(namespaces);
-
-  exports.names = [];
-  exports.skips = [];
-
-  var split = (namespaces || '').split(/[\s,]+/);
-  var len = split.length;
-
-  for (var i = 0; i < len; i++) {
-    if (!split[i]) continue; // ignore empty strings
-    namespaces = split[i].replace(/\*/g, '.*?');
-    if (namespaces[0] === '-') {
-      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-    } else {
-      exports.names.push(new RegExp('^' + namespaces + '$'));
-    }
-  }
-}
-
-/**
- * Disable debug output.
- *
- * @api public
- */
-
-function disable() {
-  exports.enable('');
-}
-
-/**
- * Returns true if the given mode name is enabled, false otherwise.
- *
- * @param {String} name
- * @return {Boolean}
- * @api public
- */
-
-function enabled(name) {
-  var i, len;
-  for (i = 0, len = exports.skips.length; i < len; i++) {
-    if (exports.skips[i].test(name)) {
-      return false;
-    }
-  }
-  for (i = 0, len = exports.names.length; i < len; i++) {
-    if (exports.names[i].test(name)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Coerce `val`.
- *
- * @param {Mixed} val
- * @return {Mixed}
- * @api private
- */
-
-function coerce(val) {
-  if (val instanceof Error) return val.stack || val.message;
-  return val;
-}
-
-},{"ms":27}],24:[function(require,module,exports){
-// originally pulled out of simple-peer
-
-module.exports = function getBrowserRTC () {
-  if (typeof window === 'undefined') return null
-  var wrtc = {
-    RTCPeerConnection: window.RTCPeerConnection || window.mozRTCPeerConnection ||
-      window.webkitRTCPeerConnection,
-    RTCSessionDescription: window.RTCSessionDescription ||
-      window.mozRTCSessionDescription || window.webkitRTCSessionDescription,
-    RTCIceCandidate: window.RTCIceCandidate || window.mozRTCIceCandidate ||
-      window.webkitRTCIceCandidate
-  }
-  if (!wrtc.RTCPeerConnection) return null
-  return wrtc
-}
-
-},{}],25:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],26:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],27:[function(require,module,exports){
-/**
- * Helpers.
- */
-
-var s = 1000
-var m = s * 60
-var h = m * 60
-var d = h * 24
-var y = d * 365.25
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} options
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function (val, options) {
-  options = options || {}
-  var type = typeof val
-  if (type === 'string' && val.length > 0) {
-    return parse(val)
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ?
-			fmtLong(val) :
-			fmtShort(val)
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
-}
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str)
-  if (str.length > 10000) {
-    return
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
-  if (!match) {
-    return
-  }
-  var n = parseFloat(match[1])
-  var type = (match[2] || 'ms').toLowerCase()
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n
-    default:
-      return undefined
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd'
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h'
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm'
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's'
-  }
-  return ms + 'ms'
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms'
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's'
-}
-
-},{}],28:[function(require,module,exports){
+},{"./arcstore.js":30,"./entries/edying.js":31,"./entries/epending.js":33,"./exceptions/exlatemessage.js":34,"./exceptions/exprotocolexists.js":35,"./interfaces/ineighborhood.js":37,"./messages/mrequest.js":38,"./messages/mresponse.js":39,"./messages/msend.js":40,"debug":12,"lodash":21,"simple-peer":55,"uuid/v4":44}],42:[function(require,module,exports){
+module.exports=require(27)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/lib/bytesToUuid.js":27}],43:[function(require,module,exports){
+module.exports=require(28)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/lib/rng-browser.js":28}],44:[function(require,module,exports){
+module.exports=require(29)
+},{"./lib/bytesToUuid":42,"./lib/rng":43,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/v4.js":29}],45:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20794,7 +21329,95 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":44}],29:[function(require,module,exports){
+},{"_process":46}],46:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canMutationObserver = typeof window !== 'undefined'
+    && window.MutationObserver;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    var queue = [];
+
+    if (canMutationObserver) {
+        var hiddenDiv = document.createElement("div");
+        var observer = new MutationObserver(function () {
+            var queueList = queue.slice();
+            queue.length = 0;
+            queueList.forEach(function (fn) {
+                fn();
+            });
+        });
+
+        observer.observe(hiddenDiv, { attributes: true });
+
+        return function nextTick(fn) {
+            if (!queue.length) {
+                hiddenDiv.setAttribute('yes', 'no');
+            }
+            queue.push(fn);
+        };
+    }
+
+    if (canPost) {
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],47:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -20834,7 +21457,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":44,"buffer":7}],30:[function(require,module,exports){
+},{"_process":46,"buffer":9}],48:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -20910,7 +21533,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":32,"./_stream_writable":34,"core-util-is":21,"inherits":25,"process-nextick-args":28}],31:[function(require,module,exports){
+},{"./_stream_readable":50,"./_stream_writable":52,"core-util-is":10,"inherits":17,"process-nextick-args":45}],49:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -20937,7 +21560,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":33,"core-util-is":21,"inherits":25}],32:[function(require,module,exports){
+},{"./_stream_transform":51,"core-util-is":10,"inherits":17}],50:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21881,7 +22504,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":30,"./internal/streams/BufferList":35,"_process":44,"buffer":7,"buffer-shims":20,"core-util-is":21,"events":8,"inherits":25,"isarray":26,"process-nextick-args":28,"string_decoder/":39,"util":6}],33:[function(require,module,exports){
+},{"./_stream_duplex":48,"./internal/streams/BufferList":53,"_process":46,"buffer":9,"buffer-shims":8,"core-util-is":10,"events":14,"inherits":17,"isarray":20,"process-nextick-args":45,"string_decoder/":56,"util":7}],51:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -22064,7 +22687,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":30,"core-util-is":21,"inherits":25}],34:[function(require,module,exports){
+},{"./_stream_duplex":48,"core-util-is":10,"inherits":17}],52:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -22618,7 +23241,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":30,"_process":44,"buffer":7,"buffer-shims":20,"core-util-is":21,"events":8,"inherits":25,"process-nextick-args":28,"util-deprecate":40}],35:[function(require,module,exports){
+},{"./_stream_duplex":48,"_process":46,"buffer":9,"buffer-shims":8,"core-util-is":10,"events":14,"inherits":17,"process-nextick-args":45,"util-deprecate":57}],53:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -22683,7 +23306,7 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":7,"buffer-shims":20}],36:[function(require,module,exports){
+},{"buffer":9,"buffer-shims":8}],54:[function(require,module,exports){
 (function (process){
 var Stream = (function (){
   try {
@@ -22703,7 +23326,7 @@ if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
 }
 
 }).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":30,"./lib/_stream_passthrough.js":31,"./lib/_stream_readable.js":32,"./lib/_stream_transform.js":33,"./lib/_stream_writable.js":34,"_process":44}],37:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":48,"./lib/_stream_passthrough.js":49,"./lib/_stream_readable.js":50,"./lib/_stream_transform.js":51,"./lib/_stream_writable.js":52,"_process":46}],55:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -23460,44 +24083,7 @@ Peer.prototype._transformConstraints = function (constraints) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":7,"debug":22,"get-browser-rtc":24,"inherits":25,"randombytes":29,"readable-stream":36}],38:[function(require,module,exports){
-'use strict';
-module.exports = SortedArray
-var search = require('binary-search')
-
-function SortedArray(cmp, arr) {
-  if (typeof cmp != 'function')
-    throw new TypeError('comparator must be a function')
-
-  this.arr = arr || []
-  this.cmp = cmp
-}
-
-SortedArray.prototype.insert = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  if (index < 0)
-    index = ~index
-
-  this.arr.splice(index, 0, element)
-}
-
-SortedArray.prototype.indexOf = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  return index >= 0
-    ? index
-    : -1
-}
-
-SortedArray.prototype.remove = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  if (index < 0)
-    return false
-
-  this.arr.splice(index, 1)
-  return true
-}
-
-},{"binary-search":19}],39:[function(require,module,exports){
+},{"buffer":9,"debug":12,"get-browser-rtc":15,"inherits":17,"randombytes":47,"readable-stream":54}],56:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -23720,7 +24306,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":7}],40:[function(require,module,exports){
+},{"buffer":9}],57:[function(require,module,exports){
 (function (global){
 
 /**
@@ -23791,190 +24377,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],41:[function(require,module,exports){
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-}
-
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  return  bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]];
-}
-
-module.exports = bytesToUuid;
-
-},{}],42:[function(require,module,exports){
-(function (global){
-// Unique ID creation requires a high quality random # generator.  In the
-// browser this is a little complicated due to unknown quality of Math.random()
-// and inconsistent support for the `crypto` API.  We do the best we can via
-// feature-detection
-var rng;
-
-var crypto = global.crypto || global.msCrypto; // for IE 11
-if (crypto && crypto.getRandomValues) {
-  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16);
-  rng = function whatwgRNG() {
-    crypto.getRandomValues(rnds8);
-    return rnds8;
-  };
-}
-
-if (!rng) {
-  // Math.random()-based (RNG)
-  //
-  // If all else fails, use Math.random().  It's fast, but is of unspecified
-  // quality.
-  var  rnds = new Array(16);
-  rng = function() {
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-    }
-
-    return rnds;
-  };
-}
-
-module.exports = rng;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],43:[function(require,module,exports){
-var rng = require('./lib/rng');
-var bytesToUuid = require('./lib/bytesToUuid');
-
-function v4(options, buf, offset) {
-  var i = buf && offset || 0;
-
-  if (typeof(options) == 'string') {
-    buf = options == 'binary' ? new Array(16) : null;
-    options = null;
-  }
-  options = options || {};
-
-  var rnds = options.random || (options.rng || rng)();
-
-  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-  // Copy bytes to buffer, if provided
-  if (buf) {
-    for (var ii = 0; ii < 16; ++ii) {
-      buf[i + ii] = rnds[ii];
-    }
-  }
-
-  return buf || bytesToUuid(rnds);
-}
-
-module.exports = v4;
-
-},{"./lib/bytesToUuid":41,"./lib/rng":42}],44:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canMutationObserver = typeof window !== 'undefined'
-    && window.MutationObserver;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    var queue = [];
-
-    if (canMutationObserver) {
-        var hiddenDiv = document.createElement("div");
-        var observer = new MutationObserver(function () {
-            var queueList = queue.slice();
-            queue.length = 0;
-            queueList.forEach(function (fn) {
-                fn();
-            });
-        });
-
-        observer.observe(hiddenDiv, { attributes: true });
-
-        return function nextTick(fn) {
-            if (!queue.length) {
-                hiddenDiv.setAttribute('yes', 'no');
-            }
-            queue.push(fn);
-        };
-    }
-
-    if (canPost) {
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-},{}],45:[function(require,module,exports){
-module.exports=require(38)
-},{"/home/stagiaire-gdd/Documents/github/ran3d/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/sorted-cmp-array/index.js":38,"binary-search":5}],"spray-wrtc":[function(require,module,exports){
+},{}],"spray-wrtc":[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -23985,464 +24388,361 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var EventEmitter = require('events');
-var NO = require('n2n-overlay-wrtc');
-var PartialView = require('./partialview.js');
-var MExchange = require('./messages.js');
+var debug = require('debug')('spray-wrtc');
+// const  EventEmitter = require('events'); (TODO) maybe keep it
+var N2N = require('n2n-overlay-wrtc');
 var _ = require('lodash');
 
+var PartialView = require('./partialview.js');
+
+var MExchange = require('./messages/mexchange.js');
+var MJoin = require('./messages/mjoin.js');
+
+var ExEmptyView = require('./exceptions/exemptyview.js');
+
 /**
- * Implementation of the random peer sampling Spray
+ * Implementation of the random peer-sampling Spray. 
  */
 
-var Spray = function (_EventEmitter) {
-	_inherits(Spray, _EventEmitter);
+var Spray = function (_N2N) {
+    _inherits(Spray, _N2N);
 
-	/**
-  * You can pass other parameters such as webrtc options
-  * @param {object} options Object with all options
-  * @param {string} options.protocol The protocol of the network
-  * @param {integer} options.deltatime Each deltatime, we shuffle !
-  * @param {integer} options.retry Number of retry when we send a message
-  * @param {integer} options.usedCoef Amount of clients shuffled between 0 and 1 (ie, [0;1])
-  * @param {integer} options.profile your profile
-  * @param {integer} options.k k profile saved
-  */
-	function Spray() {
-		var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    /**
+     * You can pass other parameters such as webrtc options
+     * @param {object} [options = {}] Object with all options
+     * @param {string} [options.pid = 'spray-wrtc'] The identifier of this
+     * protocol. 
+     * @param {integer} options.delta Every delta milliseconds, Spray shuffles
+     * its partial view with its oldest neighbor.
+     */
+    function Spray() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-		_classCallCheck(this, Spray);
+        _classCallCheck(this, Spray);
 
-		// merge of options with default options
-		var _this = _possibleConstructorReturn(this, (Spray.__proto__ || Object.getPrototypeOf(Spray)).call(this));
+        // #1 constants (from N2N)
+        // this.PID = protocol identifier
+        // this.PEER = peer Id comprising inview and outview Ids
+        var _this = _possibleConstructorReturn(this, (Spray.__proto__ || Object.getPrototypeOf(Spray)).call(this, _.merge({ pid: 'spray-wrtc',
+            delta: 1000 * 60 * 2 }, options)));
+        // #0 initialize our N2N-parent
 
-		_this.opts = _.merge({
-			protocol: 'spray-wrtc',
-			encoding: function encoding(message) {
-				return JSON.stringify(message);
-				// return new Buffer('message');
-			},
-			decoding: function decoding(message) {
-				return JSON.parse(message);
-			},
-			deltatime: 1000 * 60 * 2,
-			retry: 10,
-			profile: {},
-			usedCoef: 0.5,
-			verbose: false
-		}, options);
 
-		_this.verbose = _this.opts.verbose;
-		// #A constants
-		_this.protocol = _this.opts.protocol;
-		_this.DELTATIME = _this.opts.deltatime; // 2min
-		_this.RETRY = _this.opts.retry; // retry 10x to send messages
+        debug('[%s] Initalized with ==> %s ==>', _this.PID, _this.PEER);
+        // #2 initialize the partial view containing ages
+        _this.partialView = new PartialView();
+        // #3 initialize the connectedness state of this protocol
+        _this.state = 'disconnect';
+        // #4 periodic shuffling
+        _this.periodic = null;
+        // #5 events
+        _this.on('receive', function (peerId, message) {
+            return _this._receive(peerId, message);
+        });
+        _this.on('stream', function (peerId, message) {}); // (TODO) ?;
+        _this.on('ready', function (peerId) {
+            return _this._ready(peerId);
+        });
+        _this.on('fail', function (peerId) {
+            return _this._onArcDown(peerId);
+        });
+        return _this;
+    }
 
-		// #B protocol variables
-		_this.partialView = new PartialView({
-			usedCoef: _this.opts.usedCoef
-		});
+    _createClass(Spray, [{
+        key: '_start',
 
-		_this.neighborhoods = new NO(_this.opts);
 
-		// update the profile with some identifiers
-		// at each suffling the profile is sent to all neighbours
-		_this.profile = _this.opts.profile;
-		_this.profile.inviewId = _this.neighborhoods.i.ID;
-		_this.profile.outviewId = _this.neighborhoods.o.ID;
+        /**
+         * @private
+         * Start periodic shuffling.
+         */
+        value: function _start() {
+            var _this2 = this;
 
-		_this.state = 'disconnect'; // (TODO) update state
+            this.periodic = setInterval(function () {
+                _this2._exchange();
+            }, this.options.delta);
+        }
+    }, {
+        key: '_stop',
 
-		// #C periodic shuffling
-		var self = _this;
-		setInterval(function () {
-			if (self.partialView.length() > 0) {
-				self.exchange();
-			}
-		}, _this.DELTATIME);
 
-		// #D receive event
-		function receive(id, message) {
-			// #0 must contain a message and a protocol, otherwise forward
-			if (message && message.type === 'MExchange' && message.protocol !== self.protocol) {
+        /**
+         * @private
+         * Stop periodic shuffling.
+         */
+        value: function _stop() {
+            clearInterval(this.periodic);
+        }
+    }, {
+        key: '_receive',
 
-				if (!message.view) {
-					self.onExchange(message);
-				} else {
-					// this.log(message.view.outviewId, message.view);
-					self.views.set(message.view.outviewId, message.view);
-				}
-			} else if (!message || message.protocol !== self.protocol) {
-				if (message && message.protocol) {
-					self.emit(message.protocol + '-receive', id, message);
-				} else {
-					self.emit('receive', id, message);
-				}
-			}
-		}
 
-		_this.neighborhoods.on('receive', receive);
-		_this.neighborhoods.on('ready', function (id, view) {
-			var config = {
-				age: 0,
-				id: id
-			};
-			view === 'outview' && self.partialView.addNeighbor(config);
-			self.updateState();
-		});
+        /**
+         * @private
+         * Called each time this protocol receives a message. Since it only sends 
+         * MExchange messages, the rest are redirected to the appropriate protocol
+         * registered on top of Spray.
+         * @param {string} peerId The identifier of the peer that sent the message.
+         * @param {object|MExchange} message The message received.
+         */
+        value: function _receive(peerId, message) {
+            if (message.type && message.type === 'MExchange') {
+                this._onExchange(peerId, message);
+            } else if (message.type && message.type === 'MJoin') {
+                this._onJoin(peerId);
+            } else if (message.pid) {
+                // (TODO) vvvvv
+                // this.protocols.get(message.pid).emit('receive', peerId, message.payoad);
+            };
+        }
+    }, {
+        key: '_ready',
 
-		_this.neighborhoods.on('failed', function (id, view, reason) {
-			_this.log('Spray:on:Failed:', id, view, reason);
-			view === 'outview' && self.onArcDown();
-		});
 
-		_this.neighborhoods.on('disconnect', function () {
-			self.updateState();
-		});
+        /**
+         * @private
+         * Behavior when a connection is ready to be added in the partial view.
+         * @param {string} peerId The identifier of the new neighbor.
+         */
+        value: function _ready(peerId) {
+            this.partialView.addNeighbor(peerId);
+        }
+    }, {
+        key: 'join',
 
-		return _this;
-	}
 
-	_createClass(Spray, [{
-		key: 'log',
-		value: function log() {
-			if (this.verbose) {
-				for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-					args[_key] = arguments[_key];
-				}
+        /**
+         * Joining as; or contacted by an outsider
+         * @param {callback|MResponse} arg1 the callbacks function, see module
+         * n2n-overlay-wrtc. Or a response message from the contact peer.
+         * @param {MRequest} [arg2] A request message from the newcomer.
+         */
+        value: function join(arg1, arg2) {
+            var _this3 = this;
 
-				console.log('[SPRAY-WRTC]', args);
-			}
-		}
+            if (typeof arg1 === 'function' && typeof arg2 === 'undefined') {
+                // #1 very first call
+                this.once('ready', function (peerId) {
+                    _this3.send(peerId, new MJoin());
+                });
+            };
+            this.connect(arg1, arg2);
+        }
+    }, {
+        key: '_onJoin',
 
-		/**
-   * Joining as; or contacted by an outsider
-   * @param {callback} callbacks the callbacks function, see module 'n2n-overlay-wrtc'.
-   * @param {object} message ...
-   * @return {void}
-   */
 
-	}, {
-		key: 'connection',
-		value: function connection(callbacks, message) {
-			var _this2 = this;
+        /**
+         * Behavior of the contact peer when a newcomer arrives.
+         * @param {string} peerId The identifier of the newcomer.
+         */
+        value: function _onJoin(peerId) {
+            var _this4 = this;
 
-			var self = this;
-			var onReadyFunction = callbacks && callbacks.onReady;
-			// #1 if this peer is the contact, overload the onready function
-			// with the spray joining mechanism that will inject log(x) arcs in
-			// the network
-			if (message) {
-				callbacks.onReady = function (id) {
-					if (self.partialView.length() > 0) {
-						// #A signal the arrival of a new peer to its outview
-						self.partialView.get().forEach(function (n) {
+            if (this.partialView.length > 0) {
+                // #1 all neigbors -> peerId
+                this.partialView.forEach(function (ages, neighbor) {
+                    _this4.ages.forEach(function (age) {
+                        _this4.connect(neighbor, peerId);
+                    });
+                });
+            } else {
+                // #2 this -> peerId
+                this.connect(null, peerId);
+            };
+        }
+    }, {
+        key: 'getPeers',
 
-							if (n.id !== id) {
-								self.neighborhoods.connect(n, id);
-							} else {
-								_this2.log('n:', n, '| id:', id);
-							}
-						});
-					} else {
-						// #B adds it to its own outview (for only 2-peers network)
-						self.neighborhoods.connect(null, id);
-					}
-					// #C callback the original onReady function
-					onReadyFunction && onReadyFunction(id);
-				};
-			} else {
-				callbacks.onReady = function (id) {
-					onReadyFunction && onReadyFunction(id);
-					// #D emit a join event
-					self.emit('join', id);
-				};
-			}
-			// #2 start establishing the first connection
-			this.neighborhoods.connection(callbacks, message);
-		}
 
-		/**
-   * Leave the network
-   * @param {integer} timer the timeout before really shutting down. The time can
-   * be spent on healing the network before departure. (In milliseconds)
-   * @return {void}
-   */
+        /**
+         * Get k neighbors from the partial view. If k is not reached, it tries to
+         * fill the gap with neighbors from the inview.  It is worth noting that
+         * each peer controls its outview but not its inview. The more the neigbhors
+         * from the outview the better.
+         * @param {number} k The number of neighbors requested. If k is not defined,
+         * it returns every known identifiers of the partial view.
+         * @return {string[]} Array of identifiers.
+         */
+        value: function getPeers(k) {
+            var peers = [];
+            if (typeof k === 'undefined') {
+                // #1 get all the partial view
+                this.partialView.view.forEach(function (occ, peerId) {
+                    peers.push(peerId);
+                });
+            } else {
+                // #2 get random identifier from outview
+                var out = [];
+                this.partialView.view.forEach(function (ages, peerId) {
+                    return out.push(peerId);
+                });
+                while (peers.length < k && out.length > 0) {
+                    var rn = Math.floor(Math.random() * out.length);
+                    peers.push(out[rn]);
+                    out.splice(rn, 1);
+                };
+                // #3 get random identifier from the inview to fill k-entries
+                var inView = [];
+                this.i.forEach(function (occ, peerId) {
+                    return inView.push(peerId);
+                });
+                while (peers.length < k && inView.length > 0) {
+                    var _rn = Math.floor(Math.random() * inView.length);
+                    peers.push(inView[_rn]);
+                    inView.splice(_rn, 1);
+                };
+            };
+            return peers;
+        }
+    }, {
+        key: '_exchange',
 
-	}, {
-		key: 'leave',
-		value: function leave(timer) {
-			setTimeout(function () {
-				this.partialView.clear();
-				this.neighborhoods.disconnect();
-			}, timer);
-		}
 
-		/**
-   * Get a set of neighbors from both inview and outview. It is worth
-   * noting that each peer controls its outview, but not its inview. Thus, the
-   * outview may be less versatile.
-   * @param {integer} k the number of neighbors requested, if k is not defined, it returns
-   * every known identifiers.
-   * @return {object} { i:[id1,id2...idk], o:[id1,id2...idk] }
-   */
+        /* *********************************
+         * Spray's protocol implementation *
+         ***********************************/
 
-	}, {
-		key: 'getPeers',
-		value: function getPeers(k) {
-			var result = {
-				i: [],
-				o: []
-			};
-			// #A copy the identifiers of the inview
-			var inview = this.neighborhoods.get('inview');
-			for (var i = 0; i < inview.length; ++i) {
-				result.i.push(inview[i].id);
-			}
-			// #B remove entries if there are too many
-			while (k && result.i.length > k && result.i.length > 0) {
-				var rn = Math.floor(Math.random() * result.i.length);
-				result.i.splice(rn, 1);
-			}
-			// #C copy the identifiers of the outview
-			var outview = this.neighborhoods.get('outview');
-			for (var _i = 0; _i < outview.length; ++_i) {
-				result.o.push(outview[_i].id);
-			}
-			// #D remove entries if there are too many
-			while (k && result.o.length > k && result.o.length > 0) {
-				var _rn = Math.floor(Math.random() * result.o.length);
-				result.o.splice(_rn, 1);
-			}
-			return result;
-		}
+        /**
+         * @private
+         * Periodically called function that aims to balance the partial view
+         * and to mix the neighborhoods.
+         */
+        value: function _exchange() {
+            var _this5 = this;
 
-		/**
-   * Send a message using the id of the arc used to communicate
-   * @param {string} id the identifier of the communication channel
-   * @param {object} message the message to send
-   * @param {integer} retry the number of times the protocol tries to send the message each seconds
-   * @return {boolean} true if the message has been sent at first try, false otherwise
-   */
+            if (this.partialView.length <= 0) {
+                throw new ExEmptyView('exchange');
+            };
+            this.partialView.increment();
+            var oldest = this.partialView.getOldest();
+            // #1 send the notification to oldest that we perform an exchange
+            this.send(oldest, new MExchange(this.II.peer)).then(function () {
+                debug('[%s] %s ==> exchange ==> %s', _this5.PID, _this5.PEER, oldest);
+                // #A setup the exchange
+                // #2 get a sample from our partial view
+                var sample = _this5.partialView.getSample(oldest, true);
+                // #3 replace occurrences to oldest by ours
+                sample = sample.map(function (peerId) {
+                    return peerId === oldest && _this5.II.peer || peerId;
+                });
+                // #4 connect oldest -> sample
+                sample.forEach(function (peerId) {
+                    _this5.connect(oldest, peerId);
+                });
+                // #5 remove our own connection
+                // (TODO) maybe be more careful, i.e., wait for an answer
+                sample = sample.map(function (peerId) {
+                    return peerId === _this5.II.peer && oldest || peerId;
+                });
+                sample.forEach(function (peerId) {
+                    _this5.disconnect(peerId);
+                    _this5.partialView.removeNeighbor(peerId);
+                });
+            }).catch(function (e) {
+                // #B the peer cannot be reached, he is supposedly dead
+                debug('[%s] %s =X> exchange =X> %s', _this5.PID, _this5.PEER, oldest);
+                _this5._onPeerDown(oldest);
+            });
+        }
+    }, {
+        key: '_onExchange',
 
-	}, {
-		key: 'send',
-		value: function send(id, message, retry) {
-			var r = retry || this.RETRY;
-			var result = this.neighborhoods.send(id, message);
-			var self = this;
-			if (!result && r === 0) {
-				// #1 if it fails to send the message, the peer is considered down
-				self.onPeerDown(id);
-			} else if (!result && r > 0) {
-				// #2 give it another try
-				setTimeout(function () {
-					self.send(id, message, r - 1);
-				}, 1000);
-			}
-			return result;
-		}
 
-		/**
-   * Get the string representation of the partial view of spray
-   * @return {string} String representation of the partialView
-   */
+        /**
+         * @private
+         * Behavior when this peer receives a shuffling request.
+         * @param {string} neighbor The identifier of the peer that sent this
+         * exchange request.
+         * @param {MExchange} message message containing the identifier of the peer
+         * that started the exchange.
+         */
+        value: function _onExchange(neighbor, message) {
+            var _this6 = this;
 
-	}, {
-		key: 'toString',
-		value: function toString() {
-			var result = '@' + this.neighborhoods.inview.ID + ';' + this.neighborhoods.outview.ID + '   [ ';
-			var pv = this.partialView.get();
-			for (var i = 0; i < pv.length; ++i) {
-				result += '(' + pv[i].age + ' ' + pv[i].id + ') ';
-			}
-			result += ']';
-			return result;
-		}
+            debug('[%s] %s ==> exchange ==> %s', this.PID, neighbor, this.PEER);
+            // #1 get a sample of neighbors from our partial view
+            this.partialView.increment();
+            var sample = this.partialView.getSample();
+            // #2 replace occurrences of the initiator by ours
+            sample = sample.map(function (peerId) {
+                return peerId === message.inview && _this6.II.peer || peerId;
+            });
+            // #3 establish connections
+            sample.forEach(function (peerId) {
+                _this6.connect(neighbor, peerId);
+            });
+            // #4 inverse replacement
+            sample = sample.map(function (peerId) {
+                return peerId === _this6.II.peer && message.inview || peerId;
+            });
+            // #5 disconnect arcs
+            sample.forEach(function (peerId) {
+                _this6.disconnect(peerId);
+                _this6.partialView.removeNeigbhor(peerId);
+            });
+        }
+    }, {
+        key: '_onPeerDown',
 
-		// ====================================
-		//        PRIVATE functions         //
-		// ====================================
 
-		/**
-   * Update the local connection state of the peer and emit an event
-   * if the state is different than at the previous call of this function.
-   * The emitted event is 'statechange' with the
-   * arguments 'connect' | 'partial' | 'disconnect'
-   * @return {void}
-   */
+        /**
+         * @private
+         * The function called when a neighbor is unreachable and supposedly
+         * crashed/departed. It probabilistically duplicates an arc.
+         * @param {string} peerId The identifier of the peer that seems down.
+         */
+        value: function _onPeerDown(peerId) {
+            debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, this.peerId);
+            // #1 remove all occurrences of the peer in the partial view
+            var occ = this.partialView.removeAll(peerId);
+            // #2 probabilistically recreate arcs to a known peer
+            if (this.partialView.length > 0) {
+                // #A normal behavior
+                for (var i = 0; i < occ; ++i) {
+                    if (Math.random() > 1 / (this.partialView.length + occ)) {
+                        // probabilistically duplicates one of the least frequent
+                        // peers
+                        this.IO.connect(null, this.partialView.getLeastFrequent());
+                    }
+                }
+            } else {
+                // #B last chance behavior (TODO) ask inview
+            };
+        }
+    }, {
+        key: '_onArcDown',
 
-	}, {
-		key: 'updateState',
-		value: function updateState() {
-			// (TODO) handle it without reaching the neighbor-wrtc module...
-			if (this.neighborhoods.o.living.ms.arr.length > 0 && this.neighborhoods.i.living.ms.arr.length > 0 && this.state !== 'connect') {
-				// #1 connected means (1+ inview, 1+ outview)
-				this.state = 'connect';
-				this.emit('statechange', 'connect');
-			} else if (this.neighborhoods.o.living.ms.arr.length === 0 && this.neighborhoods.i.living.ms.arr.length > 0 || (this.neighborhoods.o.living.ms.arr.length > 0 || this.neighborhoods.i.living.ms.arr.length === 0) && this.state !== 'partial') {
-				// #2 partially connected means (1+ inview, 0 outview) or (0 i, 1+ o)
-				this.state = 'partial';
-				this.emit('statechange', 'partial');
-			} else if (this.neighborhoods.o.living.ms.arr.length === 0 && this.neighborhoods.i.living.ms.arr.length === 0 && this.state !== 'disconnect') {
-				// #3 disconnected means (0 inview, 0 outview)
-				this.state = 'disconnect';
-				this.emit('statechange', 'disconnect');
-			}
-		}
 
-		/* *****************************************************************************
-   * Spray's protocol implementation
-   ******************************************************************************/
+        /**
+         * @private
+         * A connection failed to establish properly, systematically duplicates
+         * an element of the partial view.
+         * @param {string|null} peerId The identifier of the peer we failed to 
+         * establish a connection with. Null if it was yet to be known.
+         */
+        value: function _onArcDown(peerId) {
+            debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown');
+            if (this.partialView.length() > 0) {
+                // #1 normal behavior
+                this.IO.connect(null, this.partialView.getLeastFrequent());
+            } else {
+                // #2 last chance behavior
+                // (TODO) ask inview
+                // const rn = Math.floor(Math.random() * this.i.size);
+                // let it = this.i.keys();                        
+                // this.II.connect(null, this.i.
+            };
+        }
+    }]);
 
-		/**
-   * Periodically called function that aims to balance the partial view
-   * and to mix the neighborhoods
-   * @return {void}
-   */
+    return Spray;
+}(N2N);
 
-	}, {
-		key: 'exchange',
-		value: function exchange() {
-			var self = this;
-
-			var oldest = null;
-			var sent = false;
-			this.partialView.increment();
-			// #1 get the oldest neighbor reachable
-			while (!oldest && !sent && this.partialView.length() > 0) {
-				// oldest = this.partialView.getOldest();
-				oldest = this.partialView.getOldest();
-				var message = new MExchange(null, this.neighborhoods.i.ID, this.neighborhoods.o.ID);
-				sent = this.send(oldest.id, message, 0);
-			}
-			if (this.partialView.length() === 0) {
-				this.log('Partial view is 0 length');
-				return;
-			}
-			// #2 get a sample from our partial view
-			var sample = this.partialView.getSample(oldest, true);
-			// #3 establish connections oldest -> sample
-			// #A remove the chosen arcs
-			var i = 0;
-			while (i < sample.length) {
-				var e = sample[i];
-				var removed = self.neighborhoods.disconnect(e.id);
-				if (!removed) {
-					// the partial view is late
-					// #a inform the partial view of the departure of the peer
-					self.onPeerDown(e.id);
-					// #b clear the sample from references to this id
-					var j = 0;
-					while (j < sample.length) {
-						if (sample[j].id === e.id) {
-							sample.splice(j, 1);
-						} else {
-							++j;
-						}
-					}
-				} else {
-					// normal behavior
-					self.partialView.removePeer(e.id, e.age);
-					++i;
-				}
-			}
-			// #B from oldest to chosen neighbor
-			sample.forEach(function (e) {
-				self.neighborhoods.connect(oldest.id, e.id !== oldest.id && e.id);
-			});
-			this.emit('shuffling', 'exchange');
-		}
-
-		/**
-   * Event executed when we receive an exchange request
-   * @param {object} msg message containing the identifier of the peer that started the
-   * exchange
-   * @return {void}
-   */
-
-	}, {
-		key: 'onExchange',
-		value: function onExchange(msg) {
-			var self = this;
-			// #1 get a sample of neighbors from our partial view
-			this.partialView.increment();
-			var sample = this.partialView.getSample(msg.inview, false);
-			// #A remove the chosen neighbor from our partialview
-			var i = 0;
-			while (i < sample.length) {
-				var e = sample[i];
-				var removed = self.neighborhoods.disconnect(e.id);
-				if (!removed) {
-					// the partial view is late
-					// #a inform the partial view of the departure of the peer
-					self.onPeerDown(e.id);
-					// #b clear the sample from references to this id
-					var j = 0;
-					while (j < sample.length) {
-						if (sample[j].id === e.id) {
-							sample.splice(j, 1);
-						} else {
-							++j;
-						}
-					}
-				} else {
-					// normal behavior
-					self.partialView.removePeer(e.id, e.age);
-					++i;
-				}
-			}
-			// #B from initiator to chosen neigbhor
-			sample.forEach(function (e) {
-				self.neighborhoods.connect(msg.outview, e.id !== msg.inview && e.id);
-			});
-			this.emit('shuffling', 'onExchange');
-		}
-
-		/**
-   * The function called when a neighbor is unreachable and supposedly
-   * crashed/departed. It probabilistically keeps an arc up
-   * @param {string} id the identifier of the channel that seems down
-   * @return {void}
-   */
-
-	}, {
-		key: 'onPeerDown',
-		value: function onPeerDown(id) {
-			this.log('@spray: The peer ' + JSON.stringify(id) + ' seems down.');
-			// #A remove all occurrences of the peer in the partial view
-			var occ = this.partialView.removeAll(id);
-			// #B probabilistically recreate an arc to a known peer
-			if (this.partialView.length() > 0) {
-				for (var i = 0; i < occ; ++i) {
-					if (Math.random() > 1 / (this.partialView.length() + occ)) {
-						var rn = Math.floor(Math.random() * this.partialView.length());
-						this.neighborhoods.connect(null, this.partialView.array.arr[rn]);
-					}
-				}
-			}
-		}
-
-		/**
-   * A connection failed to establish properly, systematically duplicates
-   * an element of the partial view.
-   * @return {void}
-   */
-
-	}, {
-		key: 'onArcDown',
-		value: function onArcDown() {
-			this.log('@spray: An arc failed to establish.');
-			if (this.partialView.length() > 0) {
-				var rn = Math.floor(Math.random() * this.partialView.length());
-				this.neighborhoods.connect(null, this.partialView.array.arr[rn]);
-			}
-		}
-	}]);
-
-	return Spray;
-}(EventEmitter);
+;
 
 module.exports = Spray;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNwcmF5LmpzIl0sIm5hbWVzIjpbIkV2ZW50RW1pdHRlciIsInJlcXVpcmUiLCJOTyIsIlBhcnRpYWxWaWV3IiwiTUV4Y2hhbmdlIiwiXyIsIlNwcmF5Iiwib3B0aW9ucyIsIm9wdHMiLCJtZXJnZSIsInByb3RvY29sIiwiZW5jb2RpbmciLCJtZXNzYWdlIiwiSlNPTiIsInN0cmluZ2lmeSIsImRlY29kaW5nIiwicGFyc2UiLCJkZWx0YXRpbWUiLCJyZXRyeSIsInByb2ZpbGUiLCJ1c2VkQ29lZiIsInZlcmJvc2UiLCJERUxUQVRJTUUiLCJSRVRSWSIsInBhcnRpYWxWaWV3IiwibmVpZ2hib3Job29kcyIsImludmlld0lkIiwiaSIsIklEIiwib3V0dmlld0lkIiwibyIsInN0YXRlIiwic2VsZiIsInNldEludGVydmFsIiwibGVuZ3RoIiwiZXhjaGFuZ2UiLCJyZWNlaXZlIiwiaWQiLCJ0eXBlIiwidmlldyIsIm9uRXhjaGFuZ2UiLCJ2aWV3cyIsInNldCIsImVtaXQiLCJvbiIsImNvbmZpZyIsImFnZSIsImFkZE5laWdoYm9yIiwidXBkYXRlU3RhdGUiLCJyZWFzb24iLCJsb2ciLCJvbkFyY0Rvd24iLCJhcmdzIiwiY29uc29sZSIsImNhbGxiYWNrcyIsIm9uUmVhZHlGdW5jdGlvbiIsIm9uUmVhZHkiLCJnZXQiLCJmb3JFYWNoIiwibiIsImNvbm5lY3QiLCJjb25uZWN0aW9uIiwidGltZXIiLCJzZXRUaW1lb3V0IiwiY2xlYXIiLCJkaXNjb25uZWN0IiwiayIsInJlc3VsdCIsImludmlldyIsInB1c2giLCJybiIsIk1hdGgiLCJmbG9vciIsInJhbmRvbSIsInNwbGljZSIsIm91dHZpZXciLCJyIiwic2VuZCIsIm9uUGVlckRvd24iLCJwdiIsImxpdmluZyIsIm1zIiwiYXJyIiwib2xkZXN0Iiwic2VudCIsImluY3JlbWVudCIsImdldE9sZGVzdCIsInNhbXBsZSIsImdldFNhbXBsZSIsImUiLCJyZW1vdmVkIiwiaiIsInJlbW92ZVBlZXIiLCJtc2ciLCJv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akM7QUFDQTtBQUNEOzs7O0VBelprQnRFLFk7O0FBOFpwQmlHLE9BQU9DLE9BQVAsR0FBaUI1RixLQUFqQiIsImZpbGUiOiJzcHJheS5qcyIsInNvdXJjZXNDb250ZW50IjpbIid1c2Ugc3RyaWN0JztcblxuY29uc3QgIEV2ZW50RW1pdHRlciA9IHJlcXVpcmUoJ2V2ZW50cycpO1xuY29uc3QgIE5PID0gcmVxdWlyZSgnbjJuLW92ZXJsYXktd3J0YycpO1xuY29uc3QgIFBhcnRpYWxWaWV3ID0gcmVxdWlyZSgnLi9wYXJ0aWFsdmlldy5qcycpO1xuY29uc3QgIE1FeGNoYW5nZSA9IHJlcXVpcmUoJy4vbWVzc2FnZXMuanMnKTtcbmNvbnN0ICBfID0gcmVxdWlyZSgnbG9kYXNoJyk7XG5cbi8qKlxuICogSW1wbGVtZW50YXRpb24gb2YgdGhlIHJhbmRvbSBwZWVyIHNhbXBsaW5nIFNwcmF5XG4gKi9cbmNsYXNzIFNwcmF5IGV4dGVuZHMgRXZlbnRFbWl0dGVyIHtcblx0LyoqXG5cdCAqIFlvdSBjYW4gcGFzcyBvdGhlciBwYXJhbWV0ZXJzIHN1Y2ggYXMgd2VicnRjIG9wdGlvbnNcblx0ICogQHBhcmFtIHtvYmplY3R9IG9wdGlvbnMgT2JqZWN0IHdpdGggYWxsIG9wdGlvbnNcblx0ICogQHBhcmFtIHtzdHJpbmd9IG9wdGlvbnMucHJvdG9jb2wgVGhlIHByb3RvY29sIG9mIHRoZSBuZXR3b3JrXG5cdCAqIEBwYXJhbSB7aW50ZWdlcn0gb3B0aW9ucy5kZWx0YXRpbWUgRWFjaCBkZWx0YXRpbWUsIHdlIHNodWZmbGUgIVxuXHQgKiBAcGFyYW0ge2ludGVnZXJ9IG9wdGlvbnMucmV0cnkgTnVtYmVyIG9mIHJldHJ5IHdoZW4gd2Ugc2VuZCBhIG1lc3NhZ2Vcblx0ICogQHBhcmFtIHtpbnRlZ2VyfSBvcHRpb25zLnVzZWRDb2VmIEFtb3VudCBvZiBjbGllbnRzIHNodWZmbGVkIGJldHdlZW4gMCBhbmQgMSAoaWUsIFswOzFdKVxuXHQgKiBAcGFyYW0ge2ludGVnZXJ9IG9wdGlvbnMucHJvZmlsZSB5b3VyIHByb2ZpbGVcblx0ICogQHBhcmFtIHtpbnRlZ2VyfSBvcHRpb25zLmsgayBwcm9maWxlIHNhdmVkXG5cdCAqL1xuXHRjb25zdHJ1Y3RvciAob3B0aW9ucyA9IHt9KSB7XG5cdFx0c3VwZXIoKTtcblxuXHRcdC8vIG1lcmdlIG9mIG9wdGlvbnMgd2l0aCBkZWZhdWx0IG9wdGlvbnNcblx0XHR0aGlzLm9wdHMgPSBfLm1lcmdlKHtcblx0XHRcdHByb3RvY29sOiAnc3ByYXktd3J0YycsXG5cdFx0XHRlbmNvZGluZzogKG1lc3NhZ2UpID0+IHtcblx0XHRcdFx0cmV0dXJuIEpTT04uc3RyaW5naWZ5KG1lc3NhZ2UpO1xuXHRcdFx0XHQvLyByZXR1cm4gbmV3IEJ1ZmZlcignbWVzc2FnZScpO1xuXHRcdFx0fSxcblx0XHRcdGRlY29kaW5nOiAobWVzc2FnZSkgPT4ge1xuXHRcdFx0XHRyZXR1cm4gSlNPTi5wYXJzZShtZXNzYWdlKTtcblx0XHRcdH0sXG5cdFx0XHRkZWx0YXRpbWU6IDEwMDAgKiA2MCAqIDIsXG5cdFx0XHRyZXRyeTogMTAsXG5cdFx0XHRwcm9maWxlOiB7fSxcblx0XHRcdHVzZWRDb2VmOiAwLjUsXG5cdFx0XHR2ZXJib3NlOiBmYWxzZVxuXHRcdH0sIG9wdGlvbnMpO1xuXG5cdFx0dGhpcy52ZXJib3NlID0gdGhpcy5vcHRzLnZlcmJvc2U7XG5cdFx0Ly8gI0EgY29uc3RhbnRzXG5cdFx0dGhpcy5wcm90b2NvbCA9IHRoaXMub3B0cy5wcm90b2NvbDtcblx0XHR0aGlzLkRFTFRBVElNRSA9IHRoaXMub3B0cy5kZWx0YXRpbWU7IC8vIDJtaW5cblx0XHR0aGlzLlJFVFJZID0gdGhpcy5vcHRzLnJldHJ5OyAvLyByZXRyeSAxMHggdG8gc2VuZCBtZXNzYWdlc1xuXG5cdFx0Ly8gI0IgcHJvdG9jb2wgdmFyaWFibGVzXG5cdFx0dGhpcy5wYXJ0aWFsVmlldyA9IG5ldyBQYXJ0aWFsVmlldygge1xuXHRcdFx0dXNlZENvZWY6IHRoaXMub3B0cy51c2VkQ29lZlxuXHRcdH0pO1xuXG5cdFx0dGhpcy5uZWlnaGJvcmhvb2RzID0gbmV3IE5PKHRoaXMub3B0cyk7XG5cblx0XHQvLyB1cGRhdGUgdGhlIHByb2ZpbGUgd2l0aCBzb21lIGlkZW50aWZpZXJzXG5cdFx0Ly8gYXQgZWFjaCBzdWZmbGluZyB0aGUgcHJvZmlsZSBpcyBzZW50IHRvIGFsbCBuZWlnaGJvdXJzXG5cdFx0dGhpcy5wcm9maWxlID0gdGhpcy5vcHRzLnByb2ZpbGU7XG5cdFx0dGhpcy5wcm9maWxlLmludmlld0lkID0gdGhpcy5uZWlnaGJvcmhvb2RzLmkuSUQ7XG5cdFx0dGhpcy5wcm9maWxlLm91dHZpZXdJZCA9IHRoaXMubmVpZ2hib3Job29kcy5vLklEO1xuXG5cblx0XHR0aGlzLnN0YXRlID0gJ2Rpc2Nvbm5lY3QnOyAvLyAoVE9ETykgdXBkYXRlIHN0YXRlXG5cblx0XHQvLyAjQyBwZXJpb2RpYyBzaHVmZmxpbmdcblx0XHRjb25zdCBzZWxmID0gdGhpcztcblx0XHRzZXRJbnRlcnZhbCgoKSA9PiB7XG5cdFx0XHRpZihzZWxmLnBhcnRpYWxWaWV3Lmxlbmd0aCgpID4gMCkge1xuXHRcdFx0XHRzZWxmLmV4Y2hhbmdlKCk7XG5cdFx0XHR9XG5cdFx0fSwgdGhpcy5ERUxUQVRJTUUpO1xuXG5cdFx0Ly8gI0QgcmVjZWl2ZSBldmVudFxuXHRcdGZ1bmN0aW9uIHJlY2VpdmUgKGlkLCBtZXNzYWdlKSB7XG5cdFx0XHQvLyAjMCBtdXN0IGNvbnRhaW4gYSBtZXNzYWdlIGFuZCBhIHByb3RvY29sLCBvdGhlcndpc2UgZm9yd2FyZFxuXHRcdFx0aWYgKG1lc3NhZ2UgJiYgbWVzc2FnZS50eXBlID09PSAnTUV4Y2hhbmdlJyAmJiBtZXNzYWdlLnByb3RvY29sICE9PSBzZWxmLnByb3RvY29sKSB7XG5cblx0XHRcdFx0aWYoIW1lc3NhZ2Uudmlldykge1xuXHRcdFx0XHRcdHNlbGYub25FeGNoYW5nZShtZXNzYWdlKTtcblx0XHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0XHQvLyB0aGlzLmxvZyhtZXNzYWdlLnZpZXcub3V0dmlld0lkLCBtZXNzYWdlLnZpZXcpO1xuXHRcdFx0XHRcdHNlbGYudmlld3Muc2V0KG1lc3NhZ2Uudmlldy5vdXR2aWV3SWQsIG1lc3NhZ2Uudmlldyk7XG5cdFx0XHRcdH1cblxuXHRcdFx0fSBlbHNlIGlmICghbWVzc2FnZSB8fCBtZXNzYWdlLnByb3RvY29sICE9PSBzZWxmLnByb3RvY29sKSB7XG5cdFx0XHRcdGlmIChtZXNzYWdlICYmIG1lc3NhZ2UucHJvdG9jb2wpIHtcblx0XHRcdFx0XHRzZWxmLmVtaXQoYCR7bWVzc2FnZS5wcm90b2NvbH0tcmVjZWl2ZWAsIGlkLCBtZXNzYWdlKTtcblx0XHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0XHRzZWxmLmVtaXQoJ3JlY2VpdmUnLCBpZCwgbWVzc2FnZSk7XG5cdFx0XHRcdH1cblx0XHRcdH1cblx0XHR9XG5cblx0XHR0aGlzLm5laWdoYm9yaG9vZHMub24oJ3JlY2VpdmUnLCByZWNlaXZlKTtcblx0XHR0aGlzLm5laWdoYm9yaG9vZHMub24oJ3JlYWR5JywgKGlkLCB2aWV3KSA9PiB7XG5cdFx0XHRjb25zdCBjb25maWcgPSB7XG5cdFx0XHRcdGFnZTogMCxcblx0XHRcdFx0aWRcblx0XHRcdH07XG5cdFx0XHQodmlldyA9PT0gJ291dHZpZXcnKSAmJiBzZWxmLnBhcnRpYWxWaWV3LmFkZE5laWdoYm9yKGNvbmZpZyk7XG5cdFx0XHRzZWxmLnVwZGF0ZVN0YXRlKCk7XG5cdFx0fSk7XG5cblx0XHR0aGlzLm5laWdoYm9yaG9vZHMub24oJ2ZhaWxlZCcsIChpZCwgdmlldywgcmVhc29uKSA9PiB7XG5cdFx0XHR0aGlzLmxvZygnU3ByYXk6b246RmFpbGVkOicsIGlkLCB2aWV3LCByZWFzb24pO1xuXHRcdFx0KHZpZXcgPT09ICdvdXR2aWV3JykgJiYgc2VsZi5vbkFyY0Rvd24oKTtcblx0XHR9KTtcblxuXHRcdHRoaXMubmVpZ2hib3Job29kcy5vbignZGlzY29ubmVjdCcsICgpID0+IHtcblx0XHRcdHNlbGYudXBkYXRlU3RhdGUoKTtcblx0XHR9KTtcblxuXHR9XG5cblx0bG9nICguLi5hcmdzKSB7XG5cdFx0aWYodGhpcy52ZXJib3NlKSB7XG5cdFx0XHRjb25zb2xlLmxvZygnW1NQUkFZLVdSVENdJywgYXJncyk7XG5cdFx0fVxuXHR9XG5cblx0LyoqXG5cdCAqIEpvaW5pbmcgYXM7IG9yIGNvbnRhY3RlZCBieSBhbiBvdXRzaWRlclxuXHQgKiBAcGFyYW0ge2NhbGxiYWNrfSBjYWxsYmFja3MgdGhlIGNhbGxiYWNrcyBmdW5jdGlvbiwgc2VlIG1vZHVsZSAnbjJuLW92ZXJsYXktd3J0YycuXG5cdCAqIEBwYXJhbSB7b2JqZWN0fSBtZXNzYWdlIC4uLlxuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0Y29ubmVjdGlvbiAoY2FsbGJhY2tzLCBtZXNzYWdlKSB7XG5cdFx0Y29uc3Qgc2VsZiA9IHRoaXM7XG5cdFx0Y29uc3Qgb25SZWFkeUZ1bmN0aW9uID0gY2FsbGJhY2tzICYmIGNhbGxiYWNrcy5vblJlYWR5O1xuXHRcdC8vICMxIGlmIHRoaXMgcGVlciBpcyB0aGUgY29udGFjdCwgb3ZlcmxvYWQgdGhlIG9ucmVhZHkgZnVuY3Rpb25cblx0XHQvLyB3aXRoIHRoZSBzcHJheSBqb2luaW5nIG1lY2hhbmlzbSB0aGF0IHdpbGwgaW5qZWN0IGxvZyh4KSBhcmNzIGluXG5cdFx0Ly8gdGhlIG5ldHdvcmtcblx0XHRpZiAobWVzc2FnZSkge1xuXHRcdFx0Y2FsbGJhY2tzLm9uUmVhZHkgPSBpZCA9PiB7XG5cdFx0XHRcdGlmIChzZWxmLnBhcnRpYWxWaWV3Lmxlbmd0aCgpID4gMCkge1xuXHRcdFx0XHRcdC8vICNBIHNpZ25hbCB0aGUgYXJyaXZhbCBvZiBhIG5ldyBwZWVyIHRvIGl0cyBvdXR2aWV3XG5cdFx0XHRcdFx0c2VsZi5wYXJ0aWFsVmlldy5nZXQoKS5mb3JFYWNoKG4gPT4ge1xuXG5cdFx0XHRcdFx0XHRpZihuLmlkICE9PSBpZCkge1xuXHRcdFx0XHRcdFx0XHRzZWxmLm5laWdoYm9yaG9vZHMuY29ubmVjdChuLCBpZCk7XG5cdFx0XHRcdFx0XHR9ZWxzZSB7XG5cdFx0XHRcdFx0XHRcdHRoaXMubG9nKCduOicsIG4sICd8IGlkOicsIGlkKTtcblx0XHRcdFx0XHRcdH1cblx0XHRcdFx0XHR9KTtcblx0XHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0XHQvLyAjQiBhZGRzIGl0IHRvIGl0cyBvd24gb3V0dmlldyAoZm9yIG9ubHkgMi1wZWVycyBuZXR3b3JrKVxuXHRcdFx0XHRcdHNlbGYubmVpZ2hib3Job29kcy5jb25uZWN0KG51bGwsIGlkKTtcblx0XHRcdFx0fVxuXHRcdFx0XHQvLyAjQyBjYWxsYmFjayB0aGUgb3JpZ2luYWwgb25SZWFkeSBmdW5jdGlvblxuXHRcdFx0XHRvblJlYWR5RnVuY3Rpb24gJiYgb25SZWFkeUZ1bmN0aW9uKGlkKTtcblx0XHRcdH07XG5cdFx0fSBlbHNlIHtcblx0XHRcdGNhbGxiYWNrcy5vblJlYWR5ID0gaWQgPT4ge1xuXHRcdFx0XHRvblJlYWR5RnVuY3Rpb24gJiYgb25SZWFkeUZ1bmN0aW9uKGlkKTtcblx0XHRcdFx0Ly8gI0QgZW1pdCBhIGpvaW4gZXZlbnRcblx0XHRcdFx0c2VsZi5lbWl0KCdqb2luJywgaWQpO1xuXHRcdFx0fTtcblx0XHR9XG5cdFx0Ly8gIzIgc3RhcnQgZXN0YWJsaXNoaW5nIHRoZSBmaXJzdCBjb25uZWN0aW9uXG5cdFx0dGhpcy5uZWlnaGJvcmhvb2RzLmNvbm5lY3Rpb24oY2FsbGJhY2tzLCBtZXNzYWdlKTtcblx0fVxuXG5cdC8qKlxuXHQgKiBMZWF2ZSB0aGUgbmV0d29ya1xuXHQgKiBAcGFyYW0ge2ludGVnZXJ9IHRpbWVyIHRoZSB0aW1lb3V0IGJlZm9yZSByZWFsbHkgc2h1dHRpbmcgZG93bi4gVGhlIHRpbWUgY2FuXG5cdCAqIGJlIHNwZW50IG9uIGhlYWxpbmcgdGhlIG5ldHdvcmsgYmVmb3JlIGRlcGFydHVyZS4gKEluIG1pbGxpc2Vjb25kcylcblx0ICogQHJldHVybiB7dm9pZH1cblx0ICovXG5cdGxlYXZlICh0aW1lcikge1xuXHRcdHNldFRpbWVvdXQoZnVuY3Rpb24gKCkge1xuXHRcdFx0dGhpcy5wYXJ0aWFsVmlldy5jbGVhcigpO1xuXHRcdFx0dGhpcy5uZWlnaGJvcmhvb2RzLmRpc2Nvbm5lY3QoKTtcblx0XHR9LCB0aW1lcik7XG5cdH1cblxuXG5cdC8qKlxuXHQgKiBHZXQgYSBzZXQgb2YgbmVpZ2hib3JzIGZyb20gYm90aCBpbnZpZXcgYW5kIG91dHZpZXcuIEl0IGlzIHdvcnRoXG5cdCAqIG5vdGluZyB0aGF0IGVhY2ggcGVlciBjb250cm9scyBpdHMgb3V0dmlldywgYnV0IG5vdCBpdHMgaW52aWV3LiBUaHVzLCB0aGVcblx0ICogb3V0dmlldyBtYXkgYmUgbGVzcyB2ZXJzYXRpbGUuXG5cdCAqIEBwYXJhbSB7aW50ZWdlcn0gayB0aGUgbnVtYmVyIG9mIG5laWdoYm9ycyByZXF1ZXN0ZWQsIGlmIGsgaXMgbm90IGRlZmluZWQsIGl0IHJldHVybnNcblx0ICogZXZlcnkga25vd24gaWRlbnRpZmllcnMuXG5cdCAqIEByZXR1cm4ge29iamVjdH0geyBpOltpZDEsaWQyLi4uaWRrXSwgbzpbaWQxLGlkMi4uLmlka10gfVxuXHQgKi9cblx0Z2V0UGVlcnMgKGspIHtcblx0XHRsZXQgcmVzdWx0ID0ge1xuXHRcdFx0aTogW10sXG5cdFx0XHRvOiBbXVxuXHRcdH07XG5cdFx0Ly8gI0EgY29weSB0aGUgaWRlbnRpZmllcnMgb2YgdGhlIGludmlld1xuXHRcdGNvbnN0IGludmlldyA9IHRoaXMubmVpZ2hib3Job29kcy5nZXQoJ2ludmlldycpO1xuXHRcdGZvciAobGV0IGkgPSAwOyBpIDwgaW52aWV3Lmxlbmd0aDsgKytpKSB7XG5cdFx0XHRyZXN1bHQuaS5wdXNoKGludmlld1tpXS5pZCk7XG5cdFx0fVxuXHRcdC8vICNCIHJlbW92ZSBlbnRyaWVzIGlmIHRoZXJlIGFyZSB0b28gbWFueVxuXHRcdHdoaWxlIChrICYmIChyZXN1bHQuaS5sZW5ndGggPiBrKSAmJiAocmVzdWx0LmkubGVuZ3RoID4gMCkpIHtcblx0XHRcdGNvbnN0IHJuID0gTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICogcmVzdWx0LmkubGVuZ3RoKTtcblx0XHRcdHJlc3VsdC5pLnNwbGljZShybiwgMSk7XG5cdFx0fVxuXHRcdC8vICNDIGNvcHkgdGhlIGlkZW50aWZpZXJzIG9mIHRoZSBvdXR2aWV3XG5cdFx0Y29uc3Qgb3V0dmlldyA9IHRoaXMubmVpZ2hib3Job29kcy5nZXQoJ291dHZpZXcnKTtcblx0XHRmb3IgKGxldCBpID0gMDsgaSA8IG91dHZpZXcubGVuZ3RoOyArK2kpIHtcblx0XHRcdHJlc3VsdC5vLnB1c2gob3V0dmlld1tpXS5pZCk7XG5cdFx0fVxuXHRcdC8vICNEIHJlbW92ZSBlbnRyaWVzIGlmIHRoZXJlIGFyZSB0b28gbWFueVxuXHRcdHdoaWxlIChrICYmIChyZXN1bHQuby5sZW5ndGggPiBrKSAmJiAocmVzdWx0Lm8ubGVuZ3RoID4gMCkpIHtcblx0XHRcdGNvbnN0IHJuID0gTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICogcmVzdWx0Lm8ubGVuZ3RoKTtcblx0XHRcdHJlc3VsdC5vLnNwbGljZShybiwgMSk7XG5cdFx0fVxuXHRcdHJldHVybiByZXN1bHQ7XG5cdH1cblxuXHQvKipcblx0ICogU2VuZCBhIG1lc3NhZ2UgdXNpbmcgdGhlIGlkIG9mIHRoZSBhcmMgdXNlZCB0byBjb21tdW5pY2F0ZVxuXHQgKiBAcGFyYW0ge3N0cmluZ30gaWQgdGhlIGlkZW50aWZpZXIgb2YgdGhlIGNvbW11bmljYXRpb24gY2hhbm5lbFxuXHQgKiBAcGFyYW0ge29iamVjdH0gbWVzc2FnZSB0aGUgbWVzc2FnZSB0byBzZW5kXG5cdCAqIEBwYXJhbSB7aW50ZWdlcn0gcmV0cnkgdGhlIG51bWJlciBvZiB0aW1lcyB0aGUgcHJvdG9jb2wgdHJpZXMgdG8gc2VuZCB0aGUgbWVzc2FnZSBlYWNoIHNlY29uZHNcblx0ICogQHJldHVybiB7Ym9vbGVhbn0gdHJ1ZSBpZiB0aGUgbWVzc2FnZSBoYXMgYmVlbiBzZW50IGF0IGZpcnN0IHRyeSwgZmFsc2Ugb3RoZXJ3aXNlXG5cdCAqL1xuXHRzZW5kIChpZCwgbWVzc2FnZSwgcmV0cnkpIHtcblx0XHRjb25zdCByID0gcmV0cnkgfHwgdGhpcy5SRVRSWTtcblx0XHRjb25zdCByZXN1bHQgPSB0aGlzLm5laWdoYm9yaG9vZHMuc2VuZChpZCwgbWVzc2FnZSk7XG5cdFx0Y29uc3Qgc2VsZiA9IHRoaXM7XG5cdFx0aWYgKCFyZXN1bHQgJiYgciA9PT0gMCkge1xuXHRcdFx0Ly8gIzEgaWYgaXQgZmFpbHMgdG8gc2VuZCB0aGUgbWVzc2FnZSwgdGhlIHBlZXIgaXMgY29uc2lkZXJlZCBkb3duXG5cdFx0XHRzZWxmLm9uUGVlckRvd24oaWQpO1xuXHRcdH0gZWxzZSBpZiAoIXJlc3VsdCAmJiByID4gMCkge1xuXHRcdFx0Ly8gIzIgZ2l2ZSBpdCBhbm90aGVyIHRyeVxuXHRcdFx0c2V0VGltZW91dCgoKSA9PiB7XG5cdFx0XHRcdHNlbGYuc2VuZChpZCwgbWVzc2FnZSwgciAtIDEpO1xuXHRcdFx0fSwgMTAwMCk7XG5cdFx0fVxuXHRcdHJldHVybiByZXN1bHQ7XG5cdH1cblxuXHQvKipcblx0ICogR2V0IHRoZSBzdHJpbmcgcmVwcmVzZW50YXRpb24gb2YgdGhlIHBhcnRpYWwgdmlldyBvZiBzcHJheVxuXHQgKiBAcmV0dXJuIHtzdHJpbmd9IFN0cmluZyByZXByZXNlbnRhdGlvbiBvZiB0aGUgcGFydGlhbFZpZXdcblx0ICovXG5cdHRvU3RyaW5nICgpIHtcblx0XHRsZXQgcmVzdWx0ID0gYEAke3RoaXMubmVpZ2hib3Job29kcy5pbnZpZXcuSUR9OyR7dGhpcy5uZWlnaGJvcmhvb2RzLm91dHZpZXcuSUR9ICAgWyBgO1xuXHRcdGNvbnN0IHB2ID0gdGhpcy5wYXJ0aWFsVmlldy5nZXQoKTtcblx0XHRmb3IgKGxldCBpID0gMDsgaSA8IHB2Lmxlbmd0aDsgKytpKSB7XG5cdFx0XHRyZXN1bHQgKz0gYCgke3B2W2ldLmFnZX0gJHtwdltpXS5pZH0pIGA7XG5cdFx0fVxuXHRcdHJlc3VsdCArPSAnXSc7XG5cdFx0cmV0dXJuIHJlc3VsdDtcblx0fVxuXG5cblx0Ly8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09XG5cdC8vICAgICAgICBQUklWQVRFIGZ1bmN0aW9ucyAgICAgICAgIC8vXG5cdC8vID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PVxuXG5cdC8qKlxuXHQgKiBVcGRhdGUgdGhlIGxvY2FsIGNvbm5lY3Rpb24gc3RhdGUgb2YgdGhlIHBlZXIgYW5kIGVtaXQgYW4gZXZlbnRcblx0ICogaWYgdGhlIHN0YXRlIGlzIGRpZmZlcmVudCB0aGFuIGF0IHRoZSBwcmV2aW91cyBjYWxsIG9mIHRoaXMgZnVuY3Rpb24uXG5cdCAqIFRoZSBlbWl0dGVkIGV2ZW50IGlzICdzdGF0ZWNoYW5nZScgd2l0aCB0aGVcblx0ICogYXJndW1lbnRzICdjb25uZWN0JyB8ICdwYXJ0aWFsJyB8ICdkaXNjb25uZWN0J1xuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0dXBkYXRlU3RhdGUgKCkge1xuXHRcdC8vIChUT0RPKSBoYW5kbGUgaXQgd2l0aG91dCByZWFjaGluZyB0aGUgbmVpZ2hib3Itd3J0YyBtb2R1bGUuLi5cblx0XHRpZiAodGhpcy5uZWlnaGJvcmhvb2RzLm8ubGl2aW5nLm1zLmFyci5sZW5ndGggPiAwICYmXG5cdFx0XHR0aGlzLm5laWdoYm9yaG9vZHMuaS5saXZpbmcubXMuYXJyLmxlbmd0aCA+IDAgJiZcblx0XHRcdHRoaXMuc3RhdGUgIT09ICdjb25uZWN0Jykge1xuXHRcdFx0Ly8gIzEgY29ubmVjdGVkIG1lYW5zICgxKyBpbnZpZXcsIDErIG91dHZpZXcpXG5cdFx0XHR0aGlzLnN0YXRlID0gJ2Nvbm5lY3QnO1xuXHRcdFx0dGhpcy5lbWl0KCdzdGF0ZWNoYW5nZScsICdjb25uZWN0Jyk7XG5cdFx0fSBlbHNlIGlmIChcblx0XHRcdCh0aGlzLm5laWdoYm9yaG9vZHMuby5saXZpbmcubXMuYXJyLmxlbmd0aCA9PT0gMCAmJlxuXHRcdFx0XHR0aGlzLm5laWdoYm9yaG9vZHMuaS5saXZpbmcubXMuYXJyLmxlbmd0aCA+IDApIHx8XG5cdFx0XHQodGhpcy5uZWlnaGJvcmhvb2RzLm8ubGl2aW5nLm1zLmFyci5sZW5ndGggPiAwIHx8XG5cdFx0XHRcdHRoaXMubmVpZ2hib3Job29kcy5pLmxpdmluZy5tcy5hcnIubGVuZ3RoID09PSAwKSAmJlxuXHRcdFx0KHRoaXMuc3RhdGUgIT09ICdwYXJ0aWFsJykpIHtcblx0XHRcdC8vICMyIHBhcnRpYWxseSBjb25uZWN0ZWQgbWVhbnMgKDErIGludmlldywgMCBvdXR2aWV3KSBvciAoMCBpLCAxKyBvKVxuXHRcdFx0dGhpcy5zdGF0ZSA9ICdwYXJ0aWFsJztcblx0XHRcdHRoaXMuZW1pdCgnc3RhdGVjaGFuZ2UnLCAncGFydGlhbCcpO1xuXHRcdH0gZWxzZSBpZiAodGhpcy5uZWlnaGJvcmhvb2RzLm8ubGl2aW5nLm1zLmFyci5sZW5ndGggPT09IDAgJiZcblx0XHRcdHRoaXMubmVpZ2hib3Job29kcy5pLmxpdmluZy5tcy5hcnIubGVuZ3RoID09PSAwICYmXG5cdFx0XHR0aGlzLnN0YXRlICE9PSAnZGlzY29ubmVjdCcpIHtcblx0XHRcdC8vICMzIGRpc2Nvbm5lY3RlZCBtZWFucyAoMCBpbnZpZXcsIDAgb3V0dmlldylcblx0XHRcdHRoaXMuc3RhdGUgPSAnZGlzY29ubmVjdCc7XG5cdFx0XHR0aGlzLmVtaXQoJ3N0YXRlY2hhbmdlJywgJ2Rpc2Nvbm5lY3QnKTtcblx0XHR9XG5cdH1cblxuXHQvKiAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKlxuXHQgKiBTcHJheSdzIHByb3RvY29sIGltcGxlbWVudGF0aW9uXG5cdCAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiovXG5cblx0LyoqXG5cdCAqIFBlcmlvZGljYWxseSBjYWxsZWQgZnVuY3Rpb24gdGhhdCBhaW1zIHRvIGJhbGFuY2UgdGhlIHBhcnRpYWwgdmlld1xuXHQgKiBhbmQgdG8gbWl4IHRoZSBuZWlnaGJvcmhvb2RzXG5cdCAqIEByZXR1cm4ge3ZvaWR9XG5cdCAqL1xuXHRleGNoYW5nZSAoKSB7XG5cdFx0Y29uc3Qgc2VsZiA9IHRoaXM7XG5cblx0XHRsZXQgb2xkZXN0ID0gbnVsbDtcblx0XHRsZXQgc2VudCA9IGZhbHNlO1xuXHRcdHRoaXMucGFydGlhbFZpZXcuaW5jcmVtZW50KCk7XG5cdFx0Ly8gIzEgZ2V0IHRoZSBvbGRlc3QgbmVpZ2hib3IgcmVhY2hhYmxlXG5cdFx0d2hpbGUgKCFvbGRlc3QgJiYgIXNlbnQgJiYgdGhpcy5wYXJ0aWFsVmlldy5sZW5ndGgoKSA+IDApIHtcblx0XHRcdC8vIG9sZGVzdCA9IHRoaXMucGFydGlhbFZpZXcuZ2V0T2xkZXN0KCk7XG5cdFx0XHRvbGRlc3QgPSB0aGlzLnBhcnRpYWxWaWV3LmdldE9sZGVzdCgpO1xuXHRcdFx0Y29uc3QgbWVzc2FnZSA9IG5ldyBNRXhjaGFuZ2UobnVsbCwgdGhpcy5uZWlnaGJvcmhvb2RzLmkuSUQsIHRoaXMubmVpZ2hib3Job29kcy5vLklEKTtcblx0XHRcdHNlbnQgPSB0aGlzLnNlbmQob2xkZXN0LmlkLCBtZXNzYWdlLCAwKTtcblx0XHR9XG5cdFx0aWYgKHRoaXMucGFydGlhbFZpZXcubGVuZ3RoKCkgPT09IDApIHtcblx0XHRcdHRoaXMubG9nKCdQYXJ0aWFsIHZpZXcgaXMgMCBsZW5ndGgnKTtcblx0XHRcdHJldHVybjtcblx0XHR9XG5cdFx0Ly8gIzIgZ2V0IGEgc2FtcGxlIGZyb20gb3VyIHBhcnRpYWwgdmlld1xuXHRcdGNvbnN0IHNhbXBsZSA9IHRoaXMucGFydGlhbFZpZXcuZ2V0U2FtcGxlKG9sZGVzdCwgdHJ1ZSk7XG5cdFx0Ly8gIzMgZXN0YWJsaXNoIGNvbm5lY3Rpb25zIG9sZGVzdCAtPiBzYW1wbGVcblx0XHQvLyAjQSByZW1vdmUgdGhlIGNob3NlbiBhcmNzXG5cdFx0bGV0IGkgPSAwO1xuXHRcdHdoaWxlIChpIDwgc2FtcGxlLmxlbmd0aCkge1xuXHRcdFx0Y29uc3QgZSA9IHNhbXBsZVtpXTtcblx0XHRcdGNvbnN0IHJlbW92ZWQgPSBzZWxmLm5laWdoYm9yaG9vZHMuZGlzY29ubmVjdChlLmlkKTtcblx0XHRcdGlmICghcmVtb3ZlZCkgeyAvLyB0aGUgcGFydGlhbCB2aWV3IGlzIGxhdGVcblx0XHRcdFx0Ly8gI2EgaW5mb3JtIHRoZSBwYXJ0aWFsIHZpZXcgb2YgdGhlIGRlcGFydHVyZSBvZiB0aGUgcGVlclxuXHRcdFx0XHRzZWxmLm9uUGVlckRvd24oZS5pZCk7XG5cdFx0XHRcdC8vICNiIGNsZWFyIHRoZSBzYW1wbGUgZnJvbSByZWZlcmVuY2VzIHRvIHRoaXMgaWRcblx0XHRcdFx0bGV0IGogPSAwO1xuXHRcdFx0XHR3aGlsZSAoaiA8IHNhbXBsZS5sZW5ndGgpIHtcblx0XHRcdFx0XHRpZiAoc2FtcGxlW2pdLmlkID09PSBlLmlkKSB7XG5cdFx0XHRcdFx0XHRzYW1wbGUuc3BsaWNlKGosIDEpO1xuXHRcdFx0XHRcdH0gZWxzZSB7XG5cdFx0XHRcdFx0XHQrK2o7XG5cdFx0XHRcdFx0fVxuXHRcdFx0XHR9XG5cdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHQvLyBub3JtYWwgYmVoYXZpb3Jcblx0XHRcdFx0c2VsZi5wYXJ0aWFsVmlldy5yZW1vdmVQZWVyKGUuaWQsIGUuYWdlKTtcblx0XHRcdFx0KytpO1xuXHRcdFx0fVxuXHRcdH1cblx0XHQvLyAjQiBmcm9tIG9sZGVzdCB0byBjaG9zZW4gbmVpZ2hib3Jcblx0XHRzYW1wbGUuZm9yRWFjaChlID0+IHtcblx0XHRcdHNlbGYubmVpZ2hib3Job29kcy5jb25uZWN0KG9sZGVzdC5pZCwgKGUuaWQgIT09IG9sZGVzdC5pZCkgJiYgZS5pZCk7XG5cdFx0fSk7XG5cdFx0dGhpcy5lbWl0KCdzaHVmZmxpbmcnLCAnZXhjaGFuZ2UnKTtcblx0fVxuXG5cblx0LyoqXG5cdCAqIEV2ZW50IGV4ZWN1dGVkIHdoZW4gd2UgcmVjZWl2ZSBhbiBleGNoYW5nZSByZXF1ZXN0XG5cdCAqIEBwYXJhbSB7b2JqZWN0fSBtc2cgbWVzc2FnZSBjb250YWluaW5nIHRoZSBpZGVudGlmaWVyIG9mIHRoZSBwZWVyIHRoYXQgc3RhcnRlZCB0aGVcblx0ICogZXhjaGFuZ2Vcblx0ICogQHJldHVybiB7dm9pZH1cblx0ICovXG5cdG9uRXhjaGFuZ2UgKG1zZykge1xuXHRcdGNvbnN0IHNlbGYgPSB0aGlzO1xuXHRcdC8vICMxIGdldCBhIHNhbXBsZSBvZiBuZWlnaGJvcnMgZnJvbSBvdXIgcGFydGlhbCB2aWV3XG5cdFx0dGhpcy5wYXJ0aWFsVmlldy5pbmNyZW1lbnQoKTtcblx0XHRjb25zdCBzYW1wbGUgPSB0aGlzLnBhcnRpYWxWaWV3LmdldFNhbXBsZShtc2cuaW52aWV3LCBmYWxzZSk7XG5cdFx0Ly8gI0EgcmVtb3ZlIHRoZSBjaG9zZW4gbmVpZ2hib3IgZnJvbSBvdXIgcGFydGlhbHZpZXdcblx0XHRsZXQgaSA9IDA7XG5cdFx0d2hpbGUgKGkgPCBzYW1wbGUubGVuZ3RoKSB7XG5cdFx0XHRjb25zdCBlID0gc2FtcGxlW2ldO1xuXHRcdFx0Y29uc3QgcmVtb3ZlZCA9IHNlbGYubmVpZ2hib3Job29kcy5kaXNjb25uZWN0KGUuaWQpO1xuXHRcdFx0aWYgKCFyZW1vdmVkKSB7IC8vIHRoZSBwYXJ0aWFsIHZpZXcgaXMgbGF0ZVxuXHRcdFx0XHQvLyAjYSBpbmZvcm0gdGhlIHBhcnRpYWwgdmlldyBvZiB0aGUgZGVwYXJ0dXJlIG9mIHRoZSBwZWVyXG5cdFx0XHRcdHNlbGYub25QZWVyRG93bihlLmlkKTtcblx0XHRcdFx0Ly8gI2IgY2xlYXIgdGhlIHNhbXBsZSBmcm9tIHJlZmVyZW5jZXMgdG8gdGhpcyBpZFxuXHRcdFx0XHRsZXQgaiA9IDA7XG5cdFx0XHRcdHdoaWxlIChqIDwgc2FtcGxlLmxlbmd0aCkge1xuXHRcdFx0XHRcdGlmIChzYW1wbGVbal0uaWQgPT09IGUuaWQpIHtcblx0XHRcdFx0XHRcdHNhbXBsZS5zcGxpY2UoaiwgMSk7XG5cdFx0XHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0XHRcdCsrajtcblx0XHRcdFx0XHR9XG5cdFx0XHRcdH1cblx0XHRcdH0gZWxzZSB7XG5cdFx0XHRcdC8vIG5vcm1hbCBiZWhhdmlvclxuXHRcdFx0XHRzZWxmLnBhcnRpYWxWaWV3LnJlbW92ZVBlZXIoZS5pZCwgZS5hZ2UpO1xuXHRcdFx0XHQrK2k7XG5cdFx0XHR9XG5cdFx0fVxuXHRcdC8vICNCIGZyb20gaW5pdGlhdG9yIHRvIGNob3NlbiBuZWlnYmhvclxuXHRcdHNhbXBsZS5mb3JFYWNoKGUgPT4ge1xuXHRcdFx0c2VsZi5uZWlnaGJvcmhvb2RzLmNvbm5lY3QobXNnLm91dHZpZXcsIChlLmlkICE9PSBtc2cuaW52aWV3KSAmJiBlLmlkKTtcblx0XHR9KTtcblx0XHR0aGlzLmVtaXQoJ3NodWZmbGluZycsICdvbkV4Y2hhbmdlJyk7XG5cdH1cblxuXHQvKipcblx0ICogVGhlIGZ1bmN0aW9uIGNhbGxlZCB3aGVuIGEgbmVpZ2hib3IgaXMgdW5yZWFjaGFibGUgYW5kIHN1cHBvc2VkbHlcblx0ICogY3Jhc2hlZC9kZXBhcnRlZC4gSXQgcHJvYmFiaWxpc3RpY2FsbHkga2VlcHMgYW4gYXJjIHVwXG5cdCAqIEBwYXJhbSB7c3RyaW5nfSBpZCB0aGUgaWRlbnRpZmllciBvZiB0aGUgY2hhbm5lbCB0aGF0IHNlZW1zIGRvd25cblx0ICogQHJldHVybiB7dm9pZH1cblx0ICovXG5cdG9uUGVlckRvd24gKGlkKSB7XG5cdFx0dGhpcy5sb2coYEBzcHJheTogVGhlIHBlZXIgJHtKU09OLnN0cmluZ2lmeShpZCl9IHNlZW1zIGRvd24uYCk7XG5cdFx0Ly8gI0EgcmVtb3ZlIGFsbCBvY2N1cnJlbmNlcyBvZiB0aGUgcGVlciBpbiB0aGUgcGFydGlhbCB2aWV3XG5cdFx0Y29uc3Qgb2NjID0gdGhpcy5wYXJ0aWFsVmlldy5yZW1vdmVBbGwoaWQpO1xuXHRcdC8vICNCIHByb2JhYmlsaXN0aWNhbGx5IHJlY3JlYXRlIGFuIGFyYyB0byBhIGtub3duIHBlZXJcblx0XHRpZiAodGhpcy5wYXJ0aWFsVmlldy5sZW5ndGgoKSA+IDApIHtcblx0XHRcdGZvciAobGV0IGkgPSAwOyBpIDwgb2NjOyArK2kpIHtcblx0XHRcdFx0aWYgKE1hdGgucmFuZG9tKCkgPiAoMSAvICh0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCgpICsgb2NjKSkpIHtcblx0XHRcdFx0XHRjb25zdCBybiA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIHRoaXMucGFydGlhbFZpZXcubGVuZ3RoKCkpO1xuXHRcdFx0XHRcdHRoaXMubmVpZ2hib3Job29kcy5jb25uZWN0KG51bGwsIHRoaXMucGFydGlhbFZpZXcuYXJyYXkuYXJyW3JuXSk7XG5cdFx0XHRcdH1cblx0XHRcdH1cblx0XHR9XG5cdH1cblxuXHQvKipcblx0ICogQSBjb25uZWN0aW9uIGZhaWxlZCB0byBlc3RhYmxpc2ggcHJvcGVybHksIHN5c3RlbWF0aWNhbGx5IGR1cGxpY2F0ZXNcblx0ICogYW4gZWxlbWVudCBvZiB0aGUgcGFydGlhbCB2aWV3LlxuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0b25BcmNEb3duICgpIHtcblx0XHR0aGlzLmxvZygnQHNwcmF5OiBBbiBhcmMgZmFpbGVkIHRvIGVzdGFibGlzaC4nKTtcblx0XHRpZiAodGhpcy5wYXJ0aWFsVmlldy5sZW5ndGgoKSA+IDApIHtcblx0XHRcdGNvbnN0IHJuID0gTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICogdGhpcy5wYXJ0aWFsVmlldy5sZW5ndGgoKSk7XG5cdFx0XHR0aGlzLm5laWdoYm9yaG9vZHMuY29ubmVjdChudWxsLCB0aGlzLnBhcnRpYWxWaWV3LmFycmF5LmFycltybl0pO1xuXHRcdH1cblx0fVxuXG59XG5cblxubW9kdWxlLmV4cG9ydHMgPSBTcHJheTtcbiJdfQ==
-},{"./messages.js":2,"./partialview.js":3,"events":8,"lodash":12,"n2n-overlay-wrtc":14}]},{},[]);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNwcmF5LmpzIl0sIm5hbWVzIjpbImRlYnVnIiwicmVxdWlyZSIsIk4yTiIsIl8iLCJQYXJ0aWFsVmlldyIsIk1FeGNoYW5nZSIsIk1Kb2luIiwiRXhFbXB0eVZpZXciLCJTcHJheSIsIm9wdGlvbnMiLCJtZXJnZSIsInBpZCIsImRlbHRhIiwiUElEIiwiUEVFUiIsInBhcnRpYWxWaWV3Iiwic3RhdGUiLCJwZXJpb2RpYyIsIm9uIiwicGVlcklkIiwibWVzc2FnZSIsIl9yZWNlaXZlIiwiX3JlYWR5IiwiX29uQXJjRG93biIsInNldEludGVydmFsIiwiX2V4Y2hhbmdlIiwiY2xlYXJJbnRlcnZhbCIsInR5cGUiLCJfb25FeGNoYW5nZSIsIl9vbkpvaW4iLCJhZGROZWlnaGJvciIsImFyZzEiLCJhcmcyIiwib25jZSIsInNlbmQiLCJjb25uZWN0IiwibGVuZ3RoIiwiZm9yRWFjaCIsImFnZXMiLCJuZWlnaGJvciIsImFnZSIsImsiLCJwZWVycyIsInZpZXciLCJvY2MiLCJwdXNoIiwib3V0Iiwicm4iLCJNYXRoIiwiZmxvb3IiLCJyYW5kb20iLCJzcGxpY2UiLCJpblZpZXciLCJpIiwiaW5jcmVtZW50Iiwib2xkZXN0IiwiZ2V0T2xkZXN0IiwiSUkiLCJwZWVyIiwidGhlbiIsInNhbXBsZSIsImdldFNhbXBsZSIsIm1hcCIsImRpc2Nvbm5lY3QiLCJyZW1vdmVOZWlnaGJvciIsImNhdGNoIiwiZSIsIl9vblBlZXJEb3duIiwiaW52aWV3IiwicmVtb3ZlTmVpZ2Job3IiLCJyZW1vdmVBbGwiLCJJTyIsImdldExlYXN0RnJlcXVlbnQiLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7OztBQUVBLElBQU1BLFFBQVFDLFFBQVEsT0FBUixFQUFpQixZQUFqQixDQUFkO0FBQ0E7QUFDQSxJQUFNQyxNQUFNRCxRQUFRLGtCQUFSLENBQVo7QUFDQSxJQUFNRSxJQUFJRixRQUFRLFFBQVIsQ0FBVjs7QUFFQSxJQUFNRyxjQUFjSCxRQUFR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LElBQWhCLEVBQXNCLEtBQUtwQixXQUFMLENBQWlCeUQsZ0JBQWpCLEVBQXRCO0FBQ0g7QUFDSjtBQUNKLGFBVEQsTUFTTztBQUNIO0FBQ0g7QUFDSjs7Ozs7QUFFRDs7Ozs7OzttQ0FPWXJELE0sRUFBUTtBQUNoQm5CLGtCQUFNLG9CQUFOLEVBQTRCLEtBQUthLEdBQWpDLEVBQXNDLEtBQUtDLElBQTNDLEVBQWlESyxVQUFRLFNBQXpEO0FBQ0EsZ0JBQUksS0FBS0osV0FBTCxDQUFpQnFCLE1BQWpCLEtBQTRCLENBQWhDLEVBQW1DO0FBQy9CO0FBQ0EscUJBQUttQyxFQUFMLENBQVFwQyxPQUFSLENBQWdCLElBQWhCLEVBQXNCLEtBQUtwQixXQUFMLENBQWlCeUQsZ0JBQWpCLEVBQXRCO0FBQ0gsYUFIRCxNQUdPO0FBQ0g7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNIO0FBQ0o7Ozs7RUEvUWV0RSxHOztBQWdSbkI7O0FBR0R1RSxPQUFPQyxPQUFQLEdBQWlCbEUsS0FBakIiLCJmaWxlIjoic3ByYXkuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbmNvbnN0IGRlYnVnID0gcmVxdWlyZSgnZGVidWcnKSgnc3ByYXktd3J0YycpO1xuLy8gY29uc3QgIEV2ZW50RW1pdHRlciA9IHJlcXVpcmUoJ2V2ZW50cycpOyAoVE9ETykgbWF5YmUga2VlcCBpdFxuY29uc3QgTjJOID0gcmVxdWlyZSgnbjJuLW92ZXJsYXktd3J0YycpO1xuY29uc3QgXyA9IHJlcXVpcmUoJ2xvZGFzaCcpO1xuXG5jb25zdCBQYXJ0aWFsVmlldyA9IHJlcXVpcmUoJy4vcGFydGlhbHZpZXcuanMnKTtcblxuY29uc3QgTUV4Y2hhbmdlID0gcmVxdWlyZSgnLi9tZXNzYWdlcy9tZXhjaGFuZ2UuanMnKTtcbmNvbnN0IE1Kb2luID0gcmVxdWlyZSgnLi9tZXNzYWdlcy9tam9pbi5qcycpO1xuXG5jb25zdCBFeEVtcHR5VmlldyA9IHJlcXVpcmUoJy4vZXhjZXB0aW9ucy9leGVtcHR5dmlldy5qcycpO1xuXG4vKipcbiAqIEltcGxlbWVudGF0aW9uIG9mIHRoZSByYW5kb20gcGVlci1zYW1wbGluZyBTcHJheS4gXG4gKi9cbmNsYXNzIFNwcmF5IGV4dGVuZHMgTjJOIHtcbiAgICAvKipcbiAgICAgKiBZb3UgY2FuIHBhc3Mgb3RoZXIgcGFyYW1ldGVycyBzdWNoIGFzIHdlYnJ0YyBvcHRpb25zXG4gICAgICogQHBhcmFtIHtvYmplY3R9IFtvcHRpb25zID0ge31dIE9iamVjdCB3aXRoIGFsbCBvcHRpb25zXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IFtvcHRpb25zLnBpZCA9ICdzcHJheS13cnRjJ10gVGhlIGlkZW50aWZpZXIgb2YgdGhpc1xuICAgICAqIHByb3RvY29sLiBcbiAgICAgKiBAcGFyYW0ge2ludGVnZXJ9IG9wdGlvbnMuZGVsdGEgRXZlcnkgZGVsdGEgbWlsbGlzZWNvbmRzLCBTcHJheSBzaHVmZmxlc1xuICAgICAqIGl0cyBwYXJ0aWFsIHZpZXcgd2l0aCBpdHMgb2xkZXN0IG5laWdoYm9yLlxuICAgICAqL1xuICAgIGNvbnN0cnVjdG9yIChvcHRpb25zID0ge30pIHtcbiAgICAgICAgLy8gIzAgaW5pdGlhbGl6ZSBvdXIgTjJOLXBhcmVudFxuICAgICAgICBzdXBlcihfLm1lcmdlKHsgcGlkOiAnc3ByYXktd3J0YycsXG4gICAgICAgICAgICAgICAgICAgICAgICBkZWx0YTogMTAwMCAqIDYwICogMiB9LCBvcHRpb25zKSk7XG4gICAgICAgIC8vICMxIGNvbnN0YW50cyAoZnJvbSBOMk4pXG4gICAgICAgIC8vIHRoaXMuUElEID0gcHJvdG9jb2wgaWRlbnRpZmllclxuICAgICAgICAvLyB0aGlzLlBFRVIgPSBwZWVyIElkIGNvbXByaXNpbmcgaW52aWV3IGFuZCBvdXR2aWV3IElkc1xuICAgICAgICBkZWJ1ZygnWyVzXSBJbml0YWxpemVkIHdpdGggPT0+ICVzID09PicsIHRoaXMuUElELCB0aGlzLlBFRVIpO1xuICAgICAgICAvLyAjMiBpbml0aWFsaXplIHRoZSBwYXJ0aWFsIHZpZXcgY29udGFpbmluZyBhZ2VzXG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcgPSBuZXcgUGFydGlhbFZpZXcoKTtcbiAgICAgICAgLy8gIzMgaW5pdGlhbGl6ZSB0aGUgY29ubmVjdGVkbmVzcyBzdGF0ZSBvZiB0aGlzIHByb3RvY29sXG4gICAgICAgIHRoaXMuc3RhdGUgPSAnZGlzY29ubmVjdCc7XG4gICAgICAgIC8vICM0IHBlcmlvZGljIHNodWZmbGluZ1xuICAgICAgICB0aGlzLnBlcmlvZGljID0gbnVsbDtcbiAgICAgICAgLy8gIzUgZXZlbnRzXG4gICAgICAgIHRoaXMub24oJ3JlY2VpdmUnLCAocGVlcklkLCBtZXNzYWdlKSA9PiB0aGlzLl9yZWNlaXZlKHBlZXJJZCwgbWVzc2FnZSkpO1xuICAgICAgICB0aGlzLm9uKCdzdHJlYW0nLCAocGVlcklkLCBtZXNzYWdlKSA9PiB7IH0gKTsgLy8gKFRPRE8pID87XG4gICAgICAgIHRoaXMub24oJ3JlYWR5JywgKHBlZXJJZCkgPT4gdGhpcy5fcmVhZHkocGVlcklkKSk7XG4gICAgICAgIHRoaXMub24oJ2ZhaWwnLCAocGVlcklkKSA9PiB0aGlzLl9vbkFyY0Rvd24ocGVlcklkKSk7XG4gICAgfTtcblxuICAgIC8qKlxuICAgICAqIEBwcml2YXRlXG4gICAgICogU3RhcnQgcGVyaW9kaWMgc2h1ZmZsaW5nLlxuICAgICAqL1xuICAgIF9zdGFydCAoKSB7XG4gICAgICAgIHRoaXMucGVyaW9kaWMgPSBzZXRJbnRlcnZhbCggKCkgPT4ge1xuICAgICAgICAgICAgdGhpcy5fZXhjaGFuZ2UoKTtcbiAgICAgICAgfSwgdGhpcy5vcHRpb25zLmRlbHRhKTtcbiAgICB9O1xuXG4gICAgLyoqXG4gICAgICogQHByaXZhdGVcbiAgICAgKiBTdG9wIHBlcmlvZGljIHNodWZmbGluZy5cbiAgICAgKi9cbiAgICBfc3RvcCAoKSB7XG4gICAgICAgIGNsZWFySW50ZXJ2YWwodGhpcy5wZXJpb2RpYyk7XG4gICAgfTtcblxuXG4gICAgLyoqXG4gICAgICogQHByaXZhdGVcbiAgICAgKiBDYWxsZWQgZWFjaCB0aW1lIHRoaXMgcHJvdG9jb2wgcmVjZWl2ZXMgYSBtZXNzYWdlLiBTaW5jZSBpdCBvbmx5IHNlbmRzIFxuICAgICAqIE1FeGNoYW5nZSBtZXNzYWdlcywgdGhlIHJlc3QgYXJlIHJlZGlyZWN0ZWQgdG8gdGhlIGFwcHJvcHJpYXRlIHByb3RvY29sXG4gICAgICogcmVnaXN0ZXJlZCBvbiB0b3Agb2YgU3ByYXkuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB0aGF0IHNlbnQgdGhlIG1lc3NhZ2UuXG4gICAgICogQHBhcmFtIHtvYmplY3R8TUV4Y2hhbmdlfSBtZXNzYWdlIFRoZSBtZXNzYWdlIHJlY2VpdmVkLlxuICAgICAqLyBcbiAgICBfcmVjZWl2ZSAocGVlcklkLCBtZXNzYWdlKSB7XG4gICAgICAgIGlmIChtZXNzYWdlLnR5cGUgJiYgbWVzc2FnZS50eXBlID09PSAnTUV4Y2hhbmdlJykge1xuICAgICAgICAgICAgdGhpcy5fb25FeGNoYW5nZShwZWVySWQsIG1lc3NhZ2UpO1xuICAgICAgICB9IGVsc2UgaWYgKG1lc3NhZ2UudHlwZSAmJiBtZXNzYWdlLnR5cGUgPT09ICdNSm9pbicpIHtcbiAgICAgICAgICAgIHRoaXMuX29uSm9pbihwZWVySWQpO1xuICAgICAgICB9IGVsc2UgaWYgKG1lc3NhZ2UucGlkKSB7XG4gICAgICAgICAgICAvLyAoVE9ETykgdnZ2dnZcbiAgICAgICAgICAgIC8vIHRoaXMucHJvdG9jb2xzLmdldChtZXNzYWdlLnBpZCkuZW1pdCgncmVjZWl2ZScsIHBlZXJJZCwgbWVzc2FnZS5wYXlvYWQpO1xuICAgICAgICB9O1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBAcHJpdmF0ZVxuICAgICAqIEJlaGF2aW9yIHdoZW4gYSBjb25uZWN0aW9uIGlzIHJlYWR5IHRvIGJlIGFkZGVkIGluIHRoZSBwYXJ0aWFsIHZpZXcuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgbmV3IG5laWdoYm9yLlxuICAgICAqL1xuICAgIF9yZWFkeSAocGVlcklkKSB7XG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcuYWRkTmVpZ2hib3IocGVlcklkKTtcbiAgICB9O1xuICAgIFxuICAgIC8qKlxuICAgICAqIEpvaW5pbmcgYXM7IG9yIGNvbnRhY3RlZCBieSBhbiBvdXRzaWRlclxuICAgICAqIEBwYXJhbSB7Y2FsbGJhY2t8TVJlc3BvbnNlfSBhcmcxIHRoZSBjYWxsYmFja3MgZnVuY3Rpb24sIHNlZSBtb2R1bGVcbiAgICAgKiBuMm4tb3ZlcmxheS13cnRjLiBPciBhIHJlc3BvbnNlIG1lc3NhZ2UgZnJvbSB0aGUgY29udGFjdCBwZWVyLlxuICAgICAqIEBwYXJhbSB7TVJlcXVlc3R9IFthcmcyXSBBIHJlcXVlc3QgbWVzc2FnZSBmcm9tIHRoZSBuZXdjb21lci5cbiAgICAgKi9cbiAgICBqb2luIChhcmcxLCBhcmcyKSB7XG4gICAgICAgIGlmICh0eXBlb2YgYXJnMSA9PT0gJ2Z1bmN0aW9uJyAmJiB0eXBlb2YgYXJnMiA9PT0gJ3VuZGVmaW5lZCcpIHtcbiAgICAgICAgICAgIC8vICMxIHZlcnkgZmlyc3QgY2FsbFxuICAgICAgICAgICAgdGhpcy5vbmNlKCdyZWFkeScsIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICB0aGlzLnNlbmQocGVlcklkLCBuZXcgTUpvaW4oKSk7XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgfTtcbiAgICAgICAgdGhpcy5jb25uZWN0KGFyZzEsIGFyZzIpOyAgICAgICAgICAgIFxuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBCZWhhdmlvciBvZiB0aGUgY29udGFjdCBwZWVyIHdoZW4gYSBuZXdjb21lciBhcnJpdmVzLlxuICAgICAqIEBwYXJhbSB7c3RyaW5nfSBwZWVySWQgVGhlIGlkZW50aWZpZXIgb2YgdGhlIG5ld2NvbWVyLlxuICAgICAqLyBcbiAgICBfb25Kb2luIChwZWVySWQpIHtcbiAgICAgICAgaWYgKHRoaXMucGFydGlhbFZpZXcubGVuZ3RoID4gMCl7XG4gICAgICAgICAgICAvLyAjMSBhbGwgbmVpZ2JvcnMgLT4gcGVlcklkXG4gICAgICAgICAgICB0aGlzLnBhcnRpYWxWaWV3LmZvckVhY2goIChhZ2VzLCBuZWlnaGJvcikgPT4ge1xuICAgICAgICAgICAgICAgIHRoaXMuYWdlcy5mb3JFYWNoKCAoYWdlKSA9PiB7XG4gICAgICAgICAgICAgICAgICAgIHRoaXMuY29ubmVjdChuZWlnaGJvciwgcGVlcklkKTtcbiAgICAgICAgICAgICAgICB9KTtcbiAgICAgICAgICAgIH0pO1xuICAgICAgICB9IGVsc2Uge1xuICAgICAgICAgICAgLy8gIzIgdGhpcyAtPiBwZWVySWRcbiAgICAgICAgICAgIHRoaXMuY29ubmVjdChudWxsLCBwZWVySWQpO1xuICAgICAgICB9O1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBHZXQgayBuZWlnaGJvcnMgZnJvbSB0aGUgcGFydGlhbCB2aWV3LiBJZiBrIGlzIG5vdCByZWFjaGVkLCBpdCB0cmllcyB0b1xuICAgICAqIGZpbGwgdGhlIGdhcCB3aXRoIG5laWdoYm9ycyBmcm9tIHRoZSBpbnZpZXcuICBJdCBpcyB3b3J0aCBub3RpbmcgdGhhdFxuICAgICAqIGVhY2ggcGVlciBjb250cm9scyBpdHMgb3V0dmlldyBidXQgbm90IGl0cyBpbnZpZXcuIFRoZSBtb3JlIHRoZSBuZWlnYmhvcnNcbiAgICAgKiBmcm9tIHRoZSBvdXR2aWV3IHRoZSBiZXR0ZXIuXG4gICAgICogQHBhcmFtIHtudW1iZXJ9IGsgVGhlIG51bWJlciBvZiBuZWlnaGJvcnMgcmVxdWVzdGVkLiBJZiBrIGlzIG5vdCBkZWZpbmVkLFxuICAgICAqIGl0IHJldHVybnMgZXZlcnkga25vd24gaWRlbnRpZmllcnMgb2YgdGhlIHBhcnRpYWwgdmlldy5cbiAgICAgKiBAcmV0dXJuIHtzdHJpbmdbXX0gQXJyYXkgb2YgaWRlbnRpZmllcnMuXG4gICAgICovXG4gICAgZ2V0UGVlcnMgKGspIHtcbiAgICAgICAgbGV0IHBlZXJzID0gW107IFxuICAgICAgICBpZiAodHlwZW9mIGsgPT09ICd1bmRlZmluZWQnKSB7XG4gICAgICAgICAgICAvLyAjMSBnZXQgYWxsIHRoZSBwYXJ0aWFsIHZpZXdcbiAgICAgICAgICAgIHRoaXMucGFydGlhbFZpZXcudmlldy5mb3JFYWNoKCAob2NjLCBwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICBwZWVycy5wdXNoKHBlZXJJZCk7XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgfSBlbHNlIHtcbiAgICAgICAgICAgIC8vICMyIGdldCByYW5kb20gaWRlbnRpZmllciBmcm9tIG91dHZpZXdcbiAgICAgICAgICAgIGxldCBvdXQgPSBbXTtcbiAgICAgICAgICAgIHRoaXMucGFydGlhbFZpZXcudmlldy5mb3JFYWNoKCAoYWdlcywgcGVlcklkKSA9PiBvdXQucHVzaChwZWVySWQpICk7XG4gICAgICAgICAgICB3aGlsZSAocGVlcnMubGVuZ3RoIDwgayAmJiBvdXQubGVuZ3RoID4gMCkge1xuICAgICAgICAgICAgICAgIGxldCBybiA9IE1hdGguZmxvb3IoIE1hdGgucmFuZG9tKCkgKiBvdXQubGVuZ3RoICk7XG4gICAgICAgICAgICAgICAgcGVlcnMucHVzaCggb3V0W3JuXSApO1xuICAgICAgICAgICAgICAgIG91dC5zcGxpY2UoIHJuLCAxICk7XG4gICAgICAgICAgICB9O1xuICAgICAgICAgICAgLy8gIzMgZ2V0IHJhbmRvbSBpZGVudGlmaWVyIGZyb20gdGhlIGludmlldyB0byBmaWxsIGstZW50cmllc1xuICAgICAgICAgICAgbGV0IGluVmlldyA9IFtdO1xuICAgICAgICAgICAgdGhpcy5pLmZvckVhY2goIChvY2MsIHBlZXJJZCkgPT4gaW5WaWV3LnB1c2gocGVlcklkKSApO1xuICAgICAgICAgICAgd2hpbGUgKHBlZXJzLmxlbmd0aCA8IGsgJiYgaW5WaWV3Lmxlbmd0aCA+IDApe1xuICAgICAgICAgICAgICAgIGxldCBybiA9IE1hdGguZmxvb3IoIE1hdGgucmFuZG9tKCkgKiBpblZpZXcubGVuZ3RoICk7XG4gICAgICAgICAgICAgICAgcGVlcnMucHVzaCggaW5WaWV3W3JuXSApO1xuICAgICAgICAgICAgICAgIGluVmlldy5zcGxpY2UoIHJuLCAxICk7XG4gICAgICAgICAgICB9O1xuICAgICAgICB9O1xuICAgICAgICByZXR1cm4gcGVlcnM7ICAgICAgIFxuICAgIH07XG5cbiAgICAvKiAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKipcbiAgICAgKiBTcHJheSdzIHByb3RvY29sIGltcGxlbWVudGF0aW9uICpcbiAgICAgKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiovXG5cbiAgICAvKipcbiAgICAgKiBAcHJpdmF0ZVxuICAgICAqIFBlcmlvZGljYWxseSBjYWxsZWQgZnVuY3Rpb24gdGhhdCBhaW1zIHRvIGJhbGFuY2UgdGhlIHBhcnRpYWwgdmlld1xuICAgICAqIGFuZCB0byBtaXggdGhlIG5laWdoYm9yaG9vZHMuXG4gICAgICovXG4gICAgX2V4Y2hhbmdlICgpIHtcbiAgICAgICAgaWYgKHRoaXMucGFydGlhbFZpZXcubGVuZ3RoIDw9IDApIHsgdGhyb3cgbmV3IEV4RW1wdHlWaWV3KCdleGNoYW5nZScpO307XG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcuaW5jcmVtZW50KCk7XG4gICAgICAgIGNvbnN0IG9sZGVzdCA9IHRoaXMucGFydGlhbFZpZXcuZ2V0T2xkZXN0KCk7XG4gICAgICAgIC8vICMxIHNlbmQgdGhlIG5vdGlmaWNhdGlvbiB0byBvbGRlc3QgdGhhdCB3ZSBwZXJmb3JtIGFuIGV4Y2hhbmdlXG4gICAgICAgIHRoaXMuc2VuZChvbGRlc3QsIG5ldyBNRXhjaGFuZ2UodGhpcy5JSS5wZWVyKSlcbiAgICAgICAgICAgIC50aGVuKCAoKSA9PiB7XG4gICAgICAgICAgICAgICAgZGVidWcoJ1slc10gJXMgPT0+IGV4Y2hhbmdlID09PiAlcycsXG4gICAgICAgICAgICAgICAgICAgICAgdGhpcy5QSUQsIHRoaXMuUEVFUiwgb2xkZXN0KTtcbiAgICAgICAgICAgICAgICAvLyAjQSBzZXR1cCB0aGUgZXhjaGFuZ2VcbiAgICAgICAgICAgICAgICAvLyAjMiBnZXQgYSBzYW1wbGUgZnJvbSBvdXIgcGFydGlhbCB2aWV3XG4gICAgICAgICAgICAgICAgbGV0IHNhbXBsZSA9IHRoaXMucGFydGlhbFZpZXcuZ2V0U2FtcGxlKG9sZGVzdCwgdHJ1ZSk7XG4gICAgICAgICAgICAgICAgLy8gIzMgcmVwbGFjZSBvY2N1cnJlbmNlcyB0byBvbGRlc3QgYnkgb3Vyc1xuICAgICAgICAgICAgICAgIHNhbXBsZSA9IHNhbXBsZS5tYXAoIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuICgocGVlcklkID09PSBvbGRlc3QpICYmIHRoaXMuSUkucGVlcikgfHwgcGVlcklkO1xuICAgICAgICAgICAgICAgIH0pO1xuICAgICAgICAgICAgICAgIC8vICM0IGNvbm5lY3Qgb2xkZXN0IC0+IHNhbXBsZVxuICAgICAgICAgICAgICAgIHNhbXBsZS5mb3JFYWNoKCAocGVlcklkKSA9PiB7XG4gICAgICAgICAgICAgICAgICAgIHRoaXMuY29ubmVjdChvbGRlc3QsIHBlZXJJZCk7XG4gICAgICAgICAgICAgICAgfSk7XG4gICAgICAgICAgICAgICAgLy8gIzUgcmVtb3ZlIG91ciBvd24gY29ubmVjdGlvblxuICAgICAgICAgICAgICAgIC8vIChUT0RPKSBtYXliZSBiZSBtb3JlIGNhcmVmdWwsIGkuZS4sIHdhaXQgZm9yIGFuIGFuc3dlclxuICAgICAgICAgICAgICAgIHNhbXBsZSA9IHNhbXBsZS5tYXAoIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuICgocGVlcklkID09PSB0aGlzLklJLnBlZXIpICYmIG9sZGVzdCkgfHwgcGVlcklkO1xuICAgICAgICAgICAgICAgIH0pOyAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICBzYW1wbGUuZm9yRWFjaCggKHBlZXJJZCkgPT4ge1xuICAgICAgICAgICAgICAgICAgICB0aGlzLmRpc2Nvbm5lY3QocGVlcklkKTtcbiAgICAgICAgICAgICAgICAgICAgdGhpcy5wYXJ0aWFsVmlldy5yZW1vdmVOZWlnaGJvcihwZWVySWQpO1xuICAgICAgICAgICAgICAgIH0pO1xuICAgICAgICAgICAgfSkuY2F0Y2goIChlKSA9PiB7XG4gICAgICAgICAgICAgICAgLy8gI0IgdGhlIHBlZXIgY2Fubm90IGJlIHJlYWNoZWQsIGhlIGlzIHN1cHBvc2VkbHkgZGVhZFxuICAgICAgICAgICAgICAgIGRlYnVnKCdbJXNdICVzID1YPiBleGNoYW5nZSA9WD4gJXMnLFxuICAgICAgICAgICAgICAgICAgICAgIHRoaXMuUElELCB0aGlzLlBFRVIsIG9sZGVzdCk7ICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgIHRoaXMuX29uUGVlckRvd24ob2xkZXN0KTtcbiAgICAgICAgICAgIH0pO1xuICAgIH07XG5cblxuICAgIC8qKlxuICAgICAqIEBwcml2YXRlXG4gICAgICogQmVoYXZpb3Igd2hlbiB0aGlzIHBlZXIgcmVjZWl2ZXMgYSBzaHVmZmxpbmcgcmVxdWVzdC5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gbmVpZ2hib3IgVGhlIGlkZW50aWZpZXIgb2YgdGhlIHBlZXIgdGhhdCBzZW50IHRoaXNcbiAgICAgKiBleGNoYW5nZSByZXF1ZXN0LlxuICAgICAqIEBwYXJhbSB7TUV4Y2hhbmdlfSBtZXNzYWdlIG1lc3NhZ2UgY29udGFpbmluZyB0aGUgaWRlbnRpZmllciBvZiB0aGUgcGVlclxuICAgICAqIHRoYXQgc3RhcnRlZCB0aGUgZXhjaGFuZ2UuXG4gICAgICovXG4gICAgX29uRXhjaGFuZ2UgKG5laWdoYm9yLCBtZXNzYWdlKSB7XG4gICAgICAgIGRlYnVnKCdbJXNdICVzID09PiBleGNoYW5nZSA9PT4gJXMnLCB0aGlzLlBJRCwgbmVpZ2hib3IsIHRoaXMuUEVFUik7XG4gICAgICAgIC8vICMxIGdldCBhIHNhbXBsZSBvZiBuZWlnaGJvcnMgZnJvbSBvdXIgcGFydGlhbCB2aWV3XG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcuaW5jcmVtZW50KCk7XG4gICAgICAgIGxldCBzYW1wbGUgPSB0aGlzLnBhcnRpYWxWaWV3LmdldFNhbXBsZSgpO1xuICAgICAgICAvLyAjMiByZXBsYWNlIG9jY3VycmVuY2VzIG9mIHRoZSBpbml0aWF0b3IgYnkgb3Vyc1xuICAgICAgICBzYW1wbGUgPSBzYW1wbGUubWFwKCAocGVlcklkKSA9PiB7XG4gICAgICAgICAgICByZXR1cm4gKHBlZXJJZCA9PT0gbWVzc2FnZS5pbnZpZXcpICYmIHRoaXMuSUkucGVlciB8fCBwZWVySWQ7XG4gICAgICAgIH0pO1xuICAgICAgICAvLyAjMyBlc3RhYmxpc2ggY29ubmVjdGlvbnNcbiAgICAgICAgc2FtcGxlLmZvckVhY2goIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgIHRoaXMuY29ubmVjdChuZWlnaGJvciwgcGVlcklkKTtcbiAgICAgICAgfSk7XG4gICAgICAgIC8vICM0IGludmVyc2UgcmVwbGFjZW1lbnRcbiAgICAgICAgc2FtcGxlID0gc2FtcGxlLm1hcCggKHBlZXJJZCkgPT4ge1xuICAgICAgICAgICAgcmV0dXJuIChwZWVySWQgPT09IHRoaXMuSUkucGVlcikgJiYgbWVzc2FnZS5pbnZpZXcgfHwgcGVlcklkO1xuICAgICAgICB9KTtcbiAgICAgICAgLy8gIzUgZGlzY29ubmVjdCBhcmNzXG4gICAgICAgIHNhbXBsZS5mb3JFYWNoKCAocGVlcklkKSA9PiB7XG4gICAgICAgICAgICB0aGlzLmRpc2Nvbm5lY3QocGVlcklkKTtcbiAgICAgICAgICAgIHRoaXMucGFydGlhbFZpZXcucmVtb3ZlTmVpZ2Job3IocGVlcklkKTtcbiAgICAgICAgfSk7XG4gICAgfTtcblxuICAgIC8qKlxuICAgICAqIEBwcml2YXRlXG4gICAgICogVGhlIGZ1bmN0aW9uIGNhbGxlZCB3aGVuIGEgbmVpZ2hib3IgaXMgdW5yZWFjaGFibGUgYW5kIHN1cHBvc2VkbHlcbiAgICAgKiBjcmFzaGVkL2RlcGFydGVkLiBJdCBwcm9iYWJpbGlzdGljYWxseSBkdXBsaWNhdGVzIGFuIGFyYy5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gcGVlcklkIFRoZSBpZGVudGlmaWVyIG9mIHRoZSBwZWVyIHRoYXQgc2VlbXMgZG93bi5cbiAgICAgKi9cbiAgICBfb25QZWVyRG93biAocGVlcklkKSB7XG4gICAgICAgIGRlYnVnKCdbJXNdID09PiAlcyA9PT4g4oCg4oCg4oCgICVzIOKAoOKAoOKAoCcsIHRoaXMuUElELCB0aGlzLlBFRVIsIHRoaXMucGVlcklkKTtcbiAgICAgICAgLy8gIzEgcmVtb3ZlIGFsbCBvY2N1cnJlbmNlcyBvZiB0aGUgcGVlciBpbiB0aGUgcGFydGlhbCB2aWV3XG4gICAgICAgIGNvbnN0IG9jYyA9IHRoaXMucGFydGlhbFZpZXcucmVtb3ZlQWxsKHBlZXJJZCk7XG4gICAgICAgIC8vICMyIHByb2JhYmlsaXN0aWNhbGx5IHJlY3JlYXRlIGFyY3MgdG8gYSBrbm93biBwZWVyXG4gICAgICAgIGlmICh0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCA+IDApIHtcbiAgICAgICAgICAgIC8vICNBIG5vcm1hbCBiZWhhdmlvclxuICAgICAgICAgICAgZm9yIChsZXQgaSA9IDA7IGkgPCBvY2M7ICsraSkge1xuICAgICAgICAgICAgICAgIGlmIChNYXRoLnJhbmRvbSgpID4gKDEgLyAodGhpcy5wYXJ0aWFsVmlldy5sZW5ndGggKyBvY2MpKSkge1xuICAgICAgICAgICAgICAgICAgICAvLyBwcm9iYWJpbGlzdGljYWxseSBkdXBsaWNhdGVzIG9uZSBvZiB0aGUgbGVhc3QgZnJlcXVlbnRcbiAgICAgICAgICAgICAgICAgICAgLy8gcGVlcnNcbiAgICAgICAgICAgICAgICAgICAgdGhpcy5JTy5jb25uZWN0KG51bGwsIHRoaXMucGFydGlhbFZpZXcuZ2V0TGVhc3RGcmVxdWVudCgpKTtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICB9XG4gICAgICAgIH0gZWxzZSB7XG4gICAgICAgICAgICAvLyAjQiBsYXN0IGNoYW5jZSBiZWhhdmlvciAoVE9ETykgYXNrIGludmlld1xuICAgICAgICB9O1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBAcHJpdmF0ZVxuICAgICAqIEEgY29ubmVjdGlvbiBmYWlsZWQgdG8gZXN0YWJsaXNoIHByb3Blcmx5LCBzeXN0ZW1hdGljYWxseSBkdXBsaWNhdGVzXG4gICAgICogYW4gZWxlbWVudCBvZiB0aGUgcGFydGlhbCB2aWV3LlxuICAgICAqIEBwYXJhbSB7c3RyaW5nfG51bGx9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB3ZSBmYWlsZWQgdG8gXG4gICAgICogZXN0YWJsaXNoIGEgY29ubmVjdGlvbiB3aXRoLiBOdWxsIGlmIGl0IHdhcyB5ZXQgdG8gYmUga25vd24uXG4gICAgICovXG4gICAgX29uQXJjRG93biAocGVlcklkKSB7XG4gICAgICAgIGRlYnVnKCdbJXNdID09PiAlcyA9WD4gJXMnLCB0aGlzLlBJRCwgdGhpcy5QRUVSLCBwZWVySWR8fCd1bmtub3duJyk7XG4gICAgICAgIGlmICh0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCgpID4gMCkge1xuICAgICAgICAgICAgLy8gIzEgbm9ybWFsIGJlaGF2aW9yXG4gICAgICAgICAgICB0aGlzLklPLmNvbm5lY3QobnVsbCwgdGhpcy5wYXJ0aWFsVmlldy5nZXRMZWFzdEZyZXF1ZW50KCkpO1xuICAgICAgICB9IGVsc2Uge1xuICAgICAgICAgICAgLy8gIzIgbGFzdCBjaGFuY2UgYmVoYXZpb3JcbiAgICAgICAgICAgIC8vIChUT0RPKSBhc2sgaW52aWV3XG4gICAgICAgICAgICAvLyBjb25zdCBybiA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIHRoaXMuaS5zaXplKTtcbiAgICAgICAgICAgIC8vIGxldCBpdCA9IHRoaXMuaS5rZXlzKCk7ICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAvLyB0aGlzLklJLmNvbm5lY3QobnVsbCwgdGhpcy5pLlxuICAgICAgICB9O1xuICAgIH07XG59O1xuXG5cbm1vZHVsZS5leHBvcnRzID0gU3ByYXk7XG4iXX0=
+},{"./exceptions/exemptyview.js":1,"./messages/mexchange.js":3,"./messages/mjoin.js":4,"./partialview.js":5,"debug":12,"lodash":21,"n2n-overlay-wrtc":26}]},{},[]);
