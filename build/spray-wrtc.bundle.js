@@ -5,24 +5,19 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
  * Exception that rises when the partial view is used as if there were neighbors
  * populating it, whereas there are none.
  */
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ExEmptyView =
-/**
- * @param {string} source The function that throws the exception.
- */
-function ExEmptyView(source) {
-  _classCallCheck(this, ExEmptyView);
-
-  this.source = source;
-  this.message = 'Partial view is used as it was not empty, yet it is.';
+class ExEmptyView {
+    /**
+     * @param {string} source The function that throws the exception.
+     */
+    constructor (source) {
+        this.source = source;
+        this.message = 'Partial view is used as it was not empty, yet it is.';
+    };
 };
 
-;
-
 module.exports = ExEmptyView;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4ZW1wdHl2aWV3LmpzIl0sIm5hbWVzIjpbIkV4RW1wdHlWaWV3Iiwic291cmNlIiwibWVzc2FnZSIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBOzs7Ozs7O0lBSU1BLFc7QUFDRjs7O0FBR0EscUJBQWFDLE1BQWIsRUFBcUI7QUFBQTs7QUFDakIsT0FBS0EsTUFBTCxHQUFjQSxNQUFkO0FBQ0EsT0FBS0MsT0FBTCxHQUFlLHNEQUFmO0FBQ0gsQzs7QUFDSjs7QUFFREMsT0FBT0MsT0FBUCxHQUFpQkosV0FBakIiLCJmaWxlIjoiZXhlbXB0eXZpZXcuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbi8qKlxuICogRXhjZXB0aW9uIHRoYXQgcmlzZXMgd2hlbiB0aGUgcGFydGlhbCB2aWV3IGlzIHVzZWQgYXMgaWYgdGhlcmUgd2VyZSBuZWlnaGJvcnNcbiAqIHBvcHVsYXRpbmcgaXQsIHdoZXJlYXMgdGhlcmUgYXJlIG5vbmUuXG4gKi9cbmNsYXNzIEV4RW1wdHlWaWV3IHtcbiAgICAvKipcbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gc291cmNlIFRoZSBmdW5jdGlvbiB0aGF0IHRocm93cyB0aGUgZXhjZXB0aW9uLlxuICAgICAqL1xuICAgIGNvbnN0cnVjdG9yIChzb3VyY2UpIHtcbiAgICAgICAgdGhpcy5zb3VyY2UgPSBzb3VyY2U7XG4gICAgICAgIHRoaXMubWVzc2FnZSA9ICdQYXJ0aWFsIHZpZXcgaXMgdXNlZCBhcyBpdCB3YXMgbm90IGVtcHR5LCB5ZXQgaXQgaXMuJztcbiAgICB9O1xufTtcblxubW9kdWxlLmV4cG9ydHMgPSBFeEVtcHR5VmlldztcblxuIl19
+
+
 },{}],2:[function(require,module,exports){
 'use strict';
 
@@ -30,393 +25,212 @@ module.exports = ExEmptyView;
  * Exception that rises when the peer looked for does not exist in the partial
  * view.
  */
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ExPeerNotFound =
-/**
- * @param {string} source The function that throw the error.
- * @param {string} [peerId = 'unknown'] The identifier of the peer if
- * defined.
- */
-function ExPeerNotFound(source) {
-  var peerId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'unknown';
-
-  _classCallCheck(this, ExPeerNotFound);
-
-  this.source = source;
-  this.peer = peerId;
+class ExPeerNotFound {
+    /**
+     * @param {string} source The function that throw the error.
+     * @param {string} [peerId = 'unknown'] The identifier of the peer if
+     * defined.
+     */
+    constructor (source, peerId = 'unknown') {
+        this.source = source;
+        this.peer = peerId;
+    };
 };
 
-;
 
 module.exports = ExPeerNotFound;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4cGVlcm5vdGZvdW5kLmpzIl0sIm5hbWVzIjpbIkV4UGVlck5vdEZvdW5kIiwic291cmNlIiwicGVlcklkIiwicGVlciIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBOzs7Ozs7O0lBSU1BLGM7QUFDRjs7Ozs7QUFLQSx3QkFBYUMsTUFBYixFQUF5QztBQUFBLE1BQXBCQyxNQUFvQix1RUFBWCxTQUFXOztBQUFBOztBQUNyQyxPQUFLRCxNQUFMLEdBQWNBLE1BQWQ7QUFDQSxPQUFLRSxJQUFMLEdBQVlELE1BQVo7QUFDSCxDOztBQUNKOztBQUdERSxPQUFPQyxPQUFQLEdBQWlCTCxjQUFqQiIsImZpbGUiOiJleHBlZXJub3Rmb3VuZC5qcyIsInNvdXJjZXNDb250ZW50IjpbIid1c2Ugc3RyaWN0JztcblxuLyoqXG4gKiBFeGNlcHRpb24gdGhhdCByaXNlcyB3aGVuIHRoZSBwZWVyIGxvb2tlZCBmb3IgZG9lcyBub3QgZXhpc3QgaW4gdGhlIHBhcnRpYWxcbiAqIHZpZXcuXG4gKi9cbmNsYXNzIEV4UGVlck5vdEZvdW5kIHtcbiAgICAvKipcbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gc291cmNlIFRoZSBmdW5jdGlvbiB0aGF0IHRocm93IHRoZSBlcnJvci5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gW3BlZXJJZCA9ICd1bmtub3duJ10gVGhlIGlkZW50aWZpZXIgb2YgdGhlIHBlZXIgaWZcbiAgICAgKiBkZWZpbmVkLlxuICAgICAqL1xuICAgIGNvbnN0cnVjdG9yIChzb3VyY2UsIHBlZXJJZCA9ICd1bmtub3duJykge1xuICAgICAgICB0aGlzLnNvdXJjZSA9IHNvdXJjZTtcbiAgICAgICAgdGhpcy5wZWVyID0gcGVlcklkO1xuICAgIH07XG59O1xuXG5cbm1vZHVsZS5leHBvcnRzID0gRXhQZWVyTm90Rm91bmQ7XG4iXX0=
+
 },{}],3:[function(require,module,exports){
 'use strict';
 
 /**
  * Message requesting an exchange of neighborhood.
  */
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var MExchange =
-/**
- * @param {string} inview The identifier of the inview.
- */
-function MExchange(inview, outview) {
-  _classCallCheck(this, MExchange);
-
-  this.inview = inview;
-  this.type = 'MExchange';
-};
-
-;
+class MExchange {
+    /**
+     * @param {string} inview The identifier of the inview.
+     */
+    constructor (inview, outview) {
+        this.inview = inview;
+        this.type = 'MExchange';
+    };
+ };
 
 module.exports = MExchange;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1leGNoYW5nZS5qcyJdLCJuYW1lcyI6WyJNRXhjaGFuZ2UiLCJpbnZpZXciLCJvdXR2aWV3IiwidHlwZSIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOztBQUVBOzs7Ozs7SUFHTUEsUztBQUNGOzs7QUFHQSxtQkFBYUMsTUFBYixFQUFxQkMsT0FBckIsRUFBOEI7QUFBQTs7QUFDMUIsT0FBS0QsTUFBTCxHQUFjQSxNQUFkO0FBQ0EsT0FBS0UsSUFBTCxHQUFZLFdBQVo7QUFDSCxDOztBQUNIOztBQUVGQyxPQUFPQyxPQUFQLEdBQWlCTCxTQUFqQiIsImZpbGUiOiJtZXhjaGFuZ2UuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbi8qKlxuICogTWVzc2FnZSByZXF1ZXN0aW5nIGFuIGV4Y2hhbmdlIG9mIG5laWdoYm9yaG9vZC5cbiAqL1xuY2xhc3MgTUV4Y2hhbmdlIHtcbiAgICAvKipcbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gaW52aWV3IFRoZSBpZGVudGlmaWVyIG9mIHRoZSBpbnZpZXcuXG4gICAgICovXG4gICAgY29uc3RydWN0b3IgKGludmlldywgb3V0dmlldykge1xuICAgICAgICB0aGlzLmludmlldyA9IGludmlldztcbiAgICAgICAgdGhpcy50eXBlID0gJ01FeGNoYW5nZSc7XG4gICAgfTtcbiB9O1xuXG5tb2R1bGUuZXhwb3J0cyA9IE1FeGNoYW5nZTtcbiJdfQ==
+
 },{}],4:[function(require,module,exports){
 'use strict';
 
 /**
  * Message sent by a newcommer to its contact when it joins the network.
  */
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var MJoin = function MJoin() {
-  _classCallCheck(this, MJoin);
+class MJoin {
+    constructor () {
+        this.type = 'MJoin';
+    };
 };
 
-;
-
 module.exports = MJoin;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1qb2luLmpzIl0sIm5hbWVzIjpbIk1Kb2luIiwibW9kdWxlIiwiZXhwb3J0cyJdLCJtYXBwaW5ncyI6IkFBQUE7O0FBRUE7Ozs7OztJQUdNQSxLLEdBQ0YsaUJBQWU7QUFBQTtBQUNkLEM7O0FBQ0o7O0FBRURDLE9BQU9DLE9BQVAsR0FBaUJGLEtBQWpCIiwiZmlsZSI6Im1qb2luLmpzIiwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBzdHJpY3QnO1xuXG4vKipcbiAqIE1lc3NhZ2Ugc2VudCBieSBhIG5ld2NvbW1lciB0byBpdHMgY29udGFjdCB3aGVuIGl0IGpvaW5zIHRoZSBuZXR3b3JrLlxuICovXG5jbGFzcyBNSm9pbiB7XG4gICAgY29uc3RydWN0b3IgKCkge1xuICAgIH07XG59O1xuXG5tb2R1bGUuZXhwb3J0cyA9IE1Kb2luO1xuIl19
+
 },{}],5:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ExPeerNotFound = require('./exceptions/expeernotfound.js');
+const ExPeerNotFound = require('./exceptions/expeernotfound.js');
 
 /**
  * Structure containing the neighborhood of a peer.
  * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k
  */
-
-var PartialView = function () {
-    function PartialView() {
-        _classCallCheck(this, PartialView);
-
+class PartialView {
+    constructor () {
         this.view = new Map();
         this.length = 0;
-    }
-
-    _createClass(PartialView, [{
-        key: 'getOldest',
-
-
-        /**
-         * Get the oldest peer in the partial view.
-         * @returns {string} The oldest peer in the array.
-         */
-        value: function getOldest() {
-            if (this.view.size <= 0) {
-                throw new ExPeerNotFound('getOldest');
+    };
+    
+    /**
+     * Get the oldest peer in the partial view.
+     * @returns {string} The oldest peer in the array.
+     */
+    getOldest () {
+        if (this.view.size <= 0) { throw new ExPeerNotFound('getOldest'); };
+        let oldestPeer = null;
+        let oldestAge = 0;
+        this.view.forEach( (ages, peerId) => {
+            if (oldestAge <= ages[ages.length - 1]) {
+                oldestPeer = peerId;
+                oldestAge = ages[ages.length - 1];
             };
-            var oldestPeer = null;
-            var oldestAge = 0;
-            this.view.forEach(function (ages, peerId) {
-                if (oldestAge <= ages[ages.length - 1]) {
-                    oldestPeer = peerId;
-                    oldestAge = ages[ages.length - 1];
-                };
+        });
+        return oldestPeer;
+    };
+
+
+    /**
+     * Increment the age of the whole partial view
+     */
+    increment () {
+        this.view.forEach( (ages, peerId) => {
+            this.view.set(peerId, ages.map( (age) => {return age+1;} ));
+        });
+    };
+
+    /**
+     * Get a sample of the partial view.
+     * @param {string} [peerId] The identifier of the oldest neighbor chosen to
+     * perform a view exchange.
+     * @return {string[]} An array containing the identifiers of neighbors from
+     * this partial view.
+     */
+    getSample (peerId) {
+        let sample = [];
+        // #1 create a flatten version of the partial view
+        let flatten = [];
+        this.view.forEach( (ages, neighbor) => {
+            ages.forEach( (age) => {
+                flatten.push(neighbor);
             });
-            return oldestPeer;
+        });       
+        // #2 process the size of the sample
+        const sampleSize = Math.ceil(flatten.length / 2);
+        // #3 initiator removes a chosen neighbor entry and adds it to sample
+        if (typeof peerId === 'undefined') {
+            flatten.splice(flatten.indexOf(peerId), 1);
+            sample.push(peerId);
+        };
+        // #4 add neighbors to the sample chosen at random
+        while (sample.length < sampleSize) {
+            const rn = Math.floor(Math.random() * flatten.length);
+            sample.push(flatten[rn]);
+            flatten.splice(rn, 1);
+        };
+        return sample;
+    };
+
+    /**
+     * Add the peer to the partial view with an age of 0.
+     * @param {string} peerId The identifier of the peer added to the partial
+     * view.
+     */
+    addNeighbor (peerId) {
+        (!this.view.has(peerId)) && this.view.set(peerId, new Array());        
+        this.view.get(peerId).unshift(0); // add 0 in front of the array
+        this.length += 1;
+    };
+
+    /**
+     * Remove the newest entry of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view. 
+     */
+    removeNeighbor (peerId) {
+        if (!this.view.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
+                                                               peerId); };
+        this.view.get(peerId).shift();
+        (this.view.get(peerId).length === 0) && this.view.delete(peerId);
+        this.length -= 1;
+    };
+
+    /**
+     * Remove all entries of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view.
+     * @returns {number} The number of occurrences of peerId removed.
+     */
+    removeAllNeighbor (peerId) {
+        if (!this.view.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
+                                                               peerId); };
+        const occ = this.view.get(peerId).length;
+        this.view.delete(peerId);
+        return occ;
+    };
+    
+    
+    /**
+     * Remove all the elements contained in the sample in argument
+     * @param {array} sample the elements to remove
+     * @return {void}
+     */
+    removeSample (sample) {
+        for (let i = 0; i < sample.length; ++i) {
+            this.removePeer(sample[i].id, sample[i].age);
         }
-    }, {
-        key: 'increment',
+    };
 
+    /**
+     * Check if the partial view contains the identifier of the neighbor.
+     * @param {string} peerId The identifier of the peer to check.
+     * @return {boolean} true if the identifier is in the partial view, false
+     * otherwise.
+     */
+    contains (peerId) {
+        return this.store.has(peerId);
+    };
 
-        /**
-         * Increment the age of the whole partial view
-         */
-        value: function increment() {
-            var _this = this;
-
-            this.view.forEach(function (ages, peerId) {
-                _this.view.set(peerId, ages.map(function (age) {
-                    return age + 1;
-                }));
-            });
-        }
-    }, {
-        key: 'getSample',
-
-
-        /**
-         * Get a sample of the partial view.
-         * @param {string} [peerId] The identifier of the oldest neighbor chosen to
-         * perform a view exchange.
-         * @return {string[]} An array containing the identifiers of neighbors from
-         * this partial view.
-         */
-        value: function getSample(peerId) {
-            var sample = [];
-            // #1 create a flatten version of the partial view
-            var flatten = [];
-            this.view.forEach(function (ages, neighbor) {
-                ages.forEach(function (age) {
-                    flatten.push(neighbor);
-                });
-            });
-            // #2 process the size of the sample
-            var sampleSize = Math.ceil(flatten.length / 2);
-            // #3 initiator removes a chosen neighbor entry and adds it to sample
-            if (typeof peerId === 'undefined') {
-                flatten.splice(flatten.indexOf(peerId), 1);
-                sample.push(peerId);
+    /**
+     * Get the least frequent peer. If multiple peers have the same number of
+     * occurrences, it chooses one among them at random.
+     * @returns {string} The identifier of a least frequent peer.
+     */
+    getLeastFrequent () {
+        let leastFrequent = [];
+        let frequency = Infinity;
+        this.store.forEach( (ages, peerId) => {
+            if (ages.length < frequency){
+                leastFrequent = [];
+                frequency = ages.length;
             };
-            // #4 add neighbors to the sample chosen at random
-            while (sample.length < sampleSize) {
-                var rn = Math.floor(Math.random() * flatten.length);
-                sample.push(flatten[rn]);
-                flatten.splice(rn, 1);
-            };
-            return sample;
-        }
-    }, {
-        key: 'addNeighbor',
+            (ages.length === frequency) && leastFrequent.push(peerId);
+        });
+        return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
+        
+    };
+    
+}
 
-
-        /**
-         * Add the peer to the partial view with an age of 0.
-         * @param {string} peerId The identifier of the peer added to the partial
-         * view.
-         */
-        value: function addNeighbor(peerId) {
-            !this.view.has(peerId) && this.view.set(peerId, new Array());
-            this.view.get(peerId).unshift(0); // add 0 in front of the array
-            this.length += 1;
-        }
-    }, {
-        key: 'removeNeighbor',
-
-
-        /**
-         * Remove the newest entry of the peer from the partial view.
-         * @param {string} peerId The identifier of the peer to remove from the 
-         * partial view. 
-         */
-        value: function removeNeighbor(peerId) {
-            if (!this.view.has(peerId)) {
-                throw new ExPeerNotFound('removeNeighbor', peerId);
-            };
-            this.view.get(peerId).shift();
-            this.view.get(peerId).length === 0 && this.view.delete(peerId);
-            this.length -= 1;
-        }
-    }, {
-        key: 'removeAllNeighbor',
-
-
-        /**
-         * Remove all entries of the peer from the partial view.
-         * @param {string} peerId The identifier of the peer to remove from the 
-         * partial view.
-         * @returns {number} The number of occurrences of peerId removed.
-         */
-        value: function removeAllNeighbor(peerId) {
-            if (!this.view.has(peerId)) {
-                throw new ExPeerNotFound('removeNeighbor', peerId);
-            };
-            var occ = this.view.get(peerId).length;
-            this.view.delete(peerId);
-            return occ;
-        }
-    }, {
-        key: 'removeSample',
-
-
-        /**
-         * Remove all the elements contained in the sample in argument
-         * @param {array} sample the elements to remove
-         * @return {void}
-         */
-        value: function removeSample(sample) {
-            for (var i = 0; i < sample.length; ++i) {
-                this.removePeer(sample[i].id, sample[i].age);
-            }
-        }
-    }, {
-        key: 'contains',
-
-
-        /**
-         * Check if the partial view contains the identifier of the neighbor.
-         * @param {string} peerId The identifier of the peer to check.
-         * @return {boolean} true if the identifier is in the partial view, false
-         * otherwise.
-         */
-        value: function contains(peerId) {
-            return this.store.has(peerId);
-        }
-    }, {
-        key: 'getLeastFrequent',
-
-
-        /**
-         * Get the least frequent peer. If multiple peers have the same number of
-         * occurrences, it chooses one among them at random.
-         * @returns {string} The identifier of a least frequent peer.
-         */
-        value: function getLeastFrequent() {
-            var leastFrequent = [];
-            var frequency = Infinity;
-            this.store.forEach(function (ages, peerId) {
-                if (ages.length < frequency) {
-                    leastFrequent = [];
-                    frequency = ages.length;
-                };
-                ages.length === frequency && leastFrequent.push(peerId);
-            });
-            return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
-        }
-    }]);
-
-    return PartialView;
-}();
 
 module.exports = PartialView;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhcnRpYWx2aWV3LmpzIl0sIm5hbWVzIjpbIkV4UGVlck5vdEZvdW5kIiwicmVxdWlyZSIsIlBhcnRpYWxWaWV3IiwidmlldyIsIk1hcCIsImxlbmd0aCIsInNpemUiLCJvbGRlc3RQZWVyIiwib2xkZXN0QWdlIiwiZm9yRWFjaCIsImFnZXMiLCJwZWVySWQiLCJzZXQiLCJtYXAiLCJhZ2UiLCJzYW1wbGUiLCJmbGF0dGVuIiwibmVpZ2hib3IiLCJwdXNoIiwic2FtcGxlU2l6ZSIsIk1hdGgiLCJjZWlsIiwic3BsaWNlIiwiaW5kZXhPZiIsInJuIiwiZmxvb3IiLCJyYW5kb20iLCJoYXMiLCJBcnJheSIsImdldCIsInVuc2hpZnQiLCJzaGlmdCIsImRlbGV0ZSIsIm9jYyIsImkiLCJyZW1vdmVQZWVyIiwiaWQiLCJzdG9yZSIsImxlYXN0RnJlcXVlbnQiLCJmcmVxdWVuY3kiLCJJbmZpbml0eSIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7QUFFQSxJQUFNQSxpQkFBaUJDLFFBQVEsZ0NBQVIsQ0FBdkI7O0FBRUE7Ozs7O0lBSU1DLFc7QUFDRiwyQkFBZTtBQUFBOztBQUNYLGFBQUtDLElBQUwsR0FBWSxJQUFJQyxHQUFKLEVBQVo7QUFDQSxhQUFLQyxNQUFMLEdBQWMsQ0FBZDtBQUNIOzs7Ozs7QUFFRDs7OztvQ0FJYTtBQUNULGdCQUFJLEtBQUtGLElBQUwsQ0FBVUcsSUFBVixJQUFrQixDQUF0QixFQUF5QjtBQUFFLHNCQUFNLElBQUlOLGNBQUosQ0FBbUIsV0FBbkIsQ0FBTjtBQUF3QztBQUNuRSxnQkFBSU8sYUFBYSxJQUFqQjtBQUNBLGdCQUFJQyxZQUFZLENBQWhCO0FBQ0EsaUJBQUtMLElBQUwsQ0FBVU0sT0FBVixDQUFtQixVQUFDQyxJQUFELEVBQU9DLE1BQVAsRUFBa0I7QUFDakMsb0JBQUlILGFBQWFFLEtBQUtBLEtBQUtMLE1BQUwsR0FBYyxDQUFuQixDQUFqQixFQUF3QztBQUNwQ0UsaUNBQWFJLE1BQWI7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LE1BQWxDO0FBQ0EsaUJBQUtGLElBQUwsQ0FBVTZCLE1BQVYsQ0FBaUJyQixNQUFqQjtBQUNBLG1CQUFPc0IsR0FBUDtBQUNIOzs7OztBQUdEOzs7OztxQ0FLY2xCLE0sRUFBUTtBQUNsQixpQkFBSyxJQUFJbUIsSUFBSSxDQUFiLEVBQWdCQSxJQUFJbkIsT0FBT1YsTUFBM0IsRUFBbUMsRUFBRTZCLENBQXJDLEVBQXdDO0FBQ3BDLHFCQUFLQyxVQUFMLENBQWdCcEIsT0FBT21CLENBQVAsRUFBVUUsRUFBMUIsRUFBOEJyQixPQUFPbUIsQ0FBUCxFQUFVcEIsR0FBeEM7QUFDSDtBQUNKOzs7OztBQUVEOzs7Ozs7aUNBTVVILE0sRUFBUTtBQUNkLG1CQUFPLEtBQUswQixLQUFMLENBQVdWLEdBQVgsQ0FBZWhCLE1BQWYsQ0FBUDtBQUNIOzs7OztBQUVEOzs7OzsyQ0FLb0I7QUFDaEIsZ0JBQUkyQixnQkFBZ0IsRUFBcEI7QUFDQSxnQkFBSUMsWUFBWUMsUUFBaEI7QUFDQSxpQkFBS0gsS0FBTCxDQUFXNUIsT0FBWCxDQUFvQixVQUFDQyxJQUFELEVBQU9DLE1BQVAsRUFBa0I7QUFDbEMsb0JBQUlELEtBQUtMLE1BQUwsR0FBY2tDLFNBQWxCLEVBQTRCO0FBQ3hCRCxvQ0FBZ0IsRUFBaEI7QUFDQUMsZ0NBQVk3QixLQUFLTCxNQUFqQjtBQUNIO0FBQ0FLLHFCQUFLTCxNQUFMLEtBQWdCa0MsU0FBakIsSUFBK0JELGNBQWNwQixJQUFkLENBQW1CUCxNQUFuQixDQUEvQjtBQUNILGFBTkQ7QUFPQSxtQkFBTzJCLGNBQWNsQixLQUFLSyxLQUFMLENBQVdMLEtBQUtNLE1BQUwsS0FBZ0JZLGNBQWNqQyxNQUF6QyxDQUFkLENBQVA7QUFFSDs7Ozs7O0FBS0xvQyxPQUFPQyxPQUFQLEdBQWlCeEMsV0FBakIiLCJmaWxlIjoicGFydGlhbHZpZXcuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbmNvbnN0IEV4UGVlck5vdEZvdW5kID0gcmVxdWlyZSgnLi9leGNlcHRpb25zL2V4cGVlcm5vdGZvdW5kLmpzJyk7XG5cbi8qKlxuICogU3RydWN0dXJlIGNvbnRhaW5pbmcgdGhlIG5laWdoYm9yaG9vZCBvZiBhIHBlZXIuXG4gKiBNYXAgb2Yge2lkUGVlciA9PiBbYWdlXzEsIGFnZV8yLi4gYWdlX2tdfSB3aGVyZSBhZ2VfMSA8PSBhZ2VfMiA8PSAuLiA8PSBhZ2Vfa1xuICovXG5jbGFzcyBQYXJ0aWFsVmlldyB7XG4gICAgY29uc3RydWN0b3IgKCkge1xuICAgICAgICB0aGlzLnZpZXcgPSBuZXcgTWFwKCk7XG4gICAgICAgIHRoaXMubGVuZ3RoID0gMDtcbiAgICB9O1xuICAgIFxuICAgIC8qKlxuICAgICAqIEdldCB0aGUgb2xkZXN0IHBlZXIgaW4gdGhlIHBhcnRpYWwgdmlldy5cbiAgICAgKiBAcmV0dXJucyB7c3RyaW5nfSBUaGUgb2xkZXN0IHBlZXIgaW4gdGhlIGFycmF5LlxuICAgICAqL1xuICAgIGdldE9sZGVzdCAoKSB7XG4gICAgICAgIGlmICh0aGlzLnZpZXcuc2l6ZSA8PSAwKSB7IHRocm93IG5ldyBFeFBlZXJOb3RGb3VuZCgnZ2V0T2xkZXN0Jyk7IH07XG4gICAgICAgIGxldCBvbGRlc3RQZWVyID0gbnVsbDtcbiAgICAgICAgbGV0IG9sZGVzdEFnZSA9IDA7XG4gICAgICAgIHRoaXMudmlldy5mb3JFYWNoKCAoYWdlcywgcGVlcklkKSA9PiB7XG4gICAgICAgICAgICBpZiAob2xkZXN0QWdlIDw9IGFnZXNbYWdlcy5sZW5ndGggLSAxXSkge1xuICAgICAgICAgICAgICAgIG9sZGVzdFBlZXIgPSBwZWVySWQ7XG4gICAgICAgICAgICAgICAgb2xkZXN0QWdlID0gYWdlc1thZ2VzLmxlbmd0aCAtIDFdO1xuICAgICAgICAgICAgfTtcbiAgICAgICAgfSk7XG4gICAgICAgIHJldHVybiBvbGRlc3RQZWVyO1xuICAgIH07XG5cblxuICAgIC8qKlxuICAgICAqIEluY3JlbWVudCB0aGUgYWdlIG9mIHRoZSB3aG9sZSBwYXJ0aWFsIHZpZXdcbiAgICAgKi9cbiAgICBpbmNyZW1lbnQgKCkge1xuICAgICAgICB0aGlzLnZpZXcuZm9yRWFjaCggKGFnZXMsIHBlZXJJZCkgPT4ge1xuICAgICAgICAgICAgdGhpcy52aWV3LnNldChwZWVySWQsIGFnZXMubWFwKCAoYWdlKSA9PiB7cmV0dXJuIGFnZSsxO30gKSk7XG4gICAgICAgIH0pO1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBHZXQgYSBzYW1wbGUgb2YgdGhlIHBhcnRpYWwgdmlldy5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gW3BlZXJJZF0gVGhlIGlkZW50aWZpZXIgb2YgdGhlIG9sZGVzdCBuZWlnaGJvciBjaG9zZW4gdG9cbiAgICAgKiBwZXJmb3JtIGEgdmlldyBleGNoYW5nZS5cbiAgICAgKiBAcmV0dXJuIHtzdHJpbmdbXX0gQW4gYXJyYXkgY29udGFpbmluZyB0aGUgaWRlbnRpZmllcnMgb2YgbmVpZ2hib3JzIGZyb21cbiAgICAgKiB0aGlzIHBhcnRpYWwgdmlldy5cbiAgICAgKi9cbiAgICBnZXRTYW1wbGUgKHBlZXJJZCkge1xuICAgICAgICBsZXQgc2FtcGxlID0gW107XG4gICAgICAgIC8vICMxIGNyZWF0ZSBhIGZsYXR0ZW4gdmVyc2lvbiBvZiB0aGUgcGFydGlhbCB2aWV3XG4gICAgICAgIGxldCBmbGF0dGVuID0gW107XG4gICAgICAgIHRoaXMudmlldy5mb3JFYWNoKCAoYWdlcywgbmVpZ2hib3IpID0+IHtcbiAgICAgICAgICAgIGFnZXMuZm9yRWFjaCggKGFnZSkgPT4ge1xuICAgICAgICAgICAgICAgIGZsYXR0ZW4ucHVzaChuZWlnaGJvcik7XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgfSk7ICAgICAgIFxuICAgICAgICAvLyAjMiBwcm9jZXNzIHRoZSBzaXplIG9mIHRoZSBzYW1wbGVcbiAgICAgICAgY29uc3Qgc2FtcGxlU2l6ZSA9IE1hdGguY2VpbChmbGF0dGVuLmxlbmd0aCAvIDIpO1xuICAgICAgICAvLyAjMyBpbml0aWF0b3IgcmVtb3ZlcyBhIGNob3NlbiBuZWlnaGJvciBlbnRyeSBhbmQgYWRkcyBpdCB0byBzYW1wbGVcbiAgICAgICAgaWYgKHR5cGVvZiBwZWVySWQgPT09ICd1bmRlZmluZWQnKSB7XG4gICAgICAgICAgICBmbGF0dGVuLnNwbGljZShmbGF0dGVuLmluZGV4T2YocGVlcklkKSwgMSk7XG4gICAgICAgICAgICBzYW1wbGUucHVzaChwZWVySWQpO1xuICAgICAgICB9O1xuICAgICAgICAvLyAjNCBhZGQgbmVpZ2hib3JzIHRvIHRoZSBzYW1wbGUgY2hvc2VuIGF0IHJhbmRvbVxuICAgICAgICB3aGlsZSAoc2FtcGxlLmxlbmd0aCA8IHNhbXBsZVNpemUpIHtcbiAgICAgICAgICAgIGNvbnN0IHJuID0gTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICogZmxhdHRlbi5sZW5ndGgpO1xuICAgICAgICAgICAgc2FtcGxlLnB1c2goZmxhdHRlbltybl0pO1xuICAgICAgICAgICAgZmxhdHRlbi5zcGxpY2Uocm4sIDEpO1xuICAgICAgICB9O1xuICAgICAgICByZXR1cm4gc2FtcGxlO1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBBZGQgdGhlIHBlZXIgdG8gdGhlIHBhcnRpYWwgdmlldyB3aXRoIGFuIGFnZSBvZiAwLlxuICAgICAqIEBwYXJhbSB7c3RyaW5nfSBwZWVySWQgVGhlIGlkZW50aWZpZXIgb2YgdGhlIHBlZXIgYWRkZWQgdG8gdGhlIHBhcnRpYWxcbiAgICAgKiB2aWV3LlxuICAgICAqL1xuICAgIGFkZE5laWdoYm9yIChwZWVySWQpIHtcbiAgICAgICAgKCF0aGlzLnZpZXcuaGFzKHBlZXJJZCkpICYmIHRoaXMudmlldy5zZXQocGVlcklkLCBuZXcgQXJyYXkoKSk7ICAgICAgICBcbiAgICAgICAgdGhpcy52aWV3LmdldChwZWVySWQpLnVuc2hpZnQoMCk7IC8vIGFkZCAwIGluIGZyb250IG9mIHRoZSBhcnJheVxuICAgICAgICB0aGlzLmxlbmd0aCArPSAxO1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBSZW1vdmUgdGhlIG5ld2VzdCBlbnRyeSBvZiB0aGUgcGVlciBmcm9tIHRoZSBwYXJ0aWFsIHZpZXcuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB0byByZW1vdmUgZnJvbSB0aGUgXG4gICAgICogcGFydGlhbCB2aWV3LiBcbiAgICAgKi9cbiAgICByZW1vdmVOZWlnaGJvciAocGVlcklkKSB7XG4gICAgICAgIGlmICghdGhpcy52aWV3LmhhcyhwZWVySWQpKSB7IHRocm93IG5ldyBFeFBlZXJOb3RGb3VuZCgncmVtb3ZlTmVpZ2hib3InLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGVlcklkKTsgfTtcbiAgICAgICAgdGhpcy52aWV3LmdldChwZWVySWQpLnNoaWZ0KCk7XG4gICAgICAgICh0aGlzLnZpZXcuZ2V0KHBlZXJJZCkubGVuZ3RoID09PSAwKSAmJiB0aGlzLnZpZXcuZGVsZXRlKHBlZXJJZCk7XG4gICAgICAgIHRoaXMubGVuZ3RoIC09IDE7XG4gICAgfTtcblxuICAgIC8qKlxuICAgICAqIFJlbW92ZSBhbGwgZW50cmllcyBvZiB0aGUgcGVlciBmcm9tIHRoZSBwYXJ0aWFsIHZpZXcuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB0byByZW1vdmUgZnJvbSB0aGUgXG4gICAgICogcGFydGlhbCB2aWV3LlxuICAgICAqIEByZXR1cm5zIHtudW1iZXJ9IFRoZSBudW1iZXIgb2Ygb2NjdXJyZW5jZXMgb2YgcGVlcklkIHJlbW92ZWQuXG4gICAgICovXG4gICAgcmVtb3ZlQWxsTmVpZ2hib3IgKHBlZXJJZCkge1xuICAgICAgICBpZiAoIXRoaXMudmlldy5oYXMocGVlcklkKSkgeyB0aHJvdyBuZXcgRXhQZWVyTm90Rm91bmQoJ3JlbW92ZU5laWdoYm9yJyxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBlZXJJZCk7IH07XG4gICAgICAgIGNvbnN0IG9jYyA9IHRoaXMudmlldy5nZXQocGVlcklkKS5sZW5ndGg7XG4gICAgICAgIHRoaXMudmlldy5kZWxldGUocGVlcklkKTtcbiAgICAgICAgcmV0dXJuIG9jYztcbiAgICB9O1xuICAgIFxuICAgIFxuICAgIC8qKlxuICAgICAqIFJlbW92ZSBhbGwgdGhlIGVsZW1lbnRzIGNvbnRhaW5lZCBpbiB0aGUgc2FtcGxlIGluIGFyZ3VtZW50XG4gICAgICogQHBhcmFtIHthcnJheX0gc2FtcGxlIHRoZSBlbGVtZW50cyB0byByZW1vdmVcbiAgICAgKiBAcmV0dXJuIHt2b2lkfVxuICAgICAqL1xuICAgIHJlbW92ZVNhbXBsZSAoc2FtcGxlKSB7XG4gICAgICAgIGZvciAobGV0IGkgPSAwOyBpIDwgc2FtcGxlLmxlbmd0aDsgKytpKSB7XG4gICAgICAgICAgICB0aGlzLnJlbW92ZVBlZXIoc2FtcGxlW2ldLmlkLCBzYW1wbGVbaV0uYWdlKTtcbiAgICAgICAgfVxuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBDaGVjayBpZiB0aGUgcGFydGlhbCB2aWV3IGNvbnRhaW5zIHRoZSBpZGVudGlmaWVyIG9mIHRoZSBuZWlnaGJvci5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gcGVlcklkIFRoZSBpZGVudGlmaWVyIG9mIHRoZSBwZWVyIHRvIGNoZWNrLlxuICAgICAqIEByZXR1cm4ge2Jvb2xlYW59IHRydWUgaWYgdGhlIGlkZW50aWZpZXIgaXMgaW4gdGhlIHBhcnRpYWwgdmlldywgZmFsc2VcbiAgICAgKiBvdGhlcndpc2UuXG4gICAgICovXG4gICAgY29udGFpbnMgKHBlZXJJZCkge1xuICAgICAgICByZXR1cm4gdGhpcy5zdG9yZS5oYXMocGVlcklkKTtcbiAgICB9O1xuXG4gICAgLyoqXG4gICAgICogR2V0IHRoZSBsZWFzdCBmcmVxdWVudCBwZWVyLiBJZiBtdWx0aXBsZSBwZWVycyBoYXZlIHRoZSBzYW1lIG51bWJlciBvZlxuICAgICAqIG9jY3VycmVuY2VzLCBpdCBjaG9vc2VzIG9uZSBhbW9uZyB0aGVtIGF0IHJhbmRvbS5cbiAgICAgKiBAcmV0dXJucyB7c3RyaW5nfSBUaGUgaWRlbnRpZmllciBvZiBhIGxlYXN0IGZyZXF1ZW50IHBlZXIuXG4gICAgICovXG4gICAgZ2V0TGVhc3RGcmVxdWVudCAoKSB7XG4gICAgICAgIGxldCBsZWFzdEZyZXF1ZW50ID0gW107XG4gICAgICAgIGxldCBmcmVxdWVuY3kgPSBJbmZpbml0eTtcbiAgICAgICAgdGhpcy5zdG9yZS5mb3JFYWNoKCAoYWdlcywgcGVlcklkKSA9PiB7XG4gICAgICAgICAgICBpZiAoYWdlcy5sZW5ndGggPCBmcmVxdWVuY3kpe1xuICAgICAgICAgICAgICAgIGxlYXN0RnJlcXVlbnQgPSBbXTtcbiAgICAgICAgICAgICAgICBmcmVxdWVuY3kgPSBhZ2VzLmxlbmd0aDtcbiAgICAgICAgICAgIH07XG4gICAgICAgICAgICAoYWdlcy5sZW5ndGggPT09IGZyZXF1ZW5jeSkgJiYgbGVhc3RGcmVxdWVudC5wdXNoKHBlZXJJZCk7XG4gICAgICAgIH0pO1xuICAgICAgICByZXR1cm4gbGVhc3RGcmVxdWVudFtNYXRoLmZsb29yKE1hdGgucmFuZG9tKCkgKiBsZWFzdEZyZXF1ZW50Lmxlbmd0aCldO1xuICAgICAgICBcbiAgICB9O1xuICAgIFxufVxuXG5cbm1vZHVsZS5leHBvcnRzID0gUGFydGlhbFZpZXc7XG4iXX0=
+
 },{"./exceptions/expeernotfound.js":2}],6:[function(require,module,exports){
-var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-;(function (exports) {
-	'use strict';
-
-  var Arr = (typeof Uint8Array !== 'undefined')
-    ? Uint8Array
-    : Array
-
-	var PLUS   = '+'.charCodeAt(0)
-	var SLASH  = '/'.charCodeAt(0)
-	var NUMBER = '0'.charCodeAt(0)
-	var LOWER  = 'a'.charCodeAt(0)
-	var UPPER  = 'A'.charCodeAt(0)
-
-	function decode (elt) {
-		var code = elt.charCodeAt(0)
-		if (code === PLUS)
-			return 62 // '+'
-		if (code === SLASH)
-			return 63 // '/'
-		if (code < NUMBER)
-			return -1 //no match
-		if (code < NUMBER + 10)
-			return code - NUMBER + 26 + 26
-		if (code < UPPER + 26)
-			return code - UPPER
-		if (code < LOWER + 26)
-			return code - LOWER + 26
-	}
-
-	function b64ToByteArray (b64) {
-		var i, j, l, tmp, placeHolders, arr
-
-		if (b64.length % 4 > 0) {
-			throw new Error('Invalid string. Length must be a multiple of 4')
-		}
-
-		// the number of equal signs (place holders)
-		// if there are two placeholders, than the two characters before it
-		// represent one byte
-		// if there is only one, then the three characters before it represent 2 bytes
-		// this is just a cheap hack to not do indexOf twice
-		var len = b64.length
-		placeHolders = '=' === b64.charAt(len - 2) ? 2 : '=' === b64.charAt(len - 1) ? 1 : 0
-
-		// base64 is 4/3 + up to two characters of the original data
-		arr = new Arr(b64.length * 3 / 4 - placeHolders)
-
-		// if there are placeholders, only get up to the last complete 4 chars
-		l = placeHolders > 0 ? b64.length - 4 : b64.length
-
-		var L = 0
-
-		function push (v) {
-			arr[L++] = v
-		}
-
-		for (i = 0, j = 0; i < l; i += 4, j += 3) {
-			tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3))
-			push((tmp & 0xFF0000) >> 16)
-			push((tmp & 0xFF00) >> 8)
-			push(tmp & 0xFF)
-		}
-
-		if (placeHolders === 2) {
-			tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4)
-			push(tmp & 0xFF)
-		} else if (placeHolders === 1) {
-			tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2)
-			push((tmp >> 8) & 0xFF)
-			push(tmp & 0xFF)
-		}
-
-		return arr
-	}
-
-	function uint8ToBase64 (uint8) {
-		var i,
-			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
-			output = "",
-			temp, length
-
-		function encode (num) {
-			return lookup.charAt(num)
-		}
-
-		function tripletToBase64 (num) {
-			return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F)
-		}
-
-		// go through the array every three bytes, we'll deal with trailing stuff later
-		for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
-			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-			output += tripletToBase64(temp)
-		}
-
-		// pad the end with zeros, but make sure to not forget the extra bytes
-		switch (extraBytes) {
-			case 1:
-				temp = uint8[uint8.length - 1]
-				output += encode(temp >> 2)
-				output += encode((temp << 4) & 0x3F)
-				output += '=='
-				break
-			case 2:
-				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1])
-				output += encode(temp >> 10)
-				output += encode((temp >> 4) & 0x3F)
-				output += encode((temp << 2) & 0x3F)
-				output += '='
-				break
-		}
-
-		return output
-	}
-
-	exports.toByteArray = b64ToByteArray
-	exports.fromByteArray = uint8ToBase64
-}(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
-
-},{}],7:[function(require,module,exports){
-
-},{}],8:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -528,1061 +342,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":9}],9:[function(require,module,exports){
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-
-var base64 = require('base64-js')
-var ieee754 = require('ieee754')
-var isArray = require('is-array')
-
-exports.Buffer = Buffer
-exports.SlowBuffer = Buffer
-exports.INSPECT_MAX_BYTES = 50
-Buffer.poolSize = 8192 // not used by this implementation
-
-var kMaxLength = 0x3fffffff
-
-/**
- * If `Buffer.TYPED_ARRAY_SUPPORT`:
- *   === true    Use Uint8Array implementation (fastest)
- *   === false   Use Object implementation (most compatible, even IE6)
- *
- * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
- * Opera 11.6+, iOS 4.2+.
- *
- * Note:
- *
- * - Implementation must support adding new properties to `Uint8Array` instances.
- *   Firefox 4-29 lacked support, fixed in Firefox 30+.
- *   See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
- *
- *  - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
- *
- *  - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
- *    incorrect length in some situations.
- *
- * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they will
- * get the Object implementation, which is slower but will work correctly.
- */
-Buffer.TYPED_ARRAY_SUPPORT = (function () {
-  try {
-    var buf = new ArrayBuffer(0)
-    var arr = new Uint8Array(buf)
-    arr.foo = function () { return 42 }
-    return 42 === arr.foo() && // typed array instances can be augmented
-        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
-        new Uint8Array(1).subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
-  } catch (e) {
-    return false
-  }
-})()
-
-/**
- * Class: Buffer
- * =============
- *
- * The Buffer constructor returns instances of `Uint8Array` that are augmented
- * with function properties for all the node `Buffer` API functions. We use
- * `Uint8Array` so that square bracket notation works as expected -- it returns
- * a single octet.
- *
- * By augmenting the instances, we can avoid modifying the `Uint8Array`
- * prototype.
- */
-function Buffer (subject, encoding, noZero) {
-  if (!(this instanceof Buffer))
-    return new Buffer(subject, encoding, noZero)
-
-  var type = typeof subject
-
-  // Find the length
-  var length
-  if (type === 'number')
-    length = subject > 0 ? subject >>> 0 : 0
-  else if (type === 'string') {
-    if (encoding === 'base64')
-      subject = base64clean(subject)
-    length = Buffer.byteLength(subject, encoding)
-  } else if (type === 'object' && subject !== null) { // assume object is array-like
-    if (subject.type === 'Buffer' && isArray(subject.data))
-      subject = subject.data
-    length = +subject.length > 0 ? Math.floor(+subject.length) : 0
-  } else
-    throw new TypeError('must start with number, buffer, array or string')
-
-  if (this.length > kMaxLength)
-    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
-      'size: 0x' + kMaxLength.toString(16) + ' bytes')
-
-  var buf
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Preferred: Return an augmented `Uint8Array` instance for best performance
-    buf = Buffer._augment(new Uint8Array(length))
-  } else {
-    // Fallback: Return THIS instance of Buffer (created by `new`)
-    buf = this
-    buf.length = length
-    buf._isBuffer = true
-  }
-
-  var i
-  if (Buffer.TYPED_ARRAY_SUPPORT && typeof subject.byteLength === 'number') {
-    // Speed optimization -- use set if we're copying from a typed array
-    buf._set(subject)
-  } else if (isArrayish(subject)) {
-    // Treat array-ish objects as a byte array
-    if (Buffer.isBuffer(subject)) {
-      for (i = 0; i < length; i++)
-        buf[i] = subject.readUInt8(i)
-    } else {
-      for (i = 0; i < length; i++)
-        buf[i] = ((subject[i] % 256) + 256) % 256
-    }
-  } else if (type === 'string') {
-    buf.write(subject, 0, encoding)
-  } else if (type === 'number' && !Buffer.TYPED_ARRAY_SUPPORT && !noZero) {
-    for (i = 0; i < length; i++) {
-      buf[i] = 0
-    }
-  }
-
-  return buf
-}
-
-Buffer.isBuffer = function (b) {
-  return !!(b != null && b._isBuffer)
-}
-
-Buffer.compare = function (a, b) {
-  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b))
-    throw new TypeError('Arguments must be Buffers')
-
-  var x = a.length
-  var y = b.length
-  for (var i = 0, len = Math.min(x, y); i < len && a[i] === b[i]; i++) {}
-  if (i !== len) {
-    x = a[i]
-    y = b[i]
-  }
-  if (x < y) return -1
-  if (y < x) return 1
-  return 0
-}
-
-Buffer.isEncoding = function (encoding) {
-  switch (String(encoding).toLowerCase()) {
-    case 'hex':
-    case 'utf8':
-    case 'utf-8':
-    case 'ascii':
-    case 'binary':
-    case 'base64':
-    case 'raw':
-    case 'ucs2':
-    case 'ucs-2':
-    case 'utf16le':
-    case 'utf-16le':
-      return true
-    default:
-      return false
-  }
-}
-
-Buffer.concat = function (list, totalLength) {
-  if (!isArray(list)) throw new TypeError('Usage: Buffer.concat(list[, length])')
-
-  if (list.length === 0) {
-    return new Buffer(0)
-  } else if (list.length === 1) {
-    return list[0]
-  }
-
-  var i
-  if (totalLength === undefined) {
-    totalLength = 0
-    for (i = 0; i < list.length; i++) {
-      totalLength += list[i].length
-    }
-  }
-
-  var buf = new Buffer(totalLength)
-  var pos = 0
-  for (i = 0; i < list.length; i++) {
-    var item = list[i]
-    item.copy(buf, pos)
-    pos += item.length
-  }
-  return buf
-}
-
-Buffer.byteLength = function (str, encoding) {
-  var ret
-  str = str + ''
-  switch (encoding || 'utf8') {
-    case 'ascii':
-    case 'binary':
-    case 'raw':
-      ret = str.length
-      break
-    case 'ucs2':
-    case 'ucs-2':
-    case 'utf16le':
-    case 'utf-16le':
-      ret = str.length * 2
-      break
-    case 'hex':
-      ret = str.length >>> 1
-      break
-    case 'utf8':
-    case 'utf-8':
-      ret = utf8ToBytes(str).length
-      break
-    case 'base64':
-      ret = base64ToBytes(str).length
-      break
-    default:
-      ret = str.length
-  }
-  return ret
-}
-
-// pre-set for values that may exist in the future
-Buffer.prototype.length = undefined
-Buffer.prototype.parent = undefined
-
-// toString(encoding, start=0, end=buffer.length)
-Buffer.prototype.toString = function (encoding, start, end) {
-  var loweredCase = false
-
-  start = start >>> 0
-  end = end === undefined || end === Infinity ? this.length : end >>> 0
-
-  if (!encoding) encoding = 'utf8'
-  if (start < 0) start = 0
-  if (end > this.length) end = this.length
-  if (end <= start) return ''
-
-  while (true) {
-    switch (encoding) {
-      case 'hex':
-        return hexSlice(this, start, end)
-
-      case 'utf8':
-      case 'utf-8':
-        return utf8Slice(this, start, end)
-
-      case 'ascii':
-        return asciiSlice(this, start, end)
-
-      case 'binary':
-        return binarySlice(this, start, end)
-
-      case 'base64':
-        return base64Slice(this, start, end)
-
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return utf16leSlice(this, start, end)
-
-      default:
-        if (loweredCase)
-          throw new TypeError('Unknown encoding: ' + encoding)
-        encoding = (encoding + '').toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-
-Buffer.prototype.equals = function (b) {
-  if(!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
-  return Buffer.compare(this, b) === 0
-}
-
-Buffer.prototype.inspect = function () {
-  var str = ''
-  var max = exports.INSPECT_MAX_BYTES
-  if (this.length > 0) {
-    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
-    if (this.length > max)
-      str += ' ... '
-  }
-  return '<Buffer ' + str + '>'
-}
-
-Buffer.prototype.compare = function (b) {
-  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
-  return Buffer.compare(this, b)
-}
-
-// `get` will be removed in Node 0.13+
-Buffer.prototype.get = function (offset) {
-  console.log('.get() is deprecated. Access using array indexes instead.')
-  return this.readUInt8(offset)
-}
-
-// `set` will be removed in Node 0.13+
-Buffer.prototype.set = function (v, offset) {
-  console.log('.set() is deprecated. Access using array indexes instead.')
-  return this.writeUInt8(v, offset)
-}
-
-function hexWrite (buf, string, offset, length) {
-  offset = Number(offset) || 0
-  var remaining = buf.length - offset
-  if (!length) {
-    length = remaining
-  } else {
-    length = Number(length)
-    if (length > remaining) {
-      length = remaining
-    }
-  }
-
-  // must be an even number of digits
-  var strLen = string.length
-  if (strLen % 2 !== 0) throw new Error('Invalid hex string')
-
-  if (length > strLen / 2) {
-    length = strLen / 2
-  }
-  for (var i = 0; i < length; i++) {
-    var byte = parseInt(string.substr(i * 2, 2), 16)
-    if (isNaN(byte)) throw new Error('Invalid hex string')
-    buf[offset + i] = byte
-  }
-  return i
-}
-
-function utf8Write (buf, string, offset, length) {
-  var charsWritten = blitBuffer(utf8ToBytes(string), buf, offset, length)
-  return charsWritten
-}
-
-function asciiWrite (buf, string, offset, length) {
-  var charsWritten = blitBuffer(asciiToBytes(string), buf, offset, length)
-  return charsWritten
-}
-
-function binaryWrite (buf, string, offset, length) {
-  return asciiWrite(buf, string, offset, length)
-}
-
-function base64Write (buf, string, offset, length) {
-  var charsWritten = blitBuffer(base64ToBytes(string), buf, offset, length)
-  return charsWritten
-}
-
-function utf16leWrite (buf, string, offset, length) {
-  var charsWritten = blitBuffer(utf16leToBytes(string), buf, offset, length, 2)
-  return charsWritten
-}
-
-Buffer.prototype.write = function (string, offset, length, encoding) {
-  // Support both (string, offset, length, encoding)
-  // and the legacy (string, encoding, offset, length)
-  if (isFinite(offset)) {
-    if (!isFinite(length)) {
-      encoding = length
-      length = undefined
-    }
-  } else {  // legacy
-    var swap = encoding
-    encoding = offset
-    offset = length
-    length = swap
-  }
-
-  offset = Number(offset) || 0
-  var remaining = this.length - offset
-  if (!length) {
-    length = remaining
-  } else {
-    length = Number(length)
-    if (length > remaining) {
-      length = remaining
-    }
-  }
-  encoding = String(encoding || 'utf8').toLowerCase()
-
-  var ret
-  switch (encoding) {
-    case 'hex':
-      ret = hexWrite(this, string, offset, length)
-      break
-    case 'utf8':
-    case 'utf-8':
-      ret = utf8Write(this, string, offset, length)
-      break
-    case 'ascii':
-      ret = asciiWrite(this, string, offset, length)
-      break
-    case 'binary':
-      ret = binaryWrite(this, string, offset, length)
-      break
-    case 'base64':
-      ret = base64Write(this, string, offset, length)
-      break
-    case 'ucs2':
-    case 'ucs-2':
-    case 'utf16le':
-    case 'utf-16le':
-      ret = utf16leWrite(this, string, offset, length)
-      break
-    default:
-      throw new TypeError('Unknown encoding: ' + encoding)
-  }
-  return ret
-}
-
-Buffer.prototype.toJSON = function () {
-  return {
-    type: 'Buffer',
-    data: Array.prototype.slice.call(this._arr || this, 0)
-  }
-}
-
-function base64Slice (buf, start, end) {
-  if (start === 0 && end === buf.length) {
-    return base64.fromByteArray(buf)
-  } else {
-    return base64.fromByteArray(buf.slice(start, end))
-  }
-}
-
-function utf8Slice (buf, start, end) {
-  var res = ''
-  var tmp = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; i++) {
-    if (buf[i] <= 0x7F) {
-      res += decodeUtf8Char(tmp) + String.fromCharCode(buf[i])
-      tmp = ''
-    } else {
-      tmp += '%' + buf[i].toString(16)
-    }
-  }
-
-  return res + decodeUtf8Char(tmp)
-}
-
-function asciiSlice (buf, start, end) {
-  var ret = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; i++) {
-    ret += String.fromCharCode(buf[i])
-  }
-  return ret
-}
-
-function binarySlice (buf, start, end) {
-  return asciiSlice(buf, start, end)
-}
-
-function hexSlice (buf, start, end) {
-  var len = buf.length
-
-  if (!start || start < 0) start = 0
-  if (!end || end < 0 || end > len) end = len
-
-  var out = ''
-  for (var i = start; i < end; i++) {
-    out += toHex(buf[i])
-  }
-  return out
-}
-
-function utf16leSlice (buf, start, end) {
-  var bytes = buf.slice(start, end)
-  var res = ''
-  for (var i = 0; i < bytes.length; i += 2) {
-    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
-  }
-  return res
-}
-
-Buffer.prototype.slice = function (start, end) {
-  var len = this.length
-  start = ~~start
-  end = end === undefined ? len : ~~end
-
-  if (start < 0) {
-    start += len;
-    if (start < 0)
-      start = 0
-  } else if (start > len) {
-    start = len
-  }
-
-  if (end < 0) {
-    end += len
-    if (end < 0)
-      end = 0
-  } else if (end > len) {
-    end = len
-  }
-
-  if (end < start)
-    end = start
-
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    return Buffer._augment(this.subarray(start, end))
-  } else {
-    var sliceLen = end - start
-    var newBuf = new Buffer(sliceLen, undefined, true)
-    for (var i = 0; i < sliceLen; i++) {
-      newBuf[i] = this[i + start]
-    }
-    return newBuf
-  }
-}
-
-/*
- * Need to make sure that buffer isn't trying to write out of bounds.
- */
-function checkOffset (offset, ext, length) {
-  if ((offset % 1) !== 0 || offset < 0)
-    throw new RangeError('offset is not uint')
-  if (offset + ext > length)
-    throw new RangeError('Trying to access beyond buffer length')
-}
-
-Buffer.prototype.readUInt8 = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 1, this.length)
-  return this[offset]
-}
-
-Buffer.prototype.readUInt16LE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 2, this.length)
-  return this[offset] | (this[offset + 1] << 8)
-}
-
-Buffer.prototype.readUInt16BE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 2, this.length)
-  return (this[offset] << 8) | this[offset + 1]
-}
-
-Buffer.prototype.readUInt32LE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 4, this.length)
-
-  return ((this[offset]) |
-      (this[offset + 1] << 8) |
-      (this[offset + 2] << 16)) +
-      (this[offset + 3] * 0x1000000)
-}
-
-Buffer.prototype.readUInt32BE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 4, this.length)
-
-  return (this[offset] * 0x1000000) +
-      ((this[offset + 1] << 16) |
-      (this[offset + 2] << 8) |
-      this[offset + 3])
-}
-
-Buffer.prototype.readInt8 = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 1, this.length)
-  if (!(this[offset] & 0x80))
-    return (this[offset])
-  return ((0xff - this[offset] + 1) * -1)
-}
-
-Buffer.prototype.readInt16LE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 2, this.length)
-  var val = this[offset] | (this[offset + 1] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt16BE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 2, this.length)
-  var val = this[offset + 1] | (this[offset] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt32LE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 4, this.length)
-
-  return (this[offset]) |
-      (this[offset + 1] << 8) |
-      (this[offset + 2] << 16) |
-      (this[offset + 3] << 24)
-}
-
-Buffer.prototype.readInt32BE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 4, this.length)
-
-  return (this[offset] << 24) |
-      (this[offset + 1] << 16) |
-      (this[offset + 2] << 8) |
-      (this[offset + 3])
-}
-
-Buffer.prototype.readFloatLE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, true, 23, 4)
-}
-
-Buffer.prototype.readFloatBE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, false, 23, 4)
-}
-
-Buffer.prototype.readDoubleLE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, true, 52, 8)
-}
-
-Buffer.prototype.readDoubleBE = function (offset, noAssert) {
-  if (!noAssert)
-    checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, false, 52, 8)
-}
-
-function checkInt (buf, value, offset, ext, max, min) {
-  if (!Buffer.isBuffer(buf)) throw new TypeError('buffer must be a Buffer instance')
-  if (value > max || value < min) throw new TypeError('value is out of bounds')
-  if (offset + ext > buf.length) throw new TypeError('index out of range')
-}
-
-Buffer.prototype.writeUInt8 = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 1, 0xff, 0)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  this[offset] = value
-  return offset + 1
-}
-
-function objectWriteUInt16 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; i++) {
-    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
-      (littleEndian ? i : 1 - i) * 8
-  }
-}
-
-Buffer.prototype.writeUInt16LE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = value
-    this[offset + 1] = (value >>> 8)
-  } else objectWriteUInt16(this, value, offset, true)
-  return offset + 2
-}
-
-Buffer.prototype.writeUInt16BE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = value
-  } else objectWriteUInt16(this, value, offset, false)
-  return offset + 2
-}
-
-function objectWriteUInt32 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffffffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; i++) {
-    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
-  }
-}
-
-Buffer.prototype.writeUInt32LE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset + 3] = (value >>> 24)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 1] = (value >>> 8)
-    this[offset] = value
-  } else objectWriteUInt32(this, value, offset, true)
-  return offset + 4
-}
-
-Buffer.prototype.writeUInt32BE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = value
-  } else objectWriteUInt32(this, value, offset, false)
-  return offset + 4
-}
-
-Buffer.prototype.writeInt8 = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 1, 0x7f, -0x80)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  if (value < 0) value = 0xff + value + 1
-  this[offset] = value
-  return offset + 1
-}
-
-Buffer.prototype.writeInt16LE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = value
-    this[offset + 1] = (value >>> 8)
-  } else objectWriteUInt16(this, value, offset, true)
-  return offset + 2
-}
-
-Buffer.prototype.writeInt16BE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = value
-  } else objectWriteUInt16(this, value, offset, false)
-  return offset + 2
-}
-
-Buffer.prototype.writeInt32LE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = value
-    this[offset + 1] = (value >>> 8)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 3] = (value >>> 24)
-  } else objectWriteUInt32(this, value, offset, true)
-  return offset + 4
-}
-
-Buffer.prototype.writeInt32BE = function (value, offset, noAssert) {
-  value = +value
-  offset = offset >>> 0
-  if (!noAssert)
-    checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (value < 0) value = 0xffffffff + value + 1
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = value
-  } else objectWriteUInt32(this, value, offset, false)
-  return offset + 4
-}
-
-function checkIEEE754 (buf, value, offset, ext, max, min) {
-  if (value > max || value < min) throw new TypeError('value is out of bounds')
-  if (offset + ext > buf.length) throw new TypeError('index out of range')
-}
-
-function writeFloat (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert)
-    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
-  ieee754.write(buf, value, offset, littleEndian, 23, 4)
-  return offset + 4
-}
-
-Buffer.prototype.writeFloatLE = function (value, offset, noAssert) {
-  return writeFloat(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeFloatBE = function (value, offset, noAssert) {
-  return writeFloat(this, value, offset, false, noAssert)
-}
-
-function writeDouble (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert)
-    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
-  ieee754.write(buf, value, offset, littleEndian, 52, 8)
-  return offset + 8
-}
-
-Buffer.prototype.writeDoubleLE = function (value, offset, noAssert) {
-  return writeDouble(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeDoubleBE = function (value, offset, noAssert) {
-  return writeDouble(this, value, offset, false, noAssert)
-}
-
-// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
-Buffer.prototype.copy = function (target, target_start, start, end) {
-  var source = this
-
-  if (!start) start = 0
-  if (!end && end !== 0) end = this.length
-  if (!target_start) target_start = 0
-
-  // Copy 0 bytes; we're done
-  if (end === start) return
-  if (target.length === 0 || source.length === 0) return
-
-  // Fatal error conditions
-  if (end < start) throw new TypeError('sourceEnd < sourceStart')
-  if (target_start < 0 || target_start >= target.length)
-    throw new TypeError('targetStart out of bounds')
-  if (start < 0 || start >= source.length) throw new TypeError('sourceStart out of bounds')
-  if (end < 0 || end > source.length) throw new TypeError('sourceEnd out of bounds')
-
-  // Are we oob?
-  if (end > this.length)
-    end = this.length
-  if (target.length - target_start < end - start)
-    end = target.length - target_start + start
-
-  var len = end - start
-
-  if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
-    for (var i = 0; i < len; i++) {
-      target[i + target_start] = this[i + start]
-    }
-  } else {
-    target._set(this.subarray(start, start + len), target_start)
-  }
-}
-
-// fill(value, start=0, end=buffer.length)
-Buffer.prototype.fill = function (value, start, end) {
-  if (!value) value = 0
-  if (!start) start = 0
-  if (!end) end = this.length
-
-  if (end < start) throw new TypeError('end < start')
-
-  // Fill 0 bytes; we're done
-  if (end === start) return
-  if (this.length === 0) return
-
-  if (start < 0 || start >= this.length) throw new TypeError('start out of bounds')
-  if (end < 0 || end > this.length) throw new TypeError('end out of bounds')
-
-  var i
-  if (typeof value === 'number') {
-    for (i = start; i < end; i++) {
-      this[i] = value
-    }
-  } else {
-    var bytes = utf8ToBytes(value.toString())
-    var len = bytes.length
-    for (i = start; i < end; i++) {
-      this[i] = bytes[i % len]
-    }
-  }
-
-  return this
-}
-
-/**
- * Creates a new `ArrayBuffer` with the *copied* memory of the buffer instance.
- * Added in Node 0.12. Only available in browsers that support ArrayBuffer.
- */
-Buffer.prototype.toArrayBuffer = function () {
-  if (typeof Uint8Array !== 'undefined') {
-    if (Buffer.TYPED_ARRAY_SUPPORT) {
-      return (new Buffer(this)).buffer
-    } else {
-      var buf = new Uint8Array(this.length)
-      for (var i = 0, len = buf.length; i < len; i += 1) {
-        buf[i] = this[i]
-      }
-      return buf.buffer
-    }
-  } else {
-    throw new TypeError('Buffer.toArrayBuffer not supported in this browser')
-  }
-}
-
-// HELPER FUNCTIONS
-// ================
-
-var BP = Buffer.prototype
-
-/**
- * Augment a Uint8Array *instance* (not the Uint8Array class!) with Buffer methods
- */
-Buffer._augment = function (arr) {
-  arr.constructor = Buffer
-  arr._isBuffer = true
-
-  // save reference to original Uint8Array get/set methods before overwriting
-  arr._get = arr.get
-  arr._set = arr.set
-
-  // deprecated, will be removed in node 0.13+
-  arr.get = BP.get
-  arr.set = BP.set
-
-  arr.write = BP.write
-  arr.toString = BP.toString
-  arr.toLocaleString = BP.toString
-  arr.toJSON = BP.toJSON
-  arr.equals = BP.equals
-  arr.compare = BP.compare
-  arr.copy = BP.copy
-  arr.slice = BP.slice
-  arr.readUInt8 = BP.readUInt8
-  arr.readUInt16LE = BP.readUInt16LE
-  arr.readUInt16BE = BP.readUInt16BE
-  arr.readUInt32LE = BP.readUInt32LE
-  arr.readUInt32BE = BP.readUInt32BE
-  arr.readInt8 = BP.readInt8
-  arr.readInt16LE = BP.readInt16LE
-  arr.readInt16BE = BP.readInt16BE
-  arr.readInt32LE = BP.readInt32LE
-  arr.readInt32BE = BP.readInt32BE
-  arr.readFloatLE = BP.readFloatLE
-  arr.readFloatBE = BP.readFloatBE
-  arr.readDoubleLE = BP.readDoubleLE
-  arr.readDoubleBE = BP.readDoubleBE
-  arr.writeUInt8 = BP.writeUInt8
-  arr.writeUInt16LE = BP.writeUInt16LE
-  arr.writeUInt16BE = BP.writeUInt16BE
-  arr.writeUInt32LE = BP.writeUInt32LE
-  arr.writeUInt32BE = BP.writeUInt32BE
-  arr.writeInt8 = BP.writeInt8
-  arr.writeInt16LE = BP.writeInt16LE
-  arr.writeInt16BE = BP.writeInt16BE
-  arr.writeInt32LE = BP.writeInt32LE
-  arr.writeInt32BE = BP.writeInt32BE
-  arr.writeFloatLE = BP.writeFloatLE
-  arr.writeFloatBE = BP.writeFloatBE
-  arr.writeDoubleLE = BP.writeDoubleLE
-  arr.writeDoubleBE = BP.writeDoubleBE
-  arr.fill = BP.fill
-  arr.inspect = BP.inspect
-  arr.toArrayBuffer = BP.toArrayBuffer
-
-  return arr
-}
-
-var INVALID_BASE64_RE = /[^+\/0-9A-z]/g
-
-function base64clean (str) {
-  // Node strips out invalid characters like \n and \t from the string, base64-js does not
-  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
-  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
-  while (str.length % 4 !== 0) {
-    str = str + '='
-  }
-  return str
-}
-
-function stringtrim (str) {
-  if (str.trim) return str.trim()
-  return str.replace(/^\s+|\s+$/g, '')
-}
-
-function isArrayish (subject) {
-  return isArray(subject) || Buffer.isBuffer(subject) ||
-      subject && typeof subject === 'object' &&
-      typeof subject.length === 'number'
-}
-
-function toHex (n) {
-  if (n < 16) return '0' + n.toString(16)
-  return n.toString(16)
-}
-
-function utf8ToBytes (str) {
-  var byteArray = []
-  for (var i = 0; i < str.length; i++) {
-    var b = str.charCodeAt(i)
-    if (b <= 0x7F) {
-      byteArray.push(b)
-    } else {
-      var start = i
-      if (b >= 0xD800 && b <= 0xDFFF) i++
-      var h = encodeURIComponent(str.slice(start, i+1)).substr(1).split('%')
-      for (var j = 0; j < h.length; j++) {
-        byteArray.push(parseInt(h[j], 16))
-      }
-    }
-  }
-  return byteArray
-}
-
-function asciiToBytes (str) {
-  var byteArray = []
-  for (var i = 0; i < str.length; i++) {
-    // Node's code seems to be doing this and not & 0x7F..
-    byteArray.push(str.charCodeAt(i) & 0xFF)
-  }
-  return byteArray
-}
-
-function utf16leToBytes (str) {
-  var c, hi, lo
-  var byteArray = []
-  for (var i = 0; i < str.length; i++) {
-    c = str.charCodeAt(i)
-    hi = c >> 8
-    lo = c % 256
-    byteArray.push(lo)
-    byteArray.push(hi)
-  }
-
-  return byteArray
-}
-
-function base64ToBytes (str) {
-  return base64.toByteArray(str)
-}
-
-function blitBuffer (src, dst, offset, length, unitSize) {
-  if (unitSize) length -= length % unitSize;
-  for (var i = 0; i < length; i++) {
-    if ((i + offset >= dst.length) || (i >= src.length))
-      break
-    dst[i + offset] = src[i]
-  }
-  return i
-}
-
-function decodeUtf8Char (str) {
-  try {
-    return decodeURIComponent(str)
-  } catch (err) {
-    return String.fromCharCode(0xFFFD) // UTF 8 invalid char
-  }
-}
-
-},{"base64-js":6,"ieee754":16,"is-array":18}],10:[function(require,module,exports){
+},{"buffer":52}],7:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1692,8 +452,8 @@ function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
 
-}).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":19}],11:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../usr/local/lib/node_modules/browserify/node_modules/is-buffer/index.js":56}],8:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -1844,7 +604,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's'
 }
 
-},{}],12:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -2033,7 +793,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":13,"_process":46}],13:[function(require,module,exports){
+},{"./debug":10,"_process":57}],10:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -2237,310 +997,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":11}],14:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
-}
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events)
-    this._events = {};
-
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      }
-      throw TypeError('Uncaught, unspecified "error" event.');
-    }
-  }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler))
-    return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        len = arguments.length;
-        args = new Array(len - 1);
-        for (i = 1; i < len; i++)
-          args[i - 1] = arguments[i];
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    len = arguments.length;
-    args = new Array(len - 1);
-    for (i = 1; i < len; i++)
-      args[i - 1] = arguments[i];
-
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events)
-    this._events = {};
-
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
-
-  if (!this._events[type])
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    var m;
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
-    if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
-  }
-
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else {
-    // LIFO order
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  var ret;
-  if (!emitter._events || !emitter._events[type])
-    ret = 0;
-  else if (isFunction(emitter._events[type]))
-    ret = 1;
-  else
-    ret = emitter._events[type].length;
-  return ret;
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-},{}],15:[function(require,module,exports){
+},{"ms":8}],11:[function(require,module,exports){
 // originally pulled out of simple-peer
 
 module.exports = function getBrowserRTC () {
@@ -2557,93 +1014,7 @@ module.exports = function getBrowserRTC () {
   return wrtc
 }
 
-},{}],16:[function(require,module,exports){
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
-
-  i += d
-
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
-  }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-}
-
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-  value = Math.abs(value)
-
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
-    }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
-
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
-  }
-
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-  buffer[offset + i - d] |= s * 128
-}
-
-},{}],17:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -2668,72 +1039,14 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],18:[function(require,module,exports){
-
-/**
- * isArray
- */
-
-var isArray = Array.isArray;
-
-/**
- * toString
- */
-
-var str = Object.prototype.toString;
-
-/**
- * Whether or not the given `val`
- * is an array.
- *
- * example:
- *
- *        isArray([]);
- *        // > true
- *        isArray(arguments);
- *        // > false
- *        isArray('');
- *        // > false
- *
- * @param {mixed} val
- * @return {bool}
- */
-
-module.exports = isArray || function (val) {
-  return !! val && '[object Array]' == str.call(val);
-};
-
-},{}],19:[function(require,module,exports){
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
-}
-
-},{}],20:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],21:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19821,7 +18134,7 @@ module.exports = Array.isArray || function (arr) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],22:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19844,7 +18157,7 @@ class MConnectTo {
 
 module.exports = MConnectTo;
 
-},{}],23:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19859,7 +18172,7 @@ class MDirect {
 
 module.exports = MDirect;
 
-},{}],24:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19882,7 +18195,7 @@ class MForwarded {
 
 module.exports = MForwarded;
 
-},{}],25:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19904,7 +18217,7 @@ class MForwardTo {
 
 module.exports = MForwardTo;
 
-},{}],26:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('n2n-overlay-wrtc');
@@ -20238,7 +18551,7 @@ class Neighbor extends EventEmitter {
 
 module.exports = Neighbor;
 
-},{"./messages/mconnectto.js":22,"./messages/mdirect.js":23,"./messages/mforwarded.js":24,"./messages/mforwardto.js":25,"debug":12,"events":14,"lodash":21,"neighborhood-wrtc":41,"uuid/v4":29}],27:[function(require,module,exports){
+},{"./messages/mconnectto.js":15,"./messages/mdirect.js":16,"./messages/mforwarded.js":17,"./messages/mforwardto.js":18,"debug":9,"events":54,"lodash":14,"neighborhood-wrtc":34,"uuid/v4":22}],20:[function(require,module,exports){
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -20263,7 +18576,7 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-},{}],28:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 (function (global){
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
@@ -20300,7 +18613,7 @@ if (!rng) {
 module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],29:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var rng = require('./lib/rng');
 var bytesToUuid = require('./lib/bytesToUuid');
 
@@ -20331,7 +18644,7 @@ function v4(options, buf, offset) {
 
 module.exports = v4;
 
-},{"./lib/bytesToUuid":27,"./lib/rng":28}],30:[function(require,module,exports){
+},{"./lib/bytesToUuid":20,"./lib/rng":21}],23:[function(require,module,exports){
 'use strict';
 
 const ELiving = require('./entries/eliving.js');
@@ -20483,7 +18796,7 @@ class ArcStore {
 
 module.exports = ArcStore;
 
-},{"./entries/eliving.js":32,"./exceptions/exsocketnotfound.js":36}],31:[function(require,module,exports){
+},{"./entries/eliving.js":25,"./exceptions/exsocketnotfound.js":29}],24:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20506,7 +18819,7 @@ class EDying {
 
 module.exports = EDying;
 
-},{}],32:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20574,7 +18887,7 @@ class ELiving {
 
 module.exports = ELiving;
 
-},{}],33:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20603,7 +18916,7 @@ class EPending {
 
 module.exports = EPending;
 
-},{}],34:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20624,7 +18937,7 @@ class ExLateMessage {
 
 module.exports = ExLateMessage;
 
-},{}],35:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20644,7 +18957,7 @@ class ExProtocolExists {
 
 module.exports = ExProtocolExists;
 
-},{}],36:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20668,7 +18981,7 @@ class ExSocketNotFound {
 
 module.exports = ExSocketNotFound;
 
-},{}],37:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20730,7 +19043,7 @@ class INeighborhood {
 
 module.exports = INeighborhood;
 
-},{}],38:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20759,7 +19072,7 @@ class MRequest {
 
 module.exports = MRequest;
 
-},{}],39:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20787,7 +19100,7 @@ class MResponse {
 
 module.exports = MResponse;
 
-},{}],40:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20811,7 +19124,7 @@ class MSend {
 
 module.exports = MSend;
 
-},{}],41:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('neighborhood-wrtc');
@@ -21276,13 +19589,13 @@ class Neighborhood {
 
 module.exports = Neighborhood;
 
-},{"./arcstore.js":30,"./entries/edying.js":31,"./entries/epending.js":33,"./exceptions/exlatemessage.js":34,"./exceptions/exprotocolexists.js":35,"./interfaces/ineighborhood.js":37,"./messages/mrequest.js":38,"./messages/mresponse.js":39,"./messages/msend.js":40,"debug":12,"lodash":21,"simple-peer":55,"uuid/v4":44}],42:[function(require,module,exports){
-module.exports=require(27)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/lib/bytesToUuid.js":27}],43:[function(require,module,exports){
-module.exports=require(28)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/lib/rng-browser.js":28}],44:[function(require,module,exports){
-module.exports=require(29)
-},{"./lib/bytesToUuid":42,"./lib/rng":43,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/v4.js":29}],45:[function(require,module,exports){
+},{"./arcstore.js":23,"./entries/edying.js":24,"./entries/epending.js":26,"./exceptions/exlatemessage.js":27,"./exceptions/exprotocolexists.js":28,"./interfaces/ineighborhood.js":30,"./messages/mrequest.js":31,"./messages/mresponse.js":32,"./messages/msend.js":33,"debug":9,"lodash":14,"simple-peer":47,"uuid/v4":37}],35:[function(require,module,exports){
+arguments[4][20][0].apply(exports,arguments)
+},{"dup":20}],36:[function(require,module,exports){
+arguments[4][21][0].apply(exports,arguments)
+},{"dup":21}],37:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"./lib/bytesToUuid":35,"./lib/rng":36,"dup":22}],38:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21329,95 +19642,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":46}],46:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canMutationObserver = typeof window !== 'undefined'
-    && window.MutationObserver;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    var queue = [];
-
-    if (canMutationObserver) {
-        var hiddenDiv = document.createElement("div");
-        var observer = new MutationObserver(function () {
-            var queueList = queue.slice();
-            queue.length = 0;
-            queueList.forEach(function (fn) {
-                fn();
-            });
-        });
-
-        observer.observe(hiddenDiv, { attributes: true });
-
-        return function nextTick(fn) {
-            if (!queue.length) {
-                hiddenDiv.setAttribute('yes', 'no');
-            }
-            queue.push(fn);
-        };
-    }
-
-    if (canPost) {
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-},{}],47:[function(require,module,exports){
+},{"_process":57}],39:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -21457,7 +19682,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":46,"buffer":9}],48:[function(require,module,exports){
+},{"_process":57,"buffer":52}],40:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -21533,7 +19758,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":50,"./_stream_writable":52,"core-util-is":10,"inherits":17,"process-nextick-args":45}],49:[function(require,module,exports){
+},{"./_stream_readable":42,"./_stream_writable":44,"core-util-is":7,"inherits":12,"process-nextick-args":38}],41:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -21560,7 +19785,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":51,"core-util-is":10,"inherits":17}],50:[function(require,module,exports){
+},{"./_stream_transform":43,"core-util-is":7,"inherits":12}],42:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -22504,7 +20729,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":48,"./internal/streams/BufferList":53,"_process":46,"buffer":9,"buffer-shims":8,"core-util-is":10,"events":14,"inherits":17,"isarray":20,"process-nextick-args":45,"string_decoder/":56,"util":7}],51:[function(require,module,exports){
+},{"./_stream_duplex":40,"./internal/streams/BufferList":45,"_process":57,"buffer":52,"buffer-shims":6,"core-util-is":7,"events":54,"inherits":12,"isarray":13,"process-nextick-args":38,"string_decoder/":48,"util":51}],43:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -22687,7 +20912,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":48,"core-util-is":10,"inherits":17}],52:[function(require,module,exports){
+},{"./_stream_duplex":40,"core-util-is":7,"inherits":12}],44:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -23241,7 +21466,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":48,"_process":46,"buffer":9,"buffer-shims":8,"core-util-is":10,"events":14,"inherits":17,"process-nextick-args":45,"util-deprecate":57}],53:[function(require,module,exports){
+},{"./_stream_duplex":40,"_process":57,"buffer":52,"buffer-shims":6,"core-util-is":7,"events":54,"inherits":12,"process-nextick-args":38,"util-deprecate":49}],45:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -23306,7 +21531,7 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":9,"buffer-shims":8}],54:[function(require,module,exports){
+},{"buffer":52,"buffer-shims":6}],46:[function(require,module,exports){
 (function (process){
 var Stream = (function (){
   try {
@@ -23326,7 +21551,7 @@ if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
 }
 
 }).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":48,"./lib/_stream_passthrough.js":49,"./lib/_stream_readable.js":50,"./lib/_stream_transform.js":51,"./lib/_stream_writable.js":52,"_process":46}],55:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":40,"./lib/_stream_passthrough.js":41,"./lib/_stream_readable.js":42,"./lib/_stream_transform.js":43,"./lib/_stream_writable.js":44,"_process":57}],47:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -24083,7 +22308,7 @@ Peer.prototype._transformConstraints = function (constraints) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":9,"debug":12,"get-browser-rtc":15,"inherits":17,"randombytes":47,"readable-stream":54}],56:[function(require,module,exports){
+},{"buffer":52,"debug":9,"get-browser-rtc":11,"inherits":12,"randombytes":39,"readable-stream":46}],48:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -24306,7 +22531,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":9}],57:[function(require,module,exports){
+},{"buffer":52}],49:[function(require,module,exports){
 (function (global){
 
 /**
@@ -24377,36 +22602,2353 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],50:[function(require,module,exports){
+'use strict'
+
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+function init () {
+  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  for (var i = 0, len = code.length; i < len; ++i) {
+    lookup[i] = code[i]
+    revLookup[code.charCodeAt(i)] = i
+  }
+
+  revLookup['-'.charCodeAt(0)] = 62
+  revLookup['_'.charCodeAt(0)] = 63
+}
+
+init()
+
+function toByteArray (b64) {
+  var i, j, l, tmp, placeHolders, arr
+  var len = b64.length
+
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+
+  // base64 is 4/3 + up to two characters of the original data
+  arr = new Arr(len * 3 / 4 - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
+
+},{}],51:[function(require,module,exports){
+
+},{}],52:[function(require,module,exports){
+(function (global){
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+/* eslint-disable no-proto */
+
+'use strict'
+
+var base64 = require('base64-js')
+var ieee754 = require('ieee754')
+var isArray = require('isarray')
+
+exports.Buffer = Buffer
+exports.SlowBuffer = SlowBuffer
+exports.INSPECT_MAX_BYTES = 50
+
+/**
+ * If `Buffer.TYPED_ARRAY_SUPPORT`:
+ *   === true    Use Uint8Array implementation (fastest)
+ *   === false   Use Object implementation (most compatible, even IE6)
+ *
+ * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
+ * Opera 11.6+, iOS 4.2+.
+ *
+ * Due to various browser bugs, sometimes the Object implementation will be used even
+ * when the browser supports typed arrays.
+ *
+ * Note:
+ *
+ *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
+ *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
+ *
+ *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
+ *
+ *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
+ *     incorrect length in some situations.
+
+ * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
+ * get the Object implementation, which is slower but behaves correctly.
+ */
+Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
+  ? global.TYPED_ARRAY_SUPPORT
+  : typedArraySupport()
+
+/*
+ * Export kMaxLength after typed array support is determined.
+ */
+exports.kMaxLength = kMaxLength()
+
+function typedArraySupport () {
+  try {
+    var arr = new Uint8Array(1)
+    arr.foo = function () { return 42 }
+    return arr.foo() === 42 && // typed array instances can be augmented
+        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
+  } catch (e) {
+    return false
+  }
+}
+
+function kMaxLength () {
+  return Buffer.TYPED_ARRAY_SUPPORT
+    ? 0x7fffffff
+    : 0x3fffffff
+}
+
+function createBuffer (that, length) {
+  if (kMaxLength() < length) {
+    throw new RangeError('Invalid typed array length')
+  }
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = new Uint8Array(length)
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    if (that === null) {
+      that = new Buffer(length)
+    }
+    that.length = length
+  }
+
+  return that
+}
+
+/**
+ * The Buffer constructor returns instances of `Uint8Array` that have their
+ * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+ * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
+ * and the `Uint8Array` methods. Square bracket notation works as expected -- it
+ * returns a single octet.
+ *
+ * The `Uint8Array` prototype remains unmodified.
+ */
+
+function Buffer (arg, encodingOrOffset, length) {
+  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
+    return new Buffer(arg, encodingOrOffset, length)
+  }
+
+  // Common case.
+  if (typeof arg === 'number') {
+    if (typeof encodingOrOffset === 'string') {
+      throw new Error(
+        'If encoding is specified then the first argument must be a string'
+      )
+    }
+    return allocUnsafe(this, arg)
+  }
+  return from(this, arg, encodingOrOffset, length)
+}
+
+Buffer.poolSize = 8192 // not used by this implementation
+
+// TODO: Legacy, not needed anymore. Remove in next major version.
+Buffer._augment = function (arr) {
+  arr.__proto__ = Buffer.prototype
+  return arr
+}
+
+function from (that, value, encodingOrOffset, length) {
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number')
+  }
+
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    return fromArrayBuffer(that, value, encodingOrOffset, length)
+  }
+
+  if (typeof value === 'string') {
+    return fromString(that, value, encodingOrOffset)
+  }
+
+  return fromObject(that, value)
+}
+
+/**
+ * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
+ * if value is a number.
+ * Buffer.from(str[, encoding])
+ * Buffer.from(array)
+ * Buffer.from(buffer)
+ * Buffer.from(arrayBuffer[, byteOffset[, length]])
+ **/
+Buffer.from = function (value, encodingOrOffset, length) {
+  return from(null, value, encodingOrOffset, length)
+}
+
+if (Buffer.TYPED_ARRAY_SUPPORT) {
+  Buffer.prototype.__proto__ = Uint8Array.prototype
+  Buffer.__proto__ = Uint8Array
+  if (typeof Symbol !== 'undefined' && Symbol.species &&
+      Buffer[Symbol.species] === Buffer) {
+    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
+    Object.defineProperty(Buffer, Symbol.species, {
+      value: null,
+      configurable: true
+    })
+  }
+}
+
+function assertSize (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('"size" argument must be a number')
+  }
+}
+
+function alloc (that, size, fill, encoding) {
+  assertSize(size)
+  if (size <= 0) {
+    return createBuffer(that, size)
+  }
+  if (fill !== undefined) {
+    // Only pay attention to encoding if it's a string. This
+    // prevents accidentally sending in a number that would
+    // be interpretted as a start offset.
+    return typeof encoding === 'string'
+      ? createBuffer(that, size).fill(fill, encoding)
+      : createBuffer(that, size).fill(fill)
+  }
+  return createBuffer(that, size)
+}
+
+/**
+ * Creates a new filled Buffer instance.
+ * alloc(size[, fill[, encoding]])
+ **/
+Buffer.alloc = function (size, fill, encoding) {
+  return alloc(null, size, fill, encoding)
+}
+
+function allocUnsafe (that, size) {
+  assertSize(size)
+  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+    for (var i = 0; i < size; i++) {
+      that[i] = 0
+    }
+  }
+  return that
+}
+
+/**
+ * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
+ * */
+Buffer.allocUnsafe = function (size) {
+  return allocUnsafe(null, size)
+}
+/**
+ * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
+ */
+Buffer.allocUnsafeSlow = function (size) {
+  return allocUnsafe(null, size)
+}
+
+function fromString (that, string, encoding) {
+  if (typeof encoding !== 'string' || encoding === '') {
+    encoding = 'utf8'
+  }
+
+  if (!Buffer.isEncoding(encoding)) {
+    throw new TypeError('"encoding" must be a valid string encoding')
+  }
+
+  var length = byteLength(string, encoding) | 0
+  that = createBuffer(that, length)
+
+  that.write(string, encoding)
+  return that
+}
+
+function fromArrayLike (that, array) {
+  var length = checked(array.length) | 0
+  that = createBuffer(that, length)
+  for (var i = 0; i < length; i += 1) {
+    that[i] = array[i] & 255
+  }
+  return that
+}
+
+function fromArrayBuffer (that, array, byteOffset, length) {
+  array.byteLength // this throws if `array` is not a valid ArrayBuffer
+
+  if (byteOffset < 0 || array.byteLength < byteOffset) {
+    throw new RangeError('\'offset\' is out of bounds')
+  }
+
+  if (array.byteLength < byteOffset + (length || 0)) {
+    throw new RangeError('\'length\' is out of bounds')
+  }
+
+  if (length === undefined) {
+    array = new Uint8Array(array, byteOffset)
+  } else {
+    array = new Uint8Array(array, byteOffset, length)
+  }
+
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = array
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    that = fromArrayLike(that, array)
+  }
+  return that
+}
+
+function fromObject (that, obj) {
+  if (Buffer.isBuffer(obj)) {
+    var len = checked(obj.length) | 0
+    that = createBuffer(that, len)
+
+    if (that.length === 0) {
+      return that
+    }
+
+    obj.copy(that, 0, 0, len)
+    return that
+  }
+
+  if (obj) {
+    if ((typeof ArrayBuffer !== 'undefined' &&
+        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
+      if (typeof obj.length !== 'number' || isnan(obj.length)) {
+        return createBuffer(that, 0)
+      }
+      return fromArrayLike(that, obj)
+    }
+
+    if (obj.type === 'Buffer' && isArray(obj.data)) {
+      return fromArrayLike(that, obj.data)
+    }
+  }
+
+  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
+}
+
+function checked (length) {
+  // Note: cannot use `length < kMaxLength` here because that fails when
+  // length is NaN (which is otherwise coerced to zero.)
+  if (length >= kMaxLength()) {
+    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
+  }
+  return length | 0
+}
+
+function SlowBuffer (length) {
+  if (+length != length) { // eslint-disable-line eqeqeq
+    length = 0
+  }
+  return Buffer.alloc(+length)
+}
+
+Buffer.isBuffer = function isBuffer (b) {
+  return !!(b != null && b._isBuffer)
+}
+
+Buffer.compare = function compare (a, b) {
+  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+    throw new TypeError('Arguments must be Buffers')
+  }
+
+  if (a === b) return 0
+
+  var x = a.length
+  var y = b.length
+
+  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+    if (a[i] !== b[i]) {
+      x = a[i]
+      y = b[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+Buffer.isEncoding = function isEncoding (encoding) {
+  switch (String(encoding).toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'binary':
+    case 'base64':
+    case 'raw':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      return true
+    default:
+      return false
+  }
+}
+
+Buffer.concat = function concat (list, length) {
+  if (!isArray(list)) {
+    throw new TypeError('"list" argument must be an Array of Buffers')
+  }
+
+  if (list.length === 0) {
+    return Buffer.alloc(0)
+  }
+
+  var i
+  if (length === undefined) {
+    length = 0
+    for (i = 0; i < list.length; i++) {
+      length += list[i].length
+    }
+  }
+
+  var buffer = Buffer.allocUnsafe(length)
+  var pos = 0
+  for (i = 0; i < list.length; i++) {
+    var buf = list[i]
+    if (!Buffer.isBuffer(buf)) {
+      throw new TypeError('"list" argument must be an Array of Buffers')
+    }
+    buf.copy(buffer, pos)
+    pos += buf.length
+  }
+  return buffer
+}
+
+function byteLength (string, encoding) {
+  if (Buffer.isBuffer(string)) {
+    return string.length
+  }
+  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
+      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
+    return string.byteLength
+  }
+  if (typeof string !== 'string') {
+    string = '' + string
+  }
+
+  var len = string.length
+  if (len === 0) return 0
+
+  // Use a for loop to avoid recursion
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'ascii':
+      case 'binary':
+      // Deprecated
+      case 'raw':
+      case 'raws':
+        return len
+      case 'utf8':
+      case 'utf-8':
+      case undefined:
+        return utf8ToBytes(string).length
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return len * 2
+      case 'hex':
+        return len >>> 1
+      case 'base64':
+        return base64ToBytes(string).length
+      default:
+        if (loweredCase) return utf8ToBytes(string).length // assume utf8
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+Buffer.byteLength = byteLength
+
+function slowToString (encoding, start, end) {
+  var loweredCase = false
+
+  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  // property of a typed array.
+
+  // This behaves neither like String nor Uint8Array in that we set start/end
+  // to their upper/lower bounds if the value passed is out of range.
+  // undefined is handled specially as per ECMA-262 6th Edition,
+  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
+  if (start === undefined || start < 0) {
+    start = 0
+  }
+  // Return early if start > this.length. Done here to prevent potential uint32
+  // coercion fail below.
+  if (start > this.length) {
+    return ''
+  }
+
+  if (end === undefined || end > this.length) {
+    end = this.length
+  }
+
+  if (end <= 0) {
+    return ''
+  }
+
+  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
+  end >>>= 0
+  start >>>= 0
+
+  if (end <= start) {
+    return ''
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  while (true) {
+    switch (encoding) {
+      case 'hex':
+        return hexSlice(this, start, end)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Slice(this, start, end)
+
+      case 'ascii':
+        return asciiSlice(this, start, end)
+
+      case 'binary':
+        return binarySlice(this, start, end)
+
+      case 'base64':
+        return base64Slice(this, start, end)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return utf16leSlice(this, start, end)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = (encoding + '').toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
+// Buffer instances.
+Buffer.prototype._isBuffer = true
+
+function swap (b, n, m) {
+  var i = b[n]
+  b[n] = b[m]
+  b[m] = i
+}
+
+Buffer.prototype.swap16 = function swap16 () {
+  var len = this.length
+  if (len % 2 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 16-bits')
+  }
+  for (var i = 0; i < len; i += 2) {
+    swap(this, i, i + 1)
+  }
+  return this
+}
+
+Buffer.prototype.swap32 = function swap32 () {
+  var len = this.length
+  if (len % 4 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 32-bits')
+  }
+  for (var i = 0; i < len; i += 4) {
+    swap(this, i, i + 3)
+    swap(this, i + 1, i + 2)
+  }
+  return this
+}
+
+Buffer.prototype.toString = function toString () {
+  var length = this.length | 0
+  if (length === 0) return ''
+  if (arguments.length === 0) return utf8Slice(this, 0, length)
+  return slowToString.apply(this, arguments)
+}
+
+Buffer.prototype.equals = function equals (b) {
+  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
+  if (this === b) return true
+  return Buffer.compare(this, b) === 0
+}
+
+Buffer.prototype.inspect = function inspect () {
+  var str = ''
+  var max = exports.INSPECT_MAX_BYTES
+  if (this.length > 0) {
+    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
+    if (this.length > max) str += ' ... '
+  }
+  return '<Buffer ' + str + '>'
+}
+
+Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
+  if (!Buffer.isBuffer(target)) {
+    throw new TypeError('Argument must be a Buffer')
+  }
+
+  if (start === undefined) {
+    start = 0
+  }
+  if (end === undefined) {
+    end = target ? target.length : 0
+  }
+  if (thisStart === undefined) {
+    thisStart = 0
+  }
+  if (thisEnd === undefined) {
+    thisEnd = this.length
+  }
+
+  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+    throw new RangeError('out of range index')
+  }
+
+  if (thisStart >= thisEnd && start >= end) {
+    return 0
+  }
+  if (thisStart >= thisEnd) {
+    return -1
+  }
+  if (start >= end) {
+    return 1
+  }
+
+  start >>>= 0
+  end >>>= 0
+  thisStart >>>= 0
+  thisEnd >>>= 0
+
+  if (this === target) return 0
+
+  var x = thisEnd - thisStart
+  var y = end - start
+  var len = Math.min(x, y)
+
+  var thisCopy = this.slice(thisStart, thisEnd)
+  var targetCopy = target.slice(start, end)
+
+  for (var i = 0; i < len; ++i) {
+    if (thisCopy[i] !== targetCopy[i]) {
+      x = thisCopy[i]
+      y = targetCopy[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+function arrayIndexOf (arr, val, byteOffset, encoding) {
+  var indexSize = 1
+  var arrLength = arr.length
+  var valLength = val.length
+
+  if (encoding !== undefined) {
+    encoding = String(encoding).toLowerCase()
+    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
+        encoding === 'utf16le' || encoding === 'utf-16le') {
+      if (arr.length < 2 || val.length < 2) {
+        return -1
+      }
+      indexSize = 2
+      arrLength /= 2
+      valLength /= 2
+      byteOffset /= 2
+    }
+  }
+
+  function read (buf, i) {
+    if (indexSize === 1) {
+      return buf[i]
+    } else {
+      return buf.readUInt16BE(i * indexSize)
+    }
+  }
+
+  var foundIndex = -1
+  for (var i = 0; byteOffset + i < arrLength; i++) {
+    if (read(arr, byteOffset + i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+      if (foundIndex === -1) foundIndex = i
+      if (i - foundIndex + 1 === valLength) return (byteOffset + foundIndex) * indexSize
+    } else {
+      if (foundIndex !== -1) i -= i - foundIndex
+      foundIndex = -1
+    }
+  }
+  return -1
+}
+
+Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
+  if (typeof byteOffset === 'string') {
+    encoding = byteOffset
+    byteOffset = 0
+  } else if (byteOffset > 0x7fffffff) {
+    byteOffset = 0x7fffffff
+  } else if (byteOffset < -0x80000000) {
+    byteOffset = -0x80000000
+  }
+  byteOffset >>= 0
+
+  if (this.length === 0) return -1
+  if (byteOffset >= this.length) return -1
+
+  // Negative offsets start from the end of the buffer
+  if (byteOffset < 0) byteOffset = Math.max(this.length + byteOffset, 0)
+
+  if (typeof val === 'string') {
+    val = Buffer.from(val, encoding)
+  }
+
+  if (Buffer.isBuffer(val)) {
+    // special case: looking for empty string/buffer always fails
+    if (val.length === 0) {
+      return -1
+    }
+    return arrayIndexOf(this, val, byteOffset, encoding)
+  }
+  if (typeof val === 'number') {
+    if (Buffer.TYPED_ARRAY_SUPPORT && Uint8Array.prototype.indexOf === 'function') {
+      return Uint8Array.prototype.indexOf.call(this, val, byteOffset)
+    }
+    return arrayIndexOf(this, [ val ], byteOffset, encoding)
+  }
+
+  throw new TypeError('val must be string, number or Buffer')
+}
+
+Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1
+}
+
+function hexWrite (buf, string, offset, length) {
+  offset = Number(offset) || 0
+  var remaining = buf.length - offset
+  if (!length) {
+    length = remaining
+  } else {
+    length = Number(length)
+    if (length > remaining) {
+      length = remaining
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length
+  if (strLen % 2 !== 0) throw new Error('Invalid hex string')
+
+  if (length > strLen / 2) {
+    length = strLen / 2
+  }
+  for (var i = 0; i < length; i++) {
+    var parsed = parseInt(string.substr(i * 2, 2), 16)
+    if (isNaN(parsed)) return i
+    buf[offset + i] = parsed
+  }
+  return i
+}
+
+function utf8Write (buf, string, offset, length) {
+  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+function asciiWrite (buf, string, offset, length) {
+  return blitBuffer(asciiToBytes(string), buf, offset, length)
+}
+
+function binaryWrite (buf, string, offset, length) {
+  return asciiWrite(buf, string, offset, length)
+}
+
+function base64Write (buf, string, offset, length) {
+  return blitBuffer(base64ToBytes(string), buf, offset, length)
+}
+
+function ucs2Write (buf, string, offset, length) {
+  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+Buffer.prototype.write = function write (string, offset, length, encoding) {
+  // Buffer#write(string)
+  if (offset === undefined) {
+    encoding = 'utf8'
+    length = this.length
+    offset = 0
+  // Buffer#write(string, encoding)
+  } else if (length === undefined && typeof offset === 'string') {
+    encoding = offset
+    length = this.length
+    offset = 0
+  // Buffer#write(string, offset[, length][, encoding])
+  } else if (isFinite(offset)) {
+    offset = offset | 0
+    if (isFinite(length)) {
+      length = length | 0
+      if (encoding === undefined) encoding = 'utf8'
+    } else {
+      encoding = length
+      length = undefined
+    }
+  // legacy write(string, encoding, offset, length) - remove in v0.13
+  } else {
+    throw new Error(
+      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
+    )
+  }
+
+  var remaining = this.length - offset
+  if (length === undefined || length > remaining) length = remaining
+
+  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
+    throw new RangeError('Attempt to write outside buffer bounds')
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'hex':
+        return hexWrite(this, string, offset, length)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Write(this, string, offset, length)
+
+      case 'ascii':
+        return asciiWrite(this, string, offset, length)
+
+      case 'binary':
+        return binaryWrite(this, string, offset, length)
+
+      case 'base64':
+        // Warning: maxLength not taken into account in base64Write
+        return base64Write(this, string, offset, length)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return ucs2Write(this, string, offset, length)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+Buffer.prototype.toJSON = function toJSON () {
+  return {
+    type: 'Buffer',
+    data: Array.prototype.slice.call(this._arr || this, 0)
+  }
+}
+
+function base64Slice (buf, start, end) {
+  if (start === 0 && end === buf.length) {
+    return base64.fromByteArray(buf)
+  } else {
+    return base64.fromByteArray(buf.slice(start, end))
+  }
+}
+
+function utf8Slice (buf, start, end) {
+  end = Math.min(buf.length, end)
+  var res = []
+
+  var i = start
+  while (i < end) {
+    var firstByte = buf[i]
+    var codePoint = null
+    var bytesPerSequence = (firstByte > 0xEF) ? 4
+      : (firstByte > 0xDF) ? 3
+      : (firstByte > 0xBF) ? 2
+      : 1
+
+    if (i + bytesPerSequence <= end) {
+      var secondByte, thirdByte, fourthByte, tempCodePoint
+
+      switch (bytesPerSequence) {
+        case 1:
+          if (firstByte < 0x80) {
+            codePoint = firstByte
+          }
+          break
+        case 2:
+          secondByte = buf[i + 1]
+          if ((secondByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
+            if (tempCodePoint > 0x7F) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 3:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
+            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 4:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          fourthByte = buf[i + 3]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
+            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
+              codePoint = tempCodePoint
+            }
+          }
+      }
+    }
+
+    if (codePoint === null) {
+      // we did not generate a valid codePoint so insert a
+      // replacement char (U+FFFD) and advance only 1 byte
+      codePoint = 0xFFFD
+      bytesPerSequence = 1
+    } else if (codePoint > 0xFFFF) {
+      // encode to utf16 (surrogate pair dance)
+      codePoint -= 0x10000
+      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
+      codePoint = 0xDC00 | codePoint & 0x3FF
+    }
+
+    res.push(codePoint)
+    i += bytesPerSequence
+  }
+
+  return decodeCodePointsArray(res)
+}
+
+// Based on http://stackoverflow.com/a/22747272/680742, the browser with
+// the lowest limit is Chrome, with 0x10000 args.
+// We go 1 magnitude less, for safety
+var MAX_ARGUMENTS_LENGTH = 0x1000
+
+function decodeCodePointsArray (codePoints) {
+  var len = codePoints.length
+  if (len <= MAX_ARGUMENTS_LENGTH) {
+    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
+  }
+
+  // Decode in chunks to avoid "call stack size exceeded".
+  var res = ''
+  var i = 0
+  while (i < len) {
+    res += String.fromCharCode.apply(
+      String,
+      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+    )
+  }
+  return res
+}
+
+function asciiSlice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; i++) {
+    ret += String.fromCharCode(buf[i] & 0x7F)
+  }
+  return ret
+}
+
+function binarySlice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; i++) {
+    ret += String.fromCharCode(buf[i])
+  }
+  return ret
+}
+
+function hexSlice (buf, start, end) {
+  var len = buf.length
+
+  if (!start || start < 0) start = 0
+  if (!end || end < 0 || end > len) end = len
+
+  var out = ''
+  for (var i = start; i < end; i++) {
+    out += toHex(buf[i])
+  }
+  return out
+}
+
+function utf16leSlice (buf, start, end) {
+  var bytes = buf.slice(start, end)
+  var res = ''
+  for (var i = 0; i < bytes.length; i += 2) {
+    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
+  }
+  return res
+}
+
+Buffer.prototype.slice = function slice (start, end) {
+  var len = this.length
+  start = ~~start
+  end = end === undefined ? len : ~~end
+
+  if (start < 0) {
+    start += len
+    if (start < 0) start = 0
+  } else if (start > len) {
+    start = len
+  }
+
+  if (end < 0) {
+    end += len
+    if (end < 0) end = 0
+  } else if (end > len) {
+    end = len
+  }
+
+  if (end < start) end = start
+
+  var newBuf
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    newBuf = this.subarray(start, end)
+    newBuf.__proto__ = Buffer.prototype
+  } else {
+    var sliceLen = end - start
+    newBuf = new Buffer(sliceLen, undefined)
+    for (var i = 0; i < sliceLen; i++) {
+      newBuf[i] = this[i + start]
+    }
+  }
+
+  return newBuf
+}
+
+/*
+ * Need to make sure that buffer isn't trying to write out of bounds.
+ */
+function checkOffset (offset, ext, length) {
+  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
+  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
+}
+
+Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    checkOffset(offset, byteLength, this.length)
+  }
+
+  var val = this[offset + --byteLength]
+  var mul = 1
+  while (byteLength > 0 && (mul *= 0x100)) {
+    val += this[offset + --byteLength] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  return this[offset]
+}
+
+Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return this[offset] | (this[offset + 1] << 8)
+}
+
+Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return (this[offset] << 8) | this[offset + 1]
+}
+
+Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return ((this[offset]) |
+      (this[offset + 1] << 8) |
+      (this[offset + 2] << 16)) +
+      (this[offset + 3] * 0x1000000)
+}
+
+Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] * 0x1000000) +
+    ((this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    this[offset + 3])
+}
+
+Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var i = byteLength
+  var mul = 1
+  var val = this[offset + --i]
+  while (i > 0 && (mul *= 0x100)) {
+    val += this[offset + --i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  if (!(this[offset] & 0x80)) return (this[offset])
+  return ((0xff - this[offset] + 1) * -1)
+}
+
+Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset] | (this[offset + 1] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset + 1] | (this[offset] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset]) |
+    (this[offset + 1] << 8) |
+    (this[offset + 2] << 16) |
+    (this[offset + 3] << 24)
+}
+
+Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] << 24) |
+    (this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    (this[offset + 3])
+}
+
+Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, true, 23, 4)
+}
+
+Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, false, 23, 4)
+}
+
+Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, true, 52, 8)
+}
+
+Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, false, 52, 8)
+}
+
+function checkInt (buf, value, offset, ext, max, min) {
+  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
+  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+}
+
+Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var mul = 1
+  var i = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+function objectWriteUInt16 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; i++) {
+    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
+      (littleEndian ? i : 1 - i) * 8
+  }
+}
+
+Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+function objectWriteUInt32 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffffffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; i++) {
+    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset + 3] = (value >>> 24)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 1] = (value >>> 8)
+    this[offset] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = 0
+  var mul = 1
+  var sub = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  var sub = 0
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  if (value < 0) value = 0xff + value + 1
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 3] = (value >>> 24)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (value < 0) value = 0xffffffff + value + 1
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+function checkIEEE754 (buf, value, offset, ext, max, min) {
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+  if (offset < 0) throw new RangeError('Index out of range')
+}
+
+function writeFloat (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 23, 4)
+  return offset + 4
+}
+
+Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, false, noAssert)
+}
+
+function writeDouble (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 52, 8)
+  return offset + 8
+}
+
+Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, false, noAssert)
+}
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function copy (target, targetStart, start, end) {
+  if (!start) start = 0
+  if (!end && end !== 0) end = this.length
+  if (targetStart >= target.length) targetStart = target.length
+  if (!targetStart) targetStart = 0
+  if (end > 0 && end < start) end = start
+
+  // Copy 0 bytes; we're done
+  if (end === start) return 0
+  if (target.length === 0 || this.length === 0) return 0
+
+  // Fatal error conditions
+  if (targetStart < 0) {
+    throw new RangeError('targetStart out of bounds')
+  }
+  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
+  if (end < 0) throw new RangeError('sourceEnd out of bounds')
+
+  // Are we oob?
+  if (end > this.length) end = this.length
+  if (target.length - targetStart < end - start) {
+    end = target.length - targetStart + start
+  }
+
+  var len = end - start
+  var i
+
+  if (this === target && start < targetStart && targetStart < end) {
+    // descending copy from end
+    for (i = len - 1; i >= 0; i--) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
+    // ascending copy from start
+    for (i = 0; i < len; i++) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else {
+    Uint8Array.prototype.set.call(
+      target,
+      this.subarray(start, start + len),
+      targetStart
+    )
+  }
+
+  return len
+}
+
+// Usage:
+//    buffer.fill(number[, offset[, end]])
+//    buffer.fill(buffer[, offset[, end]])
+//    buffer.fill(string[, offset[, end]][, encoding])
+Buffer.prototype.fill = function fill (val, start, end, encoding) {
+  // Handle string cases:
+  if (typeof val === 'string') {
+    if (typeof start === 'string') {
+      encoding = start
+      start = 0
+      end = this.length
+    } else if (typeof end === 'string') {
+      encoding = end
+      end = this.length
+    }
+    if (val.length === 1) {
+      var code = val.charCodeAt(0)
+      if (code < 256) {
+        val = code
+      }
+    }
+    if (encoding !== undefined && typeof encoding !== 'string') {
+      throw new TypeError('encoding must be a string')
+    }
+    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
+      throw new TypeError('Unknown encoding: ' + encoding)
+    }
+  } else if (typeof val === 'number') {
+    val = val & 255
+  }
+
+  // Invalid ranges are not set to a default, so can range check early.
+  if (start < 0 || this.length < start || this.length < end) {
+    throw new RangeError('Out of range index')
+  }
+
+  if (end <= start) {
+    return this
+  }
+
+  start = start >>> 0
+  end = end === undefined ? this.length : end >>> 0
+
+  if (!val) val = 0
+
+  var i
+  if (typeof val === 'number') {
+    for (i = start; i < end; i++) {
+      this[i] = val
+    }
+  } else {
+    var bytes = Buffer.isBuffer(val)
+      ? val
+      : utf8ToBytes(new Buffer(val, encoding).toString())
+    var len = bytes.length
+    for (i = 0; i < end - start; i++) {
+      this[i + start] = bytes[i % len]
+    }
+  }
+
+  return this
+}
+
+// HELPER FUNCTIONS
+// ================
+
+var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
+
+function base64clean (str) {
+  // Node strips out invalid characters like \n and \t from the string, base64-js does not
+  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
+  // Node converts strings with length < 2 to ''
+  if (str.length < 2) return ''
+  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
+  while (str.length % 4 !== 0) {
+    str = str + '='
+  }
+  return str
+}
+
+function stringtrim (str) {
+  if (str.trim) return str.trim()
+  return str.replace(/^\s+|\s+$/g, '')
+}
+
+function toHex (n) {
+  if (n < 16) return '0' + n.toString(16)
+  return n.toString(16)
+}
+
+function utf8ToBytes (string, units) {
+  units = units || Infinity
+  var codePoint
+  var length = string.length
+  var leadSurrogate = null
+  var bytes = []
+
+  for (var i = 0; i < length; i++) {
+    codePoint = string.charCodeAt(i)
+
+    // is surrogate component
+    if (codePoint > 0xD7FF && codePoint < 0xE000) {
+      // last char was a lead
+      if (!leadSurrogate) {
+        // no lead yet
+        if (codePoint > 0xDBFF) {
+          // unexpected trail
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        } else if (i + 1 === length) {
+          // unpaired lead
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        }
+
+        // valid lead
+        leadSurrogate = codePoint
+
+        continue
+      }
+
+      // 2 leads in a row
+      if (codePoint < 0xDC00) {
+        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+        leadSurrogate = codePoint
+        continue
+      }
+
+      // valid surrogate pair
+      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
+    } else if (leadSurrogate) {
+      // valid bmp char, but last char was a lead
+      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+    }
+
+    leadSurrogate = null
+
+    // encode utf8
+    if (codePoint < 0x80) {
+      if ((units -= 1) < 0) break
+      bytes.push(codePoint)
+    } else if (codePoint < 0x800) {
+      if ((units -= 2) < 0) break
+      bytes.push(
+        codePoint >> 0x6 | 0xC0,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x10000) {
+      if ((units -= 3) < 0) break
+      bytes.push(
+        codePoint >> 0xC | 0xE0,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x110000) {
+      if ((units -= 4) < 0) break
+      bytes.push(
+        codePoint >> 0x12 | 0xF0,
+        codePoint >> 0xC & 0x3F | 0x80,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else {
+      throw new Error('Invalid code point')
+    }
+  }
+
+  return bytes
+}
+
+function asciiToBytes (str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; i++) {
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push(str.charCodeAt(i) & 0xFF)
+  }
+  return byteArray
+}
+
+function utf16leToBytes (str, units) {
+  var c, hi, lo
+  var byteArray = []
+  for (var i = 0; i < str.length; i++) {
+    if ((units -= 2) < 0) break
+
+    c = str.charCodeAt(i)
+    hi = c >> 8
+    lo = c % 256
+    byteArray.push(lo)
+    byteArray.push(hi)
+  }
+
+  return byteArray
+}
+
+function base64ToBytes (str) {
+  return base64.toByteArray(base64clean(str))
+}
+
+function blitBuffer (src, dst, offset, length) {
+  for (var i = 0; i < length; i++) {
+    if ((i + offset >= dst.length) || (i >= src.length)) break
+    dst[i + offset] = src[i]
+  }
+  return i
+}
+
+function isnan (val) {
+  return val !== val // eslint-disable-line no-self-compare
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"base64-js":50,"ieee754":55,"isarray":53}],53:[function(require,module,exports){
+arguments[4][13][0].apply(exports,arguments)
+},{"dup":13}],54:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      }
+      throw TypeError('Uncaught, unspecified "error" event.');
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    args = Array.prototype.slice.call(arguments, 1);
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else if (listeners) {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  return emitter.listenerCount(type);
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],55:[function(require,module,exports){
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+},{}],56:[function(require,module,exports){
+/**
+ * Determine if an object is Buffer
+ *
+ * Author:   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * License:  MIT
+ *
+ * `npm install is-buffer`
+ */
+
+module.exports = function (obj) {
+  return !!(obj != null &&
+    (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
+      (obj.constructor &&
+      typeof obj.constructor.isBuffer === 'function' &&
+      obj.constructor.isBuffer(obj))
+    ))
+}
+
+},{}],57:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
 },{}],"spray-wrtc":[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var debug = require('debug')('spray-wrtc');
+const debug = require('debug')('spray-wrtc');
 // const  EventEmitter = require('events'); (TODO) maybe keep it
-var N2N = require('n2n-overlay-wrtc');
-var _ = require('lodash');
+const N2N = require('n2n-overlay-wrtc');
+const _ = require('lodash');
 
-var PartialView = require('./partialview.js');
+const PartialView = require('./partialview.js');
 
-var MExchange = require('./messages/mexchange.js');
-var MJoin = require('./messages/mjoin.js');
+const MExchange = require('./messages/mexchange.js');
+const MJoin = require('./messages/mjoin.js');
 
-var ExEmptyView = require('./exceptions/exemptyview.js');
+const ExEmptyView = require('./exceptions/exemptyview.js');
 
 /**
  * Implementation of the random peer-sampling Spray. 
  */
-
-var Spray = function (_N2N) {
-    _inherits(Spray, _N2N);
-
+class Spray extends N2N {
     /**
      * You can pass other parameters such as webrtc options
      * @param {object} [options = {}] Object with all options
@@ -24415,334 +24957,283 @@ var Spray = function (_N2N) {
      * @param {integer} options.delta Every delta milliseconds, Spray shuffles
      * its partial view with its oldest neighbor.
      */
-    function Spray() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        _classCallCheck(this, Spray);
-
+    constructor (options = {}) {
+        // #0 initialize our N2N-parent
+        let meow =  _.merge({ pid: 'spray-wrtc',
+                         delta: 1000 * 60 * 2 }, options) ;
+        super( meow );
         // #1 constants (from N2N)
         // this.PID = protocol identifier
         // this.PEER = peer Id comprising inview and outview Ids
-        var _this = _possibleConstructorReturn(this, (Spray.__proto__ || Object.getPrototypeOf(Spray)).call(this, _.merge({ pid: 'spray-wrtc',
-            delta: 1000 * 60 * 2 }, options)));
-        // #0 initialize our N2N-parent
-
-
-        debug('[%s] Initalized with ==> %s ==>', _this.PID, _this.PEER);
+        debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER);
         // #2 initialize the partial view containing ages
-        _this.partialView = new PartialView();
+        this.partialView = new PartialView();
         // #3 initialize the connectedness state of this protocol
-        _this.state = 'disconnect';
+        this.state = 'disconnect';
         // #4 periodic shuffling
-        _this.periodic = null;
+        this.periodic = null;
         // #5 events
-        _this.on('receive', function (peerId, message) {
-            return _this._receive(peerId, message);
-        });
-        _this.on('stream', function (peerId, message) {}); // (TODO) ?;
-        _this.on('ready', function (peerId) {
-            return _this._ready(peerId);
-        });
-        _this.on('fail', function (peerId) {
-            return _this._onArcDown(peerId);
-        });
-        return _this;
-    }
+        this.on('receive', (peerId, message) => this._receive(peerId, message));
+        this.on('stream', (peerId, message) => { } ); // (TODO) ?;
+        this.on('ready', (peerId) => this._ready(peerId));
+        this.on('fail', (peerId) => this._onArcDown(peerId));
+    };
 
-    _createClass(Spray, [{
-        key: '_start',
+    /**
+     * @private
+     * Start periodic shuffling.
+     */
+    _start () {
+        this.periodic = setInterval( () => {
+            this._exchange();
+        }, this.options.delta);
+    };
 
-
-        /**
-         * @private
-         * Start periodic shuffling.
-         */
-        value: function _start() {
-            var _this2 = this;
-
-            this.periodic = setInterval(function () {
-                _this2._exchange();
-            }, this.options.delta);
-        }
-    }, {
-        key: '_stop',
+    /**
+     * @private
+     * Stop periodic shuffling.
+     */
+    _stop () {
+        clearInterval(this.periodic);
+    };
 
 
-        /**
-         * @private
-         * Stop periodic shuffling.
-         */
-        value: function _stop() {
-            clearInterval(this.periodic);
-        }
-    }, {
-        key: '_receive',
+    /**
+     * @private
+     * Called each time this protocol receives a message. Since it only sends 
+     * MExchange messages, the rest are redirected to the appropriate protocol
+     * registered on top of Spray.
+     * @param {string} peerId The identifier of the peer that sent the message.
+     * @param {object|MExchange} message The message received.
+     */ 
+    _receive (peerId, message) {
+        console.log('RECEIIIIIVE', message);
+        
+        if (message.type && message.type === 'MExchange') {
+            this._onExchange(peerId, message);
+        } else if (message.type && message.type === 'MJoin') {
+            this._onJoin(peerId);
+        } else if (message.pid) {
+            // (TODO) vvvvv
+            // this.protocols.get(message.pid).emit('receive', peerId, message.payoad);
+        };
+    };
 
+    /**
+     * @private
+     * Behavior when a connection is ready to be added in the partial view.
+     * @param {string} peerId The identifier of the new neighbor.
+     */
+    _ready (peerId) {
+        this.partialView.addNeighbor(peerId);
+    };
+    
+    /**
+     * Joining as; or contacted by an outsider
+     * @param {callback|MResponse} arg1 the callbacks function, see module
+     * n2n-overlay-wrtc. Or a response message from the contact peer.
+     * @param {MRequest} [arg2] A request message from the newcomer.
+     */
+    join (arg1, arg2) {
+        if (typeof arg1 === 'function' && typeof arg2 === 'undefined') {
+            // #1 very first call, only done once
+            console.log('BBBB');
+            this.once('ready', (peerId) => {
+                console.log('AAAA');
+                this.send(peerId, new MJoin());
+                this._start(); // start shuffling process
+            });
+        };
+        // #2 carry on with the normal behavior
+        this.connect(arg1, arg2);            
+    };
 
-        /**
-         * @private
-         * Called each time this protocol receives a message. Since it only sends 
-         * MExchange messages, the rest are redirected to the appropriate protocol
-         * registered on top of Spray.
-         * @param {string} peerId The identifier of the peer that sent the message.
-         * @param {object|MExchange} message The message received.
-         */
-        value: function _receive(peerId, message) {
-            if (message.type && message.type === 'MExchange') {
-                this._onExchange(peerId, message);
-            } else if (message.type && message.type === 'MJoin') {
-                this._onJoin(peerId);
-            } else if (message.pid) {
-                // (TODO) vvvvv
-                // this.protocols.get(message.pid).emit('receive', peerId, message.payoad);
-            };
-        }
-    }, {
-        key: '_ready',
-
-
-        /**
-         * @private
-         * Behavior when a connection is ready to be added in the partial view.
-         * @param {string} peerId The identifier of the new neighbor.
-         */
-        value: function _ready(peerId) {
-            this.partialView.addNeighbor(peerId);
-        }
-    }, {
-        key: 'join',
-
-
-        /**
-         * Joining as; or contacted by an outsider
-         * @param {callback|MResponse} arg1 the callbacks function, see module
-         * n2n-overlay-wrtc. Or a response message from the contact peer.
-         * @param {MRequest} [arg2] A request message from the newcomer.
-         */
-        value: function join(arg1, arg2) {
-            var _this3 = this;
-
-            if (typeof arg1 === 'function' && typeof arg2 === 'undefined') {
-                // #1 very first call
-                this.once('ready', function (peerId) {
-                    _this3.send(peerId, new MJoin());
+    /**
+     * Behavior of the contact peer when a newcomer arrives.
+     * @param {string} peerId The identifier of the newcomer.
+     */ 
+    _onJoin (peerId) {
+        if (this.partialView.length > 0){
+            // #1 all neigbors -> peerId
+            debug('[%s] %s ===> join %s ===> %s neigbhors',
+                  this.PID, peerId, this.PEER, this.partialView.length);
+            this.partialView.forEach( (ages, neighbor) => {
+                this.ages.forEach( (age) => {
+                    this.connect(neighbor, peerId);
                 });
+            });
+        } else {
+            // #2 this -> peerId
+            debug('[%s] %s ===> join %s ===> %s',
+                  this.PID, peerId, this.PEER, peerId);
+            this.connect(null, peerId);
+        };
+    };
+
+    /**
+     * Get k neighbors from the partial view. If k is not reached, it tries to
+     * fill the gap with neighbors from the inview.  It is worth noting that
+     * each peer controls its outview but not its inview. The more the neigbhors
+     * from the outview the better.
+     * @param {number} k The number of neighbors requested. If k is not defined,
+     * it returns every known identifiers of the partial view.
+     * @return {string[]} Array of identifiers.
+     */
+    getPeers (k) {
+        let peers = []; 
+        if (typeof k === 'undefined') {
+            // #1 get all the partial view
+            this.partialView.view.forEach( (occ, peerId) => {
+                peers.push(peerId);
+            });
+        } else {
+            // #2 get random identifier from outview
+            let out = [];
+            this.partialView.view.forEach( (ages, peerId) => out.push(peerId) );
+            while (peers.length < k && out.length > 0) {
+                let rn = Math.floor( Math.random() * out.length );
+                peers.push( out[rn] );
+                out.splice( rn, 1 );
             };
-            this.connect(arg1, arg2);
-        }
-    }, {
-        key: '_onJoin',
-
-
-        /**
-         * Behavior of the contact peer when a newcomer arrives.
-         * @param {string} peerId The identifier of the newcomer.
-         */
-        value: function _onJoin(peerId) {
-            var _this4 = this;
-
-            if (this.partialView.length > 0) {
-                // #1 all neigbors -> peerId
-                this.partialView.forEach(function (ages, neighbor) {
-                    _this4.ages.forEach(function (age) {
-                        _this4.connect(neighbor, peerId);
-                    });
-                });
-            } else {
-                // #2 this -> peerId
-                this.connect(null, peerId);
+            // #3 get random identifier from the inview to fill k-entries
+            let inView = [];
+            this.i.forEach( (occ, peerId) => inView.push(peerId) );
+            while (peers.length < k && inView.length > 0){
+                let rn = Math.floor( Math.random() * inView.length );
+                peers.push( inView[rn] );
+                inView.splice( rn, 1 );
             };
-        }
-    }, {
-        key: 'getPeers',
+        };
+        return peers;       
+    };
 
+    /* *********************************
+     * Spray's protocol implementation *
+     ***********************************/
 
-        /**
-         * Get k neighbors from the partial view. If k is not reached, it tries to
-         * fill the gap with neighbors from the inview.  It is worth noting that
-         * each peer controls its outview but not its inview. The more the neigbhors
-         * from the outview the better.
-         * @param {number} k The number of neighbors requested. If k is not defined,
-         * it returns every known identifiers of the partial view.
-         * @return {string[]} Array of identifiers.
-         */
-        value: function getPeers(k) {
-            var peers = [];
-            if (typeof k === 'undefined') {
-                // #1 get all the partial view
-                this.partialView.view.forEach(function (occ, peerId) {
-                    peers.push(peerId);
-                });
-            } else {
-                // #2 get random identifier from outview
-                var out = [];
-                this.partialView.view.forEach(function (ages, peerId) {
-                    return out.push(peerId);
-                });
-                while (peers.length < k && out.length > 0) {
-                    var rn = Math.floor(Math.random() * out.length);
-                    peers.push(out[rn]);
-                    out.splice(rn, 1);
-                };
-                // #3 get random identifier from the inview to fill k-entries
-                var inView = [];
-                this.i.forEach(function (occ, peerId) {
-                    return inView.push(peerId);
-                });
-                while (peers.length < k && inView.length > 0) {
-                    var _rn = Math.floor(Math.random() * inView.length);
-                    peers.push(inView[_rn]);
-                    inView.splice(_rn, 1);
-                };
-            };
-            return peers;
-        }
-    }, {
-        key: '_exchange',
-
-
-        /* *********************************
-         * Spray's protocol implementation *
-         ***********************************/
-
-        /**
-         * @private
-         * Periodically called function that aims to balance the partial view
-         * and to mix the neighborhoods.
-         */
-        value: function _exchange() {
-            var _this5 = this;
-
-            if (this.partialView.length <= 0) {
-                throw new ExEmptyView('exchange');
-            };
-            this.partialView.increment();
-            var oldest = this.partialView.getOldest();
-            // #1 send the notification to oldest that we perform an exchange
-            this.send(oldest, new MExchange(this.II.peer)).then(function () {
-                debug('[%s] %s ==> exchange ==> %s', _this5.PID, _this5.PEER, oldest);
+    /**
+     * @private
+     * Periodically called function that aims to balance the partial view
+     * and to mix the neighborhoods.
+     */
+    _exchange () {
+        if (this.partialView.length <= 0) { throw new ExEmptyView('exchange');};
+        this.partialView.increment();
+        const oldest = this.partialView.getOldest();
+        // #1 send the notification to oldest that we perform an exchange
+        this.send(oldest, new MExchange(this.II.peer))
+            .then( () => {
+                debug('[%s] %s ==> exchange ==> %s',
+                      this.PID, this.PEER, oldest);
                 // #A setup the exchange
                 // #2 get a sample from our partial view
-                var sample = _this5.partialView.getSample(oldest, true);
+                let sample = this.partialView.getSample(oldest, true);
                 // #3 replace occurrences to oldest by ours
-                sample = sample.map(function (peerId) {
-                    return peerId === oldest && _this5.II.peer || peerId;
+                sample = sample.map( (peerId) => {
+                    return ((peerId === oldest) && this.II.peer) || peerId;
                 });
                 // #4 connect oldest -> sample
-                sample.forEach(function (peerId) {
-                    _this5.connect(oldest, peerId);
+                sample.forEach( (peerId) => {
+                    this.connect(oldest, peerId);
                 });
                 // #5 remove our own connection
                 // (TODO) maybe be more careful, i.e., wait for an answer
-                sample = sample.map(function (peerId) {
-                    return peerId === _this5.II.peer && oldest || peerId;
+                sample = sample.map( (peerId) => {
+                    return ((peerId === this.II.peer) && oldest) || peerId;
+                });                
+                sample.forEach( (peerId) => {
+                    this.disconnect(peerId);
+                    this.partialView.removeNeighbor(peerId);
                 });
-                sample.forEach(function (peerId) {
-                    _this5.disconnect(peerId);
-                    _this5.partialView.removeNeighbor(peerId);
-                });
-            }).catch(function (e) {
+            }).catch( (e) => {
                 // #B the peer cannot be reached, he is supposedly dead
-                debug('[%s] %s =X> exchange =X> %s', _this5.PID, _this5.PEER, oldest);
-                _this5._onPeerDown(oldest);
+                debug('[%s] %s =X> exchange =X> %s',
+                      this.PID, this.PEER, oldest);                
+                this._onPeerDown(oldest);
             });
-        }
-    }, {
-        key: '_onExchange',
+    };
 
 
-        /**
-         * @private
-         * Behavior when this peer receives a shuffling request.
-         * @param {string} neighbor The identifier of the peer that sent this
-         * exchange request.
-         * @param {MExchange} message message containing the identifier of the peer
-         * that started the exchange.
-         */
-        value: function _onExchange(neighbor, message) {
-            var _this6 = this;
+    /**
+     * @private
+     * Behavior when this peer receives a shuffling request.
+     * @param {string} neighbor The identifier of the peer that sent this
+     * exchange request.
+     * @param {MExchange} message message containing the identifier of the peer
+     * that started the exchange.
+     */
+    _onExchange (neighbor, message) {
+        debug('[%s] %s ==> exchange ==> %s', this.PID, neighbor, this.PEER);
+        // #1 get a sample of neighbors from our partial view
+        this.partialView.increment();
+        let sample = this.partialView.getSample();
+        // #2 replace occurrences of the initiator by ours
+        sample = sample.map( (peerId) => {
+            return (peerId === message.inview) && this.II.peer || peerId;
+        });
+        // #3 establish connections
+        sample.forEach( (peerId) => {
+            this.connect(neighbor, peerId);
+        });
+        // #4 inverse replacement
+        sample = sample.map( (peerId) => {
+            return (peerId === this.II.peer) && message.inview || peerId;
+        });
+        // #5 disconnect arcs
+        sample.forEach( (peerId) => {
+            this.disconnect(peerId);
+            this.partialView.removeNeighbor(peerId);
+        });
+    };
 
-            debug('[%s] %s ==> exchange ==> %s', this.PID, neighbor, this.PEER);
-            // #1 get a sample of neighbors from our partial view
-            this.partialView.increment();
-            var sample = this.partialView.getSample();
-            // #2 replace occurrences of the initiator by ours
-            sample = sample.map(function (peerId) {
-                return peerId === message.inview && _this6.II.peer || peerId;
-            });
-            // #3 establish connections
-            sample.forEach(function (peerId) {
-                _this6.connect(neighbor, peerId);
-            });
-            // #4 inverse replacement
-            sample = sample.map(function (peerId) {
-                return peerId === _this6.II.peer && message.inview || peerId;
-            });
-            // #5 disconnect arcs
-            sample.forEach(function (peerId) {
-                _this6.disconnect(peerId);
-                _this6.partialView.removeNeigbhor(peerId);
-            });
-        }
-    }, {
-        key: '_onPeerDown',
-
-
-        /**
-         * @private
-         * The function called when a neighbor is unreachable and supposedly
-         * crashed/departed. It probabilistically duplicates an arc.
-         * @param {string} peerId The identifier of the peer that seems down.
-         */
-        value: function _onPeerDown(peerId) {
-            debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, this.peerId);
-            // #1 remove all occurrences of the peer in the partial view
-            var occ = this.partialView.removeAll(peerId);
-            // #2 probabilistically recreate arcs to a known peer
-            if (this.partialView.length > 0) {
-                // #A normal behavior
-                for (var i = 0; i < occ; ++i) {
-                    if (Math.random() > 1 / (this.partialView.length + occ)) {
-                        // probabilistically duplicates one of the least frequent
-                        // peers
-                        this.IO.connect(null, this.partialView.getLeastFrequent());
-                    }
+    /**
+     * @private
+     * The function called when a neighbor is unreachable and supposedly
+     * crashed/departed. It probabilistically duplicates an arc.
+     * @param {string} peerId The identifier of the peer that seems down.
+     */
+    _onPeerDown (peerId) {
+        debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, this.peerId);
+        // #1 remove all occurrences of the peer in the partial view
+        const occ = this.partialView.removeAll(peerId);
+        // #2 probabilistically recreate arcs to a known peer
+        if (this.partialView.length > 0) {
+            // #A normal behavior
+            for (let i = 0; i < occ; ++i) {
+                if (Math.random() > (1 / (this.partialView.length + occ))) {
+                    // probabilistically duplicates one of the least frequent
+                    // peers
+                    this.IO.connect(null, this.partialView.getLeastFrequent());
                 }
-            } else {
-                // #B last chance behavior (TODO) ask inview
-            };
-        }
-    }, {
-        key: '_onArcDown',
+            }
+        } else {
+            // #B last chance behavior (TODO) ask inview
+        };
+    };
 
+    /**
+     * @private
+     * A connection failed to establish properly, systematically duplicates
+     * an element of the partial view.
+     * @param {string|null} peerId The identifier of the peer we failed to 
+     * establish a connection with. Null if it was yet to be known.
+     */
+    _onArcDown (peerId) {
+        debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId||'unknown');
+        if (this.partialView.length() > 0) {
+            // #1 normal behavior
+            this.IO.connect(null, this.partialView.getLeastFrequent());
+        } else {
+            // #2 last chance behavior
+            // (TODO) ask inview
+            // const rn = Math.floor(Math.random() * this.i.size);
+            // let it = this.i.keys();                        
+            // this.II.connect(null, this.i.
+        };
+    };
+};
 
-        /**
-         * @private
-         * A connection failed to establish properly, systematically duplicates
-         * an element of the partial view.
-         * @param {string|null} peerId The identifier of the peer we failed to 
-         * establish a connection with. Null if it was yet to be known.
-         */
-        value: function _onArcDown(peerId) {
-            debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown');
-            if (this.partialView.length() > 0) {
-                // #1 normal behavior
-                this.IO.connect(null, this.partialView.getLeastFrequent());
-            } else {
-                // #2 last chance behavior
-                // (TODO) ask inview
-                // const rn = Math.floor(Math.random() * this.i.size);
-                // let it = this.i.keys();                        
-                // this.II.connect(null, this.i.
-            };
-        }
-    }]);
-
-    return Spray;
-}(N2N);
-
-;
 
 module.exports = Spray;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNwcmF5LmpzIl0sIm5hbWVzIjpbImRlYnVnIiwicmVxdWlyZSIsIk4yTiIsIl8iLCJQYXJ0aWFsVmlldyIsIk1FeGNoYW5nZSIsIk1Kb2luIiwiRXhFbXB0eVZpZXciLCJTcHJheSIsIm9wdGlvbnMiLCJtZXJnZSIsInBpZCIsImRlbHRhIiwiUElEIiwiUEVFUiIsInBhcnRpYWxWaWV3Iiwic3RhdGUiLCJwZXJpb2RpYyIsIm9uIiwicGVlcklkIiwibWVzc2FnZSIsIl9yZWNlaXZlIiwiX3JlYWR5IiwiX29uQXJjRG93biIsInNldEludGVydmFsIiwiX2V4Y2hhbmdlIiwiY2xlYXJJbnRlcnZhbCIsInR5cGUiLCJfb25FeGNoYW5nZSIsIl9vbkpvaW4iLCJhZGROZWlnaGJvciIsImFyZzEiLCJhcmcyIiwib25jZSIsInNlbmQiLCJjb25uZWN0IiwibGVuZ3RoIiwiZm9yRWFjaCIsImFnZXMiLCJuZWlnaGJvciIsImFnZSIsImsiLCJwZWVycyIsInZpZXciLCJvY2MiLCJwdXNoIiwib3V0Iiwicm4iLCJNYXRoIiwiZmxvb3IiLCJyYW5kb20iLCJzcGxpY2UiLCJpblZpZXciLCJpIiwiaW5jcmVtZW50Iiwib2xkZXN0IiwiZ2V0T2xkZXN0IiwiSUkiLCJwZWVyIiwidGhlbiIsInNhbXBsZSIsImdldFNhbXBsZSIsIm1hcCIsImRpc2Nvbm5lY3QiLCJyZW1vdmVOZWlnaGJvciIsImNhdGNoIiwiZSIsIl9vblBlZXJEb3duIiwiaW52aWV3IiwicmVtb3ZlTmVpZ2Job3IiLCJyZW1vdmVBbGwiLCJJTyIsImdldExlYXN0RnJlcXVlbnQiLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7OztBQUVBLElBQU1BLFFBQVFDLFFBQVEsT0FBUixFQUFpQixZQUFqQixDQUFkO0FBQ0E7QUFDQSxJQUFNQyxNQUFNRCxRQUFRLGtCQUFSLENBQVo7QUFDQSxJQUFNRSxJQUFJRixRQUFRLFFBQVIsQ0FBVjs7QUFFQSxJQUFNRyxjQUFjSCxRQUFR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LElBQWhCLEVBQXNCLEtBQUtwQixXQUFMLENBQWlCeUQsZ0JBQWpCLEVBQXRCO0FBQ0g7QUFDSjtBQUNKLGFBVEQsTUFTTztBQUNIO0FBQ0g7QUFDSjs7Ozs7QUFFRDs7Ozs7OzttQ0FPWXJELE0sRUFBUTtBQUNoQm5CLGtCQUFNLG9CQUFOLEVBQTRCLEtBQUthLEdBQWpDLEVBQXNDLEtBQUtDLElBQTNDLEVBQWlESyxVQUFRLFNBQXpEO0FBQ0EsZ0JBQUksS0FBS0osV0FBTCxDQUFpQnFCLE1BQWpCLEtBQTRCLENBQWhDLEVBQW1DO0FBQy9CO0FBQ0EscUJBQUttQyxFQUFMLENBQVFwQyxPQUFSLENBQWdCLElBQWhCLEVBQXNCLEtBQUtwQixXQUFMLENBQWlCeUQsZ0JBQWpCLEVBQXRCO0FBQ0gsYUFIRCxNQUdPO0FBQ0g7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNIO0FBQ0o7Ozs7RUEvUWV0RSxHOztBQWdSbkI7O0FBR0R1RSxPQUFPQyxPQUFQLEdBQWlCbEUsS0FBakIiLCJmaWxlIjoic3ByYXkuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbmNvbnN0IGRlYnVnID0gcmVxdWlyZSgnZGVidWcnKSgnc3ByYXktd3J0YycpO1xuLy8gY29uc3QgIEV2ZW50RW1pdHRlciA9IHJlcXVpcmUoJ2V2ZW50cycpOyAoVE9ETykgbWF5YmUga2VlcCBpdFxuY29uc3QgTjJOID0gcmVxdWlyZSgnbjJuLW92ZXJsYXktd3J0YycpO1xuY29uc3QgXyA9IHJlcXVpcmUoJ2xvZGFzaCcpO1xuXG5jb25zdCBQYXJ0aWFsVmlldyA9IHJlcXVpcmUoJy4vcGFydGlhbHZpZXcuanMnKTtcblxuY29uc3QgTUV4Y2hhbmdlID0gcmVxdWlyZSgnLi9tZXNzYWdlcy9tZXhjaGFuZ2UuanMnKTtcbmNvbnN0IE1Kb2luID0gcmVxdWlyZSgnLi9tZXNzYWdlcy9tam9pbi5qcycpO1xuXG5jb25zdCBFeEVtcHR5VmlldyA9IHJlcXVpcmUoJy4vZXhjZXB0aW9ucy9leGVtcHR5dmlldy5qcycpO1xuXG4vKipcbiAqIEltcGxlbWVudGF0aW9uIG9mIHRoZSByYW5kb20gcGVlci1zYW1wbGluZyBTcHJheS4gXG4gKi9cbmNsYXNzIFNwcmF5IGV4dGVuZHMgTjJOIHtcbiAgICAvKipcbiAgICAgKiBZb3UgY2FuIHBhc3Mgb3RoZXIgcGFyYW1ldGVycyBzdWNoIGFzIHdlYnJ0YyBvcHRpb25zXG4gICAgICogQHBhcmFtIHtvYmplY3R9IFtvcHRpb25zID0ge31dIE9iamVjdCB3aXRoIGFsbCBvcHRpb25zXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IFtvcHRpb25zLnBpZCA9ICdzcHJheS13cnRjJ10gVGhlIGlkZW50aWZpZXIgb2YgdGhpc1xuICAgICAqIHByb3RvY29sLiBcbiAgICAgKiBAcGFyYW0ge2ludGVnZXJ9IG9wdGlvbnMuZGVsdGEgRXZlcnkgZGVsdGEgbWlsbGlzZWNvbmRzLCBTcHJheSBzaHVmZmxlc1xuICAgICAqIGl0cyBwYXJ0aWFsIHZpZXcgd2l0aCBpdHMgb2xkZXN0IG5laWdoYm9yLlxuICAgICAqL1xuICAgIGNvbnN0cnVjdG9yIChvcHRpb25zID0ge30pIHtcbiAgICAgICAgLy8gIzAgaW5pdGlhbGl6ZSBvdXIgTjJOLXBhcmVudFxuICAgICAgICBzdXBlcihfLm1lcmdlKHsgcGlkOiAnc3ByYXktd3J0YycsXG4gICAgICAgICAgICAgICAgICAgICAgICBkZWx0YTogMTAwMCAqIDYwICogMiB9LCBvcHRpb25zKSk7XG4gICAgICAgIC8vICMxIGNvbnN0YW50cyAoZnJvbSBOMk4pXG4gICAgICAgIC8vIHRoaXMuUElEID0gcHJvdG9jb2wgaWRlbnRpZmllclxuICAgICAgICAvLyB0aGlzLlBFRVIgPSBwZWVyIElkIGNvbXByaXNpbmcgaW52aWV3IGFuZCBvdXR2aWV3IElkc1xuICAgICAgICBkZWJ1ZygnWyVzXSBJbml0YWxpemVkIHdpdGggPT0+ICVzID09PicsIHRoaXMuUElELCB0aGlzLlBFRVIpO1xuICAgICAgICAvLyAjMiBpbml0aWFsaXplIHRoZSBwYXJ0aWFsIHZpZXcgY29udGFpbmluZyBhZ2VzXG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcgPSBuZXcgUGFydGlhbFZpZXcoKTtcbiAgICAgICAgLy8gIzMgaW5pdGlhbGl6ZSB0aGUgY29ubmVjdGVkbmVzcyBzdGF0ZSBvZiB0aGlzIHByb3RvY29sXG4gICAgICAgIHRoaXMuc3RhdGUgPSAnZGlzY29ubmVjdCc7XG4gICAgICAgIC8vICM0IHBlcmlvZGljIHNodWZmbGluZ1xuICAgICAgICB0aGlzLnBlcmlvZGljID0gbnVsbDtcbiAgICAgICAgLy8gIzUgZXZlbnRzXG4gICAgICAgIHRoaXMub24oJ3JlY2VpdmUnLCAocGVlcklkLCBtZXNzYWdlKSA9PiB0aGlzLl9yZWNlaXZlKHBlZXJJZCwgbWVzc2FnZSkpO1xuICAgICAgICB0aGlzLm9uKCdzdHJlYW0nLCAocGVlcklkLCBtZXNzYWdlKSA9PiB7IH0gKTsgLy8gKFRPRE8pID87XG4gICAgICAgIHRoaXMub24oJ3JlYWR5JywgKHBlZXJJZCkgPT4gdGhpcy5fcmVhZHkocGVlcklkKSk7XG4gICAgICAgIHRoaXMub24oJ2ZhaWwnLCAocGVlcklkKSA9PiB0aGlzLl9vbkFyY0Rvd24ocGVlcklkKSk7XG4gICAgfTtcblxuICAgIC8qKlxuICAgICAqIEBwcml2YXRlXG4gICAgICogU3RhcnQgcGVyaW9kaWMgc2h1ZmZsaW5nLlxuICAgICAqL1xuICAgIF9zdGFydCAoKSB7XG4gICAgICAgIHRoaXMucGVyaW9kaWMgPSBzZXRJbnRlcnZhbCggKCkgPT4ge1xuICAgICAgICAgICAgdGhpcy5fZXhjaGFuZ2UoKTtcbiAgICAgICAgfSwgdGhpcy5vcHRpb25zLmRlbHRhKTtcbiAgICB9O1xuXG4gICAgLyoqXG4gICAgICogQHByaXZhdGVcbiAgICAgKiBTdG9wIHBlcmlvZGljIHNodWZmbGluZy5cbiAgICAgKi9cbiAgICBfc3RvcCAoKSB7XG4gICAgICAgIGNsZWFySW50ZXJ2YWwodGhpcy5wZXJpb2RpYyk7XG4gICAgfTtcblxuXG4gICAgLyoqXG4gICAgICogQHByaXZhdGVcbiAgICAgKiBDYWxsZWQgZWFjaCB0aW1lIHRoaXMgcHJvdG9jb2wgcmVjZWl2ZXMgYSBtZXNzYWdlLiBTaW5jZSBpdCBvbmx5IHNlbmRzIFxuICAgICAqIE1FeGNoYW5nZSBtZXNzYWdlcywgdGhlIHJlc3QgYXJlIHJlZGlyZWN0ZWQgdG8gdGhlIGFwcHJvcHJpYXRlIHByb3RvY29sXG4gICAgICogcmVnaXN0ZXJlZCBvbiB0b3Agb2YgU3ByYXkuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB0aGF0IHNlbnQgdGhlIG1lc3NhZ2UuXG4gICAgICogQHBhcmFtIHtvYmplY3R8TUV4Y2hhbmdlfSBtZXNzYWdlIFRoZSBtZXNzYWdlIHJlY2VpdmVkLlxuICAgICAqLyBcbiAgICBfcmVjZWl2ZSAocGVlcklkLCBtZXNzYWdlKSB7XG4gICAgICAgIGlmIChtZXNzYWdlLnR5cGUgJiYgbWVzc2FnZS50eXBlID09PSAnTUV4Y2hhbmdlJykge1xuICAgICAgICAgICAgdGhpcy5fb25FeGNoYW5nZShwZWVySWQsIG1lc3NhZ2UpO1xuICAgICAgICB9IGVsc2UgaWYgKG1lc3NhZ2UudHlwZSAmJiBtZXNzYWdlLnR5cGUgPT09ICdNSm9pbicpIHtcbiAgICAgICAgICAgIHRoaXMuX29uSm9pbihwZWVySWQpO1xuICAgICAgICB9IGVsc2UgaWYgKG1lc3NhZ2UucGlkKSB7XG4gICAgICAgICAgICAvLyAoVE9ETykgdnZ2dnZcbiAgICAgICAgICAgIC8vIHRoaXMucHJvdG9jb2xzLmdldChtZXNzYWdlLnBpZCkuZW1pdCgncmVjZWl2ZScsIHBlZXJJZCwgbWVzc2FnZS5wYXlvYWQpO1xuICAgICAgICB9O1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBAcHJpdmF0ZVxuICAgICAqIEJlaGF2aW9yIHdoZW4gYSBjb25uZWN0aW9uIGlzIHJlYWR5IHRvIGJlIGFkZGVkIGluIHRoZSBwYXJ0aWFsIHZpZXcuXG4gICAgICogQHBhcmFtIHtzdHJpbmd9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgbmV3IG5laWdoYm9yLlxuICAgICAqL1xuICAgIF9yZWFkeSAocGVlcklkKSB7XG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcuYWRkTmVpZ2hib3IocGVlcklkKTtcbiAgICB9O1xuICAgIFxuICAgIC8qKlxuICAgICAqIEpvaW5pbmcgYXM7IG9yIGNvbnRhY3RlZCBieSBhbiBvdXRzaWRlclxuICAgICAqIEBwYXJhbSB7Y2FsbGJhY2t8TVJlc3BvbnNlfSBhcmcxIHRoZSBjYWxsYmFja3MgZnVuY3Rpb24sIHNlZSBtb2R1bGVcbiAgICAgKiBuMm4tb3ZlcmxheS13cnRjLiBPciBhIHJlc3BvbnNlIG1lc3NhZ2UgZnJvbSB0aGUgY29udGFjdCBwZWVyLlxuICAgICAqIEBwYXJhbSB7TVJlcXVlc3R9IFthcmcyXSBBIHJlcXVlc3QgbWVzc2FnZSBmcm9tIHRoZSBuZXdjb21lci5cbiAgICAgKi9cbiAgICBqb2luIChhcmcxLCBhcmcyKSB7XG4gICAgICAgIGlmICh0eXBlb2YgYXJnMSA9PT0gJ2Z1bmN0aW9uJyAmJiB0eXBlb2YgYXJnMiA9PT0gJ3VuZGVmaW5lZCcpIHtcbiAgICAgICAgICAgIC8vICMxIHZlcnkgZmlyc3QgY2FsbFxuICAgICAgICAgICAgdGhpcy5vbmNlKCdyZWFkeScsIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICB0aGlzLnNlbmQocGVlcklkLCBuZXcgTUpvaW4oKSk7XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgfTtcbiAgICAgICAgdGhpcy5jb25uZWN0KGFyZzEsIGFyZzIpOyAgICAgICAgICAgIFxuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBCZWhhdmlvciBvZiB0aGUgY29udGFjdCBwZWVyIHdoZW4gYSBuZXdjb21lciBhcnJpdmVzLlxuICAgICAqIEBwYXJhbSB7c3RyaW5nfSBwZWVySWQgVGhlIGlkZW50aWZpZXIgb2YgdGhlIG5ld2NvbWVyLlxuICAgICAqLyBcbiAgICBfb25Kb2luIChwZWVySWQpIHtcbiAgICAgICAgaWYgKHRoaXMucGFydGlhbFZpZXcubGVuZ3RoID4gMCl7XG4gICAgICAgICAgICAvLyAjMSBhbGwgbmVpZ2JvcnMgLT4gcGVlcklkXG4gICAgICAgICAgICB0aGlzLnBhcnRpYWxWaWV3LmZvckVhY2goIChhZ2VzLCBuZWlnaGJvcikgPT4ge1xuICAgICAgICAgICAgICAgIHRoaXMuYWdlcy5mb3JFYWNoKCAoYWdlKSA9PiB7XG4gICAgICAgICAgICAgICAgICAgIHRoaXMuY29ubmVjdChuZWlnaGJvciwgcGVlcklkKTtcbiAgICAgICAgICAgICAgICB9KTtcbiAgICAgICAgICAgIH0pO1xuICAgICAgICB9IGVsc2Uge1xuICAgICAgICAgICAgLy8gIzIgdGhpcyAtPiBwZWVySWRcbiAgICAgICAgICAgIHRoaXMuY29ubmVjdChudWxsLCBwZWVySWQpO1xuICAgICAgICB9O1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBHZXQgayBuZWlnaGJvcnMgZnJvbSB0aGUgcGFydGlhbCB2aWV3LiBJZiBrIGlzIG5vdCByZWFjaGVkLCBpdCB0cmllcyB0b1xuICAgICAqIGZpbGwgdGhlIGdhcCB3aXRoIG5laWdoYm9ycyBmcm9tIHRoZSBpbnZpZXcuICBJdCBpcyB3b3J0aCBub3RpbmcgdGhhdFxuICAgICAqIGVhY2ggcGVlciBjb250cm9scyBpdHMgb3V0dmlldyBidXQgbm90IGl0cyBpbnZpZXcuIFRoZSBtb3JlIHRoZSBuZWlnYmhvcnNcbiAgICAgKiBmcm9tIHRoZSBvdXR2aWV3IHRoZSBiZXR0ZXIuXG4gICAgICogQHBhcmFtIHtudW1iZXJ9IGsgVGhlIG51bWJlciBvZiBuZWlnaGJvcnMgcmVxdWVzdGVkLiBJZiBrIGlzIG5vdCBkZWZpbmVkLFxuICAgICAqIGl0IHJldHVybnMgZXZlcnkga25vd24gaWRlbnRpZmllcnMgb2YgdGhlIHBhcnRpYWwgdmlldy5cbiAgICAgKiBAcmV0dXJuIHtzdHJpbmdbXX0gQXJyYXkgb2YgaWRlbnRpZmllcnMuXG4gICAgICovXG4gICAgZ2V0UGVlcnMgKGspIHtcbiAgICAgICAgbGV0IHBlZXJzID0gW107IFxuICAgICAgICBpZiAodHlwZW9mIGsgPT09ICd1bmRlZmluZWQnKSB7XG4gICAgICAgICAgICAvLyAjMSBnZXQgYWxsIHRoZSBwYXJ0aWFsIHZpZXdcbiAgICAgICAgICAgIHRoaXMucGFydGlhbFZpZXcudmlldy5mb3JFYWNoKCAob2NjLCBwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICBwZWVycy5wdXNoKHBlZXJJZCk7XG4gICAgICAgICAgICB9KTtcbiAgICAgICAgfSBlbHNlIHtcbiAgICAgICAgICAgIC8vICMyIGdldCByYW5kb20gaWRlbnRpZmllciBmcm9tIG91dHZpZXdcbiAgICAgICAgICAgIGxldCBvdXQgPSBbXTtcbiAgICAgICAgICAgIHRoaXMucGFydGlhbFZpZXcudmlldy5mb3JFYWNoKCAoYWdlcywgcGVlcklkKSA9PiBvdXQucHVzaChwZWVySWQpICk7XG4gICAgICAgICAgICB3aGlsZSAocGVlcnMubGVuZ3RoIDwgayAmJiBvdXQubGVuZ3RoID4gMCkge1xuICAgICAgICAgICAgICAgIGxldCBybiA9IE1hdGguZmxvb3IoIE1hdGgucmFuZG9tKCkgKiBvdXQubGVuZ3RoICk7XG4gICAgICAgICAgICAgICAgcGVlcnMucHVzaCggb3V0W3JuXSApO1xuICAgICAgICAgICAgICAgIG91dC5zcGxpY2UoIHJuLCAxICk7XG4gICAgICAgICAgICB9O1xuICAgICAgICAgICAgLy8gIzMgZ2V0IHJhbmRvbSBpZGVudGlmaWVyIGZyb20gdGhlIGludmlldyB0byBmaWxsIGstZW50cmllc1xuICAgICAgICAgICAgbGV0IGluVmlldyA9IFtdO1xuICAgICAgICAgICAgdGhpcy5pLmZvckVhY2goIChvY2MsIHBlZXJJZCkgPT4gaW5WaWV3LnB1c2gocGVlcklkKSApO1xuICAgICAgICAgICAgd2hpbGUgKHBlZXJzLmxlbmd0aCA8IGsgJiYgaW5WaWV3Lmxlbmd0aCA+IDApe1xuICAgICAgICAgICAgICAgIGxldCBybiA9IE1hdGguZmxvb3IoIE1hdGgucmFuZG9tKCkgKiBpblZpZXcubGVuZ3RoICk7XG4gICAgICAgICAgICAgICAgcGVlcnMucHVzaCggaW5WaWV3W3JuXSApO1xuICAgICAgICAgICAgICAgIGluVmlldy5zcGxpY2UoIHJuLCAxICk7XG4gICAgICAgICAgICB9O1xuICAgICAgICB9O1xuICAgICAgICByZXR1cm4gcGVlcnM7ICAgICAgIFxuICAgIH07XG5cbiAgICAvKiAqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKipcbiAgICAgKiBTcHJheSdzIHByb3RvY29sIGltcGxlbWVudGF0aW9uICpcbiAgICAgKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiovXG5cbiAgICAvKipcbiAgICAgKiBAcHJpdmF0ZVxuICAgICAqIFBlcmlvZGljYWxseSBjYWxsZWQgZnVuY3Rpb24gdGhhdCBhaW1zIHRvIGJhbGFuY2UgdGhlIHBhcnRpYWwgdmlld1xuICAgICAqIGFuZCB0byBtaXggdGhlIG5laWdoYm9yaG9vZHMuXG4gICAgICovXG4gICAgX2V4Y2hhbmdlICgpIHtcbiAgICAgICAgaWYgKHRoaXMucGFydGlhbFZpZXcubGVuZ3RoIDw9IDApIHsgdGhyb3cgbmV3IEV4RW1wdHlWaWV3KCdleGNoYW5nZScpO307XG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcuaW5jcmVtZW50KCk7XG4gICAgICAgIGNvbnN0IG9sZGVzdCA9IHRoaXMucGFydGlhbFZpZXcuZ2V0T2xkZXN0KCk7XG4gICAgICAgIC8vICMxIHNlbmQgdGhlIG5vdGlmaWNhdGlvbiB0byBvbGRlc3QgdGhhdCB3ZSBwZXJmb3JtIGFuIGV4Y2hhbmdlXG4gICAgICAgIHRoaXMuc2VuZChvbGRlc3QsIG5ldyBNRXhjaGFuZ2UodGhpcy5JSS5wZWVyKSlcbiAgICAgICAgICAgIC50aGVuKCAoKSA9PiB7XG4gICAgICAgICAgICAgICAgZGVidWcoJ1slc10gJXMgPT0+IGV4Y2hhbmdlID09PiAlcycsXG4gICAgICAgICAgICAgICAgICAgICAgdGhpcy5QSUQsIHRoaXMuUEVFUiwgb2xkZXN0KTtcbiAgICAgICAgICAgICAgICAvLyAjQSBzZXR1cCB0aGUgZXhjaGFuZ2VcbiAgICAgICAgICAgICAgICAvLyAjMiBnZXQgYSBzYW1wbGUgZnJvbSBvdXIgcGFydGlhbCB2aWV3XG4gICAgICAgICAgICAgICAgbGV0IHNhbXBsZSA9IHRoaXMucGFydGlhbFZpZXcuZ2V0U2FtcGxlKG9sZGVzdCwgdHJ1ZSk7XG4gICAgICAgICAgICAgICAgLy8gIzMgcmVwbGFjZSBvY2N1cnJlbmNlcyB0byBvbGRlc3QgYnkgb3Vyc1xuICAgICAgICAgICAgICAgIHNhbXBsZSA9IHNhbXBsZS5tYXAoIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuICgocGVlcklkID09PSBvbGRlc3QpICYmIHRoaXMuSUkucGVlcikgfHwgcGVlcklkO1xuICAgICAgICAgICAgICAgIH0pO1xuICAgICAgICAgICAgICAgIC8vICM0IGNvbm5lY3Qgb2xkZXN0IC0+IHNhbXBsZVxuICAgICAgICAgICAgICAgIHNhbXBsZS5mb3JFYWNoKCAocGVlcklkKSA9PiB7XG4gICAgICAgICAgICAgICAgICAgIHRoaXMuY29ubmVjdChvbGRlc3QsIHBlZXJJZCk7XG4gICAgICAgICAgICAgICAgfSk7XG4gICAgICAgICAgICAgICAgLy8gIzUgcmVtb3ZlIG91ciBvd24gY29ubmVjdGlvblxuICAgICAgICAgICAgICAgIC8vIChUT0RPKSBtYXliZSBiZSBtb3JlIGNhcmVmdWwsIGkuZS4sIHdhaXQgZm9yIGFuIGFuc3dlclxuICAgICAgICAgICAgICAgIHNhbXBsZSA9IHNhbXBsZS5tYXAoIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuICgocGVlcklkID09PSB0aGlzLklJLnBlZXIpICYmIG9sZGVzdCkgfHwgcGVlcklkO1xuICAgICAgICAgICAgICAgIH0pOyAgICAgICAgICAgICAgICBcbiAgICAgICAgICAgICAgICBzYW1wbGUuZm9yRWFjaCggKHBlZXJJZCkgPT4ge1xuICAgICAgICAgICAgICAgICAgICB0aGlzLmRpc2Nvbm5lY3QocGVlcklkKTtcbiAgICAgICAgICAgICAgICAgICAgdGhpcy5wYXJ0aWFsVmlldy5yZW1vdmVOZWlnaGJvcihwZWVySWQpO1xuICAgICAgICAgICAgICAgIH0pO1xuICAgICAgICAgICAgfSkuY2F0Y2goIChlKSA9PiB7XG4gICAgICAgICAgICAgICAgLy8gI0IgdGhlIHBlZXIgY2Fubm90IGJlIHJlYWNoZWQsIGhlIGlzIHN1cHBvc2VkbHkgZGVhZFxuICAgICAgICAgICAgICAgIGRlYnVnKCdbJXNdICVzID1YPiBleGNoYW5nZSA9WD4gJXMnLFxuICAgICAgICAgICAgICAgICAgICAgIHRoaXMuUElELCB0aGlzLlBFRVIsIG9sZGVzdCk7ICAgICAgICAgICAgICAgIFxuICAgICAgICAgICAgICAgIHRoaXMuX29uUGVlckRvd24ob2xkZXN0KTtcbiAgICAgICAgICAgIH0pO1xuICAgIH07XG5cblxuICAgIC8qKlxuICAgICAqIEBwcml2YXRlXG4gICAgICogQmVoYXZpb3Igd2hlbiB0aGlzIHBlZXIgcmVjZWl2ZXMgYSBzaHVmZmxpbmcgcmVxdWVzdC5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gbmVpZ2hib3IgVGhlIGlkZW50aWZpZXIgb2YgdGhlIHBlZXIgdGhhdCBzZW50IHRoaXNcbiAgICAgKiBleGNoYW5nZSByZXF1ZXN0LlxuICAgICAqIEBwYXJhbSB7TUV4Y2hhbmdlfSBtZXNzYWdlIG1lc3NhZ2UgY29udGFpbmluZyB0aGUgaWRlbnRpZmllciBvZiB0aGUgcGVlclxuICAgICAqIHRoYXQgc3RhcnRlZCB0aGUgZXhjaGFuZ2UuXG4gICAgICovXG4gICAgX29uRXhjaGFuZ2UgKG5laWdoYm9yLCBtZXNzYWdlKSB7XG4gICAgICAgIGRlYnVnKCdbJXNdICVzID09PiBleGNoYW5nZSA9PT4gJXMnLCB0aGlzLlBJRCwgbmVpZ2hib3IsIHRoaXMuUEVFUik7XG4gICAgICAgIC8vICMxIGdldCBhIHNhbXBsZSBvZiBuZWlnaGJvcnMgZnJvbSBvdXIgcGFydGlhbCB2aWV3XG4gICAgICAgIHRoaXMucGFydGlhbFZpZXcuaW5jcmVtZW50KCk7XG4gICAgICAgIGxldCBzYW1wbGUgPSB0aGlzLnBhcnRpYWxWaWV3LmdldFNhbXBsZSgpO1xuICAgICAgICAvLyAjMiByZXBsYWNlIG9jY3VycmVuY2VzIG9mIHRoZSBpbml0aWF0b3IgYnkgb3Vyc1xuICAgICAgICBzYW1wbGUgPSBzYW1wbGUubWFwKCAocGVlcklkKSA9PiB7XG4gICAgICAgICAgICByZXR1cm4gKHBlZXJJZCA9PT0gbWVzc2FnZS5pbnZpZXcpICYmIHRoaXMuSUkucGVlciB8fCBwZWVySWQ7XG4gICAgICAgIH0pO1xuICAgICAgICAvLyAjMyBlc3RhYmxpc2ggY29ubmVjdGlvbnNcbiAgICAgICAgc2FtcGxlLmZvckVhY2goIChwZWVySWQpID0+IHtcbiAgICAgICAgICAgIHRoaXMuY29ubmVjdChuZWlnaGJvciwgcGVlcklkKTtcbiAgICAgICAgfSk7XG4gICAgICAgIC8vICM0IGludmVyc2UgcmVwbGFjZW1lbnRcbiAgICAgICAgc2FtcGxlID0gc2FtcGxlLm1hcCggKHBlZXJJZCkgPT4ge1xuICAgICAgICAgICAgcmV0dXJuIChwZWVySWQgPT09IHRoaXMuSUkucGVlcikgJiYgbWVzc2FnZS5pbnZpZXcgfHwgcGVlcklkO1xuICAgICAgICB9KTtcbiAgICAgICAgLy8gIzUgZGlzY29ubmVjdCBhcmNzXG4gICAgICAgIHNhbXBsZS5mb3JFYWNoKCAocGVlcklkKSA9PiB7XG4gICAgICAgICAgICB0aGlzLmRpc2Nvbm5lY3QocGVlcklkKTtcbiAgICAgICAgICAgIHRoaXMucGFydGlhbFZpZXcucmVtb3ZlTmVpZ2Job3IocGVlcklkKTtcbiAgICAgICAgfSk7XG4gICAgfTtcblxuICAgIC8qKlxuICAgICAqIEBwcml2YXRlXG4gICAgICogVGhlIGZ1bmN0aW9uIGNhbGxlZCB3aGVuIGEgbmVpZ2hib3IgaXMgdW5yZWFjaGFibGUgYW5kIHN1cHBvc2VkbHlcbiAgICAgKiBjcmFzaGVkL2RlcGFydGVkLiBJdCBwcm9iYWJpbGlzdGljYWxseSBkdXBsaWNhdGVzIGFuIGFyYy5cbiAgICAgKiBAcGFyYW0ge3N0cmluZ30gcGVlcklkIFRoZSBpZGVudGlmaWVyIG9mIHRoZSBwZWVyIHRoYXQgc2VlbXMgZG93bi5cbiAgICAgKi9cbiAgICBfb25QZWVyRG93biAocGVlcklkKSB7XG4gICAgICAgIGRlYnVnKCdbJXNdID09PiAlcyA9PT4g4oCg4oCg4oCgICVzIOKAoOKAoOKAoCcsIHRoaXMuUElELCB0aGlzLlBFRVIsIHRoaXMucGVlcklkKTtcbiAgICAgICAgLy8gIzEgcmVtb3ZlIGFsbCBvY2N1cnJlbmNlcyBvZiB0aGUgcGVlciBpbiB0aGUgcGFydGlhbCB2aWV3XG4gICAgICAgIGNvbnN0IG9jYyA9IHRoaXMucGFydGlhbFZpZXcucmVtb3ZlQWxsKHBlZXJJZCk7XG4gICAgICAgIC8vICMyIHByb2JhYmlsaXN0aWNhbGx5IHJlY3JlYXRlIGFyY3MgdG8gYSBrbm93biBwZWVyXG4gICAgICAgIGlmICh0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCA+IDApIHtcbiAgICAgICAgICAgIC8vICNBIG5vcm1hbCBiZWhhdmlvclxuICAgICAgICAgICAgZm9yIChsZXQgaSA9IDA7IGkgPCBvY2M7ICsraSkge1xuICAgICAgICAgICAgICAgIGlmIChNYXRoLnJhbmRvbSgpID4gKDEgLyAodGhpcy5wYXJ0aWFsVmlldy5sZW5ndGggKyBvY2MpKSkge1xuICAgICAgICAgICAgICAgICAgICAvLyBwcm9iYWJpbGlzdGljYWxseSBkdXBsaWNhdGVzIG9uZSBvZiB0aGUgbGVhc3QgZnJlcXVlbnRcbiAgICAgICAgICAgICAgICAgICAgLy8gcGVlcnNcbiAgICAgICAgICAgICAgICAgICAgdGhpcy5JTy5jb25uZWN0KG51bGwsIHRoaXMucGFydGlhbFZpZXcuZ2V0TGVhc3RGcmVxdWVudCgpKTtcbiAgICAgICAgICAgICAgICB9XG4gICAgICAgICAgICB9XG4gICAgICAgIH0gZWxzZSB7XG4gICAgICAgICAgICAvLyAjQiBsYXN0IGNoYW5jZSBiZWhhdmlvciAoVE9ETykgYXNrIGludmlld1xuICAgICAgICB9O1xuICAgIH07XG5cbiAgICAvKipcbiAgICAgKiBAcHJpdmF0ZVxuICAgICAqIEEgY29ubmVjdGlvbiBmYWlsZWQgdG8gZXN0YWJsaXNoIHByb3Blcmx5LCBzeXN0ZW1hdGljYWxseSBkdXBsaWNhdGVzXG4gICAgICogYW4gZWxlbWVudCBvZiB0aGUgcGFydGlhbCB2aWV3LlxuICAgICAqIEBwYXJhbSB7c3RyaW5nfG51bGx9IHBlZXJJZCBUaGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB3ZSBmYWlsZWQgdG8gXG4gICAgICogZXN0YWJsaXNoIGEgY29ubmVjdGlvbiB3aXRoLiBOdWxsIGlmIGl0IHdhcyB5ZXQgdG8gYmUga25vd24uXG4gICAgICovXG4gICAgX29uQXJjRG93biAocGVlcklkKSB7XG4gICAgICAgIGRlYnVnKCdbJXNdID09PiAlcyA9WD4gJXMnLCB0aGlzLlBJRCwgdGhpcy5QRUVSLCBwZWVySWR8fCd1bmtub3duJyk7XG4gICAgICAgIGlmICh0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCgpID4gMCkge1xuICAgICAgICAgICAgLy8gIzEgbm9ybWFsIGJlaGF2aW9yXG4gICAgICAgICAgICB0aGlzLklPLmNvbm5lY3QobnVsbCwgdGhpcy5wYXJ0aWFsVmlldy5nZXRMZWFzdEZyZXF1ZW50KCkpO1xuICAgICAgICB9IGVsc2Uge1xuICAgICAgICAgICAgLy8gIzIgbGFzdCBjaGFuY2UgYmVoYXZpb3JcbiAgICAgICAgICAgIC8vIChUT0RPKSBhc2sgaW52aWV3XG4gICAgICAgICAgICAvLyBjb25zdCBybiA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIHRoaXMuaS5zaXplKTtcbiAgICAgICAgICAgIC8vIGxldCBpdCA9IHRoaXMuaS5rZXlzKCk7ICAgICAgICAgICAgICAgICAgICAgICAgXG4gICAgICAgICAgICAvLyB0aGlzLklJLmNvbm5lY3QobnVsbCwgdGhpcy5pLlxuICAgICAgICB9O1xuICAgIH07XG59O1xuXG5cbm1vZHVsZS5leHBvcnRzID0gU3ByYXk7XG4iXX0=
-},{"./exceptions/exemptyview.js":1,"./messages/mexchange.js":3,"./messages/mjoin.js":4,"./partialview.js":5,"debug":12,"lodash":21,"n2n-overlay-wrtc":26}]},{},[]);
+
+},{"./exceptions/exemptyview.js":1,"./messages/mexchange.js":3,"./messages/mjoin.js":4,"./partialview.js":5,"debug":9,"lodash":14,"n2n-overlay-wrtc":19}]},{},[]);
