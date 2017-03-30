@@ -12,7 +12,11 @@ const callback = (from, to) => {
 };
 
 
-s1.join(callback(s1, s2));
+s1.join(callback(s1, s2)).then(console.log('s1 just joined the network.'));
+
+setTimeout( () => {
+    s3.join(callback(s3, s2)).then(console.log('s1 just joined the network.'));
+}, 4000);
 
 // #1 s1 joins s2 and creates a 2-peers networks
 // var id1 = s1.connection(callbacks(s1, s2));
