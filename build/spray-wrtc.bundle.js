@@ -22,6 +22,28 @@ module.exports = ExEmptyView;
 'use strict';
 
 /**
+ * Spray encountered a problem with a message.
+ */
+class ExMessage {
+    /**
+     * @param {string} source The name of the function that threw.
+     * @param {object} message The incriminated message.
+     * @param {string} reason The reason of the throw.
+     */
+    constructor (source, message, reason){
+        this.source = source;
+        this.message = message;
+        this.reason = reason;
+    };
+};
+
+
+module.exports = ExMessage;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+/**
  * Exception that rises when the peer looked for does not exist in the partial
  * view.
  */
@@ -40,27 +62,29 @@ class ExPeerNotFound {
 
 module.exports = ExPeerNotFound;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 /**
- * Exception that rise when a protocol registers and its identifier already
- * exists in registered protocols of spray.
+ * Exception that rise when protocols do not behave!
  */
-class ExProtocolExists {
+class ExProtocol {
     /**
+     * @param {string} source The name of the function that threw this
+     * exception.
      * @param {string} protocolId The identifier of the protocol that already
-     * exists
+     * exists.
+     * @param {string} reason The reason of this exception.
      */
-    constructor (protocolId) {
+    constructor (source, protocolId, reason) {
         this.pid = protocolId;
         this.message = 'The idenfifier of the registering protocol already exists.';
     };
 };
 
-module.exports = ExProtocolExists;
+module.exports = ExProtocol;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('irps');
@@ -118,7 +142,7 @@ class IRPS extends EventEmitter {
 
 module.exports = IRPS;
 
-},{"../messages/mevent.js":5,"debug":15,"events":17}],5:[function(require,module,exports){
+},{"../messages/mevent.js":6,"debug":15,"events":17}],6:[function(require,module,exports){
 'use strict';
 
 /**
@@ -142,7 +166,7 @@ class MEvent {
 
 module.exports = MEvent;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 /**
@@ -160,7 +184,7 @@ class MExchange {
 
 module.exports = MExchange;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 /**
@@ -174,7 +198,7 @@ class MJoin {
 
 module.exports = MJoin;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 const ExPeerNotFound = require('./exceptions/expeernotfound.js');
@@ -320,7 +344,7 @@ class PartialView {
 
 module.exports = PartialView;
 
-},{"./exceptions/expeernotfound.js":2}],9:[function(require,module,exports){
+},{"./exceptions/expeernotfound.js":3}],10:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -442,9 +466,9 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],10:[function(require,module,exports){
-
 },{}],11:[function(require,module,exports){
+
+},{}],12:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -556,7 +580,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":12}],12:[function(require,module,exports){
+},{"buffer":13}],13:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1610,7 +1634,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":9,"ieee754":19,"is-array":21}],13:[function(require,module,exports){
+},{"base64-js":10,"ieee754":19,"is-array":21}],14:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1721,158 +1745,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":22}],14:[function(require,module,exports){
-/**
- * Helpers.
- */
-
-var s = 1000
-var m = s * 60
-var h = m * 60
-var d = h * 24
-var y = d * 365.25
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} options
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function (val, options) {
-  options = options || {}
-  var type = typeof val
-  if (type === 'string' && val.length > 0) {
-    return parse(val)
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ?
-			fmtLong(val) :
-			fmtShort(val)
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
-}
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str)
-  if (str.length > 10000) {
-    return
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
-  if (!match) {
-    return
-  }
-  var n = parseFloat(match[1])
-  var type = (match[2] || 'ms').toLowerCase()
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n
-    default:
-      return undefined
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd'
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h'
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm'
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's'
-  }
-  return ms + 'ms'
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms'
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's'
-}
-
-},{}],15:[function(require,module,exports){
+},{"../../is-buffer/index.js":22}],15:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -2061,7 +1934,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":16,"_process":49}],16:[function(require,module,exports){
+},{"./debug":16,"_process":44}],16:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -2265,7 +2138,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":14}],17:[function(require,module,exports){
+},{"ms":25}],17:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -19850,6 +19723,157 @@ module.exports = Array.isArray || function (arr) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],25:[function(require,module,exports){
+/**
+ * Helpers.
+ */
+
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} options
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {}
+  var type = typeof val
+  if (type === 'string' && val.length > 0) {
+    return parse(val)
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ?
+			fmtLong(val) :
+			fmtShort(val)
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+}
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str)
+  if (str.length > 10000) {
+    return
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  if (!match) {
+    return
+  }
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd'
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h'
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm'
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's'
+  }
+  return ms + 'ms'
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms'
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's'
+}
+
+},{}],26:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19872,7 +19896,7 @@ class MConnectTo {
 
 module.exports = MConnectTo;
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19887,7 +19911,7 @@ class MDirect {
 
 module.exports = MDirect;
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19910,7 +19934,7 @@ class MForwarded {
 
 module.exports = MForwarded;
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19932,7 +19956,7 @@ class MForwardTo {
 
 module.exports = MForwardTo;
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('n2n-overlay-wrtc');
@@ -20046,7 +20070,7 @@ class Neighbor extends EventEmitter {
                 this.o.set(peerId, 0);
             };
             this.o.set(peerId, this.o.get(peerId) + 1 );
-            this.emit('ready', peerId); // only consider outgoing arcs
+            this.emit('open', peerId); // only consider outgoing arcs
         } else {
             if (!this.i.has(peerId)){
                 this.i.set(peerId, 0);
@@ -20064,6 +20088,7 @@ class Neighbor extends EventEmitter {
         if (this.o.has(peerId)){
             this.o.set(peerId, this.o.get(peerId) - 1 );
             (this.o.get(peerId) <= 0) && this.o.delete(peerId);
+            this.emit('close', peerId); // only outview
         } else if (this.i.has(peerId)){
             this.i.set(peerId, this.i.get(peerId) - 1 );
             (this.i.get(peerId) <= 0) && this.i.delete(peerId);
@@ -20266,100 +20291,7 @@ class Neighbor extends EventEmitter {
 
 module.exports = Neighbor;
 
-},{"./messages/mconnectto.js":25,"./messages/mdirect.js":26,"./messages/mforwarded.js":27,"./messages/mforwardto.js":28,"debug":15,"events":17,"lodash":24,"neighborhood-wrtc":44,"uuid/v4":32}],30:[function(require,module,exports){
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-}
-
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  return  bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]];
-}
-
-module.exports = bytesToUuid;
-
-},{}],31:[function(require,module,exports){
-(function (global){
-// Unique ID creation requires a high quality random # generator.  In the
-// browser this is a little complicated due to unknown quality of Math.random()
-// and inconsistent support for the `crypto` API.  We do the best we can via
-// feature-detection
-var rng;
-
-var crypto = global.crypto || global.msCrypto; // for IE 11
-if (crypto && crypto.getRandomValues) {
-  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16);
-  rng = function whatwgRNG() {
-    crypto.getRandomValues(rnds8);
-    return rnds8;
-  };
-}
-
-if (!rng) {
-  // Math.random()-based (RNG)
-  //
-  // If all else fails, use Math.random().  It's fast, but is of unspecified
-  // quality.
-  var  rnds = new Array(16);
-  rng = function() {
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-    }
-
-    return rnds;
-  };
-}
-
-module.exports = rng;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],32:[function(require,module,exports){
-var rng = require('./lib/rng');
-var bytesToUuid = require('./lib/bytesToUuid');
-
-function v4(options, buf, offset) {
-  var i = buf && offset || 0;
-
-  if (typeof(options) == 'string') {
-    buf = options == 'binary' ? new Array(16) : null;
-    options = null;
-  }
-  options = options || {};
-
-  var rnds = options.random || (options.rng || rng)();
-
-  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-  // Copy bytes to buffer, if provided
-  if (buf) {
-    for (var ii = 0; ii < 16; ++ii) {
-      buf[i + ii] = rnds[ii];
-    }
-  }
-
-  return buf || bytesToUuid(rnds);
-}
-
-module.exports = v4;
-
-},{"./lib/bytesToUuid":30,"./lib/rng":31}],33:[function(require,module,exports){
+},{"./messages/mconnectto.js":26,"./messages/mdirect.js":27,"./messages/mforwarded.js":28,"./messages/mforwardto.js":29,"debug":15,"events":17,"lodash":24,"neighborhood-wrtc":42,"uuid/v4":58}],31:[function(require,module,exports){
 'use strict';
 
 const ELiving = require('./entries/eliving.js');
@@ -20511,7 +20443,7 @@ class ArcStore {
 
 module.exports = ArcStore;
 
-},{"./entries/eliving.js":35,"./exceptions/exsocketnotfound.js":39}],34:[function(require,module,exports){
+},{"./entries/eliving.js":33,"./exceptions/exsocketnotfound.js":37}],32:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20534,7 +20466,7 @@ class EDying {
 
 module.exports = EDying;
 
-},{}],35:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20602,7 +20534,7 @@ class ELiving {
 
 module.exports = ELiving;
 
-},{}],36:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20631,7 +20563,7 @@ class EPending {
 
 module.exports = EPending;
 
-},{}],37:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20652,7 +20584,7 @@ class ExLateMessage {
 
 module.exports = ExLateMessage;
 
-},{}],38:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20672,7 +20604,7 @@ class ExProtocolExists {
 
 module.exports = ExProtocolExists;
 
-},{}],39:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20696,7 +20628,7 @@ class ExSocketNotFound {
 
 module.exports = ExSocketNotFound;
 
-},{}],40:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20758,7 +20690,7 @@ class INeighborhood {
 
 module.exports = INeighborhood;
 
-},{}],41:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20787,7 +20719,7 @@ class MRequest {
 
 module.exports = MRequest;
 
-},{}],42:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20815,7 +20747,7 @@ class MResponse {
 
 module.exports = MResponse;
 
-},{}],43:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20839,7 +20771,7 @@ class MSend {
 
 module.exports = MSend;
 
-},{}],44:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('neighborhood-wrtc');
@@ -20977,12 +20909,13 @@ class Neighborhood {
                 entry.successful = true;
                 this.living.insert(entry.peer, protocolId);
                 debug('[%s] --- arc --> %s', this.PEER, entry.peer);
+                this.protocols.get(protocolId)._connected(entry.peer, true);
                 entry.peer = null; // becomes the unknown soldier
             } else {
                 this.living.insert(entry.peer, protocolId, socket);
                 debug('[%s] --- WebRTC --> %s', this.PEER, entry.peer);
+                this.protocols.get(protocolId)._connected(entry.peer, true);
             };
-            this.protocols.get(protocolId)._connected(entry.peer, true);
         });
         socket.once('close', () => {
             if (entry.peer !== null){ // if not the unknown soldier
@@ -21147,12 +21080,15 @@ class Neighborhood {
                         entry.successful = true;
                         this.living.insert(entry.peer, protocolId);
                         debug('[%s] <-- arc --- %s', this.PEER, entry.peer);
+                        this.protocols.get(protocolId)._connected(entry.peer,
+                                                                  false);
                         entry.peer = null; // becomes the unknown soldier
                     } else {
                         this.living.insert(entry.peer, protocolId, socket);
                         debug('[%s] <-- WebRTC --- %s', this.PEER, entry.peer);
+                        this.protocols.get(protocolId)._connected(entry.peer,
+                                                                  false);
                     };                    
-                    this.protocols.get(protocolId)._connected(entry.peer,false);
                 });
                 socket.once('close', () => {
                     if (entry.peer !== null){ // if not the unknown soldier
@@ -21304,13 +21240,7 @@ class Neighborhood {
 
 module.exports = Neighborhood;
 
-},{"./arcstore.js":33,"./entries/edying.js":34,"./entries/epending.js":36,"./exceptions/exlatemessage.js":37,"./exceptions/exprotocolexists.js":38,"./interfaces/ineighborhood.js":40,"./messages/mrequest.js":41,"./messages/mresponse.js":42,"./messages/msend.js":43,"debug":15,"lodash":24,"simple-peer":58,"uuid/v4":47}],45:[function(require,module,exports){
-module.exports=require(30)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/lib/bytesToUuid.js":30}],46:[function(require,module,exports){
-module.exports=require(31)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/lib/rng-browser.js":31}],47:[function(require,module,exports){
-module.exports=require(32)
-},{"./lib/bytesToUuid":45,"./lib/rng":46,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/uuid/v4.js":32}],48:[function(require,module,exports){
+},{"./arcstore.js":31,"./entries/edying.js":32,"./entries/epending.js":34,"./exceptions/exlatemessage.js":35,"./exceptions/exprotocolexists.js":36,"./interfaces/ineighborhood.js":38,"./messages/mrequest.js":39,"./messages/mresponse.js":40,"./messages/msend.js":41,"debug":15,"lodash":24,"simple-peer":53,"uuid/v4":58}],43:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21357,7 +21287,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":49}],49:[function(require,module,exports){
+},{"_process":44}],44:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -21445,7 +21375,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],50:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -21485,7 +21415,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":49,"buffer":12}],51:[function(require,module,exports){
+},{"_process":44,"buffer":13}],46:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -21561,7 +21491,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":53,"./_stream_writable":55,"core-util-is":13,"inherits":20,"process-nextick-args":48}],52:[function(require,module,exports){
+},{"./_stream_readable":48,"./_stream_writable":50,"core-util-is":14,"inherits":20,"process-nextick-args":43}],47:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -21588,7 +21518,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":54,"core-util-is":13,"inherits":20}],53:[function(require,module,exports){
+},{"./_stream_transform":49,"core-util-is":14,"inherits":20}],48:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -22532,7 +22462,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":51,"./internal/streams/BufferList":56,"_process":49,"buffer":12,"buffer-shims":11,"core-util-is":13,"events":17,"inherits":20,"isarray":23,"process-nextick-args":48,"string_decoder/":59,"util":10}],54:[function(require,module,exports){
+},{"./_stream_duplex":46,"./internal/streams/BufferList":51,"_process":44,"buffer":13,"buffer-shims":12,"core-util-is":14,"events":17,"inherits":20,"isarray":23,"process-nextick-args":43,"string_decoder/":54,"util":11}],49:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -22715,7 +22645,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":51,"core-util-is":13,"inherits":20}],55:[function(require,module,exports){
+},{"./_stream_duplex":46,"core-util-is":14,"inherits":20}],50:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -23269,7 +23199,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":51,"_process":49,"buffer":12,"buffer-shims":11,"core-util-is":13,"events":17,"inherits":20,"process-nextick-args":48,"util-deprecate":60}],56:[function(require,module,exports){
+},{"./_stream_duplex":46,"_process":44,"buffer":13,"buffer-shims":12,"core-util-is":14,"events":17,"inherits":20,"process-nextick-args":43,"util-deprecate":55}],51:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -23334,7 +23264,7 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":12,"buffer-shims":11}],57:[function(require,module,exports){
+},{"buffer":13,"buffer-shims":12}],52:[function(require,module,exports){
 (function (process){
 var Stream = (function (){
   try {
@@ -23354,7 +23284,7 @@ if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
 }
 
 }).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":51,"./lib/_stream_passthrough.js":52,"./lib/_stream_readable.js":53,"./lib/_stream_transform.js":54,"./lib/_stream_writable.js":55,"_process":49}],58:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":46,"./lib/_stream_passthrough.js":47,"./lib/_stream_readable.js":48,"./lib/_stream_transform.js":49,"./lib/_stream_writable.js":50,"_process":44}],53:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -24111,7 +24041,7 @@ Peer.prototype._transformConstraints = function (constraints) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":12,"debug":15,"get-browser-rtc":18,"inherits":20,"randombytes":50,"readable-stream":57}],59:[function(require,module,exports){
+},{"buffer":13,"debug":15,"get-browser-rtc":18,"inherits":20,"randombytes":45,"readable-stream":52}],54:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -24334,7 +24264,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":12}],60:[function(require,module,exports){
+},{"buffer":13}],55:[function(require,module,exports){
 (function (global){
 
 /**
@@ -24405,7 +24335,100 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],"spray-wrtc":[function(require,module,exports){
+},{}],56:[function(require,module,exports){
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  return  bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]];
+}
+
+module.exports = bytesToUuid;
+
+},{}],57:[function(require,module,exports){
+(function (global){
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+var rng;
+
+var crypto = global.crypto || global.msCrypto; // for IE 11
+if (crypto && crypto.getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16);
+  rng = function whatwgRNG() {
+    crypto.getRandomValues(rnds8);
+    return rnds8;
+  };
+}
+
+if (!rng) {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var  rnds = new Array(16);
+  rng = function() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+module.exports = rng;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],58:[function(require,module,exports){
+var rng = require('./lib/rng');
+var bytesToUuid = require('./lib/bytesToUuid');
+
+function v4(options, buf, offset) {
+  var i = buf && offset || 0;
+
+  if (typeof(options) == 'string') {
+    buf = options == 'binary' ? new Array(16) : null;
+    options = null;
+  }
+  options = options || {};
+
+  var rnds = options.random || (options.rng || rng)();
+
+  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+  rnds[6] = (rnds[6] & 0x0f) | 0x40;
+  rnds[8] = (rnds[8] & 0x3f) | 0x80;
+
+  // Copy bytes to buffer, if provided
+  if (buf) {
+    for (var ii = 0; ii < 16; ++ii) {
+      buf[i + ii] = rnds[ii];
+    }
+  }
+
+  return buf || bytesToUuid(rnds);
+}
+
+module.exports = v4;
+
+},{"./lib/bytesToUuid":56,"./lib/rng":57}],"spray-wrtc":[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('spray-wrtc');
@@ -24420,7 +24443,8 @@ const MExchange = require('./messages/mexchange.js');
 const MJoin = require('./messages/mjoin.js');
 
 const ExEmptyView = require('./exceptions/exemptyview.js');
-const ExProtocolExists = require('./exceptions/exprotocolexists.js');
+const ExProtocol = require('./exceptions/exprotocol.js');
+const ExMessage = require('./exceptions/exmessage.js');
 
 /**
  * Implementation of the random peer-sampling Spray. 
@@ -24452,10 +24476,19 @@ class Spray extends N2N {
         this.periodic = null;
         // #5 events
         this.on('receive', (peerId, message) => this._receive(peerId, message));
-        this.on('stream', (peerId, message) => { } ); // (TODO) ?;
-        this.on('open', (peerId) => this._open(peerId));
-        // this.on('close', (peerId) => this._close(peerId));
-        this.on('fail', (peerId) => this._onArcDown(peerId));
+        // this.on('stream', (peerId, message) => { } ); // (TODO) ?;
+        this.on('open', (peerId) => {
+            this._open(peerId);
+            this._updateState();
+        });
+        this.on('close', (peerId) => {
+            this._close(peerId);
+            this._updateState();
+        });
+        this.on('fail', (peerId) => {
+            this._onArcDown(peerId);
+            this._updateState();
+        });
         // #6 table of protocols using Spray
         this.protocols = new Map();
     };
@@ -24471,7 +24504,7 @@ class Spray extends N2N {
             this.protocols.set(protocolId, new IRPS(protocolId, this));
             return this.protocols.get(protocolId);
         } else {
-            throw new ExProtocolExists(protocolId);
+            throw new ExProtocol('register', protocolId, 'already exists');
         };
     };
 
@@ -24485,7 +24518,7 @@ class Spray extends N2N {
             this.protocols.get(protocolId).destroy();
             this.protocols.delete(protocolId);
         } else {
-            // (TODO) Throw protocol not found
+            throw new ExProtocol('unregister', protocolId, 'does not exist');
         };
     };
     
@@ -24524,10 +24557,10 @@ class Spray extends N2N {
             if (this.protocols.has(message.pid)) {
                 this.protocols.get(message.pid)._receive(message);
             } else {
-                // (TODO) throw protocol not found
+                throw new ExProtocol('_receive', message.pid, 'does not exist');
             };            
         } else {
-            // (TODO) throw message unhandled
+            throw ExMessage('_receive', message, 'unhandled');
         };
     };
 
@@ -24541,6 +24574,16 @@ class Spray extends N2N {
         this.partialView.addNeighbor(peerId);
     };
 
+    /**
+     * @private
+     * Behavior when a connection is closed.
+     * @param {string} peerId The identifier of the removed arc.
+     */
+    _close (peerId) {
+        debug('[%s] %s =†=> %s', this.PID, this.PEER, peerId);
+    };
+
+    
     /**
      * @private
      * Update the connectedness state of the peer.
@@ -24665,11 +24708,11 @@ class Spray extends N2N {
         // #1 send the notification to oldest that we perform an exchange
         this.send(oldest, new MExchange(this.II.peer), this.options.retry)
             .then( () => {
-                debug('[%s] %s ==> exchange ==> %s',
-                      this.PID, this.PEER, oldest);
                 // #A setup the exchange
                 // #2 get a sample from our partial view
                 let sample = this.partialView.getSample(oldest, true);
+                debug('[%s] %s ==> exchange %s ==> %s',
+                      this.PID, this.PEER, sample.length, oldest);
                 // #3 replace occurrences to oldest by ours
                 sample = sample.map( (peerId) => {
                     return ((peerId === oldest) && this.II.peer) || peerId;
@@ -24705,10 +24748,11 @@ class Spray extends N2N {
      * that started the exchange.
      */
     _onExchange (neighbor, message) {
-        debug('[%s] %s ==> exchange ==> %s', this.PID, neighbor, this.PEER);
         // #1 get a sample of neighbors from our partial view
         this.partialView.increment();
         let sample = this.partialView.getSample();
+        debug('[%s] %s ==> exchange %s ==> %s',
+              this.PID, neighbor, sample.length, this.PEER);
         // #2 replace occurrences of the initiator by ours
         sample = sample.map( (peerId) => {
             return (peerId === message.inview) && this.II.peer || peerId;
@@ -24778,4 +24822,4 @@ class Spray extends N2N {
 
 module.exports = Spray;
 
-},{"./exceptions/exemptyview.js":1,"./exceptions/exprotocolexists.js":3,"./interfaces/irps.js":4,"./messages/mexchange.js":6,"./messages/mjoin.js":7,"./partialview.js":8,"debug":15,"lodash":24,"n2n-overlay-wrtc":29}]},{},[]);
+},{"./exceptions/exemptyview.js":1,"./exceptions/exmessage.js":2,"./exceptions/exprotocol.js":4,"./interfaces/irps.js":5,"./messages/mexchange.js":7,"./messages/mjoin.js":8,"./partialview.js":9,"debug":15,"lodash":24,"n2n-overlay-wrtc":30}]},{},[]);

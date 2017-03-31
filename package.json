@@ -29,13 +29,14 @@
         "browserify": "6.2.x",
         "esdoc": "^0.5.2",
         "esdoc-node": "^1.0.1",
-        "nyc": "10.1.x"
+        "nyc": "10.1.x",
+        "p2p-graph": "^1.0.0"
     },
     "scripts": {
         "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
         "build": "browserify -r ./lib/spray.js:spray-wrtc > build/spray-wrtc.bundle.js",
         "esdoc": "esdoc && npm run esdoc:example",
-        "esdoc:example": "cp -R ./build ./example ./docs",
+        "esdoc:example": "cp -R ./build ./examples ./docs",
         "test": "npm run all",
         "ava": "ava -v",
         "watch": "ava -v --watch",
