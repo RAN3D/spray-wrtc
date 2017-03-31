@@ -24453,7 +24453,8 @@ class Spray extends N2N {
         // #5 events
         this.on('receive', (peerId, message) => this._receive(peerId, message));
         this.on('stream', (peerId, message) => { } ); // (TODO) ?;
-        this.on('ready', (peerId) => this._ready(peerId));
+        this.on('open', (peerId) => this._open(peerId));
+        // this.on('close', (peerId) => this._close(peerId));
         this.on('fail', (peerId) => this._onArcDown(peerId));
         // #6 table of protocols using Spray
         this.protocols = new Map();
@@ -24535,7 +24536,7 @@ class Spray extends N2N {
      * Behavior when a connection is ready to be added in the partial view.
      * @param {string} peerId The identifier of the new neighbor.
      */
-    _ready (peerId) {
+    _open (peerId) {
         debug('[%s] %s ===> %s', this.PID, this.PEER, peerId);
         this.partialView.addNeighbor(peerId);
     };
@@ -24576,7 +24577,7 @@ class Spray extends N2N {
                 reject('timeout');
             }, this.options.timeout);
             // #2 very first call, only done once
-            this.once('ready', (peerId) => {
+            this.once('open', (peerId) => {
                 this.send(peerId, new MJoin(), this.options.retry);
                 this._start(); // start shuffling process
                 clearTimeout(to);
