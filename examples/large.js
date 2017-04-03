@@ -2,13 +2,15 @@ const S = require('spray-wrtc');
 
 let graph = new window.P2PGraph('.graph');
 
-let N = 10;
+let N = 25;
 
 // #1 create N peers 
 let peers = [];
 let revertedIndex = new Map();
 for (let i = 0; i < N; ++i) {
-    peers.push(new S({delta: 30*1000, config:{trickle:true}}));
+    peers.push(new S({peer: i,
+                      delta: 60*1000,
+                      config:{trickle:true}}));
     revertedIndex.set(peers[i].NI.PEER, peers[i].PEER);
 };
 

@@ -13,9 +13,7 @@ automatically adjust its functioning to the need of the network.
 
 ## Installation
 
-Using npm: ```$ npm install spray-wrtc```
-
-or using bower: ```$ bower install spray-wrtc```
+```$ npm install spray-wrtc```
 
 ## API
 
