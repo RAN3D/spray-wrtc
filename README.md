@@ -1,6 +1,6 @@
 # spray-wrtc
 
-<i>Keywords: Random peer sampling, adaptive, browser-to-browser communication,
+<i>Keywords: Random peer-sampling, adaptive, browser-to-browser communication,
 WebRTC</i>
 
 This project aims to provide a [WebRTC](http://www.webrtc.org) implementation of

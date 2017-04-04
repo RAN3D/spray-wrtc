@@ -93,7 +93,10 @@ const EventEmitter = require('events');
 const MEvent = require('../messages/mevent.js');
 
 /**
- * An interface providing easy-to-use functions on top of Spray
+ * An interface providing easy-to-use functions on top of Spray. Once the
+ * protocol registered to Spray, it gets this interface. It can send messages
+ * using irps.emit('eventName', neighborId, args) and the neighbor can catch
+ * them using irps.on('eventName', args).
  */
 class IRPS extends EventEmitter {
     /**
@@ -207,10 +210,9 @@ const ExPeerNotFound = require('./exceptions/expeernotfound.js');
  * Structure containing the neighborhood of a peer.
  * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k
  */
-class PartialView {
+class PartialView extends Map {
     constructor () {
-        this.view = new Map();
-        this.length = 0;
+        super();
     };
     
     /**
@@ -218,10 +220,10 @@ class PartialView {
      * @returns {string} The oldest peer in the array.
      */
     getOldest () {
-        if (this.view.size <= 0) { throw new ExPeerNotFound('getOldest'); };
+        if (this.size <= 0) { throw new ExPeerNotFound('getOldest'); };
         let oldestPeer = null;
         let oldestAge = 0;
-        this.view.forEach( (ages, peerId) => {
+        this.forEach( (ages, peerId) => {
             if (oldestAge <= ages[ages.length - 1]) {
                 oldestPeer = peerId;
                 oldestAge = ages[ages.length - 1];
@@ -235,41 +237,9 @@ class PartialView {
      * Increment the age of the whole partial view
      */
     increment () {
-        this.view.forEach( (ages, peerId) => {
-            this.view.set(peerId, ages.map( (age) => {return age+1;} ));
+        this.forEach( (ages, peerId) => {
+            this.set(peerId, ages.map( (age) => {return age+1;} ));
         });
-    };
-
-    /**
-     * Get a sample of the partial view.
-     * @param {string} [peerId] The identifier of the oldest neighbor chosen to
-     * perform a view exchange.
-     * @return {string[]} An array containing the identifiers of neighbors from
-     * this partial view.
-     */
-    getSample (peerId) {
-        let sample = [];
-        // #1 create a flatten version of the partial view
-        let flatten = [];
-        this.view.forEach( (ages, neighbor) => {
-            ages.forEach( (age) => {
-                flatten.push(neighbor);
-            });
-        });       
-        // #2 process the size of the sample
-        const sampleSize = Math.ceil(flatten.length / 2);
-        // #3 initiator removes a chosen neighbor entry and adds it to sample
-        if (typeof peerId !== 'undefined') {
-            flatten.splice(flatten.indexOf(peerId), 1);
-            sample.push(peerId);
-        };
-        // #4 add neighbors to the sample chosen at random
-        while (sample.length < sampleSize) {
-            const rn = Math.floor(Math.random() * flatten.length);
-            sample.push(flatten[rn]);
-            flatten.splice(rn, 1);
-        };
-        return sample;
     };
 
     /**
@@ -278,9 +248,8 @@ class PartialView {
      * view.
      */
     addNeighbor (peerId) {
-        (!this.view.has(peerId)) && this.view.set(peerId, new Array());        
-        this.view.get(peerId).unshift(0); // add 0 in front of the array
-        this.length += 1;
+        (!this.has(peerId)) && this.set(peerId, new Array());        
+        this.get(peerId).unshift(0); // add 0 in front of the array
     };
 
     /**
@@ -289,11 +258,10 @@ class PartialView {
      * partial view. 
      */
     removeNeighbor (peerId) {
-        if (!this.view.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
+        if (!this.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
                                                                peerId); };
-        this.view.get(peerId).shift();
-        (this.view.get(peerId).length === 0) && this.view.delete(peerId);
-        this.length -= 1;
+        this.get(peerId).shift();
+        (this.get(peerId).length === 0) && this.delete(peerId);
     };
 
     /**
@@ -303,22 +271,13 @@ class PartialView {
      * @returns {number} The number of occurrences of peerId removed.
      */
     removeAllNeighbor (peerId) {
-        if (!this.view.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
+        if (!this.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
                                                                peerId); };
-        const occ = this.view.get(peerId).length;
-        this.view.delete(peerId);
+        const occ = this.get(peerId).length;
+        this.delete(peerId);
         return occ;
     };
        
-    /**
-     * Check if the partial view contains the identifier of the neighbor.
-     * @param {string} peerId The identifier of the peer to check.
-     * @return {boolean} true if the identifier is in the partial view, false
-     * otherwise.
-     */
-    contains (peerId) {
-        return this.view.has(peerId);
-    };
 
     /**
      * Get the least frequent peer. If multiple peers have the same number of
@@ -328,7 +287,7 @@ class PartialView {
     getLeastFrequent () {
         let leastFrequent = [];
         let frequency = Infinity;
-        this.view.forEach( (ages, peerId) => {
+        this.forEach( (ages, peerId) => {
             if (ages.length < frequency){
                 leastFrequent = [];
                 frequency = ages.length;
@@ -24676,11 +24635,11 @@ class Spray extends N2N {
      * @param {string} peerId The identifier of the newcomer.
      */ 
     _onJoin (peerId) {
-        if (this.partialView.length > 0){
+        if (this.partialView.size > 0){
             // #1 all neigbors -> peerId
             debug('[%s] %s ===> join %s ===> %s neigbhors',
-                  this.PID, peerId, this.PEER, this.partialView.length);
-            this.partialView.view.forEach( (ages, neighbor) => {
+                  this.PID, peerId, this.PEER, this.partialView.size);
+            this.partialView.forEach( (ages, neighbor) => {
                 ages.forEach( (age) => {
                     this.connect(neighbor, peerId);
                 });
@@ -24707,13 +24666,13 @@ class Spray extends N2N {
         let peers = []; 
         if (typeof k === 'undefined') {
             // #1 get all the partial view
-            this.partialView.view.forEach( (occ, peerId) => {
+            this.partialView.forEach( (occ, peerId) => {
                 peers.push(peerId);
             });
         } else {
             // #2 get random identifier from outview
             let out = [];
-            this.partialView.view.forEach( (ages, peerId) => out.push(peerId) );
+            this.partialView.forEach( (ages, peerId) => out.push(peerId) );
             while (peers.length < k && out.length > 0) {
                 let rn = Math.floor( Math.random() * out.length );
                 peers.push( out[rn] );
@@ -24738,13 +24697,46 @@ class Spray extends N2N {
 
     /**
      * @private
+     * Get a sample of the partial view.
+     * @param {string} [peerId] The identifier of the oldest neighbor chosen to
+     * perform a view exchange.
+     * @return {string[]} An array containing the identifiers of neighbors from
+     * this partial view.
+     */
+    _getSample (peerId) {
+        let sample = [];
+        // #1 create a flatten version of the partial view
+        let flatten = [];
+        this.partialView.forEach( (ages, neighbor) => {
+            ages.forEach( (age) => {
+                flatten.push(neighbor);
+            });
+        });
+        // #2 process the size of the sample
+        const sampleSize = Math.ceil(flatten.length / 2);
+        // #3 initiator removes a chosen neighbor entry and adds it to sample
+        if (typeof peerId !== 'undefined') {
+            flatten.splice(flatten.indexOf(peerId), 1);
+            sample.push(peerId);
+        };
+        // #4 add neighbors to the sample chosen at random
+        while (sample.length < sampleSize) {
+            const rn = Math.floor(Math.random() * flatten.length);
+            sample.push(flatten[rn]);
+            flatten.splice(rn, 1);
+        };
+        return sample;
+    };
+
+    /**
+     * @private
      * Periodically called function that aims to balance the partial view
      * and to mix the neighborhoods.
      */
     _exchange () {
         // #0 if the partial view is empty --- could be due to disconnections,
         // failure, or _onExchange started with other peers --- skip this round.
-        if (this.partialView.length <= 0) { return; }
+        if (this.partialView.size <= 0) { return; }
         this.partialView.increment();
         const oldest = this.partialView.getOldest();
         // #1 send the notification to oldest that we perform an exchange
@@ -24752,8 +24744,7 @@ class Spray extends N2N {
             .then( () => {
                 // #A setup the exchange
                 // #2 get a sample from our partial view
-                 // (TODO) move getSample here
-                let sample = this.partialView.getSample(oldest);
+                let sample = this._getSample(oldest);
                 debug('[%s] %s ==> exchange %s ==> %s',
                       this.PID, this.PEER, sample.length, oldest);
                 // #3 replace occurrences to oldest by ours
@@ -24793,7 +24784,7 @@ class Spray extends N2N {
     _onExchange (neighbor, message) {
         // #1 get a sample of neighbors from our partial view
         this.partialView.increment();
-        let sample = this.partialView.getSample();
+        let sample = this._getSample();
         debug('[%s] %s ==> exchange %s ==> %s',
               this.PID, neighbor, sample.length, this.PEER);
         // #2 replace occurrences of the initiator by ours
@@ -24826,10 +24817,10 @@ class Spray extends N2N {
         // #1 remove all occurrences of the peer in the partial view
         const occ = this.partialView.removeAllNeighbor(peerId);
         // #2 probabilistically recreate arcs to a known peer
-        if (this.partialView.length > 0) {
+        if (this.partialView.size > 0) {
             // #A normal behavior
             for (let i = 0; i < occ; ++i) {
-                if (Math.random() > (1 / (this.partialView.length + occ))) {
+                if (Math.random() > (1 / (this.partialView.size + occ))) {
                     // probabilistically duplicates one of the least frequent
                     // peers
                     this.connect(null, this.partialView.getLeastFrequent());
@@ -24849,7 +24840,7 @@ class Spray extends N2N {
      */
     _onArcDown (peerId) {
         debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId||'unknown');
-        if (this.partialView.length > 0) {
+        if (this.partialView.size > 0) {
             // #1 normal behavior
             this.connect(null, this.partialView.getLeastFrequent());
         } else {

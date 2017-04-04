@@ -2,7 +2,7 @@
     "name": "spray-wrtc",
     "version": "2.0.0",
     "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
-    "description": "Adaptive random peer sampling protocol running on top of WebRTC",
+    "description": "Adaptive random peer-sampling protocol running on top of WebRTC",
     "main": "./lib/spray.js",
     "repository": {
         "type": "git",
