@@ -219,8 +219,8 @@ class PartialView extends Map {
      * Get the oldest peer in the partial view.
      * @returns {string} The oldest peer in the array.
      */
-    getOldest () {
-        if (this.size <= 0) { throw new ExPeerNotFound('getOldest'); };
+    get oldest () {
+        if (this.size <= 0) { throw new ExPeerNotFound('oldest'); };
         let oldestPeer = null;
         let oldestAge = 0;
         this.forEach( (ages, peerId) => {
@@ -247,7 +247,7 @@ class PartialView extends Map {
      * @param {string} peerId The identifier of the peer added to the partial
      * view.
      */
-    addNeighbor (peerId) {
+    add (peerId) {
         (!this.has(peerId)) && this.set(peerId, new Array());        
         this.get(peerId).unshift(0); // add 0 in front of the array
     };
@@ -257,22 +257,38 @@ class PartialView extends Map {
      * @param {string} peerId The identifier of the peer to remove from the 
      * partial view. 
      */
-    removeNeighbor (peerId) {
-        if (!this.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
-                                                               peerId); };
+    removeYoungest (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound('removeYoungest', peerId);
+        };
         this.get(peerId).shift();
         (this.get(peerId).length === 0) && this.delete(peerId);
     };
 
+    /**
+     * Remove the oldest entry of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view. 
+     */
+    removeOldest (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound('removeOldest', peerId);
+        };
+        this.get(peerId).pop();
+        (this.get(peerId).length === 0) && this.delete(peerId);
+    };
+
+    
     /**
      * Remove all entries of the peer from the partial view.
      * @param {string} peerId The identifier of the peer to remove from the 
      * partial view.
      * @returns {number} The number of occurrences of peerId removed.
      */
-    removeAllNeighbor (peerId) {
-        if (!this.has(peerId)) { throw new ExPeerNotFound('removeNeighbor',
-                                                               peerId); };
+    removeAll (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound('removeAll', peerId);
+        };
         const occ = this.get(peerId).length;
         this.delete(peerId);
         return occ;
@@ -284,7 +300,7 @@ class PartialView extends Map {
      * occurrences, it chooses one among them at random.
      * @returns {string} The identifier of a least frequent peer.
      */
-    getLeastFrequent () {
+    get leastFrequent () {
         let leastFrequent = [];
         let frequency = Infinity;
         this.forEach( (ages, peerId) => {
@@ -295,9 +311,7 @@ class PartialView extends Map {
             (ages.length === frequency) && leastFrequent.push(peerId);
         });
         return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
-        
-    };
-    
+    };    
 }
 
 
@@ -24453,7 +24467,7 @@ class Spray extends N2N {
      * @param {object} [options = {}] Object with all options
      * @param {string} [options.pid = 'spray-wrtc'] The identifier of this
      * protocol. 
-     * @param {number} options.delta Every delta milliseconds, Spray shuffles
+     * @param {number} [options.delta] Every delta milliseconds, Spray shuffles
      * its partial view with its oldest neighbor.
      */
     constructor (options = {}) {
@@ -24569,7 +24583,7 @@ class Spray extends N2N {
      */
     _open (peerId) {
         debug('[%s] %s ===> %s', this.PID, this.PEER, peerId);
-        this.partialView.addNeighbor(peerId);
+        this.partialView.add(peerId);
     };
 
     /**
@@ -24738,7 +24752,7 @@ class Spray extends N2N {
         // failure, or _onExchange started with other peers --- skip this round.
         if (this.partialView.size <= 0) { return; }
         this.partialView.increment();
-        const oldest = this.partialView.getOldest();
+        const oldest = this.partialView.oldest;
         // #1 send the notification to oldest that we perform an exchange
         this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)
             .then( () => {
@@ -24756,13 +24770,16 @@ class Spray extends N2N {
                     this.connect(oldest, peerId);
                 });
                 // #5 remove our own connection
-                // (TODO) maybe be more careful, i.e., wait for an answer
                 sample = sample.map( (peerId) => {
                     return ((peerId===this.getInviewId()) && oldest) || peerId;
                 });                
                 sample.forEach( (peerId) => {
                     this.disconnect(peerId);
-                    this.partialView.removeNeighbor(peerId);
+                    if (peerId === oldest) {
+                        this.partialView.removeOldest(peerId);
+                    } else {
+                        this.partialView.removeYoungest(peerId);
+                    };
                 });
             }).catch( (e) => {
                 // #B the peer cannot be reached, he is supposedly dead
@@ -24802,7 +24819,7 @@ class Spray extends N2N {
         // #5 disconnect arcs
         sample.forEach( (peerId) => {
             this.disconnect(peerId);
-            this.partialView.removeNeighbor(peerId);
+            this.partialView.removeYoungest(peerId);
         });
     };
 
@@ -24815,7 +24832,7 @@ class Spray extends N2N {
     _onPeerDown (peerId) {
         debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, peerId);
         // #1 remove all occurrences of the peer in the partial view
-        const occ = this.partialView.removeAllNeighbor(peerId);
+        const occ = this.partialView.removeAll(peerId);
         // #2 probabilistically recreate arcs to a known peer
         if (this.partialView.size > 0) {
             // #A normal behavior
@@ -24823,7 +24840,7 @@ class Spray extends N2N {
                 if (Math.random() > (1 / (this.partialView.size + occ))) {
                     // probabilistically duplicates one of the least frequent
                     // peers
-                    this.connect(null, this.partialView.getLeastFrequent());
+                    this.connect(null, this.partialView.leastFrequent);
                 }
             }
         } else {
@@ -24842,7 +24859,7 @@ class Spray extends N2N {
         debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId||'unknown');
         if (this.partialView.size > 0) {
             // #1 normal behavior
-            this.connect(null, this.partialView.getLeastFrequent());
+            this.connect(null, this.partialView.leastFrequent);
         } else {
             // #2 last chance behavior
             // (TODO) ask inview

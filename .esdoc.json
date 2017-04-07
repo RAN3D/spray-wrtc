@@ -1,10 +1,10 @@
 {
-  "title": "spray-wrtc",
-  "source":"./lib",
-  "destination":"./docs",
-  "coverage": false,
-  "access": ["public", "protected"],
-  "index": "./README.md",
-  "package": "./package.json",
-  "plugins": [{"name": "esdoc-node"}]
+    "title": "spray-wrtc",
+    "source":"./lib",
+    "destination":"./docs",
+    "coverage": false,
+    "access": ["public", "protected", "private"],
+    "index": "./README.md",
+    "package": "./package.json",
+    "plugins": [{"name": "esdoc-node"}]
 }
