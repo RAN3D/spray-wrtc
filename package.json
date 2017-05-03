@@ -6,10 +6,10 @@
     "main": "./lib/spray.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/chat-wane/spray-wrtc.git"
+        "url": "https://github.com/ran3d/spray-wrtc.git"
     },
     "keywords": [
-        "Random Peer Sampling",
+        "Random peer-sampling",
         "Adaptive",
         "browser-to-browser communication",
         "WebRTC"
@@ -17,7 +17,7 @@
     "dependencies": {
         "lodash": "^4.17.4",
         "debug": "^2.6.1",
-        "n2n-overlay-wrtc": "git://github.com/ran3d/n2n-overlay-wrtc.git#merging"
+        "n2n-overlay-wrtc": "^2.0.0"
     },
     "bundledDependencies": [
         "lodash",
@@ -25,11 +25,9 @@
         "n2n-overlay-wrtc"
     ],
     "devDependencies": {
-        "ava": "0.18.x",
         "browserify": "6.2.x",
         "esdoc": "^0.5.2",
         "esdoc-node": "^1.0.1",
-        "nyc": "10.1.x",
         "p2p-graph": "^1.0.0"
     },
     "scripts": {
@@ -38,10 +36,7 @@
         "esdoc": "esdoc && npm run esdoc:example",
         "esdoc:example": "cp -R ./build ./examples ./docs",
         "test": "npm run all",
-        "ava": "ava -v",
-        "watch": "ava -v --watch",
-        "coverage": "nyc ava",
-        "all": "npm run debug && npm run build && npm run ava && npm run esdoc"
+        "all": "npm run debug && npm run build && npm run esdoc"
     },
     "license": "MIT"
 }
