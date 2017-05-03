@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="">
-  <title data-ice="title">Source | N2N-Overlay-Wrtc API Document</title>
+  <title data-ice="title">Source | spray-wrtc API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -19,7 +19,7 @@
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
-  <a data-ice="repoURL" href="https://github.com/chat-wane/spray-wrtc.git" class="repo-url-github">Repository</a>
+  <a data-ice="repoURL" href="https://github.com/ran3d/spray-wrtc.git" class="repo-url-github">Repository</a>
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -34,9 +34,12 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html">PartialView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/spray.js~Spray.html">Spray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MExchange">MExchange</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SortedArray">SortedArray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EventEmitter">EventEmitter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-N2N">N2N</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">exceptions</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exmessage.js~ExMessage.html">ExMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html">ExPeerNotFound</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">messages</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mjoin.js~MJoin.html">MJoin</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -57,37 +60,61 @@
   <tbody>
     
   <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/lib/extended-sorted-array.js.html">lib/extended-sorted-array.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-SortedArray">SortedArray</a></span></td>
+      <td data-ice="filePath"><span><a href="file/lib/exceptions/exemptyview.js.html">lib/exceptions/exemptyview.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">324 byte</td>
-      <td style="display: none;" data-ice="lines">15</td>
-      <td style="display: none;" data-ice="updated">2017-03-04 10:42:16 (UTC)</td>
+      <td style="display: none;" data-ice="size">430 byte</td>
+      <td style="display: none;" data-ice="lines">18</td>
+      <td style="display: none;" data-ice="updated">2017-05-04 14:07:51 (UTC)</td>
     </tr>
 <tr data-ice="file">
-      <td data-ice="filePath"><span><a href="file/lib/messages.js.html">lib/messages.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="function/index.html#static-function-MExchange">MExchange</a></span></td>
+      <td data-ice="filePath"><span><a href="file/lib/exceptions/exmessage.js.html">lib/exceptions/exmessage.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/lib/exceptions/exmessage.js~ExMessage.html">ExMessage</a></span></td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">528 byte</td>
-      <td style="display: none;" data-ice="lines">19</td>
-      <td style="display: none;" data-ice="updated">2017-03-04 10:42:16 (UTC)</td>
+      <td style="display: none;" data-ice="size">458 byte</td>
+      <td style="display: none;" data-ice="lines">20</td>
+      <td style="display: none;" data-ice="updated">2017-05-04 14:07:51 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/lib/exceptions/expeernotfound.js.html">lib/exceptions/expeernotfound.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html">ExPeerNotFound</a></span></td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">455 byte</td>
+      <td style="display: none;" data-ice="lines">20</td>
+      <td style="display: none;" data-ice="updated">2017-05-04 14:07:51 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/lib/messages/mexchange.js.html">lib/messages/mexchange.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">298 byte</td>
+      <td style="display: none;" data-ice="lines">16</td>
+      <td style="display: none;" data-ice="updated">2017-05-04 14:07:51 (UTC)</td>
+    </tr>
+<tr data-ice="file">
+      <td data-ice="filePath"><span><a href="file/lib/messages/mjoin.js.html">lib/messages/mjoin.js</a></span></td>
+      <td data-ice="identifier" class="identifiers"><span><a href="class/lib/messages/mjoin.js~MJoin.html">MJoin</a></span></td>
+      <td class="coverage"><span data-ice="coverage">-</span></td>
+      <td style="display: none;" data-ice="size">195 byte</td>
+      <td style="display: none;" data-ice="lines">12</td>
+      <td style="display: none;" data-ice="updated">2017-05-04 14:07:51 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/partialview.js.html">lib/partialview.js</a></span></td>
       <td data-ice="identifier" class="identifiers"><span><a href="class/lib/partialview.js~PartialView.html">PartialView</a></span></td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">6022 byte</td>
-      <td style="display: none;" data-ice="lines">252</td>
-      <td style="display: none;" data-ice="updated">2017-03-04 10:42:16 (UTC)</td>
+      <td style="display: none;" data-ice="size">3390 byte</td>
+      <td style="display: none;" data-ice="lines">114</td>
+      <td style="display: none;" data-ice="updated">2017-05-04 14:07:51 (UTC)</td>
     </tr>
 <tr data-ice="file">
       <td data-ice="filePath"><span><a href="file/lib/spray.js.html">lib/spray.js</a></span></td>
-      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-EventEmitter">EventEmitter</a></span>
+      <td data-ice="identifier" class="identifiers"><span><a href="variable/index.html#static-variable-N2N">N2N</a></span>
 <span><a href="class/lib/spray.js~Spray.html">Spray</a></span></td>
       <td class="coverage"><span data-ice="coverage">-</span></td>
-      <td style="display: none;" data-ice="size">12844 byte</td>
-      <td style="display: none;" data-ice="lines">426</td>
-      <td style="display: none;" data-ice="updated">2017-03-04 10:42:16 (UTC)</td>
+      <td style="display: none;" data-ice="size">14501 byte</td>
+      <td style="display: none;" data-ice="lines">379</td>
+      <td style="display: none;" data-ice="updated">2017-05-04 14:07:51 (UTC)</td>
     </tr>
 </tbody>
 </table>

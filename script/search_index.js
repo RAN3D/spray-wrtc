@@ -1,27 +1,45 @@
 window.esdocSearchIndex = [
   [
-    "spray-wrtc~eventemitter",
-    "variable/index.html#static-variable-EventEmitter",
-    "<span>EventEmitter</span> <span class=\"search-result-import-path\">spray-wrtc</span>",
-    "variable"
+    "spray-wrtc/lib/exceptions/exemptyview.js~exemptyview",
+    "class/lib/exceptions/exemptyview.js~ExEmptyView.html",
+    "<span>ExEmptyView</span> <span class=\"search-result-import-path\">spray-wrtc/lib/exceptions/exemptyview.js</span>",
+    "class"
   ],
   [
-    "spray-wrtc/lib/messages.js~mexchange",
-    "function/index.html#static-function-MExchange",
-    "<span>MExchange</span> <span class=\"search-result-import-path\">spray-wrtc/lib/messages.js</span>",
-    "function"
+    "spray-wrtc/lib/exceptions/exmessage.js~exmessage",
+    "class/lib/exceptions/exmessage.js~ExMessage.html",
+    "<span>ExMessage</span> <span class=\"search-result-import-path\">spray-wrtc/lib/exceptions/exmessage.js</span>",
+    "class"
+  ],
+  [
+    "spray-wrtc/lib/exceptions/expeernotfound.js~expeernotfound",
+    "class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html",
+    "<span>ExPeerNotFound</span> <span class=\"search-result-import-path\">spray-wrtc/lib/exceptions/expeernotfound.js</span>",
+    "class"
+  ],
+  [
+    "spray-wrtc/lib/messages/mexchange.js~mexchange",
+    "class/lib/messages/mexchange.js~MExchange.html",
+    "<span>MExchange</span> <span class=\"search-result-import-path\">spray-wrtc/lib/messages/mexchange.js</span>",
+    "class"
+  ],
+  [
+    "spray-wrtc/lib/messages/mjoin.js~mjoin",
+    "class/lib/messages/mjoin.js~MJoin.html",
+    "<span>MJoin</span> <span class=\"search-result-import-path\">spray-wrtc/lib/messages/mjoin.js</span>",
+    "class"
+  ],
+  [
+    "spray-wrtc~n2n",
+    "variable/index.html#static-variable-N2N",
+    "<span>N2N</span> <span class=\"search-result-import-path\">spray-wrtc</span>",
+    "variable"
   ],
   [
     "spray-wrtc/lib/partialview.js~partialview",
     "class/lib/partialview.js~PartialView.html",
     "<span>PartialView</span> <span class=\"search-result-import-path\">spray-wrtc/lib/partialview.js</span>",
     "class"
-  ],
-  [
-    "spray-wrtc/lib/extended-sorted-array.js~sortedarray",
-    "variable/index.html#static-variable-SortedArray",
-    "<span>SortedArray</span> <span class=\"search-result-import-path\">spray-wrtc/lib/extended-sorted-array.js</span>",
-    "variable"
   ],
   [
     "spray-wrtc~spray",
@@ -360,16 +378,124 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "lib/extended-sorted-array.js",
-    "file/lib/extended-sorted-array.js.html",
-    "lib/extended-sorted-array.js",
+    "lib/exceptions/exemptyview.js",
+    "file/lib/exceptions/exemptyview.js.html",
+    "lib/exceptions/exemptyview.js",
     "file"
   ],
   [
-    "lib/messages.js",
-    "file/lib/messages.js.html",
-    "lib/messages.js",
+    "lib/exceptions/exemptyview.js~exemptyview#constructor",
+    "class/lib/exceptions/exemptyview.js~ExEmptyView.html#instance-constructor-constructor",
+    "lib/exceptions/exemptyview.js~ExEmptyView#constructor",
+    "method"
+  ],
+  [
+    "lib/exceptions/exemptyview.js~exemptyview#message",
+    "class/lib/exceptions/exemptyview.js~ExEmptyView.html#instance-member-message",
+    "lib/exceptions/exemptyview.js~ExEmptyView#message",
+    "member"
+  ],
+  [
+    "lib/exceptions/exemptyview.js~exemptyview#source",
+    "class/lib/exceptions/exemptyview.js~ExEmptyView.html#instance-member-source",
+    "lib/exceptions/exemptyview.js~ExEmptyView#source",
+    "member"
+  ],
+  [
+    "lib/exceptions/exmessage.js",
+    "file/lib/exceptions/exmessage.js.html",
+    "lib/exceptions/exmessage.js",
     "file"
+  ],
+  [
+    "lib/exceptions/exmessage.js~exmessage#constructor",
+    "class/lib/exceptions/exmessage.js~ExMessage.html#instance-constructor-constructor",
+    "lib/exceptions/exmessage.js~ExMessage#constructor",
+    "method"
+  ],
+  [
+    "lib/exceptions/exmessage.js~exmessage#message",
+    "class/lib/exceptions/exmessage.js~ExMessage.html#instance-member-message",
+    "lib/exceptions/exmessage.js~ExMessage#message",
+    "member"
+  ],
+  [
+    "lib/exceptions/exmessage.js~exmessage#reason",
+    "class/lib/exceptions/exmessage.js~ExMessage.html#instance-member-reason",
+    "lib/exceptions/exmessage.js~ExMessage#reason",
+    "member"
+  ],
+  [
+    "lib/exceptions/exmessage.js~exmessage#source",
+    "class/lib/exceptions/exmessage.js~ExMessage.html#instance-member-source",
+    "lib/exceptions/exmessage.js~ExMessage#source",
+    "member"
+  ],
+  [
+    "lib/exceptions/expeernotfound.js",
+    "file/lib/exceptions/expeernotfound.js.html",
+    "lib/exceptions/expeernotfound.js",
+    "file"
+  ],
+  [
+    "lib/exceptions/expeernotfound.js~expeernotfound#constructor",
+    "class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html#instance-constructor-constructor",
+    "lib/exceptions/expeernotfound.js~ExPeerNotFound#constructor",
+    "method"
+  ],
+  [
+    "lib/exceptions/expeernotfound.js~expeernotfound#peer",
+    "class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html#instance-member-peer",
+    "lib/exceptions/expeernotfound.js~ExPeerNotFound#peer",
+    "member"
+  ],
+  [
+    "lib/exceptions/expeernotfound.js~expeernotfound#source",
+    "class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html#instance-member-source",
+    "lib/exceptions/expeernotfound.js~ExPeerNotFound#source",
+    "member"
+  ],
+  [
+    "lib/messages/mexchange.js",
+    "file/lib/messages/mexchange.js.html",
+    "lib/messages/mexchange.js",
+    "file"
+  ],
+  [
+    "lib/messages/mexchange.js~mexchange#constructor",
+    "class/lib/messages/mexchange.js~MExchange.html#instance-constructor-constructor",
+    "lib/messages/mexchange.js~MExchange#constructor",
+    "method"
+  ],
+  [
+    "lib/messages/mexchange.js~mexchange#inview",
+    "class/lib/messages/mexchange.js~MExchange.html#instance-member-inview",
+    "lib/messages/mexchange.js~MExchange#inview",
+    "member"
+  ],
+  [
+    "lib/messages/mexchange.js~mexchange#type",
+    "class/lib/messages/mexchange.js~MExchange.html#instance-member-type",
+    "lib/messages/mexchange.js~MExchange#type",
+    "member"
+  ],
+  [
+    "lib/messages/mjoin.js",
+    "file/lib/messages/mjoin.js.html",
+    "lib/messages/mjoin.js",
+    "file"
+  ],
+  [
+    "lib/messages/mjoin.js~mjoin#constructor",
+    "class/lib/messages/mjoin.js~MJoin.html#instance-constructor-constructor",
+    "lib/messages/mjoin.js~MJoin#constructor",
+    "method"
+  ],
+  [
+    "lib/messages/mjoin.js~mjoin#type",
+    "class/lib/messages/mjoin.js~MJoin.html#instance-member-type",
+    "lib/messages/mjoin.js~MJoin#type",
+    "member"
   ],
   [
     "lib/partialview.js",
@@ -378,63 +504,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "lib/partialview.js~partialview#addneighbor",
-    "class/lib/partialview.js~PartialView.html#instance-method-addNeighbor",
-    "lib/partialview.js~PartialView#addNeighbor",
+    "lib/partialview.js~partialview#add",
+    "class/lib/partialview.js~PartialView.html#instance-method-add",
+    "lib/partialview.js~PartialView#add",
     "method"
-  ],
-  [
-    "lib/partialview.js~partialview#array",
-    "class/lib/partialview.js~PartialView.html#instance-member-array",
-    "lib/partialview.js~PartialView#array",
-    "member"
-  ],
-  [
-    "lib/partialview.js~partialview#clear",
-    "class/lib/partialview.js~PartialView.html#instance-method-clear",
-    "lib/partialview.js~PartialView#clear",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#comparator",
-    "class/lib/partialview.js~PartialView.html#instance-member-comparator",
-    "lib/partialview.js~PartialView#comparator",
-    "member"
   ],
   [
     "lib/partialview.js~partialview#constructor",
     "class/lib/partialview.js~PartialView.html#instance-constructor-constructor",
     "lib/partialview.js~PartialView#constructor",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#contains",
-    "class/lib/partialview.js~PartialView.html#instance-method-contains",
-    "lib/partialview.js~PartialView#contains",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#get",
-    "class/lib/partialview.js~PartialView.html#instance-method-get",
-    "lib/partialview.js~PartialView#get",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#getindex",
-    "class/lib/partialview.js~PartialView.html#instance-method-getIndex",
-    "lib/partialview.js~PartialView#getIndex",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#getoldest",
-    "class/lib/partialview.js~PartialView.html#instance-method-getOldest",
-    "lib/partialview.js~PartialView#getOldest",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#getsample",
-    "class/lib/partialview.js~PartialView.html#instance-method-getSample",
-    "lib/partialview.js~PartialView#getSample",
     "method"
   ],
   [
@@ -444,10 +522,16 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "lib/partialview.js~partialview#length",
-    "class/lib/partialview.js~PartialView.html#instance-method-length",
-    "lib/partialview.js~PartialView#length",
-    "method"
+    "lib/partialview.js~partialview#leastfrequent",
+    "class/lib/partialview.js~PartialView.html#instance-get-leastFrequent",
+    "lib/partialview.js~PartialView#leastFrequent",
+    "member"
+  ],
+  [
+    "lib/partialview.js~partialview#oldest",
+    "class/lib/partialview.js~PartialView.html#instance-get-oldest",
+    "lib/partialview.js~PartialView#oldest",
+    "member"
   ],
   [
     "lib/partialview.js~partialview#removeall",
@@ -456,34 +540,16 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "lib/partialview.js~partialview#removepeer",
-    "class/lib/partialview.js~PartialView.html#instance-method-removePeer",
-    "lib/partialview.js~PartialView#removePeer",
+    "lib/partialview.js~partialview#removeoldest",
+    "class/lib/partialview.js~PartialView.html#instance-method-removeOldest",
+    "lib/partialview.js~PartialView#removeOldest",
     "method"
   ],
   [
-    "lib/partialview.js~partialview#removepeerage",
-    "class/lib/partialview.js~PartialView.html#instance-method-removePeerAge",
-    "lib/partialview.js~PartialView#removePeerAge",
+    "lib/partialview.js~partialview#removeyoungest",
+    "class/lib/partialview.js~PartialView.html#instance-method-removeYoungest",
+    "lib/partialview.js~PartialView#removeYoungest",
     "method"
-  ],
-  [
-    "lib/partialview.js~partialview#removesample",
-    "class/lib/partialview.js~PartialView.html#instance-method-removeSample",
-    "lib/partialview.js~PartialView#removeSample",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#replace",
-    "class/lib/partialview.js~PartialView.html#instance-method-replace",
-    "lib/partialview.js~PartialView#replace",
-    "method"
-  ],
-  [
-    "lib/partialview.js~partialview#usedcoef",
-    "class/lib/partialview.js~PartialView.html#instance-member-usedCoef",
-    "lib/partialview.js~PartialView#usedCoef",
-    "member"
   ],
   [
     "lib/spray.js",
@@ -492,21 +558,75 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "lib/spray.js~spray#deltatime",
-    "class/lib/spray.js~Spray.html#instance-member-DELTATIME",
-    "lib/spray.js~Spray#DELTATIME",
-    "member"
+    "lib/spray.js~spray#_close",
+    "class/lib/spray.js~Spray.html#instance-method-_close",
+    "lib/spray.js~Spray#_close",
+    "method"
   ],
   [
-    "lib/spray.js~spray#retry",
-    "class/lib/spray.js~Spray.html#instance-member-RETRY",
-    "lib/spray.js~Spray#RETRY",
-    "member"
+    "lib/spray.js~spray#_exchange",
+    "class/lib/spray.js~Spray.html#instance-method-_exchange",
+    "lib/spray.js~Spray#_exchange",
+    "method"
   ],
   [
-    "lib/spray.js~spray#connection",
-    "class/lib/spray.js~Spray.html#instance-method-connection",
-    "lib/spray.js~Spray#connection",
+    "lib/spray.js~spray#_getsample",
+    "class/lib/spray.js~Spray.html#instance-method-_getSample",
+    "lib/spray.js~Spray#_getSample",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_onarcdown",
+    "class/lib/spray.js~Spray.html#instance-method-_onArcDown",
+    "lib/spray.js~Spray#_onArcDown",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_onexchange",
+    "class/lib/spray.js~Spray.html#instance-method-_onExchange",
+    "lib/spray.js~Spray#_onExchange",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_onjoin",
+    "class/lib/spray.js~Spray.html#instance-method-_onJoin",
+    "lib/spray.js~Spray#_onJoin",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_onpeerdown",
+    "class/lib/spray.js~Spray.html#instance-method-_onPeerDown",
+    "lib/spray.js~Spray#_onPeerDown",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_open",
+    "class/lib/spray.js~Spray.html#instance-method-_open",
+    "lib/spray.js~Spray#_open",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_receive",
+    "class/lib/spray.js~Spray.html#instance-method-_receive",
+    "lib/spray.js~Spray#_receive",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_start",
+    "class/lib/spray.js~Spray.html#instance-method-_start",
+    "lib/spray.js~Spray#_start",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_stop",
+    "class/lib/spray.js~Spray.html#instance-method-_stop",
+    "lib/spray.js~Spray#_stop",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_updatestate",
+    "class/lib/spray.js~Spray.html#instance-method-_updateState",
+    "lib/spray.js~Spray#_updateState",
     "method"
   ],
   [
@@ -516,58 +636,16 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "lib/spray.js~spray#exchange",
-    "class/lib/spray.js~Spray.html#instance-method-exchange",
-    "lib/spray.js~Spray#exchange",
-    "method"
-  ],
-  [
     "lib/spray.js~spray#getpeers",
     "class/lib/spray.js~Spray.html#instance-method-getPeers",
     "lib/spray.js~Spray#getPeers",
     "method"
   ],
   [
-    "lib/spray.js~spray#leave",
-    "class/lib/spray.js~Spray.html#instance-method-leave",
-    "lib/spray.js~Spray#leave",
+    "lib/spray.js~spray#join",
+    "class/lib/spray.js~Spray.html#instance-method-join",
+    "lib/spray.js~Spray#join",
     "method"
-  ],
-  [
-    "lib/spray.js~spray#log",
-    "class/lib/spray.js~Spray.html#instance-method-log",
-    "lib/spray.js~Spray#log",
-    "method"
-  ],
-  [
-    "lib/spray.js~spray#neighborhoods",
-    "class/lib/spray.js~Spray.html#instance-member-neighborhoods",
-    "lib/spray.js~Spray#neighborhoods",
-    "member"
-  ],
-  [
-    "lib/spray.js~spray#onarcdown",
-    "class/lib/spray.js~Spray.html#instance-method-onArcDown",
-    "lib/spray.js~Spray#onArcDown",
-    "method"
-  ],
-  [
-    "lib/spray.js~spray#onexchange",
-    "class/lib/spray.js~Spray.html#instance-method-onExchange",
-    "lib/spray.js~Spray#onExchange",
-    "method"
-  ],
-  [
-    "lib/spray.js~spray#onpeerdown",
-    "class/lib/spray.js~Spray.html#instance-method-onPeerDown",
-    "lib/spray.js~Spray#onPeerDown",
-    "method"
-  ],
-  [
-    "lib/spray.js~spray#opts",
-    "class/lib/spray.js~Spray.html#instance-member-opts",
-    "lib/spray.js~Spray#opts",
-    "member"
   ],
   [
     "lib/spray.js~spray#partialview",
@@ -576,45 +654,15 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "lib/spray.js~spray#profile",
-    "class/lib/spray.js~Spray.html#instance-member-profile",
-    "lib/spray.js~Spray#profile",
+    "lib/spray.js~spray#periodic",
+    "class/lib/spray.js~Spray.html#instance-member-periodic",
+    "lib/spray.js~Spray#periodic",
     "member"
-  ],
-  [
-    "lib/spray.js~spray#protocol",
-    "class/lib/spray.js~Spray.html#instance-member-protocol",
-    "lib/spray.js~Spray#protocol",
-    "member"
-  ],
-  [
-    "lib/spray.js~spray#send",
-    "class/lib/spray.js~Spray.html#instance-method-send",
-    "lib/spray.js~Spray#send",
-    "method"
   ],
   [
     "lib/spray.js~spray#state",
     "class/lib/spray.js~Spray.html#instance-member-state",
     "lib/spray.js~Spray#state",
-    "member"
-  ],
-  [
-    "lib/spray.js~spray#tostring",
-    "class/lib/spray.js~Spray.html#instance-method-toString",
-    "lib/spray.js~Spray#toString",
-    "method"
-  ],
-  [
-    "lib/spray.js~spray#updatestate",
-    "class/lib/spray.js~Spray.html#instance-method-updateState",
-    "lib/spray.js~Spray#updateState",
-    "method"
-  ],
-  [
-    "lib/spray.js~spray#verbose",
-    "class/lib/spray.js~Spray.html#instance-member-verbose",
-    "lib/spray.js~Spray#verbose",
     "member"
   ]
 ]

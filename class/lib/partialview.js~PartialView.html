@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">PartialView | N2N-Overlay-Wrtc API Document</title>
+  <title data-ice="title">PartialView | spray-wrtc API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -19,7 +19,7 @@
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
-  <a data-ice="repoURL" href="https://github.com/chat-wane/spray-wrtc.git" class="repo-url-github">Repository</a>
+  <a data-ice="repoURL" href="https://github.com/ran3d/spray-wrtc.git" class="repo-url-github">Repository</a>
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -34,9 +34,12 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html">PartialView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/spray.js~Spray.html">Spray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MExchange">MExchange</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SortedArray">SortedArray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EventEmitter">EventEmitter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-N2N">N2N</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">exceptions</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exmessage.js~ExMessage.html">ExMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html">ExPeerNotFound</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">messages</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mjoin.js~MJoin.html">MJoin</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -58,7 +61,7 @@
 
   
   
-  
+  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a></span> &#x2192; PartialView</div></div>
   
   
   
@@ -68,7 +71,8 @@
 
   
   
-  <div class="description" data-ice="description"><p>Structure containing the neighborhood of a peer.</p>
+  <div class="description" data-ice="description"><p>Structure containing the neighborhood of a peer.
+Map of {idPeer =&gt; [age_1, age_2.. age_k]} where age_1 &lt;= age_2 &lt;= .. &lt;= age_k</p>
 </div>
   
 
@@ -100,14 +104,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>)</span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">()</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Constructor of PartialView</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -126,7 +129,7 @@
     <td>
       <span class="access" data-ice="access">public</span>
       
-      
+      <span class="kind" data-ice="kind">get</span>
       
       <span class="override" data-ice="override"></span>
     </td>
@@ -135,13 +138,14 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></span><span data-ice="signature">: <span>*</span></span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-get-leastFrequent">leastFrequent</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>: <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Get the least frequent peer.</p>
+</div>
       </div>
     </td>
     <td>
@@ -153,34 +157,7 @@
     <td>
       <span class="access" data-ice="access">public</span>
       
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-comparator">comparator</a></span></span><span data-ice="signature">: <span>*</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
+      <span class="kind" data-ice="kind">get</span>
       
       <span class="override" data-ice="override"></span>
     </td>
@@ -189,13 +166,14 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-usedCoef">usedCoef</a></span></span><span data-ice="signature">: <span>*</span></span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-get-oldest">oldest</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>: <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Get the oldest peer in the partial view.</p>
+</div>
       </div>
     </td>
     <td>
@@ -223,13 +201,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-addNeighbor">addNeighbor</a></span></span><span data-ice="signature">(config: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>void</span></span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-add">add</a></span></span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Add the neigbhor to the partial view with an age of 0</p>
+        <div data-ice="description"><p>Add the peer to the partial view with an age of 0.</p>
 </div>
       </div>
     </td>
@@ -251,175 +229,7 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-clear">clear</a></span></span><span data-ice="signature">(): <span>void</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>brief remove all elements from the partial view</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-contains">contains</a></span></span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Check if the partial view contains the reference</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-get">get</a></span></span><span data-ice="signature">(): <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Get the array containing views</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-getIndex">getIndex</a></span></span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>integer</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Get the index of the peer in the partialview</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-getOldest">getOldest</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Get the oldest peer in the partialView</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-getSample">getSample</a></span></span><span data-ice="signature">(neighbor: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, isInitiator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Get a sample of the partial view</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-increment">increment</a></span></span><span data-ice="signature">(): <span>void</span></span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-increment">increment</a></span></span><span data-ice="signature">()</span>
         </p>
       </div>
       <div>
@@ -447,13 +257,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-length">length</a></span></span><span data-ice="signature">(): <span>integer</span></span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-removeAll">removeAll</a></span></span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Get the size of the partial view</p>
+        <div data-ice="description"><p>Remove all entries of the peer from the partial view.</p>
 </div>
       </div>
     </td>
@@ -475,13 +285,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-removeAll">removeAll</a></span></span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>integer</span></span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-removeOldest">removeOldest</a></span></span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Remove all occurrences of the peer and return the number of removals</p>
+        <div data-ice="description"><p>Remove the oldest entry of the peer from the partial view.</p>
 </div>
       </div>
     </td>
@@ -503,97 +313,13 @@
         <p>
           
           
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-removePeer">removePeer</a></span></span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, age: <span>integer</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-removeYoungest">removeYoungest</a></span></span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Remove the peer from the partial view</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-removePeerAge">removePeerAge</a></span></span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, age: <span>integer</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Remove the peer with the associated age from the partial view</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-removeSample">removeSample</a></span></span><span data-ice="signature">(sample: <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span>): <span>void</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Remove all the elements contained in the sample in argument</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          <span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html#instance-method-replace">replace</a></span></span><span data-ice="signature">(sample: <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span>, old: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, fresh: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Replace the occurrences of the old peer by the fresh one</p>
+        <div data-ice="description"><p>Remove the newest entry of the peer from the partial view.</p>
 </div>
       </div>
     </td>
@@ -620,47 +346,22 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">()</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber16">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber10">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Constructor of PartialView</p>
-</div>
+  
 
   
 
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">options</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Object containing all options</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="1">
-      <td data-ice="name" data-depth="1">options.usedCoef</td>
-      <td data-ice="type"><span>double</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Represents the amount of clients shuffled between [0;1]</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
+  <div data-ice="properties">
 </div>
 
   
@@ -684,32 +385,47 @@
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-array">
+  <h3 data-ice="anchor" id="instance-get-leastFrequent">
     <span class="access" data-ice="access">public</span>
     
+    <span class="kind" data-ice="kind">get</span>
     
     
     
-    
-    <span data-ice="name">array</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">leastFrequent</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber35">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber99">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>Get the least frequent peer. If multiple peers have the same number of
+occurrences, it chooses one among them at random.</p>
+</div>
 
   
 
   <div data-ice="properties">
 </div>
 
-  
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The identifier of a least frequent peer.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
 
   
 
@@ -727,75 +443,46 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-comparator">
+  <h3 data-ice="anchor" id="instance-get-oldest">
     <span class="access" data-ice="access">public</span>
     
+    <span class="kind" data-ice="kind">get</span>
     
     
     
-    
-    <span data-ice="name">comparator</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">oldest</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber18">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>Get the oldest peer in the partial view.</p>
+</div>
 
   
 
   <div data-ice="properties">
 </div>
 
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The oldest peer in the array.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
 </div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-usedCoef">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">usedCoef</span><span data-ice="signature">: <span>*</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber21">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
+  </div>
 
   
 
@@ -816,25 +503,25 @@
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-addNeighbor">
+  <h3 data-ice="anchor" id="instance-method-add">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span data-ice="name">addNeighbor</span><span data-ice="signature">(config: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span>void</span></span>
+    <span data-ice="name">add</span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber123">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber46">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Add the neigbhor to the partial view with an age of 0</p>
+  <div data-ice="description"><p>Add the peer to the partial view with an age of 0.</p>
 </div>
 
   
@@ -848,139 +535,11 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">config</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the peer to add to the partial view</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span>void</span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-clear">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">clear</span><span data-ice="signature">(): <span>void</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber217">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>brief remove all elements from the partial view</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span>void</span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-contains">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">contains</span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber209">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Check if the partial view contains the reference</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">id</td>
+      <td data-ice="name" data-depth="0">peerId</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the peer to check</p>
+      <td data-ice="description"><p>The identifier of the peer added to the partial
+view.</p>
 </td>
     </tr>
 </tbody>
@@ -988,290 +547,7 @@
 </div>
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>true if the peer is in the partial view, false otherwise</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-get">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">get</span><span data-ice="signature">(): <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber225">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Get the array containing views</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>Array with all views</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-getIndex">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">getIndex</span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>integer</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber132">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Get the index of the peer in the partialview</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">id</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The id of the peer inside the partialView.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span>integer</span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>the index of the peer in the array, -1 if not found</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-getOldest">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">getOldest</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber42">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Get the oldest peer in the partialView</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>the oldest peer in the array</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-getSample">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">getSample</span><span data-ice="signature">(neighbor: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, isInitiator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span>): <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber64">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Get a sample of the partial view</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">neighbor</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the neighbor which performs the exchange with us</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">isInitiator</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>whether or not the caller is the initiator of the
-exchange</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>an array containing neighbors from this partial view</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
 
   
 
@@ -1296,11 +572,11 @@ exchange</p>
     
     
     
-    <span data-ice="name">increment</span><span data-ice="signature">(): <span>void</span></span>
+    <span data-ice="name">increment</span><span data-ice="signature">()</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber51">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber35">source</a></span></span>
     </span>
   </h3>
 
@@ -1315,76 +591,7 @@ exchange</p>
   <div data-ice="properties">
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span>void</span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-length">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">length</span><span data-ice="signature">(): <span>integer</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber200">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Get the size of the partial view</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span>integer</span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>the size of the partial view</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
 
   
 
@@ -1409,18 +616,18 @@ exchange</p>
     
     
     
-    <span data-ice="name">removeAll</span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span>integer</span></span>
+    <span data-ice="name">removeAll</span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber171">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber84">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Remove all occurrences of the peer and return the number of removals</p>
+  <div data-ice="description"><p>Remove all entries of the peer from the partial view.</p>
 </div>
 
   
@@ -1434,10 +641,11 @@ exchange</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">id</td>
+      <td data-ice="name" data-depth="0">peerId</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the peer to remove</p>
+      <td data-ice="description"><p>The identifier of the peer to remove from the 
+partial view.</p>
 </td>
     </tr>
 </tbody>
@@ -1450,8 +658,8 @@ exchange</p>
     <table>
       <tbody>
         <tr>
-          <td class="return-type" data-ice="returnType"><span>integer</span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>the number of occurrences of the removed peer</p>
+          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The number of occurrences of peerId removed.</p>
 </td>
         </tr>
       </tbody>
@@ -1476,25 +684,25 @@ exchange</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-removePeer">
+  <h3 data-ice="anchor" id="instance-method-removeOldest">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span data-ice="name">removePeer</span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, age: <span>integer</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+    <span data-ice="name">removeOldest</span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber152">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber69">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Remove the peer from the partial view</p>
+  <div data-ice="description"><p>Remove the oldest entry of the peer from the partial view.</p>
 </div>
 
   
@@ -1508,17 +716,11 @@ exchange</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">id</td>
+      <td data-ice="name" data-depth="0">peerId</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the peer to remove</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">age</td>
-      <td data-ice="type"><span>integer</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The age of the peer</p>
+      <td data-ice="description"><p>The identifier of the peer to remove from the 
+partial view.</p>
 </td>
     </tr>
 </tbody>
@@ -1526,20 +728,7 @@ exchange</p>
 </div>
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>the removed entry if it exists, null otherwise</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
+  
 
   
 
@@ -1557,25 +746,25 @@ exchange</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-removePeerAge">
+  <h3 data-ice="anchor" id="instance-method-removeYoungest">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span data-ice="name">removePeerAge</span><span data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>, age: <span>integer</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></span>
+    <span data-ice="name">removeYoungest</span><span data-ice="signature">(peerId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber235">source</a></span></span>
+      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber56">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Remove the peer with the associated age from the partial view</p>
+  <div data-ice="description"><p>Remove the newest entry of the peer from the partial view.</p>
 </div>
 
   
@@ -1589,17 +778,11 @@ exchange</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">id</td>
+      <td data-ice="name" data-depth="0">peerId</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the peer to remove</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">age</td>
-      <td data-ice="type"><span>integer</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the age of the peer to remove</p>
+      <td data-ice="description"><p>The identifier of the peer to remove from the 
+partial view.</p>
 </td>
     </tr>
 </tbody>
@@ -1607,181 +790,7 @@ exchange</p>
 </div>
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>the removed entry if it exists, null otherwise</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-removeSample">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">removeSample</span><span data-ice="signature">(sample: <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span>): <span>void</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber190">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Remove all the elements contained in the sample in argument</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">sample</td>
-      <td data-ice="type"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the elements to remove</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span>void</span></td>
-          
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-replace">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span data-ice="name">replace</span><span data-ice="signature">(sample: <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span>, old: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>, fresh: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span>): <span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/lib/partialview.js.html#lineNumber106">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Replace the occurrences of the old peer by the fresh one</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">sample</td>
-      <td data-ice="type"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the sample to modify</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">old</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the old reference to replace</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">fresh</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the new reference to insert</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type" data-ice="returnType"><span><a href="class/lib/partialview.js~PartialView.html#instance-member-array">array</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>an array with the replaced occurences</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
 
   
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/partialview.js | N2N-Overlay-Wrtc API Document</title>
+  <title data-ice="title">lib/partialview.js | spray-wrtc API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -19,7 +19,7 @@
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
-  <a data-ice="repoURL" href="https://github.com/chat-wane/spray-wrtc.git" class="repo-url-github">Repository</a>
+  <a data-ice="repoURL" href="https://github.com/ran3d/spray-wrtc.git" class="repo-url-github">Repository</a>
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -34,9 +34,12 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html">PartialView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/spray.js~Spray.html">Spray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MExchange">MExchange</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SortedArray">SortedArray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-EventEmitter">EventEmitter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-N2N">N2N</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">exceptions</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exmessage.js~ExMessage.html">ExMessage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html">ExPeerNotFound</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">messages</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mjoin.js~MJoin.html">MJoin</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -44,252 +47,114 @@
 <div class="content" data-ice="content"><h1 data-ice="title">lib/partialview.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
-const SortedArray = require(&apos;./extended-sorted-array.js&apos;);
+const ExPeerNotFound = require(&apos;./exceptions/expeernotfound.js&apos;);
 
 /**
  * Structure containing the neighborhood of a peer.
- * @class PartialView
+ * Map of {idPeer =&gt; [age_1, age_2.. age_k]} where age_1 &lt;= age_2 &lt;= .. &lt;= age_k
  */
-class PartialView {
-	/**
-	 * Constructor of PartialView
-	 * @constructor
-	 * @param {object} options Object containing all options
-	 * @param {double} options.usedCoef Represents the amount of clients shuffled between [0;1]
-	 */
-	constructor (options) {
-		// #1 initialize the partial view as an array sorted by age
-		// entries are {age, id, socketId}
-
-		// Coef : [0;1]
-		this.usedCoef = options.usedCoef;
-
-		this.comparator = (a, b) =&gt; {
-			const first = a.age || a;
-			const second = b.age || b;
-			if (first &lt; second) {
-				return -1;
-			}
-			if (first &gt; second) {
-				return 1;
-			}
-			return 0;
-		};
-
-		this.array = new SortedArray(this.comparator);
-	}
-
-	/**
-	 * Get the oldest peer in the partialView
-	 * @return {object} the oldest peer in the array
-	 */
-	getOldest () {
-		return this.array.arr[0];
-	}
-
-
-	/**
-	 * Increment the age of the whole partial view
-	 * @return {void}
-	 */
-	increment () {
-		for (let i = 0; i &lt; this.array.arr.length; ++i) {
-			this.array.arr[i].age += 1;
-		}
-	}
-
-	/**
-	 * Get a sample of the partial view
-	 * @param {string} neighbor the neighbor which performs the exchange with us
-	 * @param {boolean} isInitiator whether or not the caller is the initiator of the
-	 * exchange
-	 * @return {array} an array containing neighbors from this partial view
-	 */
-	getSample (neighbor, isInitiator) {
-		let sample = [];
-		// #1 copy the partial view
-		let clone = new SortedArray(this.comparator);
-		for (let i = 0; i &lt; this.array.arr.length; ++i) {
-			clone.arr.push(this.array.arr[i]);
-		}
-		// #2 process the size of the sample
-		const sampleSize = Math.ceil(this.array.arr.length * this.usedCoef);
-    if (isInitiator) {
-//        console.log(&apos;neighbor &apos;, neighbor);
-        var found = false;
-        var i = 0;
-        while(!found &amp;&amp; i&lt;clone.arr.length){
-            if (clone.arr[i].id===neighbor.id){
-                found = true;
-            } else {
-                ++i;
+class PartialView extends Map {
+    constructor () {
+        super();
+    };
+    
+    /**
+     * Get the oldest peer in the partial view.
+     * @returns {string} The oldest peer in the array.
+     */
+    get oldest () {
+        if (this.size &lt;= 0) { throw new ExPeerNotFound(&apos;oldest&apos;); };
+        let oldestPeer = null;
+        let oldestAge = 0;
+        this.forEach( (ages, peerId) =&gt; {
+            if (oldestAge &lt;= ages[ages.length - 1]) {
+                oldestPeer = peerId;
+                oldestAge = ages[ages.length - 1];
             };
+        });
+        return oldestPeer;
+    };
+
+
+    /**
+     * Increment the age of the whole partial view
+     */
+    increment () {
+        this.forEach( (ages, peerId) =&gt; {
+            this.set(peerId, ages.map( (age) =&gt; {return age+1;} ));
+        });
+    };
+
+    /**
+     * Add the peer to the partial view with an age of 0.
+     * @param {string} peerId The identifier of the peer added to the partial
+     * view.
+     */
+    add (peerId) {
+        (!this.has(peerId)) &amp;&amp; this.set(peerId, new Array());        
+        this.get(peerId).unshift(0); // add 0 in front of the array
+    };
+
+    /**
+     * Remove the newest entry of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view. 
+     */
+    removeYoungest (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound(&apos;removeYoungest&apos;, peerId);
         };
-			// #A remove an occurrence of the chosen neighbor
-	    clone.arr.splice(i,1);
-			sample.push(neighbor);
-		}
+        this.get(peerId).shift();
+        (this.get(peerId).length === 0) &amp;&amp; this.delete(peerId);
+    };
 
-		// #3 randomly add neighbors to the sample
-		while (sample.length &lt; sampleSize) {
-			const rn = Math.floor(Math.random() * clone.arr.length);
-			sample.push(clone.arr[rn]);
-			clone.arr.splice(rn, 1);
-		}
+    /**
+     * Remove the oldest entry of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view. 
+     */
+    removeOldest (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound(&apos;removeOldest&apos;, peerId);
+        };
+        this.get(peerId).pop();
+        (this.get(peerId).length === 0) &amp;&amp; this.delete(peerId);
+    };
 
-		return sample;
-	}
+    
+    /**
+     * Remove all entries of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view.
+     * @returns {number} The number of occurrences of peerId removed.
+     */
+    removeAll (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound(&apos;removeAll&apos;, peerId);
+        };
+        const occ = this.get(peerId).length;
+        this.delete(peerId);
+        return occ;
+    };
+       
 
-	/**
-	 * Replace the occurrences of the old peer by the fresh one
-	 * @param {array} sample the sample to modify
-	 * @param {object} old the old reference to replace
-	 * @param {object} fresh the new reference to insert
-	 * @return {array} an array with the replaced occurences
-	 */
-	replace (sample, old, fresh) {
-		const result = [];
-		for (let i = 0; i &lt; sample.length; ++i) {
-			if (sample[i].id === old.id) {
-				result.push(fresh);
-			} else {
-				result.push(sample[i]);
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Add the neigbhor to the partial view with an age of 0
-	 * @param {object} config the peer to add to the partial view
-	 * @return {void}
-	 */
-	addNeighbor (config) {
-		this.array.insert(config);
-	}
-
-	/**
-	 * Get the index of the peer in the partialview
-	 * @param {string} id The id of the peer inside the partialView.
-	 * @return {integer} the index of the peer in the array, -1 if not found
-	 */
-	getIndex (id) {
-		let i = this.array.arr.length - 1;
-		let index = -1;
-		let found = false;
-		while (!found &amp;&amp; i &gt;= 0) {
-			if (id === this.array.arr[i].id) {
-				found = true;
-				index = i;
-			}
-			--i;
-		}
-		return index;
-	}
-
-	/**
-	 * Remove the peer from the partial view
-	 * @param {string} id the peer to remove
-	 * @param {integer} age The age of the peer
-	 * @return {object} the removed entry if it exists, null otherwise
-	 */
-	removePeer (id, age) {
-		if (!age) {
-			const index = this.getIndex(id);
-			let removedEntry = null;
-			if (index &gt; -1) {
-				removedEntry = this.array.arr[index];
-				this.array.arr.splice(index, 1);
-			}
-			return removedEntry;
-		} else {
-			return this.removePeerAge(id, age);
-		}
-	}
-
-	/**
-	 * Remove all occurrences of the peer and return the number of removals
-	 * @param {string} id the peer to remove
-	 * @return {integer} the number of occurrences of the removed peer
-	 */
-	removeAll (id) {
-		let occ = 0;
-		let i = 0;
-		while (i &lt; this.array.arr.length) {
-			if (this.array.arr[i].id === id) {
-				this.array.arr.splice(i, 1);
-				occ += 1;
-			} else {
-				++i;
-			}
-		}
-		return occ;
-	}
-
-	/**
-	 * Remove all the elements contained in the sample in argument
-	 * @param {array} sample the elements to remove
-	 * @return {void}
-	 */
-	removeSample (sample) {
-		for (let i = 0; i &lt; sample.length; ++i) {
-			this.removePeer(sample[i].id, sample[i].age);
-		}
-	}
-
-	/**
-	 * Get the size of the partial view
-	 * @return {integer} the size of the partial view
-	 */
-	length () {
-		return this.array.arr.length;
-	}
-
-	/**
-	 * Check if the partial view contains the reference
-	 * @param {string} id the peer to check
-	 * @return {boolean} true if the peer is in the partial view, false otherwise
-	 */
-	contains (id) {
-		return this.getIndex(id) &gt;= 0;
-	}
-
-	/**
-	 * brief remove all elements from the partial view
-	 * @return {void}
-	 */
-	clear () {
-		this.array.arr.splice(0, this.array.arr.length);
-	}
-
-	/**
-	 * Get the array containing views
-	 * @return {array} Array with all views
-	 */
-	get () {
-		return this.array.arr;
-	}
-
-	/**
-	 * Remove the peer with the associated age from the partial view
-	 * @param {string} id the peer to remove
-	 * @param {integer} age the age of the peer to remove
-	 * @return {object} the removed entry if it exists, null otherwise
-	 */
-	removePeerAge (id, age) {
-		let found = false;
-		let i = 0;
-		let removedEntry = null;
-		while (!found &amp;&amp; i &lt; this.array.arr.length) {
-			if (id === this.array.arr[i].id &amp;&amp; age === this.array.arr[i].age) {
-				found = true;
-				removedEntry = this.array.arr[i];
-				this.array.arr.splice(i, 1);
-			}
-			++i;
-		}
-		return removedEntry;
-	}
+    /**
+     * Get the least frequent peer. If multiple peers have the same number of
+     * occurrences, it chooses one among them at random.
+     * @returns {string} The identifier of a least frequent peer.
+     */
+    get leastFrequent () {
+        let leastFrequent = [];
+        let frequency = Infinity;
+        this.forEach( (ages, peerId) =&gt; {
+            if (ages.length &lt; frequency){
+                leastFrequent = [];
+                frequency = ages.length;
+            };
+            (ages.length === frequency) &amp;&amp; leastFrequent.push(peerId);
+        });
+        return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
+    };    
 }
 
 

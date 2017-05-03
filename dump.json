@@ -2,99 +2,64 @@
   {
     "__docId__": 0,
     "kind": "file",
-    "name": "lib/extended-sorted-array.js",
-    "content": "'use strict';\n\nconst SortedArray = require('sorted-cmp-array');\n\nSortedArray.prototype.get = function (entry) {\n\tconst index = this.indexOf(entry);\n\treturn ((index >= 0)&&this.arr[index]) || null;\n};\n\n\nSortedArray.prototype.contains = function (entry) {\n\treturn (this.arr.includes(entry));\n};\n\nmodule.exports = SortedArray;\n",
+    "name": "lib/exceptions/exemptyview.js",
+    "content": "'use strict';\n\n/**\n * Exception that rises when the partial view is used as if there were neighbors\n * populating it, whereas there are none.\n */\nclass ExEmptyView {\n    /**\n     * @param {string} source The function that throws the exception.\n     */\n    constructor (source) {\n        this.source = source;\n        this.message = 'Partial view is used as it was not empty, yet it is.';\n    };\n};\n\nmodule.exports = ExEmptyView;\n\n",
     "static": true,
-    "longname": "lib/extended-sorted-array.js",
+    "longname": "lib/exceptions/exemptyview.js",
     "access": null,
     "description": null,
     "lineNumber": 1
   },
   {
     "__docId__": 1,
-    "kind": "function",
-    "name": "get",
-    "memberof": "lib/extended-sorted-array.js",
-    "generator": false,
-    "async": false,
+    "kind": "class",
+    "name": "ExEmptyView",
+    "memberof": "lib/exceptions/exemptyview.js",
     "static": true,
-    "longname": "lib/extended-sorted-array.js~get",
+    "longname": "lib/exceptions/exemptyview.js~ExEmptyView",
     "access": null,
-    "export": false,
-    "importPath": "spray-wrtc/lib/extended-sorted-array.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "params": [
-      {
-        "name": "entry",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "*"
-      ]
-    }
+    "export": true,
+    "importPath": "spray-wrtc/lib/exceptions/exemptyview.js",
+    "importStyle": "ExEmptyView",
+    "description": "Exception that rises when the partial view is used as if there were neighbors\npopulating it, whereas there are none.",
+    "lineNumber": 7,
+    "interface": false
   },
   {
     "__docId__": 2,
-    "kind": "function",
-    "name": "contains",
-    "memberof": "lib/extended-sorted-array.js",
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/exceptions/exemptyview.js~ExEmptyView",
     "generator": false,
     "async": false,
-    "static": true,
-    "longname": "lib/extended-sorted-array.js~contains",
+    "static": false,
+    "longname": "lib/exceptions/exemptyview.js~ExEmptyView#constructor",
     "access": null,
-    "export": false,
-    "importPath": "spray-wrtc/lib/extended-sorted-array.js",
-    "importStyle": null,
-    "description": null,
+    "description": "",
     "lineNumber": 11,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
     "params": [
       {
-        "name": "entry",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "source",
+        "description": "The function that throws the exception."
       }
-    ],
-    "return": {
-      "types": [
-        "*"
-      ]
-    }
+    ]
   },
   {
     "__docId__": 3,
-    "kind": "variable",
-    "name": "SortedArray",
-    "memberof": "lib/extended-sorted-array.js",
-    "static": true,
-    "longname": "lib/extended-sorted-array.js~SortedArray",
+    "kind": "member",
+    "name": "source",
+    "memberof": "lib/exceptions/exemptyview.js~ExEmptyView",
+    "static": false,
+    "longname": "lib/exceptions/exemptyview.js~ExEmptyView#source",
     "access": null,
-    "export": true,
-    "importPath": "spray-wrtc/lib/extended-sorted-array.js",
-    "importStyle": "SortedArray",
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 12,
     "undocument": true,
     "unknown": [
       {
@@ -110,29 +75,313 @@
   },
   {
     "__docId__": 4,
+    "kind": "member",
+    "name": "message",
+    "memberof": "lib/exceptions/exemptyview.js~ExEmptyView",
+    "static": false,
+    "longname": "lib/exceptions/exemptyview.js~ExEmptyView#message",
+    "access": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 5,
     "kind": "file",
-    "name": "lib/messages.js",
-    "content": "'use strict';\n/**\n * message requesting an exchange of neighborhood\n * @param {string} inview the identifier of the inview\n * @param {string} outview the identifier of the outview\n * @param {string} protocol the protocol that creates the message\n \n * @return {object} Return an object with all parameters and some other details\n */\nconst MExchange = (inview, outview, protocol) => {\n\treturn {\n\t\tprotocol: protocol || 'spray-wrtc',\n\t\ttype: 'MExchange',\n\t\tinview: inview,\n    outview: outview\n\t};\n };\n\nmodule.exports = MExchange;\n",
+    "name": "lib/exceptions/exmessage.js",
+    "content": "'use strict';\n\n/**\n * Spray encountered a problem with a message.\n */\nclass ExMessage {\n    /**\n     * @param {string} source The name of the function that threw.\n     * @param {object} message The incriminated message.\n     * @param {string} reason The reason of the throw.\n     */\n    constructor (source, message, reason){\n        this.source = source;\n        this.message = message;\n        this.reason = reason;\n    };\n};\n\n\nmodule.exports = ExMessage;\n",
     "static": true,
-    "longname": "lib/messages.js",
+    "longname": "lib/exceptions/exmessage.js",
     "access": null,
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 5,
-    "kind": "function",
-    "name": "MExchange",
-    "memberof": "lib/messages.js",
-    "generator": false,
-    "async": false,
+    "__docId__": 6,
+    "kind": "class",
+    "name": "ExMessage",
+    "memberof": "lib/exceptions/exmessage.js",
     "static": true,
-    "longname": "lib/messages.js~MExchange",
+    "longname": "lib/exceptions/exmessage.js~ExMessage",
     "access": null,
     "export": true,
-    "importPath": "spray-wrtc/lib/messages.js",
+    "importPath": "spray-wrtc/lib/exceptions/exmessage.js",
+    "importStyle": "ExMessage",
+    "description": "Spray encountered a problem with a message.",
+    "lineNumber": 6,
+    "interface": false
+  },
+  {
+    "__docId__": 7,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/exceptions/exmessage.js~ExMessage",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/exceptions/exmessage.js~ExMessage#constructor",
+    "access": null,
+    "description": "",
+    "lineNumber": 12,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "source",
+        "description": "The name of the function that threw."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The incriminated message."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "reason",
+        "description": "The reason of the throw."
+      }
+    ]
+  },
+  {
+    "__docId__": 8,
+    "kind": "member",
+    "name": "source",
+    "memberof": "lib/exceptions/exmessage.js~ExMessage",
+    "static": false,
+    "longname": "lib/exceptions/exmessage.js~ExMessage#source",
+    "access": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 9,
+    "kind": "member",
+    "name": "message",
+    "memberof": "lib/exceptions/exmessage.js~ExMessage",
+    "static": false,
+    "longname": "lib/exceptions/exmessage.js~ExMessage#message",
+    "access": null,
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 10,
+    "kind": "member",
+    "name": "reason",
+    "memberof": "lib/exceptions/exmessage.js~ExMessage",
+    "static": false,
+    "longname": "lib/exceptions/exmessage.js~ExMessage#reason",
+    "access": null,
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 11,
+    "kind": "file",
+    "name": "lib/exceptions/expeernotfound.js",
+    "content": "'use strict';\n\n/**\n * Exception that rises when the peer looked for does not exist in the partial\n * view.\n */\nclass ExPeerNotFound {\n    /**\n     * @param {string} source The function that throw the error.\n     * @param {string} [peerId = 'unknown'] The identifier of the peer if\n     * defined.\n     */\n    constructor (source, peerId = 'unknown') {\n        this.source = source;\n        this.peer = peerId;\n    };\n};\n\n\nmodule.exports = ExPeerNotFound;\n",
+    "static": true,
+    "longname": "lib/exceptions/expeernotfound.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 12,
+    "kind": "class",
+    "name": "ExPeerNotFound",
+    "memberof": "lib/exceptions/expeernotfound.js",
+    "static": true,
+    "longname": "lib/exceptions/expeernotfound.js~ExPeerNotFound",
+    "access": null,
+    "export": true,
+    "importPath": "spray-wrtc/lib/exceptions/expeernotfound.js",
+    "importStyle": "ExPeerNotFound",
+    "description": "Exception that rises when the peer looked for does not exist in the partial\nview.",
+    "lineNumber": 7,
+    "interface": false
+  },
+  {
+    "__docId__": 13,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/exceptions/expeernotfound.js~ExPeerNotFound",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/exceptions/expeernotfound.js~ExPeerNotFound#constructor",
+    "access": null,
+    "description": "",
+    "lineNumber": 13,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "source",
+        "description": "The function that throw the error."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": " 'unknown'",
+        "defaultRaw": " 'unknown'",
+        "name": "peerId",
+        "description": "The identifier of the peer if\ndefined."
+      }
+    ]
+  },
+  {
+    "__docId__": 14,
+    "kind": "member",
+    "name": "source",
+    "memberof": "lib/exceptions/expeernotfound.js~ExPeerNotFound",
+    "static": false,
+    "longname": "lib/exceptions/expeernotfound.js~ExPeerNotFound#source",
+    "access": null,
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 15,
+    "kind": "member",
+    "name": "peer",
+    "memberof": "lib/exceptions/expeernotfound.js~ExPeerNotFound",
+    "static": false,
+    "longname": "lib/exceptions/expeernotfound.js~ExPeerNotFound#peer",
+    "access": null,
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 16,
+    "kind": "file",
+    "name": "lib/messages/mexchange.js",
+    "content": "'use strict';\n\n/**\n * Message requesting an exchange of neighborhood.\n */\nclass MExchange {\n    /**\n     * @param {string} inview The identifier of the inview.\n     */\n    constructor (inview) {\n        this.inview = inview;\n        this.type = 'MExchange';\n    };\n };\n\nmodule.exports = MExchange;\n",
+    "static": true,
+    "longname": "lib/messages/mexchange.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 17,
+    "kind": "class",
+    "name": "MExchange",
+    "memberof": "lib/messages/mexchange.js",
+    "static": true,
+    "longname": "lib/messages/mexchange.js~MExchange",
+    "access": null,
+    "export": true,
+    "importPath": "spray-wrtc/lib/messages/mexchange.js",
     "importStyle": "MExchange",
-    "description": "message requesting an exchange of neighborhood",
+    "description": "Message requesting an exchange of neighborhood.",
+    "lineNumber": 6,
+    "interface": false
+  },
+  {
+    "__docId__": 18,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/messages/mexchange.js~MExchange",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/messages/mexchange.js~MExchange#constructor",
+    "access": null,
+    "description": "",
     "lineNumber": 10,
     "params": [
       {
@@ -143,43 +392,131 @@
         "spread": false,
         "optional": false,
         "name": "inview",
-        "description": "the identifier of the inview"
-      },
+        "description": "The identifier of the inview."
+      }
+    ]
+  },
+  {
+    "__docId__": 19,
+    "kind": "member",
+    "name": "inview",
+    "memberof": "lib/messages/mexchange.js~MExchange",
+    "static": false,
+    "longname": "lib/messages/mexchange.js~MExchange#inview",
+    "access": null,
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "unknown": [
       {
-        "nullable": null,
-        "types": [
-          "string"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "outview",
-        "description": "the identifier of the outview"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "string"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "protocol",
-        "description": "the protocol that creates the message"
+        "tagName": "@_undocument",
+        "tagValue": ""
       }
     ],
-    "return": {
-      "nullable": null,
+    "type": {
       "types": [
-        "object"
-      ],
-      "spread": false,
-      "description": "Return an object with all parameters and some other details"
+        "*"
+      ]
     }
   },
   {
-    "__docId__": 6,
+    "__docId__": 20,
+    "kind": "member",
+    "name": "type",
+    "memberof": "lib/messages/mexchange.js~MExchange",
+    "static": false,
+    "longname": "lib/messages/mexchange.js~MExchange#type",
+    "access": null,
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 21,
+    "kind": "file",
+    "name": "lib/messages/mjoin.js",
+    "content": "'use strict';\n\n/**\n * Message sent by a newcommer to its contact when it joins the network.\n */\nclass MJoin {\n    constructor () {\n        this.type = 'MJoin';\n    };\n};\n\nmodule.exports = MJoin;\n",
+    "static": true,
+    "longname": "lib/messages/mjoin.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 22,
+    "kind": "class",
+    "name": "MJoin",
+    "memberof": "lib/messages/mjoin.js",
+    "static": true,
+    "longname": "lib/messages/mjoin.js~MJoin",
+    "access": null,
+    "export": true,
+    "importPath": "spray-wrtc/lib/messages/mjoin.js",
+    "importStyle": "MJoin",
+    "description": "Message sent by a newcommer to its contact when it joins the network.",
+    "lineNumber": 6,
+    "interface": false
+  },
+  {
+    "__docId__": 23,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/messages/mjoin.js~MJoin",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/messages/mjoin.js~MJoin#constructor",
+    "access": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "params": []
+  },
+  {
+    "__docId__": 24,
+    "kind": "member",
+    "name": "type",
+    "memberof": "lib/messages/mjoin.js~MJoin",
+    "static": false,
+    "longname": "lib/messages/mjoin.js~MJoin#type",
+    "access": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 25,
     "kind": "file",
     "name": "lib/partialview.js",
-    "content": "'use strict';\n\nconst SortedArray = require('./extended-sorted-array.js');\n\n/**\n * Structure containing the neighborhood of a peer.\n * @class PartialView\n */\nclass PartialView {\n\t/**\n\t * Constructor of PartialView\n\t * @constructor\n\t * @param {object} options Object containing all options\n\t * @param {double} options.usedCoef Represents the amount of clients shuffled between [0;1]\n\t */\n\tconstructor (options) {\n\t\t// #1 initialize the partial view as an array sorted by age\n\t\t// entries are {age, id, socketId}\n\n\t\t// Coef : [0;1]\n\t\tthis.usedCoef = options.usedCoef;\n\n\t\tthis.comparator = (a, b) => {\n\t\t\tconst first = a.age || a;\n\t\t\tconst second = b.age || b;\n\t\t\tif (first < second) {\n\t\t\t\treturn -1;\n\t\t\t}\n\t\t\tif (first > second) {\n\t\t\t\treturn 1;\n\t\t\t}\n\t\t\treturn 0;\n\t\t};\n\n\t\tthis.array = new SortedArray(this.comparator);\n\t}\n\n\t/**\n\t * Get the oldest peer in the partialView\n\t * @return {object} the oldest peer in the array\n\t */\n\tgetOldest () {\n\t\treturn this.array.arr[0];\n\t}\n\n\n\t/**\n\t * Increment the age of the whole partial view\n\t * @return {void}\n\t */\n\tincrement () {\n\t\tfor (let i = 0; i < this.array.arr.length; ++i) {\n\t\t\tthis.array.arr[i].age += 1;\n\t\t}\n\t}\n\n\t/**\n\t * Get a sample of the partial view\n\t * @param {string} neighbor the neighbor which performs the exchange with us\n\t * @param {boolean} isInitiator whether or not the caller is the initiator of the\n\t * exchange\n\t * @return {array} an array containing neighbors from this partial view\n\t */\n\tgetSample (neighbor, isInitiator) {\n\t\tlet sample = [];\n\t\t// #1 copy the partial view\n\t\tlet clone = new SortedArray(this.comparator);\n\t\tfor (let i = 0; i < this.array.arr.length; ++i) {\n\t\t\tclone.arr.push(this.array.arr[i]);\n\t\t}\n\t\t// #2 process the size of the sample\n\t\tconst sampleSize = Math.ceil(this.array.arr.length * this.usedCoef);\n    if (isInitiator) {\n//        console.log('neighbor ', neighbor);\n        var found = false;\n        var i = 0;\n        while(!found && i<clone.arr.length){\n            if (clone.arr[i].id===neighbor.id){\n                found = true;\n            } else {\n                ++i;\n            };\n        };\n\t\t\t// #A remove an occurrence of the chosen neighbor\n\t    clone.arr.splice(i,1);\n\t\t\tsample.push(neighbor);\n\t\t}\n\n\t\t// #3 randomly add neighbors to the sample\n\t\twhile (sample.length < sampleSize) {\n\t\t\tconst rn = Math.floor(Math.random() * clone.arr.length);\n\t\t\tsample.push(clone.arr[rn]);\n\t\t\tclone.arr.splice(rn, 1);\n\t\t}\n\n\t\treturn sample;\n\t}\n\n\t/**\n\t * Replace the occurrences of the old peer by the fresh one\n\t * @param {array} sample the sample to modify\n\t * @param {object} old the old reference to replace\n\t * @param {object} fresh the new reference to insert\n\t * @return {array} an array with the replaced occurences\n\t */\n\treplace (sample, old, fresh) {\n\t\tconst result = [];\n\t\tfor (let i = 0; i < sample.length; ++i) {\n\t\t\tif (sample[i].id === old.id) {\n\t\t\t\tresult.push(fresh);\n\t\t\t} else {\n\t\t\t\tresult.push(sample[i]);\n\t\t\t}\n\t\t}\n\t\treturn result;\n\t}\n\n\t/**\n\t * Add the neigbhor to the partial view with an age of 0\n\t * @param {object} config the peer to add to the partial view\n\t * @return {void}\n\t */\n\taddNeighbor (config) {\n\t\tthis.array.insert(config);\n\t}\n\n\t/**\n\t * Get the index of the peer in the partialview\n\t * @param {string} id The id of the peer inside the partialView.\n\t * @return {integer} the index of the peer in the array, -1 if not found\n\t */\n\tgetIndex (id) {\n\t\tlet i = this.array.arr.length - 1;\n\t\tlet index = -1;\n\t\tlet found = false;\n\t\twhile (!found && i >= 0) {\n\t\t\tif (id === this.array.arr[i].id) {\n\t\t\t\tfound = true;\n\t\t\t\tindex = i;\n\t\t\t}\n\t\t\t--i;\n\t\t}\n\t\treturn index;\n\t}\n\n\t/**\n\t * Remove the peer from the partial view\n\t * @param {string} id the peer to remove\n\t * @param {integer} age The age of the peer\n\t * @return {object} the removed entry if it exists, null otherwise\n\t */\n\tremovePeer (id, age) {\n\t\tif (!age) {\n\t\t\tconst index = this.getIndex(id);\n\t\t\tlet removedEntry = null;\n\t\t\tif (index > -1) {\n\t\t\t\tremovedEntry = this.array.arr[index];\n\t\t\t\tthis.array.arr.splice(index, 1);\n\t\t\t}\n\t\t\treturn removedEntry;\n\t\t} else {\n\t\t\treturn this.removePeerAge(id, age);\n\t\t}\n\t}\n\n\t/**\n\t * Remove all occurrences of the peer and return the number of removals\n\t * @param {string} id the peer to remove\n\t * @return {integer} the number of occurrences of the removed peer\n\t */\n\tremoveAll (id) {\n\t\tlet occ = 0;\n\t\tlet i = 0;\n\t\twhile (i < this.array.arr.length) {\n\t\t\tif (this.array.arr[i].id === id) {\n\t\t\t\tthis.array.arr.splice(i, 1);\n\t\t\t\tocc += 1;\n\t\t\t} else {\n\t\t\t\t++i;\n\t\t\t}\n\t\t}\n\t\treturn occ;\n\t}\n\n\t/**\n\t * Remove all the elements contained in the sample in argument\n\t * @param {array} sample the elements to remove\n\t * @return {void}\n\t */\n\tremoveSample (sample) {\n\t\tfor (let i = 0; i < sample.length; ++i) {\n\t\t\tthis.removePeer(sample[i].id, sample[i].age);\n\t\t}\n\t}\n\n\t/**\n\t * Get the size of the partial view\n\t * @return {integer} the size of the partial view\n\t */\n\tlength () {\n\t\treturn this.array.arr.length;\n\t}\n\n\t/**\n\t * Check if the partial view contains the reference\n\t * @param {string} id the peer to check\n\t * @return {boolean} true if the peer is in the partial view, false otherwise\n\t */\n\tcontains (id) {\n\t\treturn this.getIndex(id) >= 0;\n\t}\n\n\t/**\n\t * brief remove all elements from the partial view\n\t * @return {void}\n\t */\n\tclear () {\n\t\tthis.array.arr.splice(0, this.array.arr.length);\n\t}\n\n\t/**\n\t * Get the array containing views\n\t * @return {array} Array with all views\n\t */\n\tget () {\n\t\treturn this.array.arr;\n\t}\n\n\t/**\n\t * Remove the peer with the associated age from the partial view\n\t * @param {string} id the peer to remove\n\t * @param {integer} age the age of the peer to remove\n\t * @return {object} the removed entry if it exists, null otherwise\n\t */\n\tremovePeerAge (id, age) {\n\t\tlet found = false;\n\t\tlet i = 0;\n\t\tlet removedEntry = null;\n\t\twhile (!found && i < this.array.arr.length) {\n\t\t\tif (id === this.array.arr[i].id && age === this.array.arr[i].age) {\n\t\t\t\tfound = true;\n\t\t\t\tremovedEntry = this.array.arr[i];\n\t\t\t\tthis.array.arr.splice(i, 1);\n\t\t\t}\n\t\t\t++i;\n\t\t}\n\t\treturn removedEntry;\n\t}\n}\n\n\nmodule.exports = PartialView;\n",
+    "content": "'use strict';\n\nconst ExPeerNotFound = require('./exceptions/expeernotfound.js');\n\n/**\n * Structure containing the neighborhood of a peer.\n * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k\n */\nclass PartialView extends Map {\n    constructor () {\n        super();\n    };\n    \n    /**\n     * Get the oldest peer in the partial view.\n     * @returns {string} The oldest peer in the array.\n     */\n    get oldest () {\n        if (this.size <= 0) { throw new ExPeerNotFound('oldest'); };\n        let oldestPeer = null;\n        let oldestAge = 0;\n        this.forEach( (ages, peerId) => {\n            if (oldestAge <= ages[ages.length - 1]) {\n                oldestPeer = peerId;\n                oldestAge = ages[ages.length - 1];\n            };\n        });\n        return oldestPeer;\n    };\n\n\n    /**\n     * Increment the age of the whole partial view\n     */\n    increment () {\n        this.forEach( (ages, peerId) => {\n            this.set(peerId, ages.map( (age) => {return age+1;} ));\n        });\n    };\n\n    /**\n     * Add the peer to the partial view with an age of 0.\n     * @param {string} peerId The identifier of the peer added to the partial\n     * view.\n     */\n    add (peerId) {\n        (!this.has(peerId)) && this.set(peerId, new Array());        \n        this.get(peerId).unshift(0); // add 0 in front of the array\n    };\n\n    /**\n     * Remove the newest entry of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the \n     * partial view. \n     */\n    removeYoungest (peerId) {\n        if (!this.has(peerId)) {\n            throw new ExPeerNotFound('removeYoungest', peerId);\n        };\n        this.get(peerId).shift();\n        (this.get(peerId).length === 0) && this.delete(peerId);\n    };\n\n    /**\n     * Remove the oldest entry of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the \n     * partial view. \n     */\n    removeOldest (peerId) {\n        if (!this.has(peerId)) {\n            throw new ExPeerNotFound('removeOldest', peerId);\n        };\n        this.get(peerId).pop();\n        (this.get(peerId).length === 0) && this.delete(peerId);\n    };\n\n    \n    /**\n     * Remove all entries of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the \n     * partial view.\n     * @returns {number} The number of occurrences of peerId removed.\n     */\n    removeAll (peerId) {\n        if (!this.has(peerId)) {\n            throw new ExPeerNotFound('removeAll', peerId);\n        };\n        const occ = this.get(peerId).length;\n        this.delete(peerId);\n        return occ;\n    };\n       \n\n    /**\n     * Get the least frequent peer. If multiple peers have the same number of\n     * occurrences, it chooses one among them at random.\n     * @returns {string} The identifier of a least frequent peer.\n     */\n    get leastFrequent () {\n        let leastFrequent = [];\n        let frequency = Infinity;\n        this.forEach( (ages, peerId) => {\n            if (ages.length < frequency){\n                leastFrequent = [];\n                frequency = ages.length;\n            };\n            (ages.length === frequency) && leastFrequent.push(peerId);\n        });\n        return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];\n    };    \n}\n\n\nmodule.exports = PartialView;\n",
     "static": true,
     "longname": "lib/partialview.js",
     "access": null,
@@ -187,12 +524,12 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 7,
+    "__docId__": 26,
     "kind": "variable",
-    "name": "SortedArray",
+    "name": "ExPeerNotFound",
     "memberof": "lib/partialview.js",
     "static": true,
-    "longname": "lib/partialview.js~SortedArray",
+    "longname": "lib/partialview.js~ExPeerNotFound",
     "access": null,
     "export": false,
     "importPath": "spray-wrtc/lib/partialview.js",
@@ -213,7 +550,7 @@
     }
   },
   {
-    "__docId__": 8,
+    "__docId__": 27,
     "kind": "class",
     "name": "PartialView",
     "memberof": "lib/partialview.js",
@@ -223,18 +560,15 @@
     "export": true,
     "importPath": "spray-wrtc/lib/partialview.js",
     "importStyle": "PartialView",
-    "description": "Structure containing the neighborhood of a peer.",
+    "description": "Structure containing the neighborhood of a peer.\nMap of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k",
     "lineNumber": 9,
-    "unknown": [
-      {
-        "tagName": "@class",
-        "tagValue": "PartialView"
-      }
-    ],
-    "interface": false
+    "interface": false,
+    "extends": [
+      "Map"
+    ]
   },
   {
-    "__docId__": 9,
+    "__docId__": 28,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/partialview.js~PartialView",
@@ -243,47 +577,8 @@
     "static": false,
     "longname": "lib/partialview.js~PartialView#constructor",
     "access": null,
-    "description": "Constructor of PartialView",
-    "lineNumber": 16,
-    "unknown": [
-      {
-        "tagName": "@constructor",
-        "tagValue": ""
-      }
-    ],
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options",
-        "description": "Object containing all options"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "double"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options.usedCoef",
-        "description": "Represents the amount of clients shuffled between [0;1]"
-      }
-    ]
-  },
-  {
-    "__docId__": 10,
-    "kind": "member",
-    "name": "usedCoef",
-    "memberof": "lib/partialview.js~PartialView",
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#usedCoef",
-    "access": null,
     "description": null,
-    "lineNumber": 21,
+    "lineNumber": 10,
     "undocument": true,
     "unknown": [
       {
@@ -291,82 +586,42 @@
         "tagValue": ""
       }
     ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
+    "params": []
   },
   {
-    "__docId__": 11,
-    "kind": "member",
-    "name": "comparator",
-    "memberof": "lib/partialview.js~PartialView",
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#comparator",
-    "access": null,
-    "description": null,
-    "lineNumber": 23,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 12,
-    "kind": "member",
-    "name": "array",
-    "memberof": "lib/partialview.js~PartialView",
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#array",
-    "access": null,
-    "description": null,
-    "lineNumber": 35,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 13,
-    "kind": "method",
-    "name": "getOldest",
+    "__docId__": 29,
+    "kind": "get",
+    "name": "oldest",
     "memberof": "lib/partialview.js~PartialView",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/partialview.js~PartialView#getOldest",
+    "longname": "lib/partialview.js~PartialView#oldest",
     "access": null,
-    "description": "Get the oldest peer in the partialView",
-    "lineNumber": 42,
-    "params": [],
+    "description": "Get the oldest peer in the partial view.",
+    "lineNumber": 18,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{string} The oldest peer in the array."
+      }
+    ],
     "return": {
       "nullable": null,
       "types": [
-        "object"
+        "string"
       ],
       "spread": false,
-      "description": "the oldest peer in the array"
+      "description": "The oldest peer in the array."
+    },
+    "type": {
+      "types": [
+        "*"
+      ]
     }
   },
   {
-    "__docId__": 14,
+    "__docId__": 30,
     "kind": "method",
     "name": "increment",
     "memberof": "lib/partialview.js~PartialView",
@@ -376,29 +631,21 @@
     "longname": "lib/partialview.js~PartialView#increment",
     "access": null,
     "description": "Increment the age of the whole partial view",
-    "lineNumber": 51,
-    "params": [],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
+    "lineNumber": 35,
+    "params": []
   },
   {
-    "__docId__": 15,
+    "__docId__": 31,
     "kind": "method",
-    "name": "getSample",
+    "name": "add",
     "memberof": "lib/partialview.js~PartialView",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/partialview.js~PartialView#getSample",
+    "longname": "lib/partialview.js~PartialView#add",
     "access": null,
-    "description": "Get a sample of the partial view",
-    "lineNumber": 64,
+    "description": "Add the peer to the partial view with an age of 0.",
+    "lineNumber": 46,
     "params": [
       {
         "nullable": null,
@@ -407,127 +654,23 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "neighbor",
-        "description": "the neighbor which performs the exchange with us"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "boolean"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "isInitiator",
-        "description": "whether or not the caller is the initiator of the\nexchange"
+        "name": "peerId",
+        "description": "The identifier of the peer added to the partial\nview."
       }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "array"
-      ],
-      "spread": false,
-      "description": "an array containing neighbors from this partial view"
-    }
+    ]
   },
   {
-    "__docId__": 16,
+    "__docId__": 32,
     "kind": "method",
-    "name": "replace",
+    "name": "removeYoungest",
     "memberof": "lib/partialview.js~PartialView",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/partialview.js~PartialView#replace",
+    "longname": "lib/partialview.js~PartialView#removeYoungest",
     "access": null,
-    "description": "Replace the occurrences of the old peer by the fresh one",
-    "lineNumber": 106,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "array"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "sample",
-        "description": "the sample to modify"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "old",
-        "description": "the old reference to replace"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "fresh",
-        "description": "the new reference to insert"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "array"
-      ],
-      "spread": false,
-      "description": "an array with the replaced occurences"
-    }
-  },
-  {
-    "__docId__": 17,
-    "kind": "method",
-    "name": "addNeighbor",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#addNeighbor",
-    "access": null,
-    "description": "Add the neigbhor to the partial view with an age of 0",
-    "lineNumber": 123,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "config",
-        "description": "the peer to add to the partial view"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
-  },
-  {
-    "__docId__": 18,
-    "kind": "method",
-    "name": "getIndex",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#getIndex",
-    "access": null,
-    "description": "Get the index of the peer in the partialview",
-    "lineNumber": 132,
+    "description": "Remove the newest entry of the peer from the partial view.",
+    "lineNumber": 56,
     "params": [
       {
         "nullable": null,
@@ -536,31 +679,23 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "id",
-        "description": "The id of the peer inside the partialView."
+        "name": "peerId",
+        "description": "The identifier of the peer to remove from the \npartial view."
       }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "integer"
-      ],
-      "spread": false,
-      "description": "the index of the peer in the array, -1 if not found"
-    }
+    ]
   },
   {
-    "__docId__": 19,
+    "__docId__": 33,
     "kind": "method",
-    "name": "removePeer",
+    "name": "removeOldest",
     "memberof": "lib/partialview.js~PartialView",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/partialview.js~PartialView#removePeer",
+    "longname": "lib/partialview.js~PartialView#removeOldest",
     "access": null,
-    "description": "Remove the peer from the partial view",
-    "lineNumber": 152,
+    "description": "Remove the oldest entry of the peer from the partial view.",
+    "lineNumber": 69,
     "params": [
       {
         "nullable": null,
@@ -569,31 +704,13 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "id",
-        "description": "the peer to remove"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "age",
-        "description": "The age of the peer"
+        "name": "peerId",
+        "description": "The identifier of the peer to remove from the \npartial view."
       }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "object"
-      ],
-      "spread": false,
-      "description": "the removed entry if it exists, null otherwise"
-    }
+    ]
   },
   {
-    "__docId__": 20,
+    "__docId__": 34,
     "kind": "method",
     "name": "removeAll",
     "memberof": "lib/partialview.js~PartialView",
@@ -602,8 +719,14 @@
     "static": false,
     "longname": "lib/partialview.js~PartialView#removeAll",
     "access": null,
-    "description": "Remove all occurrences of the peer and return the number of removals",
-    "lineNumber": 171,
+    "description": "Remove all entries of the peer from the partial view.",
+    "lineNumber": 84,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{number} The number of occurrences of peerId removed."
+      }
+    ],
     "params": [
       {
         "nullable": null,
@@ -612,199 +735,56 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "id",
-        "description": "the peer to remove"
+        "name": "peerId",
+        "description": "The identifier of the peer to remove from the \npartial view."
       }
     ],
     "return": {
       "nullable": null,
       "types": [
-        "integer"
+        "number"
       ],
       "spread": false,
-      "description": "the number of occurrences of the removed peer"
+      "description": "The number of occurrences of peerId removed."
     }
   },
   {
-    "__docId__": 21,
-    "kind": "method",
-    "name": "removeSample",
+    "__docId__": 35,
+    "kind": "get",
+    "name": "leastFrequent",
     "memberof": "lib/partialview.js~PartialView",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/partialview.js~PartialView#removeSample",
+    "longname": "lib/partialview.js~PartialView#leastFrequent",
     "access": null,
-    "description": "Remove all the elements contained in the sample in argument",
-    "lineNumber": 190,
-    "params": [
+    "description": "Get the least frequent peer. If multiple peers have the same number of\noccurrences, it chooses one among them at random.",
+    "lineNumber": 99,
+    "unknown": [
       {
-        "nullable": null,
-        "types": [
-          "array"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "sample",
-        "description": "the elements to remove"
+        "tagName": "@returns",
+        "tagValue": "{string} The identifier of a least frequent peer."
       }
     ],
     "return": {
       "nullable": null,
       "types": [
-        "void"
+        "string"
       ],
       "spread": false,
-      "description": ""
-    }
-  },
-  {
-    "__docId__": 22,
-    "kind": "method",
-    "name": "length",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#length",
-    "access": null,
-    "description": "Get the size of the partial view",
-    "lineNumber": 200,
-    "params": [],
-    "return": {
-      "nullable": null,
+      "description": "The identifier of a least frequent peer."
+    },
+    "type": {
       "types": [
-        "integer"
-      ],
-      "spread": false,
-      "description": "the size of the partial view"
+        "*"
+      ]
     }
   },
   {
-    "__docId__": 23,
-    "kind": "method",
-    "name": "contains",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#contains",
-    "access": null,
-    "description": "Check if the partial view contains the reference",
-    "lineNumber": 209,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "string"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "id",
-        "description": "the peer to check"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "boolean"
-      ],
-      "spread": false,
-      "description": "true if the peer is in the partial view, false otherwise"
-    }
-  },
-  {
-    "__docId__": 24,
-    "kind": "method",
-    "name": "clear",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#clear",
-    "access": null,
-    "description": "brief remove all elements from the partial view",
-    "lineNumber": 217,
-    "params": [],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
-  },
-  {
-    "__docId__": 25,
-    "kind": "method",
-    "name": "get",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#get",
-    "access": null,
-    "description": "Get the array containing views",
-    "lineNumber": 225,
-    "params": [],
-    "return": {
-      "nullable": null,
-      "types": [
-        "array"
-      ],
-      "spread": false,
-      "description": "Array with all views"
-    }
-  },
-  {
-    "__docId__": 26,
-    "kind": "method",
-    "name": "removePeerAge",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#removePeerAge",
-    "access": null,
-    "description": "Remove the peer with the associated age from the partial view",
-    "lineNumber": 235,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "string"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "id",
-        "description": "the peer to remove"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "age",
-        "description": "the age of the peer to remove"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "object"
-      ],
-      "spread": false,
-      "description": "the removed entry if it exists, null otherwise"
-    }
-  },
-  {
-    "__docId__": 27,
+    "__docId__": 36,
     "kind": "file",
     "name": "lib/spray.js",
-    "content": "'use strict';\n\nconst  EventEmitter = require('events');\nconst  NO = require('n2n-overlay-wrtc');\nconst  PartialView = require('./partialview.js');\nconst  MExchange = require('./messages.js');\nconst  _ = require('lodash');\n\n/**\n * Implementation of the random peer sampling Spray\n */\nclass Spray extends EventEmitter {\n\t/**\n\t * You can pass other parameters such as webrtc options\n\t * @param {object} options Object with all options\n\t * @param {string} options.protocol The protocol of the network\n\t * @param {integer} options.deltatime Each deltatime, we shuffle !\n\t * @param {integer} options.retry Number of retry when we send a message\n\t * @param {integer} options.usedCoef Amount of clients shuffled between 0 and 1 (ie, [0;1])\n\t * @param {integer} options.profile your profile\n\t * @param {integer} options.k k profile saved\n\t */\n\tconstructor (options = {}) {\n\t\tsuper();\n\n\t\t// merge of options with default options\n\t\tthis.opts = _.merge({\n\t\t\tprotocol: 'spray-wrtc',\n\t\t\tencoding: (message) => {\n\t\t\t\treturn JSON.stringify(message);\n\t\t\t\t// return new Buffer('message');\n\t\t\t},\n\t\t\tdecoding: (message) => {\n\t\t\t\treturn JSON.parse(message);\n\t\t\t},\n\t\t\tdeltatime: 1000 * 60 * 2,\n\t\t\tretry: 10,\n\t\t\tprofile: {},\n\t\t\tusedCoef: 0.5,\n\t\t\tverbose: false\n\t\t}, options);\n\n\t\tthis.verbose = this.opts.verbose;\n\t\t// #A constants\n\t\tthis.protocol = this.opts.protocol;\n\t\tthis.DELTATIME = this.opts.deltatime; // 2min\n\t\tthis.RETRY = this.opts.retry; // retry 10x to send messages\n\n\t\t// #B protocol variables\n\t\tthis.partialView = new PartialView( {\n\t\t\tusedCoef: this.opts.usedCoef\n\t\t});\n\n\t\tthis.neighborhoods = new NO(this.opts);\n\n\t\t// update the profile with some identifiers\n\t\t// at each suffling the profile is sent to all neighbours\n\t\tthis.profile = this.opts.profile;\n\t\tthis.profile.inviewId = this.neighborhoods.i.ID;\n\t\tthis.profile.outviewId = this.neighborhoods.o.ID;\n\n\n\t\tthis.state = 'disconnect'; // (TODO) update state\n\n\t\t// #C periodic shuffling\n\t\tconst self = this;\n\t\tsetInterval(() => {\n\t\t\tif(self.partialView.length() > 0) {\n\t\t\t\tself.exchange();\n\t\t\t}\n\t\t}, this.DELTATIME);\n\n\t\t// #D receive event\n\t\tfunction receive (id, message) {\n\t\t\t// #0 must contain a message and a protocol, otherwise forward\n\t\t\tif (message && message.type === 'MExchange' && message.protocol !== self.protocol) {\n\n\t\t\t\tif(!message.view) {\n\t\t\t\t\tself.onExchange(message);\n\t\t\t\t} else {\n\t\t\t\t\t// this.log(message.view.outviewId, message.view);\n\t\t\t\t\tself.views.set(message.view.outviewId, message.view);\n\t\t\t\t}\n\n\t\t\t} else if (!message || message.protocol !== self.protocol) {\n\t\t\t\tif (message && message.protocol) {\n\t\t\t\t\tself.emit(`${message.protocol}-receive`, id, message);\n\t\t\t\t} else {\n\t\t\t\t\tself.emit('receive', id, message);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tthis.neighborhoods.on('receive', receive);\n\t\tthis.neighborhoods.on('ready', (id, view) => {\n\t\t\tconst config = {\n\t\t\t\tage: 0,\n\t\t\t\tid\n\t\t\t};\n\t\t\t(view === 'outview') && self.partialView.addNeighbor(config);\n\t\t\tself.updateState();\n\t\t});\n\n\t\tthis.neighborhoods.on('failed', (id, view, reason) => {\n\t\t\tthis.log('Spray:on:Failed:', id, view, reason);\n\t\t\t(view === 'outview') && self.onArcDown();\n\t\t});\n\n\t\tthis.neighborhoods.on('disconnect', () => {\n\t\t\tself.updateState();\n\t\t});\n\n\t}\n\n\tlog (...args) {\n\t\tif(this.verbose) {\n\t\t\tconsole.log('[SPRAY-WRTC]', args);\n\t\t}\n\t}\n\n\t/**\n\t * Joining as; or contacted by an outsider\n\t * @param {callback} callbacks the callbacks function, see module 'n2n-overlay-wrtc'.\n\t * @param {object} message ...\n\t * @return {void}\n\t */\n\tconnection (callbacks, message) {\n\t\tconst self = this;\n\t\tconst onReadyFunction = callbacks && callbacks.onReady;\n\t\t// #1 if this peer is the contact, overload the onready function\n\t\t// with the spray joining mechanism that will inject log(x) arcs in\n\t\t// the network\n\t\tif (message) {\n\t\t\tcallbacks.onReady = id => {\n\t\t\t\tif (self.partialView.length() > 0) {\n\t\t\t\t\t// #A signal the arrival of a new peer to its outview\n\t\t\t\t\tself.partialView.get().forEach(n => {\n\n\t\t\t\t\t\tif(n.id !== id) {\n\t\t\t\t\t\t\tself.neighborhoods.connect(n, id);\n\t\t\t\t\t\t}else {\n\t\t\t\t\t\t\tthis.log('n:', n, '| id:', id);\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t} else {\n\t\t\t\t\t// #B adds it to its own outview (for only 2-peers network)\n\t\t\t\t\tself.neighborhoods.connect(null, id);\n\t\t\t\t}\n\t\t\t\t// #C callback the original onReady function\n\t\t\t\tonReadyFunction && onReadyFunction(id);\n\t\t\t};\n\t\t} else {\n\t\t\tcallbacks.onReady = id => {\n\t\t\t\tonReadyFunction && onReadyFunction(id);\n\t\t\t\t// #D emit a join event\n\t\t\t\tself.emit('join', id);\n\t\t\t};\n\t\t}\n\t\t// #2 start establishing the first connection\n\t\tthis.neighborhoods.connection(callbacks, message);\n\t}\n\n\t/**\n\t * Leave the network\n\t * @param {integer} timer the timeout before really shutting down. The time can\n\t * be spent on healing the network before departure. (In milliseconds)\n\t * @return {void}\n\t */\n\tleave (timer) {\n\t\tsetTimeout(function () {\n\t\t\tthis.partialView.clear();\n\t\t\tthis.neighborhoods.disconnect();\n\t\t}, timer);\n\t}\n\n\n\t/**\n\t * Get a set of neighbors from both inview and outview. It is worth\n\t * noting that each peer controls its outview, but not its inview. Thus, the\n\t * outview may be less versatile.\n\t * @param {integer} k the number of neighbors requested, if k is not defined, it returns\n\t * every known identifiers.\n\t * @return {object} { i:[id1,id2...idk], o:[id1,id2...idk] }\n\t */\n\tgetPeers (k) {\n\t\tlet result = {\n\t\t\ti: [],\n\t\t\to: []\n\t\t};\n\t\t// #A copy the identifiers of the inview\n\t\tconst inview = this.neighborhoods.get('inview');\n\t\tfor (let i = 0; i < inview.length; ++i) {\n\t\t\tresult.i.push(inview[i].id);\n\t\t}\n\t\t// #B remove entries if there are too many\n\t\twhile (k && (result.i.length > k) && (result.i.length > 0)) {\n\t\t\tconst rn = Math.floor(Math.random() * result.i.length);\n\t\t\tresult.i.splice(rn, 1);\n\t\t}\n\t\t// #C copy the identifiers of the outview\n\t\tconst outview = this.neighborhoods.get('outview');\n\t\tfor (let i = 0; i < outview.length; ++i) {\n\t\t\tresult.o.push(outview[i].id);\n\t\t}\n\t\t// #D remove entries if there are too many\n\t\twhile (k && (result.o.length > k) && (result.o.length > 0)) {\n\t\t\tconst rn = Math.floor(Math.random() * result.o.length);\n\t\t\tresult.o.splice(rn, 1);\n\t\t}\n\t\treturn result;\n\t}\n\n\t/**\n\t * Send a message using the id of the arc used to communicate\n\t * @param {string} id the identifier of the communication channel\n\t * @param {object} message the message to send\n\t * @param {integer} retry the number of times the protocol tries to send the message each seconds\n\t * @return {boolean} true if the message has been sent at first try, false otherwise\n\t */\n\tsend (id, message, retry) {\n\t\tconst r = retry || this.RETRY;\n\t\tconst result = this.neighborhoods.send(id, message);\n\t\tconst self = this;\n\t\tif (!result && r === 0) {\n\t\t\t// #1 if it fails to send the message, the peer is considered down\n\t\t\tself.onPeerDown(id);\n\t\t} else if (!result && r > 0) {\n\t\t\t// #2 give it another try\n\t\t\tsetTimeout(() => {\n\t\t\t\tself.send(id, message, r - 1);\n\t\t\t}, 1000);\n\t\t}\n\t\treturn result;\n\t}\n\n\t/**\n\t * Get the string representation of the partial view of spray\n\t * @return {string} String representation of the partialView\n\t */\n\ttoString () {\n\t\tlet result = `@${this.neighborhoods.inview.ID};${this.neighborhoods.outview.ID}   [ `;\n\t\tconst pv = this.partialView.get();\n\t\tfor (let i = 0; i < pv.length; ++i) {\n\t\t\tresult += `(${pv[i].age} ${pv[i].id}) `;\n\t\t}\n\t\tresult += ']';\n\t\treturn result;\n\t}\n\n\n\t// ====================================\n\t//        PRIVATE functions         //\n\t// ====================================\n\n\t/**\n\t * Update the local connection state of the peer and emit an event\n\t * if the state is different than at the previous call of this function.\n\t * The emitted event is 'statechange' with the\n\t * arguments 'connect' | 'partial' | 'disconnect'\n\t * @return {void}\n\t */\n\tupdateState () {\n\t\t// (TODO) handle it without reaching the neighbor-wrtc module...\n\t\tif (this.neighborhoods.o.living.ms.arr.length > 0 &&\n\t\t\tthis.neighborhoods.i.living.ms.arr.length > 0 &&\n\t\t\tthis.state !== 'connect') {\n\t\t\t// #1 connected means (1+ inview, 1+ outview)\n\t\t\tthis.state = 'connect';\n\t\t\tthis.emit('statechange', 'connect');\n\t\t} else if (\n\t\t\t(this.neighborhoods.o.living.ms.arr.length === 0 &&\n\t\t\t\tthis.neighborhoods.i.living.ms.arr.length > 0) ||\n\t\t\t(this.neighborhoods.o.living.ms.arr.length > 0 ||\n\t\t\t\tthis.neighborhoods.i.living.ms.arr.length === 0) &&\n\t\t\t(this.state !== 'partial')) {\n\t\t\t// #2 partially connected means (1+ inview, 0 outview) or (0 i, 1+ o)\n\t\t\tthis.state = 'partial';\n\t\t\tthis.emit('statechange', 'partial');\n\t\t} else if (this.neighborhoods.o.living.ms.arr.length === 0 &&\n\t\t\tthis.neighborhoods.i.living.ms.arr.length === 0 &&\n\t\t\tthis.state !== 'disconnect') {\n\t\t\t// #3 disconnected means (0 inview, 0 outview)\n\t\t\tthis.state = 'disconnect';\n\t\t\tthis.emit('statechange', 'disconnect');\n\t\t}\n\t}\n\n\t/* *****************************************************************************\n\t * Spray's protocol implementation\n\t ******************************************************************************/\n\n\t/**\n\t * Periodically called function that aims to balance the partial view\n\t * and to mix the neighborhoods\n\t * @return {void}\n\t */\n\texchange () {\n\t\tconst self = this;\n\n\t\tlet oldest = null;\n\t\tlet sent = false;\n\t\tthis.partialView.increment();\n\t\t// #1 get the oldest neighbor reachable\n\t\twhile (!oldest && !sent && this.partialView.length() > 0) {\n\t\t\t// oldest = this.partialView.getOldest();\n\t\t\toldest = this.partialView.getOldest();\n\t\t\tconst message = MExchange(null, this.neighborhoods.i.ID, this.neighborhoods.o.ID);\n\t\t\tsent = this.send(oldest.id, message, 0);\n\t\t}\n\t\tif (this.partialView.length() === 0) {\n\t\t\tthis.log('Partial view is 0 length');\n\t\t\treturn;\n\t\t}\n\t\t// #2 get a sample from our partial view\n\t\tconst sample = this.partialView.getSample(oldest, true);\n\t\t// #3 establish connections oldest -> sample\n\t\t// #A remove the chosen arcs\n\t\tlet i = 0;\n\t\twhile (i < sample.length) {\n\t\t\tconst e = sample[i];\n\t\t\tconst removed = self.neighborhoods.disconnect(e.id);\n\t\t\tif (!removed) { // the partial view is late\n\t\t\t\t// #a inform the partial view of the departure of the peer\n\t\t\t\tself.onPeerDown(e.id);\n\t\t\t\t// #b clear the sample from references to this id\n\t\t\t\tlet j = 0;\n\t\t\t\twhile (j < sample.length) {\n\t\t\t\t\tif (sample[j].id === e.id) {\n\t\t\t\t\t\tsample.splice(j, 1);\n\t\t\t\t\t} else {\n\t\t\t\t\t\t++j;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\t// normal behavior\n\t\t\t\tself.partialView.removePeer(e.id, e.age);\n\t\t\t\t++i;\n\t\t\t}\n\t\t}\n\t\t// #B from oldest to chosen neighbor\n\t\tsample.forEach(e => {\n\t\t\tself.neighborhoods.connect(oldest.id, (e.id !== oldest.id) && e.id);\n\t\t});\n\t\tthis.emit('shuffling', 'exchange');\n\t}\n\n\n\t/**\n\t * Event executed when we receive an exchange request\n\t * @param {object} msg message containing the identifier of the peer that started the\n\t * exchange\n\t * @return {void}\n\t */\n\tonExchange (msg) {\n\t\tconst self = this;\n\t\t// #1 get a sample of neighbors from our partial view\n\t\tthis.partialView.increment();\n\t\tconst sample = this.partialView.getSample(msg.inview, false);\n\t\t// #A remove the chosen neighbor from our partialview\n\t\tlet i = 0;\n\t\twhile (i < sample.length) {\n\t\t\tconst e = sample[i];\n\t\t\tconst removed = self.neighborhoods.disconnect(e.id);\n\t\t\tif (!removed) { // the partial view is late\n\t\t\t\t// #a inform the partial view of the departure of the peer\n\t\t\t\tself.onPeerDown(e.id);\n\t\t\t\t// #b clear the sample from references to this id\n\t\t\t\tlet j = 0;\n\t\t\t\twhile (j < sample.length) {\n\t\t\t\t\tif (sample[j].id === e.id) {\n\t\t\t\t\t\tsample.splice(j, 1);\n\t\t\t\t\t} else {\n\t\t\t\t\t\t++j;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} else {\n\t\t\t\t// normal behavior\n\t\t\t\tself.partialView.removePeer(e.id, e.age);\n\t\t\t\t++i;\n\t\t\t}\n\t\t}\n\t\t// #B from initiator to chosen neigbhor\n\t\tsample.forEach(e => {\n\t\t\tself.neighborhoods.connect(msg.outview, (e.id !== msg.inview) && e.id);\n\t\t});\n\t\tthis.emit('shuffling', 'onExchange');\n\t}\n\n\t/**\n\t * The function called when a neighbor is unreachable and supposedly\n\t * crashed/departed. It probabilistically keeps an arc up\n\t * @param {string} id the identifier of the channel that seems down\n\t * @return {void}\n\t */\n\tonPeerDown (id) {\n\t\tthis.log(`@spray: The peer ${JSON.stringify(id)} seems down.`);\n\t\t// #A remove all occurrences of the peer in the partial view\n\t\tconst occ = this.partialView.removeAll(id);\n\t\t// #B probabilistically recreate an arc to a known peer\n\t\tif (this.partialView.length() > 0) {\n\t\t\tfor (let i = 0; i < occ; ++i) {\n\t\t\t\tif (Math.random() > (1 / (this.partialView.length() + occ))) {\n\t\t\t\t\tconst rn = Math.floor(Math.random() * this.partialView.length());\n\t\t\t\t\tthis.neighborhoods.connect(null, this.partialView.array.arr[rn]);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t/**\n\t * A connection failed to establish properly, systematically duplicates\n\t * an element of the partial view.\n\t * @return {void}\n\t */\n\tonArcDown () {\n\t\tthis.log('@spray: An arc failed to establish.');\n\t\tif (this.partialView.length() > 0) {\n\t\t\tconst rn = Math.floor(Math.random() * this.partialView.length());\n\t\t\tthis.neighborhoods.connect(null, this.partialView.array.arr[rn]);\n\t\t}\n\t}\n\n}\n\n\nmodule.exports = Spray;\n",
+    "content": "'use strict';\n\nconst debug = require('debug')('spray-wrtc');\nconst N2N = require('n2n-overlay-wrtc');\nconst _ = require('lodash');\n\nconst PartialView = require('./partialview.js');\n\nconst MExchange = require('./messages/mexchange.js');\nconst MJoin = require('./messages/mjoin.js');\n\nconst ExEmptyView = require('./exceptions/exemptyview.js');\nconst ExMessage = require('./exceptions/exmessage.js');\n\n/**\n * Implementation of the random peer-sampling Spray. \n */\nclass Spray extends N2N {\n    /**\n     * You can pass other parameters such as webrtc options\n     * @param {object} [options = {}] Object with all options\n     * @param {string} [options.pid = 'spray-wrtc'] The identifier of this\n     * protocol. \n     * @param {number} [options.delta] Every delta milliseconds, Spray shuffles\n     * its partial view with its oldest neighbor.\n     */\n    constructor (options = {}) {\n        // #0 initialize our N2N-parent\n        super( _.merge({ pid: 'spray-wrtc',\n                         delta: 1000 * 60 * 2,\n                         timeout: 1000 * 60 * 1,\n                         retry: 5}, options) );\n        // #1 constants (from N2N)\n        // this.PID = protocol identifier\n        // this.PEER = peer Id comprising inview and outview Ids\n        debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER);\n        // #2 initialize the partial view containing ages\n        this.partialView = new PartialView();\n        // #3 initialize the connectedness state of this protocol\n        this.state = 'disconnected';\n        // #4 periodic shuffling\n        this.periodic = null;\n        // #5 events\n        this.on('receive', (peerId, message) => this._receive(peerId, message));\n        // this.on('stream', (peerId, message) => { } ); // (TODO) ?;\n        this.on('open', (peerId) => {\n            this._open(peerId);\n            this._updateState();\n        });\n        this.on('close', (peerId) => {\n            this._close(peerId);\n            this._updateState();\n        });\n        this.on('fail', (peerId) => {\n            this._onArcDown(peerId);\n            this._updateState();\n        });\n    };\n    \n    /**\n     * @private Start periodic shuffling.\n     */\n    _start (delay = this.options.delta) {\n        this.periodic = setInterval( () => {\n            this._exchange();\n        }, delay);\n    };\n\n    /**\n     * @private Stop periodic shuffling.\n     */\n    _stop () {\n        clearInterval(this.periodic);\n    };\n\n    /**\n     * @private Called each time this protocol receives a message.\n     * @param {string} peerId The identifier of the peer that sent the message.\n     * @param {object|MExchange|MJoin} message The message received.\n     */ \n    _receive (peerId, message) {        \n        if (message.type && message.type === 'MExchange') {\n            this._onExchange(peerId, message);\n        } else if (message.type && message.type === 'MJoin') {\n            this._onJoin(peerId);\n        } else {\n            throw new ExMessage('_receive', message, 'unhandled');\n        };\n    };\n\n    /**\n     * @private Behavior when a connection is ready to be added in the partial\n     * view.\n     * @param {string} peerId The identifier of the new neighbor.\n     */\n    _open (peerId) {\n        debug('[%s] %s ===> %s', this.PID, this.PEER, peerId);\n        this.partialView.add(peerId);\n    };\n\n    /**\n     * @private Behavior when a connection is closed.\n     * @param {string} peerId The identifier of the removed arc.\n     */\n    _close (peerId) {\n        debug('[%s] %s =†=> %s', this.PID, this.PEER, peerId);\n    };\n\n    \n    /**\n     * @private Update the connectedness state of the peer.\n     */\n    _updateState () {\n        const remember = this.state;\n        if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected'){\n            this.state = 'connected';\n        } else if ((this.i.size > 0 && this.o.size <= 0 ||\n                    this.o.size > 0 && this.i.size <= 0) &&\n                   remember !== 'partially connected'){\n            this.state = 'partially connected';\n        } else if (this.i.size <= 0 && this.o.size <= 0 &&\n                   remember !== 'disconnected') {\n            this.state = 'disconnected';\n            // this._stop();\n        };\n        (remember !== this.state) && this.emit('statechange', this.state);\n    };\n    \n    /**\n     * Joining a network.\n     * @param {callback} sender Function that will be called each time an offer\n     * arrives to this peer. It is the responsability of the caller to send \n     * these offer (using sender) to the contact inside the network.\n     * @returns {Promise} A promise that is resolved when the peer joins the \n     * network; rejected after a timeout, or already connected state.\n     */\n    join (sender) {\n        const joinPromise = new Promise( (resolve, reject) => {\n            // #0 connectedness state check\n            (this.state !== 'disconnected') && reject('connected');\n            // #1 set timeout before reject\n            let to = setTimeout( () => {\n                reject('timeout'); // (TODO) Join exception\n            }, this.options.timeout);\n            // #2 very first call, only done once\n            this.once('open', (peerId) => {\n                this.send(peerId, new MJoin(), this.options.retry);\n                this._start(); // start shuffling process\n                clearTimeout(to);\n                resolve();\n            });\n        });\n        this.connect(sender);\n        return joinPromise;\n    };\n\n    /**\n     * @private Behavior of the contact peer when a newcomer arrives.\n     * @param {string} peerId The identifier of the newcomer.\n     */ \n    _onJoin (peerId) {\n        if (this.partialView.size > 0){\n            // #1 all neigbors -> peerId\n            debug('[%s] %s ===> join %s ===> %s neigbhors',\n                  this.PID, peerId, this.PEER, this.partialView.size);\n            this.partialView.forEach( (ages, neighbor) => {\n                ages.forEach( (age) => {\n                    this.connect(neighbor, peerId);\n                });\n            });\n        } else {\n            // #2 this -> peerId\n            debug('[%s] %s ===> join %s ===> %s',\n                  this.PID, peerId, this.PEER, peerId);\n            this.connect(null, peerId);\n            this._start();\n        };\n    };\n\n    /**\n     * Get k neighbors from the partial view. If k is not reached, it tries to\n     * fill the gap with neighbors from the inview.  It is worth noting that\n     * each peer controls its outview but not its inview. The more the neigbhors\n     * from the outview the better.\n     * @param {number} k The number of neighbors requested. If k is not defined,\n     * it returns every known identifiers of the partial view.\n     * @return {string[]} Array of identifiers.\n     */\n    getPeers (k) {\n        let peers = []; \n        if (typeof k === 'undefined') {\n            // #1 get all the partial view\n            this.partialView.forEach( (occ, peerId) => {\n                peers.push(peerId);\n            });\n        } else {\n            // #2 get random identifier from outview\n            let out = [];\n            this.partialView.forEach( (ages, peerId) => out.push(peerId) );\n            while (peers.length < k && out.length > 0) {\n                let rn = Math.floor( Math.random() * out.length );\n                peers.push( out[rn] );\n                out.splice( rn, 1 );\n            };\n            // #3 get random identifier from the inview to fill k-entries\n            let inView = [];\n            this.i.forEach( (occ, peerId) => inView.push(peerId) );\n            while (peers.length < k && inView.length > 0){\n                let rn = Math.floor( Math.random() * inView.length );\n                peers.push( inView[rn] );\n                inView.splice( rn, 1 );\n            };\n        };\n        debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length);\n        return peers;       \n    };\n\n    /* *********************************\n     * Spray's protocol implementation *\n     ***********************************/\n\n    /**\n     * @private Get a sample of the partial view.\n     * @param {string} [peerId] The identifier of the oldest neighbor chosen to\n     * perform a view exchange.\n     * @return {string[]} An array containing the identifiers of neighbors from\n     * this partial view.\n     */\n    _getSample (peerId) {\n        let sample = [];\n        // #1 create a flatten version of the partial view\n        let flatten = [];\n        this.partialView.forEach( (ages, neighbor) => {\n            ages.forEach( (age) => {\n                flatten.push(neighbor);\n            });\n        });\n        // #2 process the size of the sample\n        const sampleSize = Math.ceil(flatten.length / 2);\n        // #3 initiator removes a chosen neighbor entry and adds it to sample\n        if (typeof peerId !== 'undefined') {\n            flatten.splice(flatten.indexOf(peerId), 1);\n            sample.push(peerId);\n        };\n        // #4 add neighbors to the sample chosen at random\n        while (sample.length < sampleSize) {\n            const rn = Math.floor(Math.random() * flatten.length);\n            sample.push(flatten[rn]);\n            flatten.splice(rn, 1);\n        };\n        return sample;\n    };\n\n    /**\n     * @private Periodically called function that aims to balance the partial\n     * view and to mix the neighborhoods.\n     */\n    _exchange () {\n        // #0 if the partial view is empty --- could be due to disconnections,\n        // failure, or _onExchange started with other peers --- skip this round.\n        if (this.partialView.size <= 0) { return; }\n        this.partialView.increment();\n        const oldest = this.partialView.oldest;\n        // #1 send the notification to oldest that we perform an exchange\n        this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)\n            .then( () => {\n                // #A setup the exchange\n                // #2 get a sample from our partial view\n                let sample = this._getSample(oldest);\n                debug('[%s] %s ==> exchange %s ==> %s',\n                      this.PID, this.PEER, sample.length, oldest);\n                // #3 replace occurrences to oldest by ours\n                sample = sample.map( (peerId) => {\n                    return ((peerId===oldest) && this.getInviewId()) || peerId;\n                });\n                // #4 connect oldest -> sample\n                sample.forEach( (peerId) => {\n                    this.connect(oldest, peerId);\n                });\n                // #5 remove our own connection\n                sample = sample.map( (peerId) => {\n                    return ((peerId===this.getInviewId()) && oldest) || peerId;\n                });                \n                sample.forEach( (peerId) => {\n                    this.disconnect(peerId);\n                    if (peerId === oldest) {\n                        this.partialView.removeOldest(peerId);\n                    } else {\n                        this.partialView.removeYoungest(peerId);\n                    };\n                });\n            }).catch( (e) => {\n                // #B the peer cannot be reached, he is supposedly dead\n                debug('[%s] %s =X> exchange =X> %s',\n                      this.PID, this.PEER, oldest);                \n                this._onPeerDown(oldest);\n            });\n    };\n\n\n    /**\n     * @private Behavior when this peer receives a shuffling request.\n     * @param {string} neighbor The identifier of the peer that sent this\n     * exchange request.\n     * @param {MExchange} message message containing the identifier of the peer\n     * that started the exchange.\n     */\n    _onExchange (neighbor, message) {\n        // #1 get a sample of neighbors from our partial view\n        this.partialView.increment();\n        let sample = this._getSample();\n        debug('[%s] %s ==> exchange %s ==> %s',\n              this.PID, neighbor, sample.length, this.PEER);\n        // #2 replace occurrences of the initiator by ours\n        sample = sample.map( (peerId) => {\n            return (peerId===message.inview) && this.getInviewId() || peerId;\n        });\n        // #3 establish connections\n        sample.forEach( (peerId) => {\n            this.connect(neighbor, peerId);\n        });\n        // #4 inverse replacement\n        sample = sample.map( (peerId) => {\n            return (peerId===this.getInviewId()) && message.inview || peerId;\n        });\n        // #5 disconnect arcs\n        sample.forEach( (peerId) => {\n            this.disconnect(peerId);\n            this.partialView.removeYoungest(peerId);\n        });\n    };\n\n    /**\n     * @private The function called when a neighbor is unreachable and\n     * supposedly crashed/departed. It probabilistically duplicates an arc.\n     * @param {string} peerId The identifier of the peer that seems down.\n     */\n    _onPeerDown (peerId) {\n        debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, peerId);\n        // #1 remove all occurrences of the peer in the partial view\n        const occ = this.partialView.removeAll(peerId);\n        // #2 probabilistically recreate arcs to a known peer\n        if (this.partialView.size > 0) {\n            // #A normal behavior\n            for (let i = 0; i < occ; ++i) {\n                if (Math.random() > (1 / (this.partialView.size + occ))) {\n                    // probabilistically duplicates one of the least frequent\n                    // peers\n                    this.connect(null, this.partialView.leastFrequent);\n                }\n            }\n        } else {\n            // #B last chance behavior (TODO) ask inview\n        };\n    };\n\n    /**\n     * @private A connection failed to establish properly, systematically\n     * duplicates an element of the partial view.\n     * @param {string|null} peerId The identifier of the peer we failed to \n     * establish a connection with. Null if it was yet to be known.\n     */\n    _onArcDown (peerId) {\n        debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId||'unknown');\n        if (this.partialView.size > 0) {\n            // #1 normal behavior\n            this.connect(null, this.partialView.leastFrequent);\n        } else {\n            // #2 last chance behavior\n            // (TODO) ask inview\n            // const rn = Math.floor(Math.random() * this.i.size);\n            // let it = this.i.keys();                        \n            // this.II.connect(null, this.i.\n        };\n    };\n};\n\n\nmodule.exports = Spray;\n",
     "static": true,
     "longname": "lib/spray.js",
     "access": null,
@@ -812,12 +792,12 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 28,
+    "__docId__": 37,
     "kind": "variable",
-    "name": "EventEmitter",
+    "name": "debug",
     "memberof": "lib/spray.js",
     "static": true,
-    "longname": "lib/spray.js~EventEmitter",
+    "longname": "lib/spray.js~debug",
     "access": null,
     "export": false,
     "importPath": "spray-wrtc",
@@ -838,12 +818,12 @@
     }
   },
   {
-    "__docId__": 29,
+    "__docId__": 38,
     "kind": "variable",
-    "name": "NO",
+    "name": "N2N",
     "memberof": "lib/spray.js",
     "static": true,
-    "longname": "lib/spray.js~NO",
+    "longname": "lib/spray.js~N2N",
     "access": null,
     "export": false,
     "importPath": "spray-wrtc",
@@ -864,12 +844,12 @@
     }
   },
   {
-    "__docId__": 30,
+    "__docId__": 39,
     "kind": "variable",
-    "name": "PartialView",
+    "name": "_",
     "memberof": "lib/spray.js",
     "static": true,
-    "longname": "lib/spray.js~PartialView",
+    "longname": "lib/spray.js~_",
     "access": null,
     "export": false,
     "importPath": "spray-wrtc",
@@ -890,38 +870,12 @@
     }
   },
   {
-    "__docId__": 31,
+    "__docId__": 40,
     "kind": "variable",
-    "name": "MExchange",
+    "name": "PartialView",
     "memberof": "lib/spray.js",
     "static": true,
-    "longname": "lib/spray.js~MExchange",
-    "access": null,
-    "export": false,
-    "importPath": "spray-wrtc",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 32,
-    "kind": "variable",
-    "name": "_",
-    "memberof": "lib/spray.js",
-    "static": true,
-    "longname": "lib/spray.js~_",
+    "longname": "lib/spray.js~PartialView",
     "access": null,
     "export": false,
     "importPath": "spray-wrtc",
@@ -942,256 +896,18 @@
     }
   },
   {
-    "__docId__": 33,
-    "kind": "class",
-    "name": "Spray",
+    "__docId__": 41,
+    "kind": "variable",
+    "name": "MExchange",
     "memberof": "lib/spray.js",
     "static": true,
-    "longname": "lib/spray.js~Spray",
+    "longname": "lib/spray.js~MExchange",
     "access": null,
-    "export": true,
+    "export": false,
     "importPath": "spray-wrtc",
-    "importStyle": "Spray",
-    "description": "Implementation of the random peer sampling Spray",
-    "lineNumber": 12,
-    "interface": false,
-    "extends": [
-      "EventEmitter"
-    ]
-  },
-  {
-    "__docId__": 34,
-    "kind": "constructor",
-    "name": "constructor",
-    "memberof": "lib/spray.js~Spray",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/spray.js~Spray#constructor",
-    "access": null,
-    "description": "You can pass other parameters such as webrtc options",
-    "lineNumber": 23,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options",
-        "description": "Object with all options"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "string"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options.protocol",
-        "description": "The protocol of the network"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options.deltatime",
-        "description": "Each deltatime, we shuffle !"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options.retry",
-        "description": "Number of retry when we send a message"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options.usedCoef",
-        "description": "Amount of clients shuffled between 0 and 1 (ie, [0;1])"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options.profile",
-        "description": "your profile"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "options.k",
-        "description": "k profile saved"
-      }
-    ]
-  },
-  {
-    "__docId__": 35,
-    "kind": "member",
-    "name": "opts",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#opts",
-    "access": null,
+    "importStyle": null,
     "description": null,
-    "lineNumber": 27,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 36,
-    "kind": "member",
-    "name": "verbose",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#verbose",
-    "access": null,
-    "description": null,
-    "lineNumber": 43,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 37,
-    "kind": "member",
-    "name": "protocol",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#protocol",
-    "access": null,
-    "description": null,
-    "lineNumber": 45,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 38,
-    "kind": "member",
-    "name": "DELTATIME",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#DELTATIME",
-    "access": null,
-    "description": null,
-    "lineNumber": 46,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 39,
-    "kind": "member",
-    "name": "RETRY",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#RETRY",
-    "access": null,
-    "description": null,
-    "lineNumber": 47,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 40,
-    "kind": "member",
-    "name": "partialView",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#partialView",
-    "access": null,
-    "description": null,
-    "lineNumber": 50,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 41,
-    "kind": "member",
-    "name": "neighborhoods",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#neighborhoods",
-    "access": null,
-    "description": null,
-    "lineNumber": 54,
+    "lineNumber": 9,
     "undocument": true,
     "unknown": [
       {
@@ -1207,14 +923,17 @@
   },
   {
     "__docId__": 42,
-    "kind": "member",
-    "name": "profile",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#profile",
+    "kind": "variable",
+    "name": "MJoin",
+    "memberof": "lib/spray.js",
+    "static": true,
+    "longname": "lib/spray.js~MJoin",
     "access": null,
+    "export": false,
+    "importPath": "spray-wrtc",
+    "importStyle": null,
     "description": null,
-    "lineNumber": 58,
+    "lineNumber": 10,
     "undocument": true,
     "unknown": [
       {
@@ -1230,6 +949,148 @@
   },
   {
     "__docId__": 43,
+    "kind": "variable",
+    "name": "ExEmptyView",
+    "memberof": "lib/spray.js",
+    "static": true,
+    "longname": "lib/spray.js~ExEmptyView",
+    "access": null,
+    "export": false,
+    "importPath": "spray-wrtc",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 44,
+    "kind": "variable",
+    "name": "ExMessage",
+    "memberof": "lib/spray.js",
+    "static": true,
+    "longname": "lib/spray.js~ExMessage",
+    "access": null,
+    "export": false,
+    "importPath": "spray-wrtc",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 45,
+    "kind": "class",
+    "name": "Spray",
+    "memberof": "lib/spray.js",
+    "static": true,
+    "longname": "lib/spray.js~Spray",
+    "access": null,
+    "export": true,
+    "importPath": "spray-wrtc",
+    "importStyle": "Spray",
+    "description": "Implementation of the random peer-sampling Spray. ",
+    "lineNumber": 18,
+    "interface": false,
+    "extends": [
+      "N2N"
+    ]
+  },
+  {
+    "__docId__": 46,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#constructor",
+    "access": null,
+    "description": "You can pass other parameters such as webrtc options",
+    "lineNumber": 27,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": " {}",
+        "defaultRaw": {},
+        "name": "options",
+        "description": "Object with all options"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": " 'spray-wrtc'",
+        "defaultRaw": " 'spray-wrtc'",
+        "name": "options.pid",
+        "description": "The identifier of this\nprotocol."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "number"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "options.delta",
+        "description": "Every delta milliseconds, Spray shuffles\nits partial view with its oldest neighbor."
+      }
+    ]
+  },
+  {
+    "__docId__": 47,
+    "kind": "member",
+    "name": "partialView",
+    "memberof": "lib/spray.js~Spray",
+    "static": false,
+    "longname": "lib/spray.js~Spray#partialView",
+    "access": null,
+    "description": null,
+    "lineNumber": 38,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 48,
     "kind": "member",
     "name": "state",
     "memberof": "lib/spray.js~Spray",
@@ -1237,7 +1098,7 @@
     "longname": "lib/spray.js~Spray#state",
     "access": null,
     "description": null,
-    "lineNumber": 63,
+    "lineNumber": 40,
     "undocument": true,
     "unknown": [
       {
@@ -1252,17 +1113,15 @@
     }
   },
   {
-    "__docId__": 44,
-    "kind": "method",
-    "name": "log",
+    "__docId__": 49,
+    "kind": "member",
+    "name": "periodic",
     "memberof": "lib/spray.js~Spray",
-    "generator": false,
-    "async": false,
     "static": false,
-    "longname": "lib/spray.js~Spray#log",
+    "longname": "lib/spray.js~Spray#periodic",
     "access": null,
     "description": null,
-    "lineNumber": 115,
+    "lineNumber": 42,
     "undocument": true,
     "unknown": [
       {
@@ -1270,28 +1129,259 @@
         "tagValue": ""
       }
     ],
-    "params": [
-      {
-        "name": "args",
-        "types": [
-          "...*"
-        ],
-        "spread": true
-      }
-    ]
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
   },
   {
-    "__docId__": 45,
+    "__docId__": 50,
     "kind": "method",
-    "name": "connection",
+    "name": "_start",
     "memberof": "lib/spray.js~Spray",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/spray.js~Spray#connection",
+    "longname": "lib/spray.js~Spray#_start",
+    "access": "private",
+    "description": "",
+    "lineNumber": 63,
+    "params": [
+      {
+        "name": "delay",
+        "optional": true,
+        "types": [
+          "*"
+        ]
+      }
+    ]
+  },
+  {
+    "__docId__": 51,
+    "kind": "member",
+    "name": "periodic",
+    "memberof": "lib/spray.js~Spray",
+    "static": false,
+    "longname": "lib/spray.js~Spray#periodic",
     "access": null,
-    "description": "Joining as; or contacted by an outsider",
-    "lineNumber": 127,
+    "description": null,
+    "lineNumber": 64,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "method",
+    "name": "_stop",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#_stop",
+    "access": "private",
+    "description": "",
+    "lineNumber": 72,
+    "params": []
+  },
+  {
+    "__docId__": 53,
+    "kind": "method",
+    "name": "_receive",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#_receive",
+    "access": "private",
+    "description": "",
+    "lineNumber": 81,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "peerId",
+        "description": "The identifier of the peer that sent the message."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "object",
+          "MExchange",
+          "MJoin"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "message",
+        "description": "The message received."
+      }
+    ]
+  },
+  {
+    "__docId__": 54,
+    "kind": "method",
+    "name": "_open",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#_open",
+    "access": "private",
+    "description": "",
+    "lineNumber": 96,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "peerId",
+        "description": "The identifier of the new neighbor."
+      }
+    ]
+  },
+  {
+    "__docId__": 55,
+    "kind": "method",
+    "name": "_close",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#_close",
+    "access": "private",
+    "description": "",
+    "lineNumber": 105,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "peerId",
+        "description": "The identifier of the removed arc."
+      }
+    ]
+  },
+  {
+    "__docId__": 56,
+    "kind": "method",
+    "name": "_updateState",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#_updateState",
+    "access": "private",
+    "description": "",
+    "lineNumber": 113,
+    "params": []
+  },
+  {
+    "__docId__": 57,
+    "kind": "member",
+    "name": "state",
+    "memberof": "lib/spray.js~Spray",
+    "static": false,
+    "longname": "lib/spray.js~Spray#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 116,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "member",
+    "name": "state",
+    "memberof": "lib/spray.js~Spray",
+    "static": false,
+    "longname": "lib/spray.js~Spray#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 120,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "member",
+    "name": "state",
+    "memberof": "lib/spray.js~Spray",
+    "static": false,
+    "longname": "lib/spray.js~Spray#state",
+    "access": null,
+    "description": null,
+    "lineNumber": 123,
+    "undocument": true,
+    "unknown": [
+      {
+        "tagName": "@_undocument",
+        "tagValue": ""
+      }
+    ],
+    "type": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 60,
+    "kind": "method",
+    "name": "join",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#join",
+    "access": null,
+    "description": "Joining a network.",
+    "lineNumber": 137,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Promise} A promise that is resolved when the peer joins the \nnetwork; rejected after a timeout, or already connected state."
+      }
+    ],
     "params": [
       {
         "nullable": null,
@@ -1300,64 +1390,46 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "callbacks",
-        "description": "the callbacks function, see module 'n2n-overlay-wrtc'."
-      },
-      {
-        "nullable": null,
-        "types": [
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "message",
-        "description": "..."
+        "name": "sender",
+        "description": "Function that will be called each time an offer\narrives to this peer. It is the responsability of the caller to send \nthese offer (using sender) to the contact inside the network."
       }
     ],
     "return": {
       "nullable": null,
       "types": [
-        "void"
+        "Promise"
       ],
       "spread": false,
-      "description": ""
+      "description": "A promise that is resolved when the peer joins the \nnetwork; rejected after a timeout, or already connected state."
     }
   },
   {
-    "__docId__": 46,
+    "__docId__": 61,
     "kind": "method",
-    "name": "leave",
+    "name": "_onJoin",
     "memberof": "lib/spray.js~Spray",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/spray.js~Spray#leave",
-    "access": null,
-    "description": "Leave the network",
-    "lineNumber": 169,
+    "longname": "lib/spray.js~Spray#_onJoin",
+    "access": "private",
+    "description": "",
+    "lineNumber": 161,
     "params": [
       {
         "nullable": null,
         "types": [
-          "integer"
+          "string"
         ],
         "spread": false,
         "optional": false,
-        "name": "timer",
-        "description": "the timeout before really shutting down. The time can\nbe spent on healing the network before departure. (In milliseconds)"
+        "name": "peerId",
+        "description": "The identifier of the newcomer."
       }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
+    ]
   },
   {
-    "__docId__": 47,
+    "__docId__": 62,
     "kind": "method",
     "name": "getPeers",
     "memberof": "lib/spray.js~Spray",
@@ -1366,41 +1438,88 @@
     "static": false,
     "longname": "lib/spray.js~Spray#getPeers",
     "access": null,
-    "description": "Get a set of neighbors from both inview and outview. It is worth\nnoting that each peer controls its outview, but not its inview. Thus, the\noutview may be less versatile.",
-    "lineNumber": 185,
+    "description": "Get k neighbors from the partial view. If k is not reached, it tries to\nfill the gap with neighbors from the inview.  It is worth noting that\neach peer controls its outview but not its inview. The more the neigbhors\nfrom the outview the better.",
+    "lineNumber": 189,
     "params": [
       {
         "nullable": null,
         "types": [
-          "integer"
+          "number"
         ],
         "spread": false,
         "optional": false,
         "name": "k",
-        "description": "the number of neighbors requested, if k is not defined, it returns\nevery known identifiers."
+        "description": "The number of neighbors requested. If k is not defined,\nit returns every known identifiers of the partial view."
       }
     ],
     "return": {
       "nullable": null,
       "types": [
-        "object"
+        "string[]"
       ],
       "spread": false,
-      "description": "{ i:[id1,id2...idk], o:[id1,id2...idk] }"
+      "description": "Array of identifiers."
     }
   },
   {
-    "__docId__": 48,
+    "__docId__": 63,
     "kind": "method",
-    "name": "send",
+    "name": "_getSample",
     "memberof": "lib/spray.js~Spray",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/spray.js~Spray#send",
-    "access": null,
-    "description": "Send a message using the id of the arc used to communicate",
-    "lineNumber": 220,
+    "longname": "lib/spray.js~Spray#_getSample",
+    "access": "private",
+    "description": "",
+    "lineNumber": 229,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "peerId",
+        "description": "The identifier of the oldest neighbor chosen to\nperform a view exchange."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "string[]"
+      ],
+      "spread": false,
+      "description": "An array containing the identifiers of neighbors from\nthis partial view."
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "method",
+    "name": "_exchange",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#_exchange",
+    "access": "private",
+    "description": "",
+    "lineNumber": 258,
+    "params": []
+  },
+  {
+    "__docId__": 65,
+    "kind": "method",
+    "name": "_onExchange",
+    "memberof": "lib/spray.js~Spray",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/spray.js~Spray#_onExchange",
+    "access": "private",
+    "description": "",
+    "lineNumber": 308,
     "params": [
       {
         "nullable": null,
@@ -1409,219 +1528,33 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "id",
-        "description": "the identifier of the communication channel"
+        "name": "neighbor",
+        "description": "The identifier of the peer that sent this\nexchange request."
       },
       {
         "nullable": null,
         "types": [
-          "object"
+          "MExchange"
         ],
         "spread": false,
         "optional": false,
         "name": "message",
-        "description": "the message to send"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "integer"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "retry",
-        "description": "the number of times the protocol tries to send the message each seconds"
+        "description": "message containing the identifier of the peer\nthat started the exchange."
       }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "boolean"
-      ],
-      "spread": false,
-      "description": "true if the message has been sent at first try, false otherwise"
-    }
+    ]
   },
   {
-    "__docId__": 49,
+    "__docId__": 66,
     "kind": "method",
-    "name": "toString",
+    "name": "_onPeerDown",
     "memberof": "lib/spray.js~Spray",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/spray.js~Spray#toString",
-    "access": null,
-    "description": "Get the string representation of the partial view of spray",
-    "lineNumber": 240,
-    "params": [],
-    "return": {
-      "nullable": null,
-      "types": [
-        "string"
-      ],
-      "spread": false,
-      "description": "String representation of the partialView"
-    }
-  },
-  {
-    "__docId__": 50,
-    "kind": "method",
-    "name": "updateState",
-    "memberof": "lib/spray.js~Spray",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/spray.js~Spray#updateState",
-    "access": null,
-    "description": "Update the local connection state of the peer and emit an event\nif the state is different than at the previous call of this function.\nThe emitted event is 'statechange' with the\narguments 'connect' | 'partial' | 'disconnect'",
-    "lineNumber": 262,
-    "params": [],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
-  },
-  {
-    "__docId__": 51,
-    "kind": "member",
-    "name": "state",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#state",
-    "access": null,
-    "description": null,
-    "lineNumber": 268,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "string"
-      ]
-    }
-  },
-  {
-    "__docId__": 52,
-    "kind": "member",
-    "name": "state",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#state",
-    "access": null,
-    "description": null,
-    "lineNumber": 277,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "string"
-      ]
-    }
-  },
-  {
-    "__docId__": 53,
-    "kind": "member",
-    "name": "state",
-    "memberof": "lib/spray.js~Spray",
-    "static": false,
-    "longname": "lib/spray.js~Spray#state",
-    "access": null,
-    "description": null,
-    "lineNumber": 283,
-    "undocument": true,
-    "unknown": [
-      {
-        "tagName": "@_undocument",
-        "tagValue": ""
-      }
-    ],
-    "type": {
-      "types": [
-        "string"
-      ]
-    }
-  },
-  {
-    "__docId__": 54,
-    "kind": "method",
-    "name": "exchange",
-    "memberof": "lib/spray.js~Spray",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/spray.js~Spray#exchange",
-    "access": null,
-    "description": "Periodically called function that aims to balance the partial view\nand to mix the neighborhoods",
-    "lineNumber": 297,
-    "params": [],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
-  },
-  {
-    "__docId__": 55,
-    "kind": "method",
-    "name": "onExchange",
-    "memberof": "lib/spray.js~Spray",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/spray.js~Spray#onExchange",
-    "access": null,
-    "description": "Event executed when we receive an exchange request",
-    "lineNumber": 354,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "msg",
-        "description": "message containing the identifier of the peer that started the\nexchange"
-      }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
-  },
-  {
-    "__docId__": 56,
-    "kind": "method",
-    "name": "onPeerDown",
-    "memberof": "lib/spray.js~Spray",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/spray.js~Spray#onPeerDown",
-    "access": null,
-    "description": "The function called when a neighbor is unreachable and supposedly\ncrashed/departed. It probabilistically keeps an arc up",
-    "lineNumber": 395,
+    "longname": "lib/spray.js~Spray#_onPeerDown",
+    "access": "private",
+    "description": "",
+    "lineNumber": 338,
     "params": [
       {
         "nullable": null,
@@ -1630,43 +1563,39 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "id",
-        "description": "the identifier of the channel that seems down"
+        "name": "peerId",
+        "description": "The identifier of the peer that seems down."
       }
-    ],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
+    ]
   },
   {
-    "__docId__": 57,
+    "__docId__": 67,
     "kind": "method",
-    "name": "onArcDown",
+    "name": "_onArcDown",
     "memberof": "lib/spray.js~Spray",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/spray.js~Spray#onArcDown",
-    "access": null,
-    "description": "A connection failed to establish properly, systematically duplicates\nan element of the partial view.",
-    "lineNumber": 415,
-    "params": [],
-    "return": {
-      "nullable": null,
-      "types": [
-        "void"
-      ],
-      "spread": false,
-      "description": ""
-    }
+    "longname": "lib/spray.js~Spray#_onArcDown",
+    "access": "private",
+    "description": "",
+    "lineNumber": 363,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string",
+          "null"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "peerId",
+        "description": "The identifier of the peer we failed to \nestablish a connection with. Null if it was yet to be known."
+      }
+    ]
   },
   {
-    "__docId__": 59,
+    "__docId__": 69,
     "kind": "external",
     "name": "Infinity",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
@@ -1678,7 +1607,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 60,
+    "__docId__": 70,
     "kind": "external",
     "name": "NaN",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
@@ -1690,7 +1619,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 61,
+    "__docId__": 71,
     "kind": "external",
     "name": "undefined",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
@@ -1702,7 +1631,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 62,
+    "__docId__": 72,
     "kind": "external",
     "name": "null",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
@@ -1714,7 +1643,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 63,
+    "__docId__": 73,
     "kind": "external",
     "name": "Object",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
@@ -1726,7 +1655,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 64,
+    "__docId__": 74,
     "kind": "external",
     "name": "object",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
@@ -1738,7 +1667,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 65,
+    "__docId__": 75,
     "kind": "external",
     "name": "Function",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
@@ -1750,7 +1679,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 76,
     "kind": "external",
     "name": "function",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
@@ -1762,7 +1691,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 77,
     "kind": "external",
     "name": "Boolean",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
@@ -1774,7 +1703,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 78,
     "kind": "external",
     "name": "boolean",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
@@ -1786,7 +1715,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 79,
     "kind": "external",
     "name": "Symbol",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
@@ -1798,7 +1727,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 80,
     "kind": "external",
     "name": "Error",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
@@ -1810,7 +1739,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 71,
+    "__docId__": 81,
     "kind": "external",
     "name": "EvalError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
@@ -1822,7 +1751,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 72,
+    "__docId__": 82,
     "kind": "external",
     "name": "InternalError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
@@ -1834,7 +1763,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 73,
+    "__docId__": 83,
     "kind": "external",
     "name": "RangeError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
@@ -1846,7 +1775,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 74,
+    "__docId__": 84,
     "kind": "external",
     "name": "ReferenceError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
@@ -1858,7 +1787,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 75,
+    "__docId__": 85,
     "kind": "external",
     "name": "SyntaxError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
@@ -1870,7 +1799,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 76,
+    "__docId__": 86,
     "kind": "external",
     "name": "TypeError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
@@ -1882,7 +1811,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 77,
+    "__docId__": 87,
     "kind": "external",
     "name": "URIError",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
@@ -1894,7 +1823,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 78,
+    "__docId__": 88,
     "kind": "external",
     "name": "Number",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
@@ -1906,7 +1835,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 79,
+    "__docId__": 89,
     "kind": "external",
     "name": "number",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
@@ -1918,7 +1847,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 80,
+    "__docId__": 90,
     "kind": "external",
     "name": "Date",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
@@ -1930,7 +1859,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 81,
+    "__docId__": 91,
     "kind": "external",
     "name": "String",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
@@ -1942,7 +1871,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 82,
+    "__docId__": 92,
     "kind": "external",
     "name": "string",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
@@ -1954,7 +1883,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 83,
+    "__docId__": 93,
     "kind": "external",
     "name": "RegExp",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
@@ -1966,7 +1895,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 84,
+    "__docId__": 94,
     "kind": "external",
     "name": "Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
@@ -1978,7 +1907,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 85,
+    "__docId__": 95,
     "kind": "external",
     "name": "Int8Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
@@ -1990,7 +1919,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 86,
+    "__docId__": 96,
     "kind": "external",
     "name": "Uint8Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
@@ -2002,7 +1931,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 87,
+    "__docId__": 97,
     "kind": "external",
     "name": "Uint8ClampedArray",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
@@ -2014,7 +1943,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 88,
+    "__docId__": 98,
     "kind": "external",
     "name": "Int16Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
@@ -2026,7 +1955,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 89,
+    "__docId__": 99,
     "kind": "external",
     "name": "Uint16Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
@@ -2038,7 +1967,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 90,
+    "__docId__": 100,
     "kind": "external",
     "name": "Int32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
@@ -2050,7 +1979,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 91,
+    "__docId__": 101,
     "kind": "external",
     "name": "Uint32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
@@ -2062,7 +1991,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 92,
+    "__docId__": 102,
     "kind": "external",
     "name": "Float32Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
@@ -2074,7 +2003,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 93,
+    "__docId__": 103,
     "kind": "external",
     "name": "Float64Array",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
@@ -2086,7 +2015,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 94,
+    "__docId__": 104,
     "kind": "external",
     "name": "Map",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
@@ -2098,7 +2027,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 95,
+    "__docId__": 105,
     "kind": "external",
     "name": "Set",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
@@ -2110,7 +2039,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 96,
+    "__docId__": 106,
     "kind": "external",
     "name": "WeakMap",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
@@ -2122,7 +2051,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 97,
+    "__docId__": 107,
     "kind": "external",
     "name": "WeakSet",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
@@ -2134,7 +2063,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 98,
+    "__docId__": 108,
     "kind": "external",
     "name": "ArrayBuffer",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
@@ -2146,7 +2075,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 99,
+    "__docId__": 109,
     "kind": "external",
     "name": "DataView",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
@@ -2158,7 +2087,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 100,
+    "__docId__": 110,
     "kind": "external",
     "name": "JSON",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
@@ -2170,7 +2099,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 101,
+    "__docId__": 111,
     "kind": "external",
     "name": "Promise",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
@@ -2182,7 +2111,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 102,
+    "__docId__": 112,
     "kind": "external",
     "name": "Generator",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
@@ -2194,7 +2123,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 103,
+    "__docId__": 113,
     "kind": "external",
     "name": "GeneratorFunction",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
@@ -2206,7 +2135,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 104,
+    "__docId__": 114,
     "kind": "external",
     "name": "Reflect",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
@@ -2218,7 +2147,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 105,
+    "__docId__": 115,
     "kind": "external",
     "name": "Proxy",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
@@ -2231,7 +2160,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 107,
+    "__docId__": 117,
     "kind": "external",
     "name": "CanvasRenderingContext2D",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D",
@@ -2243,7 +2172,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 108,
+    "__docId__": 118,
     "kind": "external",
     "name": "DocumentFragment",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment",
@@ -2255,7 +2184,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 109,
+    "__docId__": 119,
     "kind": "external",
     "name": "Element",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Element",
@@ -2267,7 +2196,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 110,
+    "__docId__": 120,
     "kind": "external",
     "name": "Event",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Event",
@@ -2279,7 +2208,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 111,
+    "__docId__": 121,
     "kind": "external",
     "name": "Node",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/Node",
@@ -2291,7 +2220,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 112,
+    "__docId__": 122,
     "kind": "external",
     "name": "NodeList",
     "externalLink": "https://developer.mozilla.org/en-US/docs/Web/API/NodeList",
@@ -2303,7 +2232,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 113,
+    "__docId__": 123,
     "kind": "external",
     "name": "XMLHttpRequest",
     "externalLink": "https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest",
@@ -2315,7 +2244,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 114,
+    "__docId__": 124,
     "kind": "external",
     "name": "AudioContext",
     "externalLink": "https://developer.mozilla.org/en/docs/Web/API/AudioContext",

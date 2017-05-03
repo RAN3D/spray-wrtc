@@ -1,347 +1,216 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var SortedArray = require('sorted-cmp-array');
-
-SortedArray.prototype.get = function (entry) {
-	var index = this.indexOf(entry);
-	return index >= 0 && this.arr[index] || null;
-};
-
-SortedArray.prototype.contains = function (entry) {
-	return this.arr.includes(entry);
-};
-
-module.exports = SortedArray;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImV4dGVuZGVkLXNvcnRlZC1hcnJheS5qcyJdLCJuYW1lcyI6WyJTb3J0ZWRBcnJheSIsInJlcXVpcmUiLCJwcm90b3R5cGUiLCJnZXQiLCJlbnRyeSIsImluZGV4IiwiaW5kZXhPZiIsImFyciIsImNvbnRhaW5zIiwiaW5jbHVkZXMiLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiQUFBQTs7QUFFQSxJQUFNQSxjQUFjQyxRQUFRLGtCQUFSLENBQXBCOztBQUVBRCxZQUFZRSxTQUFaLENBQXNCQyxHQUF0QixHQUE0QixVQUFVQyxLQUFWLEVBQWlCO0FBQzVDLEtBQU1DLFFBQVEsS0FBS0MsT0FBTCxDQUFhRixLQUFiLENBQWQ7QUFDQSxRQUFTQyxTQUFTLENBQVYsSUFBYyxLQUFLRSxHQUFMLENBQVNGLEtBQVQsQ0FBZixJQUFtQyxJQUExQztBQUNBLENBSEQ7O0FBTUFMLFlBQVlFLFNBQVosQ0FBc0JNLFFBQXRCLEdBQWlDLFVBQVVKLEtBQVYsRUFBaUI7QUFDakQsUUFBUSxLQUFLRyxHQUFMLENBQVNFLFFBQVQsQ0FBa0JMLEtBQWxCLENBQVI7QUFDQSxDQUZEOztBQUlBTSxPQUFPQyxPQUFQLEdBQWlCWCxXQUFqQiIsImZpbGUiOiJleHRlbmRlZC1zb3J0ZWQtYXJyYXkuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG5cbmNvbnN0IFNvcnRlZEFycmF5ID0gcmVxdWlyZSgnc29ydGVkLWNtcC1hcnJheScpO1xuXG5Tb3J0ZWRBcnJheS5wcm90b3R5cGUuZ2V0ID0gZnVuY3Rpb24gKGVudHJ5KSB7XG5cdGNvbnN0IGluZGV4ID0gdGhpcy5pbmRleE9mKGVudHJ5KTtcblx0cmV0dXJuICgoaW5kZXggPj0gMCkmJnRoaXMuYXJyW2luZGV4XSkgfHwgbnVsbDtcbn07XG5cblxuU29ydGVkQXJyYXkucHJvdG90eXBlLmNvbnRhaW5zID0gZnVuY3Rpb24gKGVudHJ5KSB7XG5cdHJldHVybiAodGhpcy5hcnIuaW5jbHVkZXMoZW50cnkpKTtcbn07XG5cbm1vZHVsZS5leHBvcnRzID0gU29ydGVkQXJyYXk7XG4iXX0=
-},{"sorted-cmp-array":45}],2:[function(require,module,exports){
-'use strict';
 /**
- * message requesting an exchange of neighborhood
- * @param {string} inview the identifier of the inview
- * @param {string} outview the identifier of the outview
- * @param {string} protocol the protocol that creates the message
- 
- * @return {object} Return an object with all parameters and some other details
+ * Exception that rises when the partial view is used as if there were neighbors
+ * populating it, whereas there are none.
  */
-
-var MExchange = function MExchange(inview, outview, protocol) {
-  return {
-    protocol: protocol || 'spray-wrtc',
-    type: 'MExchange',
-    inview: inview,
-    outview: outview
-  };
+class ExEmptyView {
+    /**
+     * @param {string} source The function that throws the exception.
+     */
+    constructor (source) {
+        this.source = source;
+        this.message = 'Partial view is used as it was not empty, yet it is.';
+    };
 };
 
-module.exports = MExchange;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1lc3NhZ2VzLmpzIl0sIm5hbWVzIjpbIk1FeGNoYW5nZSIsImludmlldyIsIm91dHZpZXciLCJwcm90b2NvbCIsInR5cGUiLCJtb2R1bGUiLCJleHBvcnRzIl0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBOzs7Ozs7Ozs7QUFRQSxJQUFNQSxZQUFZLFNBQVpBLFNBQVksQ0FBQ0MsTUFBRCxFQUFTQyxPQUFULEVBQWtCQyxRQUFsQixFQUErQjtBQUNoRCxTQUFPO0FBQ05BLGNBQVVBLFlBQVksWUFEaEI7QUFFTkMsVUFBTSxXQUZBO0FBR05ILFlBQVFBLE1BSEY7QUFJSkMsYUFBU0E7QUFKTCxHQUFQO0FBTUMsQ0FQRjs7QUFTQUcsT0FBT0MsT0FBUCxHQUFpQk4sU0FBakIiLCJmaWxlIjoibWVzc2FnZXMuanMiLCJzb3VyY2VzQ29udGVudCI6WyIndXNlIHN0cmljdCc7XG4vKipcbiAqIG1lc3NhZ2UgcmVxdWVzdGluZyBhbiBleGNoYW5nZSBvZiBuZWlnaGJvcmhvb2RcbiAqIEBwYXJhbSB7c3RyaW5nfSBpbnZpZXcgdGhlIGlkZW50aWZpZXIgb2YgdGhlIGludmlld1xuICogQHBhcmFtIHtzdHJpbmd9IG91dHZpZXcgdGhlIGlkZW50aWZpZXIgb2YgdGhlIG91dHZpZXdcbiAqIEBwYXJhbSB7c3RyaW5nfSBwcm90b2NvbCB0aGUgcHJvdG9jb2wgdGhhdCBjcmVhdGVzIHRoZSBtZXNzYWdlXG4gXG4gKiBAcmV0dXJuIHtvYmplY3R9IFJldHVybiBhbiBvYmplY3Qgd2l0aCBhbGwgcGFyYW1ldGVycyBhbmQgc29tZSBvdGhlciBkZXRhaWxzXG4gKi9cbmNvbnN0IE1FeGNoYW5nZSA9IChpbnZpZXcsIG91dHZpZXcsIHByb3RvY29sKSA9PiB7XG5cdHJldHVybiB7XG5cdFx0cHJvdG9jb2w6IHByb3RvY29sIHx8ICdzcHJheS13cnRjJyxcblx0XHR0eXBlOiAnTUV4Y2hhbmdlJyxcblx0XHRpbnZpZXc6IGludmlldyxcbiAgICBvdXR2aWV3OiBvdXR2aWV3XG5cdH07XG4gfTtcblxubW9kdWxlLmV4cG9ydHMgPSBNRXhjaGFuZ2U7XG4iXX0=
+module.exports = ExEmptyView;
+
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
+/**
+ * Spray encountered a problem with a message.
+ */
+class ExMessage {
+    /**
+     * @param {string} source The name of the function that threw.
+     * @param {object} message The incriminated message.
+     * @param {string} reason The reason of the throw.
+     */
+    constructor (source, message, reason){
+        this.source = source;
+        this.message = message;
+        this.reason = reason;
+    };
+};
+
+
+module.exports = ExMessage;
+
 },{}],3:[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+/**
+ * Exception that rises when the peer looked for does not exist in the partial
+ * view.
+ */
+class ExPeerNotFound {
+    /**
+     * @param {string} source The function that throw the error.
+     * @param {string} [peerId = 'unknown'] The identifier of the peer if
+     * defined.
+     */
+    constructor (source, peerId = 'unknown') {
+        this.source = source;
+        this.peer = peerId;
+    };
+};
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var SortedArray = require('./extended-sorted-array.js');
+module.exports = ExPeerNotFound;
+
+},{}],4:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message requesting an exchange of neighborhood.
+ */
+class MExchange {
+    /**
+     * @param {string} inview The identifier of the inview.
+     */
+    constructor (inview) {
+        this.inview = inview;
+        this.type = 'MExchange';
+    };
+ };
+
+module.exports = MExchange;
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message sent by a newcommer to its contact when it joins the network.
+ */
+class MJoin {
+    constructor () {
+        this.type = 'MJoin';
+    };
+};
+
+module.exports = MJoin;
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
+const ExPeerNotFound = require('./exceptions/expeernotfound.js');
 
 /**
  * Structure containing the neighborhood of a peer.
- * @class PartialView
+ * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k
  */
-
-var PartialView = function () {
-	/**
-  * Constructor of PartialView
-  * @constructor
-  * @param {object} options Object containing all options
-  * @param {double} options.usedCoef Represents the amount of clients shuffled between [0;1]
-  */
-	function PartialView(options) {
-		_classCallCheck(this, PartialView);
-
-		// #1 initialize the partial view as an array sorted by age
-		// entries are {age, id, socketId}
-
-		// Coef : [0;1]
-		this.usedCoef = options.usedCoef;
-
-		this.comparator = function (a, b) {
-			var first = a.age || a;
-			var second = b.age || b;
-			if (first < second) {
-				return -1;
-			}
-			if (first > second) {
-				return 1;
-			}
-			return 0;
-		};
-
-		this.array = new SortedArray(this.comparator);
-	}
-
-	/**
-  * Get the oldest peer in the partialView
-  * @return {object} the oldest peer in the array
-  */
+class PartialView extends Map {
+    constructor () {
+        super();
+    };
+    
+    /**
+     * Get the oldest peer in the partial view.
+     * @returns {string} The oldest peer in the array.
+     */
+    get oldest () {
+        if (this.size <= 0) { throw new ExPeerNotFound('oldest'); };
+        let oldestPeer = null;
+        let oldestAge = 0;
+        this.forEach( (ages, peerId) => {
+            if (oldestAge <= ages[ages.length - 1]) {
+                oldestPeer = peerId;
+                oldestAge = ages[ages.length - 1];
+            };
+        });
+        return oldestPeer;
+    };
 
 
-	_createClass(PartialView, [{
-		key: 'getOldest',
-		value: function getOldest() {
-			return this.array.arr[0];
-		}
+    /**
+     * Increment the age of the whole partial view
+     */
+    increment () {
+        this.forEach( (ages, peerId) => {
+            this.set(peerId, ages.map( (age) => {return age+1;} ));
+        });
+    };
 
-		/**
-   * Increment the age of the whole partial view
-   * @return {void}
-   */
+    /**
+     * Add the peer to the partial view with an age of 0.
+     * @param {string} peerId The identifier of the peer added to the partial
+     * view.
+     */
+    add (peerId) {
+        (!this.has(peerId)) && this.set(peerId, new Array());        
+        this.get(peerId).unshift(0); // add 0 in front of the array
+    };
 
-	}, {
-		key: 'increment',
-		value: function increment() {
-			for (var i = 0; i < this.array.arr.length; ++i) {
-				this.array.arr[i].age += 1;
-			}
-		}
+    /**
+     * Remove the newest entry of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view. 
+     */
+    removeYoungest (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound('removeYoungest', peerId);
+        };
+        this.get(peerId).shift();
+        (this.get(peerId).length === 0) && this.delete(peerId);
+    };
 
-		/**
-   * Get a sample of the partial view
-   * @param {string} neighbor the neighbor which performs the exchange with us
-   * @param {boolean} isInitiator whether or not the caller is the initiator of the
-   * exchange
-   * @return {array} an array containing neighbors from this partial view
-   */
+    /**
+     * Remove the oldest entry of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view. 
+     */
+    removeOldest (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound('removeOldest', peerId);
+        };
+        this.get(peerId).pop();
+        (this.get(peerId).length === 0) && this.delete(peerId);
+    };
 
-	}, {
-		key: 'getSample',
-		value: function getSample(neighbor, isInitiator) {
-			var sample = [];
-			// #1 copy the partial view
-			var clone = new SortedArray(this.comparator);
-			for (var _i = 0; _i < this.array.arr.length; ++_i) {
-				clone.arr.push(this.array.arr[_i]);
-			}
-			// #2 process the size of the sample
-			var sampleSize = Math.ceil(this.array.arr.length * this.usedCoef);
-			if (isInitiator) {
-				//        console.log('neighbor ', neighbor);
-				var found = false;
-				var i = 0;
-				while (!found && i < clone.arr.length) {
-					if (clone.arr[i].id === neighbor.id) {
-						found = true;
-					} else {
-						++i;
-					};
-				};
-				// #A remove an occurrence of the chosen neighbor
-				clone.arr.splice(i, 1);
-				sample.push(neighbor);
-			}
+    
+    /**
+     * Remove all entries of the peer from the partial view.
+     * @param {string} peerId The identifier of the peer to remove from the 
+     * partial view.
+     * @returns {number} The number of occurrences of peerId removed.
+     */
+    removeAll (peerId) {
+        if (!this.has(peerId)) {
+            throw new ExPeerNotFound('removeAll', peerId);
+        };
+        const occ = this.get(peerId).length;
+        this.delete(peerId);
+        return occ;
+    };
+       
 
-			// #3 randomly add neighbors to the sample
-			while (sample.length < sampleSize) {
-				var rn = Math.floor(Math.random() * clone.arr.length);
-				sample.push(clone.arr[rn]);
-				clone.arr.splice(rn, 1);
-			}
+    /**
+     * Get the least frequent peer. If multiple peers have the same number of
+     * occurrences, it chooses one among them at random.
+     * @returns {string} The identifier of a least frequent peer.
+     */
+    get leastFrequent () {
+        let leastFrequent = [];
+        let frequency = Infinity;
+        this.forEach( (ages, peerId) => {
+            if (ages.length < frequency){
+                leastFrequent = [];
+                frequency = ages.length;
+            };
+            (ages.length === frequency) && leastFrequent.push(peerId);
+        });
+        return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
+    };    
+}
 
-			return sample;
-		}
-
-		/**
-   * Replace the occurrences of the old peer by the fresh one
-   * @param {array} sample the sample to modify
-   * @param {object} old the old reference to replace
-   * @param {object} fresh the new reference to insert
-   * @return {array} an array with the replaced occurences
-   */
-
-	}, {
-		key: 'replace',
-		value: function replace(sample, old, fresh) {
-			var result = [];
-			for (var i = 0; i < sample.length; ++i) {
-				if (sample[i].id === old.id) {
-					result.push(fresh);
-				} else {
-					result.push(sample[i]);
-				}
-			}
-			return result;
-		}
-
-		/**
-   * Add the neigbhor to the partial view with an age of 0
-   * @param {object} config the peer to add to the partial view
-   * @return {void}
-   */
-
-	}, {
-		key: 'addNeighbor',
-		value: function addNeighbor(config) {
-			this.array.insert(config);
-		}
-
-		/**
-   * Get the index of the peer in the partialview
-   * @param {string} id The id of the peer inside the partialView.
-   * @return {integer} the index of the peer in the array, -1 if not found
-   */
-
-	}, {
-		key: 'getIndex',
-		value: function getIndex(id) {
-			var i = this.array.arr.length - 1;
-			var index = -1;
-			var found = false;
-			while (!found && i >= 0) {
-				if (id === this.array.arr[i].id) {
-					found = true;
-					index = i;
-				}
-				--i;
-			}
-			return index;
-		}
-
-		/**
-   * Remove the peer from the partial view
-   * @param {string} id the peer to remove
-   * @param {integer} age The age of the peer
-   * @return {object} the removed entry if it exists, null otherwise
-   */
-
-	}, {
-		key: 'removePeer',
-		value: function removePeer(id, age) {
-			if (!age) {
-				var index = this.getIndex(id);
-				var removedEntry = null;
-				if (index > -1) {
-					removedEntry = this.array.arr[index];
-					this.array.arr.splice(index, 1);
-				}
-				return removedEntry;
-			} else {
-				return this.removePeerAge(id, age);
-			}
-		}
-
-		/**
-   * Remove all occurrences of the peer and return the number of removals
-   * @param {string} id the peer to remove
-   * @return {integer} the number of occurrences of the removed peer
-   */
-
-	}, {
-		key: 'removeAll',
-		value: function removeAll(id) {
-			var occ = 0;
-			var i = 0;
-			while (i < this.array.arr.length) {
-				if (this.array.arr[i].id === id) {
-					this.array.arr.splice(i, 1);
-					occ += 1;
-				} else {
-					++i;
-				}
-			}
-			return occ;
-		}
-
-		/**
-   * Remove all the elements contained in the sample in argument
-   * @param {array} sample the elements to remove
-   * @return {void}
-   */
-
-	}, {
-		key: 'removeSample',
-		value: function removeSample(sample) {
-			for (var i = 0; i < sample.length; ++i) {
-				this.removePeer(sample[i].id, sample[i].age);
-			}
-		}
-
-		/**
-   * Get the size of the partial view
-   * @return {integer} the size of the partial view
-   */
-
-	}, {
-		key: 'length',
-		value: function length() {
-			return this.array.arr.length;
-		}
-
-		/**
-   * Check if the partial view contains the reference
-   * @param {string} id the peer to check
-   * @return {boolean} true if the peer is in the partial view, false otherwise
-   */
-
-	}, {
-		key: 'contains',
-		value: function contains(id) {
-			return this.getIndex(id) >= 0;
-		}
-
-		/**
-   * brief remove all elements from the partial view
-   * @return {void}
-   */
-
-	}, {
-		key: 'clear',
-		value: function clear() {
-			this.array.arr.splice(0, this.array.arr.length);
-		}
-
-		/**
-   * Get the array containing views
-   * @return {array} Array with all views
-   */
-
-	}, {
-		key: 'get',
-		value: function get() {
-			return this.array.arr;
-		}
-
-		/**
-   * Remove the peer with the associated age from the partial view
-   * @param {string} id the peer to remove
-   * @param {integer} age the age of the peer to remove
-   * @return {object} the removed entry if it exists, null otherwise
-   */
-
-	}, {
-		key: 'removePeerAge',
-		value: function removePeerAge(id, age) {
-			var found = false;
-			var i = 0;
-			var removedEntry = null;
-			while (!found && i < this.array.arr.length) {
-				if (id === this.array.arr[i].id && age === this.array.arr[i].age) {
-					found = true;
-					removedEntry = this.array.arr[i];
-					this.array.arr.splice(i, 1);
-				}
-				++i;
-			}
-			return removedEntry;
-		}
-	}]);
-
-	return PartialView;
-}();
 
 module.exports = PartialView;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhcnRpYWx2aWV3LmpzIl0sIm5hbWVzIjpbIlNvcnRlZEFycmF5IiwicmVxdWlyZSIsIlBhcnRpYWxWaWV3Iiwib3B0aW9ucyIsInVzZWRDb2VmIiwiY29tcGFyYXRvciIsImEiLCJiIiwiZmlyc3QiLCJhZ2UiLCJzZWNvbmQiLCJhcnJheSIsImFyciIsImkiLCJsZW5ndGgiLCJuZWlnaGJvciIsImlzSW5pdGlhdG9yIiwic2FtcGxlIiwiY2xvbmUiLCJwdXNoIiwic2FtcGxlU2l6ZSIsIk1hdGgiLCJjZWlsIiwiZm91bmQiLCJpZCIsInNwbGljZSIsInJuIiwiZmxvb3IiLCJyYW5kb20iLCJvbGQiLCJmcmVzaCIsInJlc3VsdCIsImNvbmZpZyIsImluc2VydCIsImluZGV4IiwiZ2V0SW5kZXgiLCJyZW1vdmVkRW50cnkiLCJyZW1vdmVQZWVyQWdlIiwib2NjIiwicmVtb3ZlUGVlciIsIm1vZHVsZSIsImV4cG9ydHMiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7QUFFQSxJQUFNQSxjQUFjQyxRQUFRLDRCQUFSLENBQXBCOztBQUVBOzs7OztJQUlNQyxXO0FBQ0w7Ozs7OztBQU1BLHNCQUFhQyxPQUFiLEVBQXNCO0FBQUE7O0FBQ3JCO0FBQ0E7O0FBRUE7QUFDQSxPQUFLQyxRQUFMLEdBQWdCRCxRQUFRQyxRQUF4Qjs7QUFFQSxPQUFLQyxVQUFMLEdBQWtCLFVBQUNDLENBQUQsRUFBSUMsQ0FBSixFQUFVO0FBQzNCLE9BQU1DLFFBQVFGLEVBQUVHLEdBQUYsSUFBU0gsQ0FBdkI7QUFDQSxPQUFNSSxTQUFTSCxFQUFFRSxHQUFGLElBQVNGLENBQXhCO0FBQ0EsT0FBSUMsUUFBUUUsTUFBWixFQUFvQjtBQUNuQixXQUFPLENBQUMsQ0FBUjtBQUNBO0FBQ0QsT0FBSUYsUUFBUUUsTUFBWixFQUFvQjtBQUNuQixXQUFPLENBQVA7QUFDQTtBQUNELFVBQU8sQ0FBUDtBQUNBLEdBVkQ7O0FBWUEsT0FBS0MsS0FBTCxHQUFhLElBQUlYLFdBQUosQ0FBZ0IsS0FBS0ssVUFBckIsQ0FBYjtBQUNBOztBQUVEOzs7Ozs7Ozs4QkFJYTtBQUNaLFVBQU8sS0FBS00sS0FBTCxDQUFXQyxHQUFYLENBQWUsQ0FBZixDQUFQO0FBQ0E7O0FBR0Q7Ozs7Ozs7OEJBSWE7QUFDWixRQUFLLElBQUlDLElBQUksQ0FBYixFQUFnQkEsSUFBSSxLQUFLRixLQUFMLENBQVdDLEdBQVgsQ0FBZUUsTUFBbkMsRUFBMkMsRUFBRUQsQ0FBN0MsRUFBZ0Q7QUFDL0MsU0FBS0YsS0FBTCxDQUFXQyxHQUFYLENBQWVDLENBQWYsRUFBa0JKLEdBQWxCLElBQXlCLENBQXpCO0FBQ0E7QUFDRDs7QUFFRDs7Ozs7Ozs7Ozs0QkFPV00sUSxFQUFVQyxXLEVBQWE7QUFDakMsT0FBSUMsU0FBUyxFQUFiO0FBQ0E7QUFDQSxPQUFJQyxRQUFRLElBQUlsQixXQUFKLENBQWdCLEtBQUtLLFVBQXJCLENBQVo7QUFDQSxRQUFLLElBQUlRLEtBQUksQ0FBYixFQUFnQkEsS0FBSSxLQUFLRixLQUFMLENBQVdDLEdBQVgsQ0FBZUUsTUFBbkMsRUFBMkMsRUFBRUQsRUFBN0MsRUFBZ0Q7QUFDL0NLLFVBQU1OLEdBQU4sQ0FBVU8sSUFBVixDQUFlLEtBQUtSLEtBQUwsQ0FBV0MsR0FBWCxDQUFlQyxFQUFmLENBQWY7QUFDQTtBQUNEO0FBQ0EsT0FBTU8sYUFBYUMsS0FBS0MsSUFBTCxDQUFVLEtBQUtYLEtBQUwsQ0FBV0MsR0FBWCxDQUFlRSxNQUFmLEdBQXdCLEtBQUtWLFFBQXZDLENBQW5CO0FBQ0UsT0FBSVksV0FBSixFQUFpQjtBQUNyQjtBQUNRLFFBQUlPLFFBQVEsS0FBWjtBQUNBLFFBQUlWLElBQUksQ0FBUjtBQUNBLFdBQU0sQ0FBQ1UsS0FBRCxJQUFVVixJQUFFSyxNQUFNTixHQUFOLENBQVVFLE1BQTVCLEVBQW1DO0FBQy9CLFNBQUlJLE1BQU1OLEdBQU4sQ0FBVUMsQ0FBVixFQUFhVyxFQUFiLEtBQWtCVCxTQUFTUyxFQUEvQixFQUFrQztBQUM5QkQsY0FBUSxJQUFSO0FBQ0gsTUFGRCxNQUVPO0FBQ0gsUUFBRVYsQ0FBRjtBQUNIO0FBQ0o7QUFDTjtBQUNFSyxVQUFNTixHQUFOLENBQVVhLE1BQVYsQ0FBaUJaLENBQWpCLEVBQW1CLENBQW5CO0FBQ0ZJLFdBQU9FLElBQVAsQ0FBWUosUUFBWjtBQUNBOztBQUVEO0FBQ0EsVUFBT0UsT0FBT0gsTUFBUCxHQUFnQk0sVUFBdkIsRUFBbUM7QUFDbEMsUUFBTU0sS0FBS0wsS0FBS00sS0FBTCxDQUFXTixLQUFLTyxNQUFMLEtBQWdCVixNQUFNTixHQUFOLENBQVVFLE1BQXJDLENBQVg7QUFDQUcsV0FBT0UsSUFBUCxDQUFZRCxNQUFNTixHQUFOLENBQVVjLEVBQVYsQ0FBWjtBQUNBUixVQUFNTixHQUFOLENBQVVhLE1BQVYsQ0FBaUJDLEVBQWpCLEVBQXFCLENBQXJCO0FBQ0E7O0FBRUQsVUFBT1QsTUFBUDtBQUNBOztBQUVEOzs7Ozs7Ozs7OzBCQU9TQSxNLEVBQVFZLEcsRUFBS0MsSyxFQUFPO0FBQzVCLE9BQU1DLFNBQVMsRUFBZjtBQUNBLFFBQUssSUFBSWxCLElBQUksQ0FBYixFQUFnQkEsSUFBSUksT0FBT0gsTUFBM0IsRUFBbUMsRUFBRUQsQ0FBckMsRUFBd0M7QUFDdkMsUUFBSUksT0FBT0osQ0FBUCxFQUFVVyxFQUFWLEtBQWlCSyxJQUFJTCxFQUF6QixFQUE2QjtBQUM1Qk8sWUFBT1osSUFBUCxDQUFZVyxLQUFaO0FBQ0EsS0FGRCxNQUVPO0FBQ05DLFlBQU9aLElBQVAsQ0FBWUYsT0FBT0osQ0FBUCxDQUFaO0FBQ0E7QUFDRDtBQUNELFVBQU9rQixNQUFQO0FBQ0E7O0FBRUQ7Ozs7Ozs7OzhCQUthQyxNLEVBQVE7QUFDcEIsUUFBS3JCLEtBQUwsQ0FBV3NCLE1BQVgsQ0FBa0JELE1BQWxCO0FBQ0E7O0FBRUQ7Ozs7Ozs7OzJCQUtVUixFLEVBQUk7QUFDYixPQUFJWCxJQUFJLEtBQUtGLEtBQUwsQ0FBV0MsR0FBWCxDQUFlRSxNQUFmLEdBQXdCLENBQWhDO0FBQ0EsT0FBSW9CLFFBQVEsQ0FBQyxDQUFiO0FBQ0EsT0FBSVgsUUFBUSxLQUFaO0FBQ0EsVUFBTyxDQUFDQSxLQUFELElBQVVWLEtBQUssQ0FBdEIsRUFBeUI7QUFDeEIsUUFBSVcsT0FBTyxLQUFLYixLQUFMLENBQVdDLEdBQVgsQ0FBZUMsQ0FBZixFQUFrQlcsRUFBN0IsRUFBaUM7QUFDaENELGFBQVEsSUFBUjtBQUNBVyxhQUFRckIsQ0FBUjtBQUNBO0FBQ0QsTUFBRUEsQ0FBRjtBQUNBO0FBQ0QsVUFBT3FCLEtBQVA7QUFDQTs7QUFFRDs7Ozs7Ozs7OzZCQU1ZVixFLEVBQUlmLEcsRUFBSztBQUNwQixPQUFJLENBQUNBLEdBQUwsRUFBVTtBQUNULFFBQU15QixRQUFRLEtBQUtDLFFBQUwsQ0FBY1gsRUFBZCxDQUFkO0FBQ0EsUUFBSVksZUFBZSxJQUFuQjtBQUNBLFFBQUlGLFFBQVEsQ0FBQyxDQUFiLEVBQWdCO0FBQ2ZFLG9CQUFlLEtBQUt6QixLQUFMLENBQVdDLEdBQVgsQ0FBZXNCLEtBQWYsQ0FBZjtBQUNBLFVBQUt2QixLQUFMLENBQVdDLEdBQVgsQ0FBZWEsTUFBZixDQUFzQlMsS0FBdEIsRUFBNkIsQ0FBN0I7QUFDQTtBQUNELFdBQU9FLFlBQVA7QUFDQSxJQVJELE1BUU87QUFDTixXQUFPLEtBQUtDLGFBQUwsQ0FBbUJiLEVBQW5CLEVBQXVCZixHQUF2QixDQUFQO0FBQ0E7QUFDRDs7QUFFRDs7Ozs7Ozs7NEJBS1dlLEUsRUFBSTtBQUNkLE9BQUljLE1BQU0sQ0FBVjtBQUNBLE9BQUl6QixJQUFJLENBQVI7QUFDQSxVQUFPQSxJQUFJLEtBQUtGLEtBQUwsQ0FBV0MsR0FBWCxDQUFlRSxNQUExQixFQUFrQztBQUNqQyxRQUFJLEtBQUtILEtBQUwsQ0FBV0MsR0FBWCxDQUFlQyxDQUFmLEVBQWtCVyxFQUFsQixLQUF5QkEsRUFBN0IsRUFBaUM7QUFDaEMsVUFBS2IsS0FBTCxDQUFXQyxHQUFYLENBQWVhLE1BQWYsQ0FBc0JaLENBQXRCLEVBQXlCLENBQXpCO0FBQ0F5QixZQUFPLENBQVA7QUFDQSxLQUhELE1BR087QUFDTixPQUFFekIsQ0FBRjtBQUNBO0FBQ0Q7QUFDRCxVQUFPeUIsR0FBUDtBQUNBOztBQUVEOzs7Ozs7OzsrQkFLY3JCLE0sRUFBUTtBQUNyQixRQUFLLElBQUlKLElBQUksQ0FBYixFQUFnQkEsSUFBSUksT0FBT0gsTUFBM0IsRUFBbUMsRUFBRUQsQ0FBckMsRUFBd0M7QUFDdkMsU0FBSzBCLFVBQUwsQ0FBZ0J0QixPQUFPSixDQUFQLEVBQVVXLEVBQTFCLEVBQThCUCxPQUFPSixDQUFQLEVBQVVKLEdBQXhDO0FBQ0E7QUFDRDs7QUFFRDs7Ozs7OzsyQkFJVTtBQUNULFVBQU8sS0FBS0UsS0FBTCxDQUFXQyxHQUFYLENBQWVFLE1BQXRCO0FBQ0E7O0FBRUQ7Ozs7Ozs7OzJCQUtVVSxFLEVBQUk7QUFDYixVQUFPLEtBQUtXLFFBQUwsQ0FBY1gsRUFBZCxLQUFxQixDQUE1QjtBQUNBOztBQUVEOzs7Ozs7OzBCQUlTO0FBQ1IsUUFBS2IsS0FBTCxDQUFXQyxHQUFYLENBQWVhLE1BQWYsQ0FBc0IsQ0FBdEIsRUFBeUIsS0FBS2QsS0FBTCxDQUFXQyxHQUFYLENBQWVFLE1BQXhDO0FBQ0E7O0FBRUQ7Ozs7Ozs7d0JBSU87QUFDTixVQUFPLEtBQUtILEtBQUwsQ0FBV0MsR0FBbEI7QUFDQTs7QUFFRDs7Ozs7Ozs7O2dDQU1lWSxFLEVBQUlmLEcsRUFBSztBQUN2QixPQUFJYyxRQUFRLEtBQVo7QUFDQSxPQUFJVixJQUFJLENBQVI7QUFDQSxPQUFJdUIsZUFBZSxJQUFuQjtBQUNBLFVBQU8sQ0FBQ2IsS0FBRCxJQUFVVixJQUFJLEtBQUtGLEtBQUwsQ0FBV0MsR0FBWCxDQUFlRSxNQUFwQyxFQUE0QztBQUMzQyxRQUFJVSxPQUFPLEtBQUtiLEtBQUwsQ0FBV0MsR0FBWCxDQUFlQyxDQUFmLEVBQWtCVyxFQUF6QixJQUErQmYsUUFBUSxLQUFLRSxLQUFMLENBQVdDLEdBQVgsQ0FBZUMsQ0FBZixFQUFrQkosR0FBN0QsRUFBa0U7QUFDakVjLGFBQVEsSUFBUjtBQUNBYSxvQkFBZSxLQUFLekIsS0FBTCxDQUFXQyxHQUFYLENBQWVDLENBQWYsQ0FBZjtBQUNBLFVBQUtGLEtBQUwsQ0FBV0MsR0FBWCxDQUFlYSxNQUFmLENBQXNCWixDQUF0QixFQUF5QixDQUF6QjtBQUNBO0FBQ0QsTUFBRUEsQ0FBRjtBQUNBO0FBQ0QsVUFBT3VCLFlBQVA7QUFDQTs7Ozs7O0FBSUZJLE9BQU9DLE9BQVAsR0FBaUJ2QyxXQUFqQiIsImZpbGUiOiJwYXJ0aWFsdmlldy5qcyIsInNvdXJjZXNDb250ZW50IjpbIid1c2Ugc3RyaWN0JztcblxuY29uc3QgU29ydGVkQXJyYXkgPSByZXF1aXJlKCcuL2V4dGVuZGVkLXNvcnRlZC1hcnJheS5qcycpO1xuXG4vKipcbiAqIFN0cnVjdHVyZSBjb250YWluaW5nIHRoZSBuZWlnaGJvcmhvb2Qgb2YgYSBwZWVyLlxuICogQGNsYXNzIFBhcnRpYWxWaWV3XG4gKi9cbmNsYXNzIFBhcnRpYWxWaWV3IHtcblx0LyoqXG5cdCAqIENvbnN0cnVjdG9yIG9mIFBhcnRpYWxWaWV3XG5cdCAqIEBjb25zdHJ1Y3RvclxuXHQgKiBAcGFyYW0ge29iamVjdH0gb3B0aW9ucyBPYmplY3QgY29udGFpbmluZyBhbGwgb3B0aW9uc1xuXHQgKiBAcGFyYW0ge2RvdWJsZX0gb3B0aW9ucy51c2VkQ29lZiBSZXByZXNlbnRzIHRoZSBhbW91bnQgb2YgY2xpZW50cyBzaHVmZmxlZCBiZXR3ZWVuIFswOzFdXG5cdCAqL1xuXHRjb25zdHJ1Y3RvciAob3B0aW9ucykge1xuXHRcdC8vICMxIGluaXRpYWxpemUgdGhlIHBhcnRpYWwgdmlldyBhcyBhbiBhcnJheSBzb3J0ZWQgYnkgYWdlXG5cdFx0Ly8gZW50cmllcyBhcmUge2FnZSwgaWQsIHNvY2tldElkfVxuXG5cdFx0Ly8gQ29lZiA6IFswOzFdXG5cdFx0dGhpcy51c2VkQ29lZiA9IG9wdGlvbnMudXNlZENvZWY7XG5cblx0XHR0aGlzLmNvbXBhcmF0b3IgPSAoYSwgYikgPT4ge1xuXHRcdFx0Y29uc3QgZmlyc3QgPSBhLmFnZSB8fCBhO1xuXHRcdFx0Y29uc3Qgc2Vjb25kID0gYi5hZ2UgfHwgYjtcblx0XHRcdGlmIChmaXJzdCA8IHNlY29uZCkge1xuXHRcdFx0XHRyZXR1cm4gLTE7XG5cdFx0XHR9XG5cdFx0XHRpZiAoZmlyc3QgPiBzZWNvbmQpIHtcblx0XHRcdFx0cmV0dXJuIDE7XG5cdFx0XHR9XG5cdFx0XHRyZXR1cm4gMDtcblx0XHR9O1xuXG5cdFx0dGhpcy5hcnJheSA9IG5ldyBTb3J0ZWRBcnJheSh0aGlzLmNvbXBhcmF0b3IpO1xuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgb2xkZXN0IHBlZXIgaW4gdGhlIHBhcnRpYWxWaWV3XG5cdCAqIEByZXR1cm4ge29iamVjdH0gdGhlIG9sZGVzdCBwZWVyIGluIHRoZSBhcnJheVxuXHQgKi9cblx0Z2V0T2xkZXN0ICgpIHtcblx0XHRyZXR1cm4gdGhpcy5hcnJheS5hcnJbMF07XG5cdH1cblxuXG5cdC8qKlxuXHQgKiBJbmNyZW1lbnQgdGhlIGFnZSBvZiB0aGUgd2hvbGUgcGFydGlhbCB2aWV3XG5cdCAqIEByZXR1cm4ge3ZvaWR9XG5cdCAqL1xuXHRpbmNyZW1lbnQgKCkge1xuXHRcdGZvciAobGV0IGkgPSAwOyBpIDwgdGhpcy5hcnJheS5hcnIubGVuZ3RoOyArK2kpIHtcblx0XHRcdHRoaXMuYXJyYXkuYXJyW2ldLmFnZSArPSAxO1xuXHRcdH1cblx0fVxuXG5cdC8qKlxuXHQgKiBHZXQgYSBzYW1wbGUgb2YgdGhlIHBhcnRpYWwgdmlld1xuXHQgKiBAcGFyYW0ge3N0cmluZ30gbmVpZ2hib3IgdGhlIG5laWdoYm9yIHdoaWNoIHBlcmZvcm1zIHRoZSBleGNoYW5nZSB3aXRoIHVzXG5cdCAqIEBwYXJhbSB7Ym9vbGVhbn0gaXNJbml0aWF0b3Igd2hldGhlciBvciBub3QgdGhlIGNhbGxlciBpcyB0aGUgaW5pdGlhdG9yIG9mIHRoZVxuXHQgKiBleGNoYW5nZVxuXHQgKiBAcmV0dXJuIHthcnJheX0gYW4gYXJyYXkgY29udGFpbmluZyBuZWlnaGJvcnMgZnJvbSB0aGlzIHBhcnRpYWwgdmlld1xuXHQgKi9cblx0Z2V0U2FtcGxlIChuZWlnaGJvciwgaXNJbml0aWF0b3IpIHtcblx0XHRsZXQgc2FtcGxlID0gW107XG5cdFx0Ly8gIzEgY29weSB0aGUgcGFydGlhbCB2aWV3XG5cdFx0bGV0IGNsb25lID0gbmV3IFNvcnRlZEFycmF5KHRoaXMuY29tcGFyYXRvcik7XG5cdFx0Zm9yIChsZXQgaSA9IDA7IGkgPCB0aGlzLmFycmF5LmFyci5sZW5ndGg7ICsraSkge1xuXHRcdFx0Y2xvbmUuYXJyLnB1c2godGhpcy5hcnJheS5hcnJbaV0pO1xuXHRcdH1cblx0XHQvLyAjMiBwcm9jZXNzIHRoZSBzaXplIG9mIHRoZSBzYW1wbGVcblx0XHRjb25zdCBzYW1wbGVTaXplID0gTWF0aC5jZWlsKHRoaXMuYXJyYXkuYXJyLmxlbmd0aCAqIHRoaXMudXNlZENvZWYpO1xuICAgIGlmIChpc0luaXRpYXRvcikge1xuLy8gICAgICAgIGNvbnNvbGUubG9nKCduZWlnaGJvciAnLCBuZWlnaGJvcik7XG4gICAgICAgIHZhciBmb3VuZCA9IGZhbHNlO1xuICAgICAgICB2YXIgaSA9IDA7XG4gICAgICAgIHdoaWxlKCFmb3VuZCAmJiBpPGNsb25lLmFyci5sZW5ndGgpe1xuICAgICAgICAgICAgaWYgKGNsb25lLmFycltpXS5pZD09PW5laWdoYm9yLmlkKXtcbiAgICAgICAgICAgICAgICBmb3VuZCA9IHRydWU7XG4gICAgICAgICAgICB9IGVsc2Uge1xuICAgICAgICAgICAgICAgICsraTtcbiAgICAgICAgICAgIH07XG4gICAgICAgIH07XG5cdFx0XHQvLyAjQSByZW1vdmUgYW4gb2NjdXJyZW5jZSBvZiB0aGUgY2hvc2VuIG5laWdoYm9yXG5cdCAgICBjbG9uZS5hcnIuc3BsaWNlKGksMSk7XG5cdFx0XHRzYW1wbGUucHVzaChuZWlnaGJvcik7XG5cdFx0fVxuXG5cdFx0Ly8gIzMgcmFuZG9tbHkgYWRkIG5laWdoYm9ycyB0byB0aGUgc2FtcGxlXG5cdFx0d2hpbGUgKHNhbXBsZS5sZW5ndGggPCBzYW1wbGVTaXplKSB7XG5cdFx0XHRjb25zdCBybiA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIGNsb25lLmFyci5sZW5ndGgpO1xuXHRcdFx0c2FtcGxlLnB1c2goY2xvbmUuYXJyW3JuXSk7XG5cdFx0XHRjbG9uZS5hcnIuc3BsaWNlKHJuLCAxKTtcblx0XHR9XG5cblx0XHRyZXR1cm4gc2FtcGxlO1xuXHR9XG5cblx0LyoqXG5cdCAqIFJlcGxhY2UgdGhlIG9jY3VycmVuY2VzIG9mIHRoZSBvbGQgcGVlciBieSB0aGUgZnJlc2ggb25lXG5cdCAqIEBwYXJhbSB7YXJyYXl9IHNhbXBsZSB0aGUgc2FtcGxlIHRvIG1vZGlmeVxuXHQgKiBAcGFyYW0ge29iamVjdH0gb2xkIHRoZSBvbGQgcmVmZXJlbmNlIHRvIHJlcGxhY2Vcblx0ICogQHBhcmFtIHtvYmplY3R9IGZyZXNoIHRoZSBuZXcgcmVmZXJlbmNlIHRvIGluc2VydFxuXHQgKiBAcmV0dXJuIHthcnJheX0gYW4gYXJyYXkgd2l0aCB0aGUgcmVwbGFjZWQgb2NjdXJlbmNlc1xuXHQgKi9cblx0cmVwbGFjZSAoc2FtcGxlLCBvbGQsIGZyZXNoKSB7XG5cdFx0Y29uc3QgcmVzdWx0ID0gW107XG5cdFx0Zm9yIChsZXQgaSA9IDA7IGkgPCBzYW1wbGUubGVuZ3RoOyArK2kpIHtcblx0XHRcdGlmIChzYW1wbGVbaV0uaWQgPT09IG9sZC5pZCkge1xuXHRcdFx0XHRyZXN1bHQucHVzaChmcmVzaCk7XG5cdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHRyZXN1bHQucHVzaChzYW1wbGVbaV0pO1xuXHRcdFx0fVxuXHRcdH1cblx0XHRyZXR1cm4gcmVzdWx0O1xuXHR9XG5cblx0LyoqXG5cdCAqIEFkZCB0aGUgbmVpZ2Job3IgdG8gdGhlIHBhcnRpYWwgdmlldyB3aXRoIGFuIGFnZSBvZiAwXG5cdCAqIEBwYXJhbSB7b2JqZWN0fSBjb25maWcgdGhlIHBlZXIgdG8gYWRkIHRvIHRoZSBwYXJ0aWFsIHZpZXdcblx0ICogQHJldHVybiB7dm9pZH1cblx0ICovXG5cdGFkZE5laWdoYm9yIChjb25maWcpIHtcblx0XHR0aGlzLmFycmF5Lmluc2VydChjb25maWcpO1xuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgaW5kZXggb2YgdGhlIHBlZXIgaW4gdGhlIHBhcnRpYWx2aWV3XG5cdCAqIEBwYXJhbSB7c3RyaW5nfSBpZCBUaGUgaWQgb2YgdGhlIHBlZXIgaW5zaWRlIHRoZSBwYXJ0aWFsVmlldy5cblx0ICogQHJldHVybiB7aW50ZWdlcn0gdGhlIGluZGV4IG9mIHRoZSBwZWVyIGluIHRoZSBhcnJheSwgLTEgaWYgbm90IGZvdW5kXG5cdCAqL1xuXHRnZXRJbmRleCAoaWQpIHtcblx0XHRsZXQgaSA9IHRoaXMuYXJyYXkuYXJyLmxlbmd0aCAtIDE7XG5cdFx0bGV0IGluZGV4ID0gLTE7XG5cdFx0bGV0IGZvdW5kID0gZmFsc2U7XG5cdFx0d2hpbGUgKCFmb3VuZCAmJiBpID49IDApIHtcblx0XHRcdGlmIChpZCA9PT0gdGhpcy5hcnJheS5hcnJbaV0uaWQpIHtcblx0XHRcdFx0Zm91bmQgPSB0cnVlO1xuXHRcdFx0XHRpbmRleCA9IGk7XG5cdFx0XHR9XG5cdFx0XHQtLWk7XG5cdFx0fVxuXHRcdHJldHVybiBpbmRleDtcblx0fVxuXG5cdC8qKlxuXHQgKiBSZW1vdmUgdGhlIHBlZXIgZnJvbSB0aGUgcGFydGlhbCB2aWV3XG5cdCAqIEBwYXJhbSB7c3RyaW5nfSBpZCB0aGUgcGVlciB0byByZW1vdmVcblx0ICogQHBhcmFtIHtpbnRlZ2VyfSBhZ2UgVGhlIGFnZSBvZiB0aGUgcGVlclxuXHQgKiBAcmV0dXJuIHtvYmplY3R9IHRoZSByZW1vdmVkIGVudHJ5IGlmIGl0IGV4aXN0cywgbnVsbCBvdGhlcndpc2Vcblx0ICovXG5cdHJlbW92ZVBlZXIgKGlkLCBhZ2UpIHtcblx0XHRpZiAoIWFnZSkge1xuXHRcdFx0Y29uc3QgaW5kZXggPSB0aGlzLmdldEluZGV4KGlkKTtcblx0XHRcdGxldCByZW1vdmVkRW50cnkgPSBudWxsO1xuXHRcdFx0aWYgKGluZGV4ID4gLTEpIHtcblx0XHRcdFx0cmVtb3ZlZEVudHJ5ID0gdGhpcy5hcnJheS5hcnJbaW5kZXhdO1xuXHRcdFx0XHR0aGlzLmFycmF5LmFyci5zcGxpY2UoaW5kZXgsIDEpO1xuXHRcdFx0fVxuXHRcdFx0cmV0dXJuIHJlbW92ZWRFbnRyeTtcblx0XHR9IGVsc2Uge1xuXHRcdFx0cmV0dXJuIHRoaXMucmVtb3ZlUGVlckFnZShpZCwgYWdlKTtcblx0XHR9XG5cdH1cblxuXHQvKipcblx0ICogUmVtb3ZlIGFsbCBvY2N1cnJlbmNlcyBvZiB0aGUgcGVlciBhbmQgcmV0dXJuIHRoZSBudW1iZXIgb2YgcmVtb3ZhbHNcblx0ICogQHBhcmFtIHtzdHJpbmd9IGlkIHRoZSBwZWVyIHRvIHJlbW92ZVxuXHQgKiBAcmV0dXJuIHtpbnRlZ2VyfSB0aGUgbnVtYmVyIG9mIG9jY3VycmVuY2VzIG9mIHRoZSByZW1vdmVkIHBlZXJcblx0ICovXG5cdHJlbW92ZUFsbCAoaWQpIHtcblx0XHRsZXQgb2NjID0gMDtcblx0XHRsZXQgaSA9IDA7XG5cdFx0d2hpbGUgKGkgPCB0aGlzLmFycmF5LmFyci5sZW5ndGgpIHtcblx0XHRcdGlmICh0aGlzLmFycmF5LmFycltpXS5pZCA9PT0gaWQpIHtcblx0XHRcdFx0dGhpcy5hcnJheS5hcnIuc3BsaWNlKGksIDEpO1xuXHRcdFx0XHRvY2MgKz0gMTtcblx0XHRcdH0gZWxzZSB7XG5cdFx0XHRcdCsraTtcblx0XHRcdH1cblx0XHR9XG5cdFx0cmV0dXJuIG9jYztcblx0fVxuXG5cdC8qKlxuXHQgKiBSZW1vdmUgYWxsIHRoZSBlbGVtZW50cyBjb250YWluZWQgaW4gdGhlIHNhbXBsZSBpbiBhcmd1bWVudFxuXHQgKiBAcGFyYW0ge2FycmF5fSBzYW1wbGUgdGhlIGVsZW1lbnRzIHRvIHJlbW92ZVxuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0cmVtb3ZlU2FtcGxlIChzYW1wbGUpIHtcblx0XHRmb3IgKGxldCBpID0gMDsgaSA8IHNhbXBsZS5sZW5ndGg7ICsraSkge1xuXHRcdFx0dGhpcy5yZW1vdmVQZWVyKHNhbXBsZVtpXS5pZCwgc2FtcGxlW2ldLmFnZSk7XG5cdFx0fVxuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgc2l6ZSBvZiB0aGUgcGFydGlhbCB2aWV3XG5cdCAqIEByZXR1cm4ge2ludGVnZXJ9IHRoZSBzaXplIG9mIHRoZSBwYXJ0aWFsIHZpZXdcblx0ICovXG5cdGxlbmd0aCAoKSB7XG5cdFx0cmV0dXJuIHRoaXMuYXJyYXkuYXJyLmxlbmd0aDtcblx0fVxuXG5cdC8qKlxuXHQgKiBDaGVjayBpZiB0aGUgcGFydGlhbCB2aWV3IGNvbnRhaW5zIHRoZSByZWZlcmVuY2Vcblx0ICogQHBhcmFtIHtzdHJpbmd9IGlkIHRoZSBwZWVyIHRvIGNoZWNrXG5cdCAqIEByZXR1cm4ge2Jvb2xlYW59IHRydWUgaWYgdGhlIHBlZXIgaXMgaW4gdGhlIHBhcnRpYWwgdmlldywgZmFsc2Ugb3RoZXJ3aXNlXG5cdCAqL1xuXHRjb250YWlucyAoaWQpIHtcblx0XHRyZXR1cm4gdGhpcy5nZXRJbmRleChpZCkgPj0gMDtcblx0fVxuXG5cdC8qKlxuXHQgKiBicmllZiByZW1vdmUgYWxsIGVsZW1lbnRzIGZyb20gdGhlIHBhcnRpYWwgdmlld1xuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0Y2xlYXIgKCkge1xuXHRcdHRoaXMuYXJyYXkuYXJyLnNwbGljZSgwLCB0aGlzLmFycmF5LmFyci5sZW5ndGgpO1xuXHR9XG5cblx0LyoqXG5cdCAqIEdldCB0aGUgYXJyYXkgY29udGFpbmluZyB2aWV3c1xuXHQgKiBAcmV0dXJuIHthcnJheX0gQXJyYXkgd2l0aCBhbGwgdmlld3Ncblx0ICovXG5cdGdldCAoKSB7XG5cdFx0cmV0dXJuIHRoaXMuYXJyYXkuYXJyO1xuXHR9XG5cblx0LyoqXG5cdCAqIFJlbW92ZSB0aGUgcGVlciB3aXRoIHRoZSBhc3NvY2lhdGVkIGFnZSBmcm9tIHRoZSBwYXJ0aWFsIHZpZXdcblx0ICogQHBhcmFtIHtzdHJpbmd9IGlkIHRoZSBwZWVyIHRvIHJlbW92ZVxuXHQgKiBAcGFyYW0ge2ludGVnZXJ9IGFnZSB0aGUgYWdlIG9mIHRoZSBwZWVyIHRvIHJlbW92ZVxuXHQgKiBAcmV0dXJuIHtvYmplY3R9IHRoZSByZW1vdmVkIGVudHJ5IGlmIGl0IGV4aXN0cywgbnVsbCBvdGhlcndpc2Vcblx0ICovXG5cdHJlbW92ZVBlZXJBZ2UgKGlkLCBhZ2UpIHtcblx0XHRsZXQgZm91bmQgPSBmYWxzZTtcblx0XHRsZXQgaSA9IDA7XG5cdFx0bGV0IHJlbW92ZWRFbnRyeSA9IG51bGw7XG5cdFx0d2hpbGUgKCFmb3VuZCAmJiBpIDwgdGhpcy5hcnJheS5hcnIubGVuZ3RoKSB7XG5cdFx0XHRpZiAoaWQgPT09IHRoaXMuYXJyYXkuYXJyW2ldLmlkICYmIGFnZSA9PT0gdGhpcy5hcnJheS5hcnJbaV0uYWdlKSB7XG5cdFx0XHRcdGZvdW5kID0gdHJ1ZTtcblx0XHRcdFx0cmVtb3ZlZEVudHJ5ID0gdGhpcy5hcnJheS5hcnJbaV07XG5cdFx0XHRcdHRoaXMuYXJyYXkuYXJyLnNwbGljZShpLCAxKTtcblx0XHRcdH1cblx0XHRcdCsraTtcblx0XHR9XG5cdFx0cmV0dXJuIHJlbW92ZWRFbnRyeTtcblx0fVxufVxuXG5cbm1vZHVsZS5leHBvcnRzID0gUGFydGlhbFZpZXc7XG4iXX0=
-},{"./extended-sorted-array.js":1}],4:[function(require,module,exports){
+
+},{"./exceptions/expeernotfound.js":3}],7:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -463,54 +332,9 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],5:[function(require,module,exports){
-module.exports = function(haystack, needle, comparator, low, high) {
-  var mid, cmp;
+},{}],8:[function(require,module,exports){
 
-  if(low === undefined)
-    low = 0;
-
-  else {
-    low = low|0;
-    if(low < 0 || low >= haystack.length)
-      throw new RangeError("invalid lower bound");
-  }
-
-  if(high === undefined)
-    high = haystack.length - 1;
-
-  else {
-    high = high|0;
-    if(high < low || high >= haystack.length)
-      throw new RangeError("invalid upper bound");
-  }
-
-  while(low <= high) {
-    /* Note that "(low + high) >>> 1" may overflow, and results in a typecast
-     * to double (which gives the wrong results). */
-    mid = low + (high - low >> 1);
-    cmp = +comparator(haystack[mid], needle, mid, haystack);
-
-    /* Too low. */
-    if(cmp < 0.0)
-      low  = mid + 1;
-
-    /* Too high. */
-    else if(cmp > 0.0)
-      high = mid - 1;
-
-    /* Key found. */
-    else
-      return mid;
-  }
-
-  /* Key not found. */
-  return ~low;
-}
-
-},{}],6:[function(require,module,exports){
-
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1564,7 +1388,400 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":4,"ieee754":9,"is-array":10}],8:[function(require,module,exports){
+},{"base64-js":7,"ieee754":13,"is-array":14}],10:[function(require,module,exports){
+(function (process){
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = require('./debug');
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
+    return true;
+  }
+
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && document && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (typeof window !== 'undefined' && window && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit')
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
+  }
+
+  return r;
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+}).call(this,require('_process'))
+},{"./debug":11,"_process":68}],11:[function(require,module,exports){
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
+exports.coerce = coerce;
+exports.disable = disable;
+exports.enable = enable;
+exports.enabled = enabled;
+exports.humanize = require('ms');
+
+/**
+ * The currently active debug mode names, and names to skip.
+ */
+
+exports.names = [];
+exports.skips = [];
+
+/**
+ * Map of special "%n" handling functions, for the debug "format" argument.
+ *
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+ */
+
+exports.formatters = {};
+
+/**
+ * Previous log timestamp.
+ */
+
+var prevTime;
+
+/**
+ * Select a color.
+ * @param {String} namespace
+ * @return {Number}
+ * @api private
+ */
+
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+
+  return exports.colors[Math.abs(hash) % exports.colors.length];
+}
+
+/**
+ * Create a debugger with the given `namespace`.
+ *
+ * @param {String} namespace
+ * @return {Function}
+ * @api public
+ */
+
+function createDebug(namespace) {
+
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
+
+    var self = debug;
+
+    // set `diff` timestamp
+    var curr = +new Date();
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
+    self.prev = prevTime;
+    self.curr = curr;
+    prevTime = curr;
+
+    // turn the `arguments` into a proper Array
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    args[0] = exports.coerce(args[0]);
+
+    if ('string' !== typeof args[0]) {
+      // anything else let's inspect with %O
+      args.unshift('%O');
+    }
+
+    // apply any `formatters` transformations
+    var index = 0;
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+      // if we encounter an escaped % then don't increase the array index
+      if (match === '%%') return match;
+      index++;
+      var formatter = exports.formatters[format];
+      if ('function' === typeof formatter) {
+        var val = args[index];
+        match = formatter.call(self, val);
+
+        // now we need to remove `args[index]` since it's inlined in the `format`
+        args.splice(index, 1);
+        index--;
+      }
+      return match;
+    });
+
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
+
+    var logFn = debug.log || exports.log || console.log.bind(console);
+    logFn.apply(self, args);
+  }
+
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
+
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
+
+  return debug;
+}
+
+/**
+ * Enables a debug mode by namespaces. This can include modes
+ * separated by a colon and wildcards.
+ *
+ * @param {String} namespaces
+ * @api public
+ */
+
+function enable(namespaces) {
+  exports.save(namespaces);
+
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+  var len = split.length;
+
+  for (var i = 0; i < len; i++) {
+    if (!split[i]) continue; // ignore empty strings
+    namespaces = split[i].replace(/\*/g, '.*?');
+    if (namespaces[0] === '-') {
+      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+    } else {
+      exports.names.push(new RegExp('^' + namespaces + '$'));
+    }
+  }
+}
+
+/**
+ * Disable debug output.
+ *
+ * @api public
+ */
+
+function disable() {
+  exports.enable('');
+}
+
+/**
+ * Returns true if the given mode name is enabled, false otherwise.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
+
+function enabled(name) {
+  var i, len;
+  for (i = 0, len = exports.skips.length; i < len; i++) {
+    if (exports.skips[i].test(name)) {
+      return false;
+    }
+  }
+  for (i = 0, len = exports.names.length; i < len; i++) {
+    if (exports.names[i].test(name)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Coerce `val`.
+ *
+ * @param {Mixed} val
+ * @return {Mixed}
+ * @api private
+ */
+
+function coerce(val) {
+  if (val instanceof Error) return val.stack || val.message;
+  return val;
+}
+
+},{"ms":17}],12:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1867,7 +2084,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -1953,7 +2170,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],10:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 /**
  * isArray
@@ -1988,7 +2205,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],11:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -2011,7 +2228,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],12:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19099,1504 +19316,7 @@ function isSlowBuffer (obj) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],13:[function(require,module,exports){
-'use strict';
-
-/**
- * @access private
- */
-const MConnectTo = (protocol, from, to) => {
-    return {
-      protocol,
-      type: 'MConnectTo',
-      from,
-      to
-    };
-};
-
-/**
- * @access private
- */
-const MForwardTo = (from, to, message, protocol) => {
-    return {
-      protocol,
-      type: 'MForwardTo',
-      from,
-      to,
-      message
-    };
-};
-
-/**
- * @access private
- */
-const MForwarded = (from, to, message, protocol) => {
-    return {
-      protocol: protocol,
-      type: 'MForwarded',
-      from: from,
-      to: to,
-      message: message
-    };
-};
-
-/**
- * @access private
- */
-const MDirect = (from, message, protocol) => {
-    return {
-      protocol,
-      type: 'MDirect',
-      from,
-      message
-    };
-};
-
-module.exports = { MConnectTo, MForwardTo, MForwarded, MDirect };
-
-},{}],14:[function(require,module,exports){
-'use strict';
-
-const Neighborhood = require('neighborhood-wrtc');
-const EventEmitter = require('events');
-const _ = require('lodash');
-
-const MForwardTo = require('./messages.js').MForwardTo;
-const MForwarded = require('./messages.js').MForwarded;
-const MConnectTo = require('./messages.js').MConnectTo;
-const MDirect = require('./messages.js').MDirect;
-
-
-/**
- * A neighbor has an inview and an outview and is able to act as a bridge
- * between its neighbors so they can establish their own communication channels
- * @access public
- * @extends {EventEmitter}
- */
-class Neighbor extends EventEmitter {
-
-  /**
-   * @param {object} options options represented as an object (refer to neighborhood-wrtc for other options)
-   * @param {object} options.protocol Name of the protocol
-   * @param {object} options.inview Inview Socket
-   * @param {object} options.outview Outview Socket
-   *
-   */
-  constructor (options) {
-    super();
-
-    this.options = {
-      protocol: 'n2n-overlay-wrtc'
-    };
-    this.options = _.merge(this.options, options);
-
-    // #1 dissociate entering arcs from outgoing arcs
-    this.inview = (this.options && this.options.inview) || new Neighborhood(this.options);
-    this.outview = (this.options && this.options.outview) || new Neighborhood(this.options);
-    // #2 concise access
-    this.i = this.inview;
-    this.o = this.outview;
-
-    const self = this;
-    // #A callbacks when there is a bridge to create a connection
-    this.callbacks = (id, message, view) => {
-        return {
-            onInitiate: (offer) => {
-                self.send(id, MForwardTo(message.from, message.to,
-                                         offer,
-                                         this.options.protocol));
-            },
-            onAccept: (offer) => {
-                self.send(id, MForwardTo(message.to, message.from,
-                                         offer,
-                                         this.options.protocol));
-            }
-        };
-    };
-    // #B callbacks when it establishes a connection to a neighbor, either
-    // this -> neighbor or neigbhor -> this. It is worth noting that if it
-    // a channel exists in the inview and we want to create an identical in the
-    // outview, a new channel must be created; for the peer that owns the arc
-    // in its outview can destroy it without warning.
-    this.directCallbacks = (id, idView, view) => {
-        return {
-            onInitiate: (offer) => {
-                self.send(id, MDirect(idView, offer, this.options.protocol));
-            },
-            onAccept: (offer) => {
-                self.send(id, MDirect(idView, offer, this.options.protocol));
-            }
-        };
-    };
-
-    // #C receive a message from an arc, it forwards it to a listener
-    // of this module, otherwise, it keeps and interprets it.
-    let receive = (id, message) => {
-        // #1 redirect
-        if (!message.protocol || message.protocol!==this.options.protocol){
-            self.emit('receive', id, message);
-            return; // ugly early return
-        }
-        // #2 otherwise, interpret
-        switch (message.type){
-        case 'MConnectTo': // #A a neighbor asks us to connect to a remote one
-            if (message.to && message.from){
-                self.connection(this.callbacks(id, message, 'outview'));
-            } else { // #B a neighbor asks us to connect to him
-                self.connection(this.directCallbacks(id, self.outview.ID,'outview'));
-            }
-            break;
-        case 'MForwardTo': // #C a message is to be forwarded to a neighbor
-            self.send(message.to, MForwarded(message.from, message.to, message.message, message.protocol));
-            break;
-        case 'MForwarded': // #D a message has been forwarded to us, deliver
-            self.inview.connection(this.callbacks(id, message, 'inview'), message.message) || self.outview.connection(message.message);
-            break;
-        case 'MDirect': // #E a direct neigbhor sends offers to accept
-            self.inview.connection(this.directCallbacks(id, message.from, 'inview'), message.message) || self.outview.connection(message.message);
-            break;
-        };
-    };
-
-    this.inview.on('receive', receive);
-    this.outview.on('receive', receive);
-
-    // #D an arc in one of the view is ready, redirect event
-    this.inview.on('ready-'+this.options.protocol, (id) => self.emit('ready', id, 'inview'));
-    this.outview.on('ready-'+this.options.protocol, (id) => self.emit('ready', id, 'outview'));
-
-    // #E a connection failed to establish
-    this.inview.on('fail', (reason) => this.emit('failed', 'i', 'inview', reason));
-		this.outview.on('fail', (reason) => this.emit('failed', 'o', 'outview', reason));
-
-    // #F an arc has been remove
-    this.inview.on('disconnect', (id) => self.emit('disconnect', id, 'inview'));
-    this.outview.on('disconnect', (id) => self.emit('disconnect', id, 'outview'));
-  }
-  /**
-   * connect the peers at the other ends of sockets identified
-   * @param {string} from the identifier of the socket leading to a peer which will add
-   * a socket in its outview
-   * @param {string} to the identifier of the socket leading to a peer which will add
-   * a socket in its inview
-   * @return {void}
-   */
-  connect (from, to){
-    if (!from && to){
-        // #A only the 'to' argument implicitly means from = this
-        // this -> to
-        this.connection(this.directCallbacks( to, this.outview.ID, 'outview'));
-    } else if (from && !to){
-        // #B only the 'from' argument implicitly means to = this
-        // from -> this
-        this.send(from, MConnectTo(this.options.protocol));
-    } else {
-        // #C ask to the from-peer to the to-peer
-        // from -> to
-        this.send(from, MConnectTo(this.options.protocol, from, to));
-    }
-  }
-
-  /**
-   * bootstrap the network, i.e. first join the network. This peer
-   * will add a peer which already belong to the network. The rest of
-   * protocol can be done inside the network with the function connect.
-   * @param {callback} callbacks see callbacks of neighborhood-wrtc
-   * @param {object} message see messages of neighborhood-wrtc
-   * @return {string} the id of the socket
-   */
-  connection (callbacks, message){
-    if (!message || (message && message.type==='MResponse')){
-        return this.outview.connection(callbacks, message, this.options.protocol);
-    } else {
-        return this.inview.connection(callbacks, message, this.options.protocol);
-    }
-  }
-  /**
-   * remove an arc of the outview or all arcs
-   * @param {string} id the arc to remove, if none, remove all arcs
-   */
-  disconnect (id) {
-    if (!id){
-        this.outview.disconnect();
-        this.inview.disconnect();
-        return true;
-    } else {
-        return this.outview.disconnect(id);
-    }
-  }
-
-
-
-  /**
-   * Send the message to the peer identified by id
-   * @param {string} id the identifier of the socket used to send the message
-   * @param {object} message the message to send
-   * @return {boolean} true if the message has been sent, false otherwise
-   */
-  send (id, message) {
-      return this.outview.send(id, message) || this.inview.send(id, message);
-  }
-
-  /**
-   * get the socket corresponding to the id in argument and views
-   * @param {string} idOrView string id or 'inview' or 'outview'
-   * @return a list of entries or an entry
-   */
-  get (idOrView) {
-    return  ((idOrView==='inview') && this.inview.living.ms.arr) ||// all inview
-    ((idOrView==='outview') && this.outview.living.ms.arr) || // all outview
-    (idOrView && (this.outview.get(idOrView) ||
-                  this.inview.get(idOrView))); // cherry picking
-  }
-
-  /**
-   * simple string representing the in and out views
-   * @return {void} a string with in and out views
-   */
-  toString () {
-      var result = '';
-      result += 'IDS [' + this.inview.ID +', '+ this.outview.ID +'] ';
-      result += 'In {';
-      var I = this.get('inview');
-      for (var i = 0; i < I.length; ++i){
-          result +=  I[i].id + ' x' + I[i].occ + '; ';
-      };
-      result += '}  Out {';
-      var O = this.get('outview');
-      for (var i = 0; i < O.length; ++i){
-          result +=  O[i].id + ' x' + O[i].occ + '; ';
-      };
-      result += '}';
-      return result;
-  }
-
-
-}
-
-module.exports = Neighbor;
-
-},{"./messages.js":13,"events":8,"lodash":15,"neighborhood-wrtc":18}],15:[function(require,module,exports){
-module.exports=require(12)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":12}],16:[function(require,module,exports){
-var SortedArray = require('sorted-cmp-array');
-
-SortedArray.prototype.get = function(entry){
-    var index = this.indexOf(entry);
-    return ((index >= 0)&&this.arr[index]) || null;
-};
-
-
-SortedArray.prototype.contains = function(entry){
-    return (this.indexOf(entry) >= 0);
-};
-
-module.exports = SortedArray;
-
-},{"sorted-cmp-array":38}],17:[function(require,module,exports){
-var SortedArray = require('./extended-sorted-array');
-
-function MultiSet(Comparator){
-    this.ms = new SortedArray(Comparator||defaultComparator);
-};
-
-MultiSet.prototype.insert = function(entryOrId){
-    var object = this.ms.get(entryOrId);
-    if (object){
-        // #1 if the object already exists, increment its occurrence
-        object.occ += 1;
-    } else {
-        // #2 initalize the occurrence to 1 and insert it otherwise
-        entryOrId.occ = 1;
-        this.ms.insert(entryOrId);
-    };
-    return object;
-};
-
-MultiSet.prototype.remove = function(entryOrId){
-    var object = this.ms.get(entryOrId);
-    if (object){
-        object.occ -= 1;
-        (object.occ <= 0) && this.ms.remove(entryOrId);
-    };
-    return object;
-};
-
-MultiSet.prototype.removeAll = function(entryOrId){
-    var object = this.ms.get(entryOrId);
-    if (object){
-//        object.occ = 0;
-        this.ms.remove(entryOrId);
-    };
-    return object;
-};
-
-MultiSet.prototype.contains = function(entryOrId){
-    return this.ms.contains(entryOrId);
-};
-
-MultiSet.prototype.get = function(entryOrId){
-    return this.ms.get(entryOrId);
-};
-
-function defaultComparator(a, b){
-    var first = a.id || a;
-    var second = b.id || b;
-    if (first < second){return -1};
-    if (first > second){return  1};
-    return 0;
-};
-
-
-module.exports = MultiSet;
-
-},{"./extended-sorted-array":16}],18:[function(require,module,exports){
-'use strict';
-
-const EventEmitter = require('events');
-const _ = require('lodash');
-const uuid = require('uuid/v4');
-const SortedArray = require('./extended-sorted-array.js');
-const MultiSet = require('./multiset.js');
-const SimplePeer = require('simple-peer');
-
-/**
- * Easy-to-use interface on SimplePeer (npm: simple-peer)
- * @param {object} options the options available to the connections, e.g. timeout before
- * @param {string} options.protocol Protocol to use
- * @param {object} options.webrtc Webrtc options
- * @param {number} options.timeout Time to wait for socket destruction or failed message (time in milliseconds)
- * @param {function} options.encoding Method to customize message sent, default: return JSON.stringify(data);
- * @param {function} options.decoding Method to decode a received message, default: return JSON.parse(data);
- * @param {boolean} options.verbose Print log message: default false
- */
-class Neighborhood extends EventEmitter {
-	constructor (options) {
-		super();
-    // #1 save options
-    this.options = {
-      protocol: 'default',
-      webrtc: {
-        iceServers: [],
-        trickle: false,
-        initiator: false
-      },
-      config: {},
-      trickle: false,
-      timeout: 2 * 60 * 1000,
-      encoding: (d) => {
-        return JSON.stringify(d);
-      },
-      decoding: (d) => {
-        return JSON.parse(d);
-      },
-      verbose: false
-    };
-    this.options = _.merge(this.options, options);
-    // Override config to match webrtc options
-    this.options.config = this.options.webrtc;
-
-    this.protocol = this.options.protocol + '-neighborhood-wrtc';
-
-		this.encoding = this.options.encoding;
-		this.decoding = this.options.decoding;
-		this.ID = uuid();
-
-		if(options && options.verbose) {
-			this.verbose = options.verbose;
-		}
-
-    /*!
-     * \brief compare the id of entries in tables
-     */
-    this.Comparator = (a, b) => {
-        var first = a.id || a;
-        var second = b.id || b;
-        if (first < second){ return -1; };
-        if (first > second){ return  1; };
-        return 0;
-    };
-    // #2 initialize tables
-    this.pending = new SortedArray(this.Comparator); // not finalized yet
-    this.living = new MultiSet(this.Comparator); // live and usable
-    this.dying = new SortedArray(this.Comparator); // being remove
-	}
-
-  /**
-   * @private
-   */
-	MResponse (tid, pid, offer, protocol) {
-		return {
-			tid: tid,
-			pid: pid,
-			protocol: protocol,
-			type: 'MResponse',
-			offer: offer
-		};
-	}
-  /**
-   * @private
-   */
-	MRequest (tid, pid, offer, protocol) {
-		return {
-			tid: tid,
-			pid: pid,
-			protocol: protocol,
-			type: 'MRequest',
-			offer: offer
-		};
-	}
-
-  /**
-   * @private
-   */
-	log (...args) {
-		if(this.verbose) {
-			console.log('[NEIGHBORHOOD] ', args);
-		}
-	}
-
-  /**
-   * Disconnect one of the arc with the identifier in argument. If
-   * it was the last arc with such id, the socket is relocated to the dying
-   * table. The socket will be destroy after a bit. If there is no argument,
-   * disconnect the whole.
-   * @param {string|undefined} id Id provided to just disconnect the arc or if undefined disconnect all arcs
-   */
-  disconnect (id) {
-    let result = true;
-    if (!id) {
-      // #1 disconnect everything
-      this.pending.arr.forEach((e) => {
-          e.socket && e.socket.destroy();
-      });
-      while (this.living.ms.arr.length > 0) {
-          const e = this.living.ms.arr[0];
-          e.socket && e.socket.destroy();
-      }
-      while (this.dying.arr.length > 0) {
-          const e = this.dying.arr[0];
-          e.socket && e.socket.destroy();
-      }
-    } else {
-      // #2 remove one arc
-      let entry = this.living.remove(id);
-      entry && this.emit('disconnect', entry.id);
-      if (entry && entry.occ <= 0) {
-          entry.timeout = setTimeout(function () {
-              entry.socket.destroy();
-          }, this.options.timeout);
-          this.dying.insert(entry);
-      }
-      result = entry && true || false;
-    }
-    return result;
-  }
-
-	/**
-	 * New method to encode the message as we want
-	 * @param  {object} message The message to encode
-	 * @return {string|binary} Encoded message
-	 */
-	encode (message) {
-		return this.encoding(message);
-	}
-
-	/**
-	 * New method to encode the message as we want
-	 * @param  {object} message The message to encode
-	 * @return {string|binary} Encoded message
-	 */
-	decode (message) {
-		return this.decoding(message);
-	}
-
-	/**
-	 * Send a message to the socket in argument
-	 * @param {string} id the identifier of the socket
-	 * @param {object} message the message to send
-	 * @return {boolean} true if the message is sent, false otherwise
-	 */
-	send (id, message) {
-		// #1 convert message to string (TODO) check if there is a better way
-		let msg = ((message instanceof String) && message) || this.encode(message);
-		// #2 get the socket to use
-		let entry = this.get(id);
-		let socket = entry && entry.socket;
-		// #3 send
-		let result = msg && socket && socket.connected && socket._channel && (socket._channel.readyState === 'open');
-		// result && socket.send(msg);
-		try {
-			result && socket.send(msg);
-			// DONT SET RESULT TO TRUE !
-		} catch (e) {
-			this.log('[NEIGHBORHOOD:SEND:ERROR] ', new Error(e));
-			result = false;
-		}
-		return result;
-	}
-
-	/**
-	* creates a new incomming or outgoing connection depending on arguments
-	* @param {callback} callbacks the callback function when the stun/ice server returns the
-	* offer
-	* @param {object} message empty if it must initiate a connection, or the message received
-	* if it must answer or finalize one
-	* @param {string} protocol the connection is established for a specific protocol
-	* @return {string} the id of the socket
-	*/
-	connection (callbacks, message, protocol) {
-
-		let msg = (callbacks && callbacks.type && callbacks) || message;
-		let result;
-
-		if (!msg) {
-			result = this.initiate(callbacks, protocol);
-		} else if (msg.type==='MRequest') {
-
-			if(message && message.pid && this.ID !== message.pid) {
-				result = this.accept(msg, callbacks);
-				result = this.alreadyExists(msg, callbacks) || result;
-			}
-
-		} else if (msg.type==='MResponse') {
-			result = this.finalize(msg);
-			result = this.alreadyExists(msg) || result;
-		}
-
-		return result && result.id;
-	}
-
-  /**
-   * Get the entry corresponding to the id in argument. The entry contains
-   * the socket.
-   * @param {string} id the identifier of the socket to retrieve
-   * @return {object} an entry from tables. It priorizes entries in living, then dying,
-   * then pending.
-   */
-  get(id){
-      return this.living.get(id) || this.dying.get(id) || this.pending.get(id);
-  }
-
-	/**
-	 * @private
-	 * Common behavior to initiating and accepting sockets
-	 * @param {object} entry the entry in the neighborhood table
-	 * @return {void}
-	 */
-	common (entry) {
-		const self = this, socket = entry.socket;
-
-		socket.on('data', (message) => {
-			message = self.decode(message);
-			self.emit('receive', entry.pid, message);
-		});
-		socket.on('stream', (stream) => {
-			self.emit('stream', entry.pid, stream);
-		});
-
-		socket.on('error', err => {
-			self.emit('error', new Error(err));
-		});
-	}
-
-	/**
-	 * @private
-	 * initiates a connection with another peer -- the id of which is unknown
-	 * @param {callback} callbacks the function to call when signaling info are received and
-	 * when the connection is ready to be used
-	 * @param {string} protocol The protocol
-	 * @return {object} entry
-	 */
-	initiate (callbacks, protocol) {
-		const self = this;
-		let opts = self.options.config;
-		opts.initiator = true;
-		let socket = new SimplePeer(opts);
-		let entry = {
-			id: uuid(),
-			socket: socket,
-			protocol: protocol,
-			successful: false, // not yet
-			onOffer: callbacks && callbacks.onInitiate,
-			onReady: callbacks && callbacks.onReady
-		};
-
-		this.pending.insert(entry);
-		socket.on('signal', (offer) => {
-			entry.onOffer && entry.onOffer(self.MRequest(entry.id, self.ID, offer, protocol));
-		});
-
-		entry.timeout = setTimeout(() => {
-			let e = self.pending.get(entry.id);
-			if (e && !e.successful) {
-				self.emit('fail', '[FAIL:INITIATE] an error occured during removing the entry');
-			}
-			self.pending.remove(entry) && socket.destroy();
-		}, this.options.timeout);
-		return entry;
-	}
-
-
-	/**
-	 * @private
-	 * accept the offer of another peer
-	 * @param {object} message the received message containing id and offer
-	 * @param {callback} callbacks the function call after receiving the offer and
-	 * when the connection is ready
-	 * @return {object} Entry
-	 */
-	accept (message, callbacks) {
-		// #1 if already exists, use it
-
-
-		let prior = this.pending.get(message.tid);
-		if (prior) {
-			return prior;
-		}
-		// #2 otherwise, create the socket
-		const self = this;
-		// let opts=JSON.parse(JSON.stringify(this.options));// quick but ugly copy
-		let opts = this.options.config;
-		opts.initiator = false;
-		let socket = new SimplePeer(opts);
-		let entry = {
-			id: message.tid,
-			pid: message.pid,
-			protocol: message.protocol,
-			socket: socket,
-			successful: false,
-			onOffer: callbacks && callbacks.onAccept,
-			onReady: callbacks && callbacks.onReady
-		};
-
-		this.pending.insert(entry);
-		socket.on('signal', function (offer) {
-			entry.onOffer && entry.onOffer(self.MResponse(entry.id, self.ID, offer, entry.protocol));
-		});
-		socket.on('connect', function () {
-			self.get(entry.pid) && socket.destroy();
-			self.pending.remove(entry);
-			self.living.insert({
-				id: entry.pid,
-				socket: entry.socket,
-				onReady: entry.onReady,
-				onOffer: entry.onOffer
-			});
-
-
-			entry.onReady && entry.onReady(entry.pid);
-			self.emit('ready', entry.pid);
-			entry.protocol && self.emit('ready-'+entry.protocol, entry.pid);
-
-			clearTimeout(entry.timeout);
-			entry.timeout = null;
-		});
-		socket.on('close', function () {
-			if (self.pending.contains(entry.id)) {
-				// #A pending: entry is kept until automatic destruction
-				entry.socket = null;
-			} else {
-				// #B living or dying: clear the tables
-				entry.timeout && clearTimeout(entry.timeout);
-				entry.timeout = null;
-				let live = self.living.removeAll(entry.pid);
-				if (live) {
-					for (let i = 0; i < live.occ; ++i) {
-						self.emit('disconnect', entry.pid);
-					}
-				}
-				self.dying.remove(entry.pid);
-			}
-		});
-
-		this.common(entry);
-
-		entry.timeout = setTimeout(function () {
-			let e = self.pending.get(entry.id);
-			if (e && !e.successful) {
-				self.emit('fail', '[FAIL:ACCEPT] an error occured during removing the entry');
-			}
-			self.pending.remove(entry.id) && socket.destroy();
-		}, this.options.timeout);
-		return entry;
-	}
-
-
-	/**
-	 * @private
-	* finalize the behavior of an initiating socket
-	* @param {object} message the received message possibly containing an answer to the
-	* proposed offer
-	* @return {object} Return prior entry
-	*/
-	finalize (message) {
-		// #1 if it does not exists, stop; or if it exists but already setup
-		// return it
-		let prior = this.pending.get(message.tid);
-		if (!prior || prior.pid) {
-			return prior;
-		}
-		// #2 otherwise set the events correctly
-		prior.pid = message.pid;
-
-		let entry = {
-			id: message.pid,
-			socket: prior.socket,
-			protocol: prior.protocol,
-			onReady: prior.onReady,
-			onOffer: prior.onOffer
-		};
-
-		const self = this;
-		let socket = entry.socket;
-		socket.on('connect', function () {
-
-			self.get(entry.id) && socket.destroy();
-			self.pending.remove(prior);
-			self.living.insert(entry);
-			entry.onReady && entry.onReady(prior.pid);
-			self.emit('ready', prior.pid);
-			entry.protocol && self.emit('ready-'+entry.protocol, prior.pid);
-			clearTimeout(prior.timeout);
-
-		});
-		socket.on('close', function () {
-			if (self.pending.contains(message.tid)) {
-				self.pending.get(message.tid).socket = null;
-			} else {
-				prior.timeout && clearTimeout(prior.timeout);
-				prior.timeout = null;
-				let live = self.living.removeAll(prior.pid);
-				if (live) {
-					for (let i = 0; i < live.occ; ++i) {
-						self.emit('disconnect', prior.pid);
-					}
-				}
-				self.dying.remove(prior.pid);
-			}
-		});
-
-		this.common(prior);
-
-		return prior;
-	}
-
-	/**
-	 * @private
-	*  the peer id already exists in the tables
-	*  @param {object} message The message
-	*  @param {callback} callbacks the callbacks
-	*  @return {object} alreaydExist
-	*/
-	alreadyExists (message, callbacks) {
-		const self = this;
-		let alreadyExists = this.get(message.pid);
-		if  (!alreadyExists) {
-			// #A does not already exists but pending
-			let entry = this.pending.get(message.tid);
-			entry && entry.socket && message.offer && entry.socket.signal(message.offer);
-		} else {
-			// #B already exists and pending
-			let toRemove = this.pending.get(message.tid);
-			if (toRemove && toRemove.socket) { // exists but socket still w8in
-				if (!alreadyExists.timeout) {
-					// #1 already in living socket, add an occurrence
-					this.living.insert(message.pid);
-					toRemove.successful = true;
-				} else {
-					// #2 was dying, resurect the socket
-					this.dying.remove(alreadyExists);
-					clearTimeout(alreadyExists.timeout);
-					alreadyExists.timeout = null;
-					this.living.insert(alreadyExists);
-					toRemove.successful = true;
-				}
-				toRemove.socket.destroy();
-				// #C standard on accept function if it exists in arg
-				message.offer && callbacks && callbacks.onAccept && callbacks.onAccept(self.MResponse(message.tid, this.ID,	null,	message.protocol));
-
-				(callbacks &&	callbacks.onReady && callbacks.onReady(alreadyExists.id)) ||	(toRemove && 	toRemove.onReady &&	toRemove.onReady(alreadyExists.id));
-				this.emit('ready', alreadyExists.id);
-				message.protocol && this.emit('ready-'+message.protocol, alreadyExists.id);
-			}
-		}
-		return alreadyExists;
-	}
-
-}
-
-
-module.exports = Neighborhood;
-
-},{"./extended-sorted-array.js":16,"./multiset.js":17,"events":8,"lodash":15,"simple-peer":37,"uuid/v4":43}],19:[function(require,module,exports){
-module.exports=require(5)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/binary-search/index.js":5}],20:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var buffer = require('buffer');
-var Buffer = buffer.Buffer;
-var SlowBuffer = buffer.SlowBuffer;
-var MAX_LEN = buffer.kMaxLength || 2147483647;
-exports.alloc = function alloc(size, fill, encoding) {
-  if (typeof Buffer.alloc === 'function') {
-    return Buffer.alloc(size, fill, encoding);
-  }
-  if (typeof encoding === 'number') {
-    throw new TypeError('encoding must not be number');
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size > MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  var enc = encoding;
-  var _fill = fill;
-  if (_fill === undefined) {
-    enc = undefined;
-    _fill = 0;
-  }
-  var buf = new Buffer(size);
-  if (typeof _fill === 'string') {
-    var fillBuf = new Buffer(_fill, enc);
-    var flen = fillBuf.length;
-    var i = -1;
-    while (++i < size) {
-      buf[i] = fillBuf[i % flen];
-    }
-  } else {
-    buf.fill(_fill);
-  }
-  return buf;
-}
-exports.allocUnsafe = function allocUnsafe(size) {
-  if (typeof Buffer.allocUnsafe === 'function') {
-    return Buffer.allocUnsafe(size);
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size > MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  return new Buffer(size);
-}
-exports.from = function from(value, encodingOrOffset, length) {
-  if (typeof Buffer.from === 'function' && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
-    return Buffer.from(value, encodingOrOffset, length);
-  }
-  if (typeof value === 'number') {
-    throw new TypeError('"value" argument must not be a number');
-  }
-  if (typeof value === 'string') {
-    return new Buffer(value, encodingOrOffset);
-  }
-  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
-    var offset = encodingOrOffset;
-    if (arguments.length === 1) {
-      return new Buffer(value);
-    }
-    if (typeof offset === 'undefined') {
-      offset = 0;
-    }
-    var len = length;
-    if (typeof len === 'undefined') {
-      len = value.byteLength - offset;
-    }
-    if (offset >= value.byteLength) {
-      throw new RangeError('\'offset\' is out of bounds');
-    }
-    if (len > value.byteLength - offset) {
-      throw new RangeError('\'length\' is out of bounds');
-    }
-    return new Buffer(value.slice(offset, offset + len));
-  }
-  if (Buffer.isBuffer(value)) {
-    var out = new Buffer(value.length);
-    value.copy(out, 0, 0, value.length);
-    return out;
-  }
-  if (value) {
-    if (Array.isArray(value) || (typeof ArrayBuffer !== 'undefined' && value.buffer instanceof ArrayBuffer) || 'length' in value) {
-      return new Buffer(value);
-    }
-    if (value.type === 'Buffer' && Array.isArray(value.data)) {
-      return new Buffer(value.data);
-    }
-  }
-
-  throw new TypeError('First argument must be a string, Buffer, ' + 'ArrayBuffer, Array, or array-like object.');
-}
-exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
-  if (typeof Buffer.allocUnsafeSlow === 'function') {
-    return Buffer.allocUnsafeSlow(size);
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size >= MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  return new SlowBuffer(size);
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":7}],21:[function(require,module,exports){
-(function (Buffer){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-
-function isArray(arg) {
-  if (Array.isArray) {
-    return Array.isArray(arg);
-  }
-  return objectToString(arg) === '[object Array]';
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = Buffer.isBuffer;
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-}).call(this,{"isBuffer":require("../../../../../../is-buffer/index.js")})
-},{"../../../../../../is-buffer/index.js":11}],22:[function(require,module,exports){
-(function (process){
-/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = require('./debug');
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // NB: In an Electron preload script, document will be defined but not fully
-  // initialized. Since we know we're in Chrome, we'll just detect this case
-  // explicitly
-  if (typeof window !== 'undefined' && window && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
-    return true;
-  }
-
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && document && 'WebkitAppearance' in document.documentElement.style) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (typeof window !== 'undefined' && window && window.console && (console.firebug || (console.exception && console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
-    // double check webkit in userAgent just in case we are in a worker
-    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function(v) {
-  try {
-    return JSON.stringify(v);
-  } catch (err) {
-    return '[UnexpectedJSONParseError]: ' + err.message;
-  }
-};
-
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs(args) {
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return;
-
-  var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit')
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-zA-Z%]/g, function(match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch(e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    r = exports.storage.debug;
-  } catch(e) {}
-
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = process.env.DEBUG;
-  }
-
-  return r;
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage() {
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-
-}).call(this,require('_process'))
-},{"./debug":23,"_process":44}],23:[function(require,module,exports){
-
-/**
- * This is the common logic for both the Node.js and web browser
- * implementations of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
-exports.coerce = coerce;
-exports.disable = disable;
-exports.enable = enable;
-exports.enabled = enabled;
-exports.humanize = require('ms');
-
-/**
- * The currently active debug mode names, and names to skip.
- */
-
-exports.names = [];
-exports.skips = [];
-
-/**
- * Map of special "%n" handling functions, for the debug "format" argument.
- *
- * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
- */
-
-exports.formatters = {};
-
-/**
- * Previous log timestamp.
- */
-
-var prevTime;
-
-/**
- * Select a color.
- * @param {String} namespace
- * @return {Number}
- * @api private
- */
-
-function selectColor(namespace) {
-  var hash = 0, i;
-
-  for (i in namespace) {
-    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
-    hash |= 0; // Convert to 32bit integer
-  }
-
-  return exports.colors[Math.abs(hash) % exports.colors.length];
-}
-
-/**
- * Create a debugger with the given `namespace`.
- *
- * @param {String} namespace
- * @return {Function}
- * @api public
- */
-
-function createDebug(namespace) {
-
-  function debug() {
-    // disabled?
-    if (!debug.enabled) return;
-
-    var self = debug;
-
-    // set `diff` timestamp
-    var curr = +new Date();
-    var ms = curr - (prevTime || curr);
-    self.diff = ms;
-    self.prev = prevTime;
-    self.curr = curr;
-    prevTime = curr;
-
-    // turn the `arguments` into a proper Array
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-
-    args[0] = exports.coerce(args[0]);
-
-    if ('string' !== typeof args[0]) {
-      // anything else let's inspect with %O
-      args.unshift('%O');
-    }
-
-    // apply any `formatters` transformations
-    var index = 0;
-    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
-      // if we encounter an escaped % then don't increase the array index
-      if (match === '%%') return match;
-      index++;
-      var formatter = exports.formatters[format];
-      if ('function' === typeof formatter) {
-        var val = args[index];
-        match = formatter.call(self, val);
-
-        // now we need to remove `args[index]` since it's inlined in the `format`
-        args.splice(index, 1);
-        index--;
-      }
-      return match;
-    });
-
-    // apply env-specific formatting (colors, etc.)
-    exports.formatArgs.call(self, args);
-
-    var logFn = debug.log || exports.log || console.log.bind(console);
-    logFn.apply(self, args);
-  }
-
-  debug.namespace = namespace;
-  debug.enabled = exports.enabled(namespace);
-  debug.useColors = exports.useColors();
-  debug.color = selectColor(namespace);
-
-  // env-specific initialization logic for debug instances
-  if ('function' === typeof exports.init) {
-    exports.init(debug);
-  }
-
-  return debug;
-}
-
-/**
- * Enables a debug mode by namespaces. This can include modes
- * separated by a colon and wildcards.
- *
- * @param {String} namespaces
- * @api public
- */
-
-function enable(namespaces) {
-  exports.save(namespaces);
-
-  exports.names = [];
-  exports.skips = [];
-
-  var split = (namespaces || '').split(/[\s,]+/);
-  var len = split.length;
-
-  for (var i = 0; i < len; i++) {
-    if (!split[i]) continue; // ignore empty strings
-    namespaces = split[i].replace(/\*/g, '.*?');
-    if (namespaces[0] === '-') {
-      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-    } else {
-      exports.names.push(new RegExp('^' + namespaces + '$'));
-    }
-  }
-}
-
-/**
- * Disable debug output.
- *
- * @api public
- */
-
-function disable() {
-  exports.enable('');
-}
-
-/**
- * Returns true if the given mode name is enabled, false otherwise.
- *
- * @param {String} name
- * @return {Boolean}
- * @api public
- */
-
-function enabled(name) {
-  var i, len;
-  for (i = 0, len = exports.skips.length; i < len; i++) {
-    if (exports.skips[i].test(name)) {
-      return false;
-    }
-  }
-  for (i = 0, len = exports.names.length; i < len; i++) {
-    if (exports.names[i].test(name)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Coerce `val`.
- *
- * @param {Mixed} val
- * @return {Mixed}
- * @api private
- */
-
-function coerce(val) {
-  if (val instanceof Error) return val.stack || val.message;
-  return val;
-}
-
-},{"ms":27}],24:[function(require,module,exports){
-// originally pulled out of simple-peer
-
-module.exports = function getBrowserRTC () {
-  if (typeof window === 'undefined') return null
-  var wrtc = {
-    RTCPeerConnection: window.RTCPeerConnection || window.mozRTCPeerConnection ||
-      window.webkitRTCPeerConnection,
-    RTCSessionDescription: window.RTCSessionDescription ||
-      window.mozRTCSessionDescription || window.webkitRTCSessionDescription,
-    RTCIceCandidate: window.RTCIceCandidate || window.mozRTCIceCandidate ||
-      window.webkitRTCIceCandidate
-  }
-  if (!wrtc.RTCPeerConnection) return null
-  return wrtc
-}
-
-},{}],25:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],26:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],27:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -20615,7 +19335,7 @@ var y = d * 365.25
  *  - `long` verbose formatting [false]
  *
  * @param {String|Number} val
- * @param {Object} options
+ * @param {Object} [options]
  * @throws {Error} throw an error if val is not a non-empty string or a number
  * @return {String|Number}
  * @api public
@@ -20747,7 +19467,1693 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's'
 }
 
-},{}],28:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message that requires from-peer to initiate a WebRTC connection with to
+ * to-peer.
+ */
+class MConnectTo {
+    /**
+     * @param {string} from The identifier of the peer that should initiate the
+     * WebRTC connection.
+     * @param {string} to The identifier of the peer that should accept the
+     * WebRTC connection.
+     */
+    constructor (from, to) {
+        this.from = from;
+        this.to = to;
+        this.type = 'MConnectTo';
+    };
+};
+
+module.exports = MConnectTo;
+
+},{}],19:[function(require,module,exports){
+'use strict';
+
+/**
+ * Messages traveling between two direct neighbors. It requests from the
+ * receiving peer that it initiates a connection with the emitter.
+ */
+class MDirect {
+    constructor () {
+        this.type = 'MDirect';
+    };
+};
+
+module.exports = MDirect;
+
+},{}],20:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message piggybacking another message that has been forwarded by an
+ * intermediate peer.
+ */
+class MForwarded {
+    /**
+     * @param {string} from The departure of the piggybacked message.
+     * @param {string} to The arrival of the piggybacked message.
+     * @param {object} message The piggybacked message to deliver.
+     */
+    constructor (from, to, message) {
+        this.from = from;
+        this.to = to;
+        this.message = message;
+        this.type = 'MForwarded';
+    };
+};
+
+module.exports = MForwarded;
+
+},{}],21:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message that asks a peer to forward the piggybacked message to to-peer.
+ */
+class MForwardTo {
+    /**
+     * @param {string} from The departure of the message.
+     * @param {string} to The arrival of the piggybacked message.
+     * @param {object} message The message to piggyback.
+     */
+    constructor (from, to, message) {
+        this.from = from;
+        this.to = to;
+        this.message = message;
+        this.type = 'MForwardTo';        
+    };
+};
+
+module.exports = MForwardTo;
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
+const debug = require('debug')('n2n-overlay-wrtc');
+const Neighborhood = require('neighborhood-wrtc');
+const EventEmitter = require('events');
+const _ = require('lodash');
+const uuid = require('uuid/v4');
+
+
+const MForwardTo = require('./messages/mforwardto.js');
+const MForwarded = require('./messages/mforwarded.js');
+const MConnectTo = require('./messages/mconnectto.js');
+const MDirect = require('./messages/mdirect.js');
+
+/**
+ * A peer has an inview and an outview, i.e., tables containing sockets to
+ * communicate with remote peers. This module transforms a peer so it can act as
+ * a bridge between its direct neighbors. Consequently, these neighbors can
+ * create their own communication channels: necessary data to establish the 
+ * connection travel through the bridge; once the connection is successfully 
+ * established, they communicate using their own direct connection.
+ */
+class Neighbor extends EventEmitter {
+    /**
+     * @param {object} [options] options represented as an object (refer to
+     * neighborhood-wrtc for other options).
+     * @param {string} [options.pid] The unique identifier of the protocol.
+     * @param {Neighborhood} [options.inview] The neighborhood used for inviews,
+     * i.e., incoming arcs.
+     * @param {Neighborhood} [options.outview] The neigbhorhood used for
+     * outviews, i.e., outgoing arcs.
+     */
+    constructor (options = {}) {
+        super();
+
+        // #0 process the options
+        this.options = _.merge( { pid: uuid(), peer: uuid() }, options);
+        // #1 initialize unmutable protocolId
+        this.PID = this.options.pid;
+        // #2 initialize the neighborhoods /!\ i.peer and o.peer must be ≠
+        this.NI = this.options.inview ||
+            new Neighborhood( _.merge(_.merge( {}, this.options),
+                                      {peer: this.options.peer+'-I'}) );
+        this.NO = this.options.outview ||
+            new Neighborhood( _.merge(_.merge( {}, this.options),
+                                      {peer: this.options.peer+'-O'}) );
+        // #3 initialize the interfaces
+        this.II = this.NI.register(this);
+        this.IO = this.NO.register(this);
+        this.PEER = this.II.peer + '|' + this.IO.peer;
+        debug('[%s] registered to ==> %s ==>', this.PID, this.PEER);
+        // #4 intialize the tables
+        this.i = new Map();
+        this.o = new Map();
+    };
+
+    /**
+     * @private
+     * The getter of the identifier of this protocol.
+     * @returns {string} The identifier of this protocol.
+     */
+    _pid () {
+        return this.PID;
+    };
+    
+    /**
+     * @private
+     * Behavior when this protocol receives a message from peerId.
+     * @param {string} peerId The identifier of the peer that we received a 
+     * message from.
+     * @param {object} message The message received.
+     */
+    _received (peerId, message) {
+        if (message.type) {
+            if (message.type === 'MConnectTo' ||
+                message.type === 'MForwarded' ||
+                message.type === 'MForwardTo') {
+                this._bridge(peerId, message);
+            } else if (message.type === 'MResponse' ||
+                       message.type === 'MRequest' ||
+                       message.type === 'MDirect') {
+                this._direct(peerId, message);
+            } else {
+                this.emit('receive', peerId, message);
+            };
+        } else {
+            this.emit('receive', peerId, message);
+        };
+    };
+
+
+    /**
+     * @private
+     * Behavior when this protocol receives a stream from peerId.
+     * @param {string} peerId The identifier of the peer that we received a 
+     * message from.
+     * @param {object} stream The stream received.
+     */
+    _streamed (peerId, stream) {
+        this.emit('stream', peerId, stream);
+    };
+
+    
+    /**
+     * @private
+     * Update the local view.
+     * @param {string} peerId The identifier of the peer reachable through the
+     * newly added arc.
+     * @param {boolean} isOutgoing State if the added arc is outgoing or not.
+     */
+    _connected (peerId, isOutgoing) {
+        if (isOutgoing){
+            if (!this.o.has(peerId)){
+                this.o.set(peerId, 0);
+            };
+            this.o.set(peerId, this.o.get(peerId) + 1 );
+            this.emit('open', peerId); // only consider outgoing arcs
+        } else {
+            if (!this.i.has(peerId)){
+                this.i.set(peerId, 0);
+            };
+            this.i.set(peerId, this.i.get(peerId) + 1 );
+        };
+    };
+
+    /**
+     * @private
+     * Update the local view.
+     * @param {string} peerId The identifier of the peer that removed an arc.
+     */
+    _disconnected (peerId) {
+        if (this.o.has(peerId)){
+            this.o.set(peerId, this.o.get(peerId) - 1 );
+            (this.o.get(peerId) <= 0) && this.o.delete(peerId);
+            this.emit('close', peerId); // only outview
+        } else if (this.i.has(peerId)){
+            this.i.set(peerId, this.i.get(peerId) - 1 );
+            (this.i.get(peerId) <= 0) && this.i.delete(peerId);
+        };
+    };
+
+    /**
+     * @private
+     * Notify failure
+     * @param {string} peerId The identifier of the peer we failed to establish
+     * a connection with.
+     * @param {boolean} isOutgoing State whether or not the failed arc was 
+     * supposed to be an outgoing arc.
+     */
+    _failed (peerId, isOutgoing) {
+        // only takes into account the outgoing arcs
+        isOutgoing && this.emit('fail', peerId);
+    }
+    
+
+    /**
+     * @private
+     * Function that execute to bridge a connection establishement between two
+     * peers: we start from (i -> b -> a) to get (i -> b -> a) and (i -> a).
+     * @param {string} peerId The identifier of the peer that sent us the 
+     * message
+     * @param {MConnectTo|MForwardTo|MForwarded} msg The message received.
+     */
+    _bridge (peerId, msg) {
+        // #1 we are the initiator
+        (msg.type === 'MConnectTo') && this.IO.connect( (req) => {
+            this.send(peerId, new MForwardTo(msg.from, msg.to, req));
+        });
+        // #2 we are the bridge
+        (msg.type === 'MForwardTo') &&
+            this.send(msg.to, new MForwarded(msg.from, msg.to, msg.message));
+        // #3 we are the acceptor
+        (msg.type === 'MForwarded') && (msg.message.type === 'MRequest') &&
+            this.II.connect( (res) => {
+                this.send(peerId, new MForwardTo(msg.to, msg.from, res));
+            }, msg.message );
+        // #4 reapplies #2
+        // #5 we are the finalizor
+        (msg.type === 'MForwarded') && (msg.message.type === 'MResponse') &&
+            this.IO.connect( msg.message );
+    };
+
+    /**
+     * @private
+     * Create a connection with a neighbor: from (i -> a) we obtain 
+     * either (i <-> a) or (i => a). In the former case, assuming that Peer a 
+     * does not already have a connection to Peer i, it must create a WebRTC 
+     * connection to a. In the latter case, Peer i only duplicates its arc to
+     * Peer a. Thus, it must disconnect twice to truly destroy the connection.
+     * @param {string} peerId The identifier of the peer that we received a
+     * message from.
+     * @param {string} message The received message.
+     */ 
+    _direct(peerId, message){
+        (message.type === 'MDirect') &&
+            this.IO.connect( (req) => this.send(peerId, req) );
+        (message.type === 'MRequest') &&
+            this.II.connect( (res) => this.send(peerId, res), message);
+        (message.type === 'MResponse') &&
+            this.IO.connect( message );
+    };
+
+    
+    /**
+     * Send a message using either the inview or the outview.
+     * @param {string} peerId The identifier of the receiver.
+     * @param {object} message The message to send.
+     * @param {number} [retry = 0] Number of times it retries to send a
+     * message.
+     * @return {promise} Promise that resolves if the message is sent, reject 
+     * otherwise.
+     */
+    send(peerId, message, retry = 0){
+        let promise;
+        // #1 normal behavior
+        if (this.i.has(peerId)) {
+            promise = this.II.send(peerId, message, retry);
+        } else if (this.o.has(peerId)) {
+            promise = this.IO.send(peerId, message, retry);
+        } else {
+            // #2 last chance behavior
+            promise = new Promise( (resolve, reject) => {
+                const _send = (r) => {
+                    this.IO.send(peerId, message, 0)
+                        .then( () => resolve() )
+                        .catch( (e) => this.II.send(peerId, message, 0)
+                                .then( () => resolve() )
+                                .catch( (e) => {
+                                    if (r<retry){
+                                        setTimeout( () => {
+                                            _send (r+1);
+                                        }, 1000);
+                                    } else {
+                                        reject(e);
+                                    }
+                                }));};
+                _send(0);
+            });
+        };
+        return promise;
+    };
+
+    /**
+     * Create an arc (establishes a WebRTC connection if need be) from 'from' to
+     * 'to'. (TODO) explain function args
+     * @param {function|MResponse|string|null} from The identifier of the peer
+     * that must initiate the connection. Null implicitely means this.
+     * @param {MRequest|string|null} to The identifier of the peer that must
+     * accept the connection. Null implicitely means this.
+     */
+    connect (arg1 = null, arg2 = null) {
+        // #1 handle bootstrap using other communication channels than our
+        // own.
+        if (typeof arg1 === 'function' && arg2 === null) {
+            this.IO.connect( (req) => arg1(req) ); // arg1: callback
+        } else if (typeof arg1 === 'function' && arg2 !== null) {
+            debug('[%s] %s <π= ??? =π= %s',
+                  this.PID, this.getInviewId(), arg2.peer);
+            this.II.connect( (res) => arg1(res), arg2); // arg1: cb; arg2: msg
+        } else if (arg1 !== null && typeof arg1 === 'object' && arg2 === null) {
+            this.IO.connect( arg1 ); // arg1: msg
+        } else {
+            // #2 handle n2n connections
+            // #A replace our own identifier by null
+            if (arg1!==null && (arg1===this.IO.peer || arg1===this.II.peer)) {
+                arg1 = null;
+            };
+            if (arg2!==null && (arg2===this.IO.peer || arg2===this.II.peer)) {
+                arg2 = null;
+            };
+            
+            if (arg1 !== null && arg2 !== null){ 
+                // #1 arg1: from; arg2: to
+                // from -> this -> to  creates  from -> to
+                debug('[%s] %s =π= %s =π> %s', this.PID, arg1, this.PEER, arg2);
+                this.send(arg1, new MConnectTo(arg1, arg2));
+            } else if (arg1 !== null) {
+                // #2 arg1: from
+                // from -> this  becomes  from => this
+                this.send(arg1, new MDirect());
+            } else if (arg2 !== null) {
+                // #3 arg2: to
+                // this -> to becomes this => to
+                this._direct(arg2, new MDirect()); // emulate a MDirect receipt
+            };
+        };        
+    };
+
+    /**
+     * remove an arc of the outview or all arcs
+     * @param {string} peerId The identifier of the arc to remove.
+     */
+    disconnect (peerId) {
+        if (typeof peerId === 'undefined') {
+            this.II.disconnect();
+            this.IO.disconnect();
+        } else {
+            this.IO.disconnect(peerId);
+        };
+    }
+
+    /**
+     * Getter of the inview.
+     * @returns {Map} A new map comprising {peerId => occurrences}.
+     */
+    getInview () {
+        return new Map(this.i);
+    };
+
+    /**
+     * Getter of the inview ID.
+     * @returns {string} The identifier of the inview.
+     */
+    getInviewId () {
+        return this.NI.PEER;
+    };
+
+    /**
+     * Getter of the outview.
+     * @returns {Map} A new map comprising {peerId => occurrences}.
+     */
+    getOutview () {
+        return new Map(this.o);
+    };
+
+    /**
+     * Getter of the inview ID.
+     * @returns {string} The identifier of the outview.
+     */
+    getOutviewId () {
+        return this.NO.PEER;
+    };
+
+};
+
+module.exports = Neighbor;
+
+},{"./messages/mconnectto.js":18,"./messages/mdirect.js":19,"./messages/mforwarded.js":20,"./messages/mforwardto.js":21,"debug":23,"events":12,"lodash":25,"neighborhood-wrtc":39,"uuid/v4":67}],23:[function(require,module,exports){
+module.exports=require(10)
+},{"./debug":24,"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/browser.js":10,"_process":68}],24:[function(require,module,exports){
+module.exports=require(11)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/debug.js":11,"ms":26}],25:[function(require,module,exports){
+module.exports=require(16)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":16}],26:[function(require,module,exports){
+module.exports=require(17)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/ms/index.js":17}],27:[function(require,module,exports){
+'use strict';
+
+const ELiving = require('./entries/eliving.js');
+
+const ExSocketNotFound = require('./exceptions/exsocketnotfound.js');
+
+/**
+ * Table that contains all living sockets that might be in use. Peers can
+ * comprise multiples protocols that may use multiple times an arc.
+ */
+class ArcStore {
+    constructor () {
+        this.store = new Map();
+    };
+
+    /**
+     * ProtocolId adds another arc leading to peerId in the store
+     * @param {string} peerId The identifier of the peer reachable through the
+     * socket.
+     * @param {string} protocolId The identifier of the protocol that adds the
+     * arc.
+     * @param {object} socket The WebRTC socket. Can be null if the socket to
+     * peerId is known to be in the store.
+     */
+    insert (peerId, protocolId, socket) {
+        // #1 make sure the peerId exists if the socket is not set.
+        if (socket === null && !this.store.has(peerId)){
+            throw new ExSocketNotFound(
+                'arcStore',
+                peerId,
+                protocolId,
+                'Try to add an arc to a peer that does not exists');
+        };
+
+        // #2 the peerId is not known yet, create the entry
+        if (!this.store.has(peerId)){
+            let entry = new ELiving(peerId, protocolId, socket);
+            this.store.set(peerId, entry);
+        } else {
+            // #3 increment the number of arcs of protocolId
+            this.store.get(peerId).increment(protocolId);
+        }
+    };
+
+    /**
+     * ProtocolId removes an arc to the peerId.
+     * @param {string} peerId The identifier of the peer accessible through the
+     * arc to delete.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * remove the arc.
+     * @returns {ELiving} The entry if no protocol is using the socket, null
+     * otherwise.
+     */
+    remove (peerId, protocolId) {
+        let unusedSocket = null;
+        // #1 check if a socket to the arc exists
+        if (!this.store.has(peerId)){
+            throw new ExSocketNotFound(
+                'arcStore',
+                peerId,
+                protocolId,
+                'Try to remove an arc to a peer that does not exists');
+        };
+        // #2 check if the protocol has such arc
+        if (!this.store.get(peerId).decrement(protocolId)){
+            throw new ExSocketNotFound(
+                'arcStore',
+                peerId,
+                protocolId,
+                'Try to remove an arc from a protocol that does not have this arc');
+        };
+        // #3 remove the entry if no protocol use it
+        if (this.store.get(peerId).sum() <= 0){
+            unusedSocket = this.store.get(peerId);
+            this.store.delete(peerId);            
+        };
+        return unusedSocket;
+    };
+
+    /**
+     * ProtocolId removes all its arcs.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * remove all its arcs.
+     * @returns {object[]} Objects comprising {peer, socket, occ}; peer being
+     * the identifier of the peer reachable through the socket, socket being a 
+     * WebRTC connection that is not used by any protocols, null if protocols
+     * still use it, occ being the number of arcs removed by protocolId.
+     */
+    removeAll (protocolId) {
+        let result = [];
+        this.store.forEach( (v, k) => {
+            if (v.protocols.has(protocolId)){
+                let occ = v.protocols.get(protocolId);
+                let entry = {peer: v.peer, socket: null, occ: occ };
+                for (let i=0; i<occ; ++i){
+                    let unusedSocket = this.remove(k, protocolId);
+                    if (unusedSocket !== null){
+                        entry.socket = unusedSocket.socket;
+                        result.push(entry);
+                    };
+                };
+            };
+        });
+        return result;
+    };
+
+    /**
+     * Remove all arcs leading to peerId.
+     * @param {string} peerId The identifier of the peer reachable by a WebRTC
+     * connection to remove.
+     * @returns {Map} Map where key is the identifier of the protocol that sees
+     * its arcs being removed, and value is the number of arcs removed;
+     */
+    removePeer (peerId){
+        let result;
+        if (this.store.has(peerId)){
+            result = this.store.get(peerId).protocols;
+            this.store.delete(peerId);
+        } else {
+            result = new Map();
+        }
+        return result;
+    };
+
+    /**
+     * Check if the store has at least one occurrence of the peer.
+     * @param {string} peerId The identifier of the peer to check.
+     * @returns {boolean} true if it exists, false otherwise.
+     */
+    contains (peerId) {
+        return this.store.has(peerId);
+    };
+
+    /**
+     * Get the entry of the arc leading to PeerId
+     * @param {string} peerId The identifier of the remote peer
+     * @returns {ELiving} The entry containing peerId, null if it does not
+     * exists.
+     */
+    get (peerId) {
+        let entry = null;
+        if (this.contains(peerId)){
+            entry = this.store.get(peerId);
+        };
+        return entry;
+    };
+    
+};
+
+module.exports = ArcStore;
+
+},{"./entries/eliving.js":29,"./exceptions/exsocketnotfound.js":34}],28:[function(require,module,exports){
+'use strict';
+
+/**
+ * Entry of the dying table containing sockets being removed.
+ */
+class EDying {
+    /**
+     * @param {string} peerId The identifier of the peer reachable through the
+     * socket.
+     * @param {object} socket The WebRTC socket.
+     * @param {number} timeout Time before the connexion is completely removed 
+     * and destroyed.
+     */
+    constructor (peerId, socket, timeout){
+        this.peer = peerId; // key
+        this.socket = socket;
+        this.timeout = timeout;
+    };
+};
+
+module.exports = EDying;
+
+},{}],29:[function(require,module,exports){
+'use strict';
+
+/**
+ * Entry of the living table containing sockets still in use.
+ */
+class ELiving {
+    /**
+     * @param {string} peerId The identifier of the peer reachable through the 
+     * socket.
+     * @param {string} protocolId The identifier of the protocol that creates an
+     * arc to this peer using this socket. Protocols can have multiple arcs
+     * leading to a same peer. Multiple protocols can share a same socket.
+     * @param {object} socket The WebRTC socket.
+     */
+    constructor (peerId, protocolId, socket) {
+        this.peer = peerId; // key
+        this.socket = socket;
+
+        this.protocols = new Map();
+        this.increment(protocolId);
+    };
+
+    /**
+     * Add an occurrence of the arc to the protocol
+     * @param {string} protocolId The identifier of the protocol.
+     */
+    increment (protocolId) {
+        if (!this.protocols.has(protocolId)){
+            this.protocols.set(protocolId, 0);
+        };
+        this.protocols.set(protocolId, this.protocols.get(protocolId) + 1);
+    };
+
+    /**
+     * Remove an occurrence of the arc to the protocol
+     * @param {string} protocolId The identifier of the protocol.
+     * @returns {boolean} True if an arc has been remove, false if the protocol
+     * do not have such arc.
+     */
+    decrement (protocolId) {
+        let found = false;
+        if (this.protocols.has(protocolId)){
+            this.protocols.set(protocolId, this.protocols.get(protocolId) - 1);
+            if (this.protocols.get(protocolId) <= 0){
+                this.protocols.delete(protocolId);
+            };
+            found = true;
+        };
+        return found;        
+    };
+
+    /**
+     * Count the number of arcs leading to this peer
+     * @returns {integer} The sum of occurrences of protocols using this
+     * socket.
+     */
+    sum () {
+        let result = 0;
+        this.protocols.forEach( (v, k) => {
+            result += v;
+        });
+        return result;
+    };
+};
+
+module.exports = ELiving;
+
+},{}],30:[function(require,module,exports){
+'use strict';
+
+/**
+ * Entry of the pending table containing sockets being created.
+ */
+class EPending {
+    /**
+     * @param {string} temporaryId A temporary id used to retrieve the entry.
+     * @param {string} peerId The identifier of the peer reachable through the
+     * socket. Null if the peerId is yet to be known.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * establish the connexion.
+     * @param {object} socket The WebRTC socket. 
+     * @param {number} timeout Maximum time for a connexion to establish.
+     */
+    constructor (temporaryId, peerId, protocolId, socket, timeout) {    
+        this.tid = temporaryId; // key
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.socket = socket;
+        this.successful = false;
+        this.alreadyExists = false;
+        this.timeout = timeout;
+    };
+};
+
+module.exports = EPending;
+
+},{}],31:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception thrown when the message does not have the required data.
+ */
+class ExIncompleteMessage {
+    /**
+     * @param {string} source The name of the function that threw the exception.
+     * @param {EPending|ELiving|EDying} entry The entry that requested more
+     * information.
+     * @param {MResponse} message The message lacking data.
+     */
+    constructor(source, entry, message) {
+        this.source = source;
+        this.entry = entry;
+        this.message = message;
+    }
+};
+
+
+module.exports = ExIncompleteMessage;
+
+},{}],32:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception that fires when a message arrives too late and the entry in the
+ * table has already been purged.
+ */
+class ExLateMessage {
+    /**
+     * @param {string} source The function name that throw the exception.
+     * @param {object} message The late message
+     */
+    constructor (source, msg) {
+        this.source = source;
+        this.msg = msg;
+        this.message = 'The message arrives too late';
+    };
+};
+
+module.exports = ExLateMessage;
+
+},{}],33:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception that rise when a protocol registers and its identifier already
+ * exists in registered protocols of neighborhood-wrtc.
+ */
+class ExProtocolExists {
+    /**
+     * @param {string} protocolId The identifier of the protocol that already
+     * exists
+     */
+    constructor (protocolId) {
+        this.pid = protocolId;
+        this.message = 'The idenfifier of the registering protocol already exists.';
+    };
+};
+
+module.exports = ExProtocolExists;
+
+},{}],34:[function(require,module,exports){
+'use strict';
+
+/**
+ * Exception that fires when trying to access or use a socket that does not
+ * exist.
+ */
+class ExSocketNotFound {
+    /**
+     * @param {string} source The source of the exception.
+     * @param {string} peerId The identifier of the peer that has been tried.
+     * @param {string} protocolId The identifier of the protocol that failed.
+     * @param {string} message A error message.
+     */
+    constructor (source, peerId, protocolId, message) {
+        this.source = source;
+        this.peer = peerId;
+        this.protocolId = protocolId;
+        this.message = message;
+    };
+};
+
+module.exports = ExSocketNotFound;
+
+},{}],35:[function(require,module,exports){
+'use strict';
+
+/**
+ * Interface of functions that are available to a protocol that registered
+ * to this module.
+ */
+class INeighborhood {
+    /**
+     * @param {string} peerId The identifier of the peer that created this
+     * interface.
+     * @param {function} connect The connection function provided by this
+     * module.
+     * @param {function} disconnect The disconnection function provided by this
+     * module.
+     * @param {function} send The send function provided by this module.
+     */
+    constructor (peerId, connect, disconnect, send) {
+        this.peer = peerId;
+        this.connect = connect;
+        this.disconnect = disconnect;
+        this.send = send;        
+    };
+
+    /**
+     * Create a WebRTC connexion.
+     * @param {function|object} arg1 Either a callback function to send the
+     * message to the remote peer (for instance, it can use a signaling server
+     * or the already created WebRTC connexions), or a message received from the
+     * remote peer.
+     * @param {object} arg2 The message received from a peer that initialized a 
+     * WebRTC connexion.
+     */
+    connect (arg1, arg2) {
+        this.connect(arg1, arg2);
+    };
+        
+    /**
+     * Remove an arc that led to peerId.
+     * @param {string} peerId The identifier of the remote peer.
+     * @returns {promise} Resolved when the arc is removed.
+     */
+    disconnect (peerId) {
+        return this.disconnect(peerId);
+    };
+
+    /**
+     * Send message to peerId.
+     * @param {string} peerId The identifier of the remote peer.
+     * @param {string} message The message to send.
+     * @param {number} [retry=10] Retry few times to send the message before
+     * giving up.
+     * @returns {promise} Resolved when the message is sent, reject
+     * otherwise. Note that loss of messages is not handled by default.
+     */
+    send (peerId, message, retry){
+        return this.send(peerId, message);
+    };
+};
+
+module.exports = INeighborhood;
+
+},{}],36:[function(require,module,exports){
+'use strict';
+
+/**
+ * The message containing the request to create a WebRTC connexion
+ */
+class MRequest {
+    /**
+     * @param {string} temporaryId A temporary identifier during the socket
+     * creation. The key will be changed to peerId when the connexion is
+     * established successfully.
+     * @param {string} peerId The identifier of the peer that will be reachable
+     * through the socket being created. Null if it is yet to be known.
+     * @param {string} protocolId The identifier of the protocol to route 
+     * messages.
+     * @param {object} offer The WebRTC offer containing ways to establish a
+     * direct peer-to-peer connexions. See WebRTC for more information.
+     */
+    constructor (temporaryId, peerId, protocolId, offer) {
+        this.tid = temporaryId;
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.offer = offer;
+        this.type = 'MRequest';
+    };
+};
+
+module.exports = MRequest;
+
+},{}],37:[function(require,module,exports){
+'use strict';
+
+/**
+ * The message containing the response to create a WebRTC connexion
+ */
+class MResponse {
+    /**
+     * @param {string} temporaryId A temporary identifier during the socket
+     * creation. The key will be changed to peerId when the connexion is established
+     * successfully.
+     * @param {string} peerId The identifier of the peer that will be reachable
+     * through the socket being created. Null if it is yet to be known.
+     * @param {string} protocolId The identifier of the protocol to route messages.
+     * @param {object} offer The WebRTC offer containing ways to establish a direct 
+     * peer-to-peer connexions. See WebRTC for more information.
+     */
+    constructor (temporaryId, peerId, protocolId, offer) {
+        this.tid = temporaryId;
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.offer = offer;
+        this.type = 'MResponse';
+    };
+};
+
+module.exports = MResponse;
+
+},{}],38:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message sent when protocolId wishes to send payload. It is a basic
+ * encapsualtion of protocolId.
+ */
+class MSend {
+    /**
+     * @param {string} peerId The identifier of the peer that sent the message
+     * @param {string} protocolId The identifier of the protocol that sent the
+     * message
+     * @param {object} payload The payload of the message.
+     */
+    constructor (peerId, protocolId, payload){
+        this.peer = peerId;
+        this.pid = protocolId;
+        this.payload = payload;
+        this.type = 'MSend';
+    };
+};
+
+module.exports = MSend;
+
+},{}],39:[function(require,module,exports){
+'use strict';
+
+const debug = require('debug')('neighborhood-wrtc');
+
+const _ = require('lodash');
+const uuid = require('uuid/v4');
+const Socket = require('simple-peer');
+
+const ArcStore = require('./arcstore.js');
+const EPending = require('./entries/epending.js');
+const EDying = require('./entries/edying.js');
+
+const INeighborhood = require('./interfaces/ineighborhood.js');
+
+const MResponse = require('./messages/mresponse.js');
+const MRequest = require('./messages/mrequest.js');
+const MSend = require('./messages/msend.js');
+
+const ExLateMessage = require('./exceptions/exlatemessage.js');
+const ExProtocolExists = require('./exceptions/exprotocolexists.js');
+const ExIncompleteMessage = require('./exceptions/exincompletemessage.js');
+
+/**
+ * Easy-to-use interface to establish multiple WebRTC connections using
+ * SimplePeer (npm: simple-peer)
+ */
+class Neighborhood {
+    /**
+     * @param {object} [options] the options available to the connections, e.g. 
+     * timeout before
+     * @param {object} [options.config] simple-peer options
+     * @param {number} [options.timeout = 60000] Time to wait (in milliseconds)
+     * before neighborhood-wrtc assumes that a connection establishment failed,
+     * or before an unused connection is removed.
+     * @param {function} [options.encoding] Method to customize message sent, 
+     * default: return JSON.stringify(data);
+     * @param {function} [options.decoding] Method to decode a received message,
+     * default: return JSON.parse(data);
+     */
+    constructor (options) {
+        // #1 save options
+        this.options = {
+            peer: uuid(),
+            config: { iceServers: [], trickle: true, initiator: false },
+            timeout: 1 * 60 * 1000,
+            encoding: (d) => { return JSON.stringify(d); },
+            decoding: (d) => { return JSON.parse(d); }
+        };
+        this.options = _.merge(this.options, options);
+        this.encode = this.options.encoding; // not sure it should stay that
+        this.decode = this.options.decoding; // way
+        
+        // #2 unmutable values
+        this.PEER = this.options.peer;
+        debug('[%s] initialized.', this.PEER);
+        
+        // #3 initialize tables
+        this.pending = new Map(); // not finalized yet
+        this.living = new ArcStore(); // live and usable
+        this.dying = new Map(); // being removed
+
+        // #4 table of all registered protocols
+        this.protocols = new Map();
+    }
+
+
+    /**
+     * The protocolId asks this module to get an interface. The interface
+     * comprises functions such as connect, disconnect, or send. ProtocolId
+     * should provide some functions as well such as failed, opened, received,
+     * pid.
+     * @param {IProtocol} protocol The protocol that requires the interface.
+     * @returns {INeighborhood} The interface to use this module easily.
+     */
+    register (protocol) {
+        if (!this.protocols.has(protocol._pid())){
+            debug('[%s] protocol %s just registered.',
+                  this.PEER, protocol._pid());
+            this.protocols.set(protocol._pid(), protocol);
+            return new INeighborhood(
+                this.PEER,
+                this._connect.bind(this, protocol._pid()),
+                this._disconnect.bind(this, protocol._pid()),
+                this._send.bind(this, protocol._pid())
+            );
+        } else {
+            throw new ExProtocolExists(protocol._pid());
+        };
+    };
+    
+    // (TODO) unregister ?
+    
+    /**
+     * @private
+     * Create a WebRTC connection.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * establish an new connection.
+     * @param {function|object} arg1 Either a callback function to send the
+     * message to the remote peer (for instance, it can use a signaling server
+     * or the already created WebRTC connexions), or a message received from the
+     * remote peer.
+     * @param {object} arg2 The message received from a peer that initialized a
+     * WebRTC connection.
+     */
+    _connect (protocolId, arg1, arg2){
+        if (typeof arg1 === 'function' && typeof arg2 === 'undefined') {
+            this._initiate(protocolId, arg1); // arg1: callback for offers
+        } else if (typeof arg1 === 'function' && typeof arg2 !== 'undefined'){
+            this._accept(protocolId, arg1, arg2); // arg1:callback, arg2:request
+        } else {
+            this._finalize(protocolId, arg1); // arg1: response
+        };
+    };
+    
+    /**
+     * @private
+     * Initiate the creation of a WebRTC connection. At this point, the identity
+     * of the remote peer is unknown.
+     * @param {string} protocolId The identifier of the protocol that creates a 
+     * connection.
+     * @param {function} sender A function called at each offer
+     */
+    _initiate (protocolId, sender) {
+        // #1 create an initiator
+        this.options.config.initiator = true;
+        let socket = new Socket(this.options.config);
+        // #2 insert the new entry in the pending table
+        let entry = new EPending(uuid(), null, protocolId, socket);
+        this.pending.set(entry.tid, entry);
+        
+        // #3 define events
+        socket.once('connect', () => {
+            entry.successful = true;
+            if (this.living.contains(entry.peer)){
+                entry.alreadyExists = true;
+                entry.successful = true;
+                this.living.insert(entry.peer, protocolId);
+                debug('[%s] --- arc --> %s', this.PEER, entry.peer);
+                this.protocols.get(protocolId)._connected(entry.peer, true);
+                entry.peer = null; // becomes the unknown soldier
+            } else {
+                this.living.insert(entry.peer, protocolId, socket);
+                debug('[%s] --- WebRTC --> %s', this.PEER, entry.peer);
+                this.protocols.get(protocolId)._connected(entry.peer, true);
+            };
+        });
+        socket.once('close', () => {
+            if (entry.peer !== null){ // if not the unknown soldier
+                if (this.living.contains(entry.peer)){
+                    // #A remove the socket from the table of living connections
+                    let toNotify = this.living.removePeer(entry.peer);
+                    // #B notify all protocols that were using this socket
+                    toNotify.forEach( (occ, pid) => {
+                        for (let i = 0; i<occ; ++i){
+                            this.protocols.get(pid)._disconnected(entry.peer);
+                        };
+                    });
+                } else if (this.dying.has(entry.peer)){
+                    let d = this.dying.get(entry.peer);
+                    clearTimeout(d.timeout);
+                    this.dying.delete(entry.peer);
+                };
+                debug('[%s] -‡- WebRTC -‡> %s', this.PEER, entry.peer);
+            } else {
+                debug('[%s] -‡- WebRTC -‡> %s', this.PEER, 'unknown');
+            };           
+        });
+        
+        socket.on('data', (d) => {
+            let msg = this.decode(d);
+            this.protocols.get(msg.pid)._received(msg.peer, msg.payload);
+        });
+        socket.on('stream', (s) => {
+            this.protocols.get(entry.pid)._streamed(entry.peer, s);
+        });
+        socket.on('error', (e) => {
+            // Nothing here, for the failure are detected and handled after
+            // this.options.timeout milliseconds.
+            // console.log(e);
+        });
+        // #4 send offer message using sender
+        socket.on('signal', (offer) => {
+            sender(new MRequest(entry.tid, this.PEER, protocolId, offer));
+        });
+        
+        // #5 check if the socket has been established correctly
+        setTimeout( () => {
+            // (TODO) on destroy notify protocols that still use the socket
+            // (TODO) send MDisconnect messages to notify remote peer of the
+            // removal of an arc
+            (!entry.successful || entry.alreadyExists) &&
+                entry.socket.destroy();
+            !entry.successful &&
+                this.protocols.get(protocolId)._failed(entry.peer, true);
+            this.pending.delete(entry.tid);
+        }, this.options.timeout);
+        
+    };
+    
+    /**
+     * @private
+     * Try to finalize the WebRTC connection using the remote offers.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * open a connection.
+     * @param {MResponse} msg The message containing an offer, a peerId etc.
+     */ 
+    _finalize(protocolId, msg) {
+        if (!this.pending.has(msg.tid)){
+            throw new ExLateMessage('_finalize', msg);
+        };
+        
+        let entry = this.pending.get(msg.tid);
+        if (entry.alreadyExists || entry.successful) { return ;};
+        
+        // #A check if the connection already exists
+        if (this.living.contains(msg.peer)){
+            entry.alreadyExists = true;
+            entry.successful = true;
+            this.living.insert(msg.peer, protocolId);
+            debug('[%s] --- arc --> %s', this.PEER, msg.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, true);
+        } else if (this.dying.has(msg.peer)){
+            // #B rise from the dead
+            entry.alreadyExists = true;
+            entry.successful = true;
+            let rise = this.dying.get(msg.peer);
+            clearTimeout(rise.timeout);
+            this.dying.delete(msg.peer);
+            this.living.insert(msg.peer, protocolId, rise.socket);
+            debug('[%s] -¡- arc -¡> %s', this.PEER, msg.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, true);
+        } else {
+            // #C just signal the offer
+            entry.peer = msg.peer;
+            if (!msg.offer) {
+                throw new ExIncompleteMessage('_finalize', entry, msg);
+            } else {                
+                entry.socket.signal(msg.offer);
+            };
+        };
+    };
+
+    /**
+     * @private
+     * Establish a connection in response to the request of remote peer.
+     * @param {string} protocolId The identifier of the protocol that wishes to
+     * create a connection.
+     * @param {function} sender The function that send the offer to the remote
+     * initiating peer.
+     * @param {MRequest} msg The request message containing offers, peerId, etc.
+     **/
+    _accept (protocolId, sender, msg) {        
+        // #1 initialize the entry if it does not exist
+        let firstCall = false;
+        if (!this.pending.has(msg.tid)) {
+            firstCall = true;
+            let entry = new EPending(msg.tid, msg.peer, protocolId);
+            this.pending.set(entry.tid, entry);
+            
+            setTimeout( () => {
+                (!entry.successful || entry.alreadyExists) &&
+                    entry.socket && entry.socket.destroy();
+                !entry.successful &&
+                    this.protocols.get(protocolId)._failed(entry.peer, false);
+                this.pending.delete(entry.tid);
+            }, this.options.timeout);            
+        };
+        
+        // #2 check if a WebRTC connection to peerId already exists
+        let entry = this.pending.get(msg.tid);
+        if (entry.alreadyExists || entry.successful) { return ;};
+        
+        // #A check if the connection already exists
+        if (this.living.contains(msg.peer)){
+            entry.alreadyExists = true;
+            entry.successful = true;
+            this.living.insert(msg.peer, protocolId);
+            debug('[%s] <-- arc --- %s', this.PEER, entry.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, false);
+            firstCall && sender(new MResponse(entry.tid,
+                                              this.PEER,
+                                              protocolId,
+                                              null));
+        } else if (this.dying.has(msg.peer)){
+            // #B rise from the dead
+            entry.alreadyExists = true;
+            entry.successful = true;
+            let rise = this.dying.get(msg.peer);
+            clearTimeout(rise.timeout);
+            this.dying.delete(msg.peer);
+            this.living.insert(msg.peer, protocolId, rise.socket);
+            debug('[%s] <¡- arc -¡- %s', this.PEER, msg.peer);
+            this.protocols.get(protocolId)._connected(msg.peer, false);
+            firstCall && sender(new MResponse(entry.tid,
+                                              this.PEER,
+                                              protocolId,
+                                              null));            
+        } else {
+            // #3 create the events and signal the offer
+            if (firstCall && !entry.socket){
+                // #A create a socket
+                this.options.config.initiator = false;
+                let socket = new Socket(this.options.config);
+                // #B update the entry
+                entry.socket = socket;
+                // #C define events
+                socket.once('connect', () => {
+                    entry.successful = true;
+                    if (this.living.contains(entry.peer)) {
+                        entry.alreadyExists = true;
+                        entry.successful = true;
+                        this.living.insert(entry.peer, protocolId);
+                        debug('[%s] <-- arc --- %s', this.PEER, entry.peer);
+                        this.protocols.get(protocolId)._connected(entry.peer,
+                                                                  false);
+                        entry.peer = null; // becomes the unknown soldier
+                    } else {
+                        this.living.insert(entry.peer, protocolId, socket);
+                        debug('[%s] <-- WebRTC --- %s', this.PEER, entry.peer);
+                        this.protocols.get(protocolId)._connected(entry.peer,
+                                                                  false);
+                    };                    
+                });
+                socket.once('close', () => {
+                    if (entry.peer !== null){ // if not the unknown soldier
+                        if (this.living.contains(entry.peer)){
+                            // #A remove the socket from the table of
+                            // living connections
+                            let toNotify = this.living.removePeer(entry.peer);
+                            // #B notify all protocols that were using
+                            // this socket
+                            toNotify.forEach( (occ, pid) => {
+                                for (let i = 0; i<occ; ++i){
+                                    this.protocols.get(pid)
+                                        ._disconnected(entry.peer);
+                                };
+                            });
+                        } else if (this.dying.has(entry.peer)){
+                            let d = this.dying.get(entry.peer);
+                            clearTimeout(d.timeout);
+                            this.dying.delete(entry.peer);
+                        };
+                        debug('[%s] <‡- WebRTC -‡- %s', this.PEER, entry.peer);
+                    } else {
+                        debug('[%s] <‡- WebRTC -‡- %s', this.PEER, 'unknown');
+                    };
+                });
+                
+                socket.on('data', (d) => {
+                    let msg = this.decode(d);
+                    this.protocols.get(msg.pid)._received(msg.peer,msg.payload);
+                });
+                socket.on('stream', (s) => {
+                    this.protocols.get(entry.pid)._streamed(entry.peer, s); 
+                });
+                socket.on('error', (e) => {
+                    // Nothing here, for the failure are detected and handled
+                    // after this.options.timeout milliseconds.
+                    // console.log(e);
+                });
+                // #4 send offer message using sender
+                socket.on('signal', (offer) => {
+                    sender(new MResponse(entry.tid,this.PEER,protocolId,offer));
+                });
+            };
+            entry.socket.signal(msg.offer);
+        };
+    };
+
+
+    /**
+     * @private
+     * Remove an arc from protocolId leading to peerId. If it was the last arc,
+     * the WebRTC connexion is downgraded to the dying table. In this table, the
+     * connexion will be closed if none create it.
+     * @param {string} protocolId The identifier of the protocol that removes an
+     * arc
+     * @param {string|undefined} peerId The identifier of the peer. If no arg,
+     * remove all arcs of protocolId.
+     */
+    _disconnect (protocolId, peerId) {
+        if (typeof peerId === 'undefined'){
+            // #1 remove all arcs
+            var entries = this.living.removeAll(protocolId);
+            entries.forEach( (entry) => {
+                if (entry.socket !== null){                    
+                    var dying = new EDying(entry.peer,
+                                           entry.socket,
+                                           setTimeout( () => {
+                                               entry.socket.destroy();
+                                           }, this.options.timeout));
+                    this.dying.set(dying.peer, dying);
+                };
+
+                for (let i=0; i<entry.occ; ++i){
+                    if (entry.socket === null ||
+                        (entry.socket !== null && i<entry.occ-1) ) {
+                        debug('[%s] ††† arc ††† %s', this.PEER, peerId);
+                    } else {
+                        debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId);
+                    };              
+                    this.protocols.get(protocolId)._disconnected(entry.peer);
+                };
+            });
+        } else {
+            // #2 remove one arc 
+            var entry = this.living.remove(peerId, protocolId);
+            if (entry) {
+                var dying = new EDying(entry.peer,
+                                       entry.socket,
+                                       setTimeout( () => {
+                                           entry.socket.destroy();
+                                       }, this.options.timeout));
+                this.dying.set(dying.peer, dying);
+                debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId);
+            } else {
+                debug('[%s] ††† arc ††† %s', this.PEER, peerId);
+            };            
+            this.protocols.get(protocolId)._disconnected(peerId);
+        };
+    };
+
+    /**
+     * @private 
+     * Send a message to a remote peer. It encapsulates the message
+     * from protocolId to help the remote peer to route the message to the
+     * proper protocol.
+     * @param {string} protocolId The identifier of the protocol sending the
+     * message
+     * @param {string} peerId The remote peer to send the message to.
+     * @param {object} message The message to send.
+     * @param {number} [retry=0] Retry few times to send the message before
+     * giving up.
+     * @returns {promise} Resolved when the message is sent, reject
+     * otherwise. Note that loss of messages is not handled by default.
+     */
+    _send (protocolId, peerId, message, retry = 0) {
+        return new Promise( (resolve, reject) => {
+            // #1 get the proper entry in the tables
+            let entry = null;
+            if (this.living.contains(peerId)){
+                entry = this.living.get(peerId);
+            } else if (this.dying.has(peerId)){
+                entry = this.dying.get(peerId); // (TODO) warn: not safe
+            };
+
+            // #2 define the recursive sending function
+            let __send = (r) => {
+                try {
+                    entry.socket.send(this.encode(new MSend(this.PEER,
+                                                            protocolId,
+                                                            message)));
+                    debug('[%s] --- msg --> %s:%s',
+                          this.PEER, peerId, protocolId);
+                    resolve();
+                } catch (e) {
+                    debug('[%s] -X- msg -X> %s:%s',
+                          this.PEER, peerId, protocolId);
+                    if (r < retry){
+                        setTimeout ( () => { __send(r+1); }, 1000);
+                    } else {
+                        reject(e);
+                    };
+                };
+            };
+            // #3 start to send
+            __send(0);
+        });
+    };
+};
+
+module.exports = Neighborhood;
+
+},{"./arcstore.js":27,"./entries/edying.js":28,"./entries/epending.js":30,"./exceptions/exincompletemessage.js":31,"./exceptions/exlatemessage.js":32,"./exceptions/exprotocolexists.js":33,"./interfaces/ineighborhood.js":35,"./messages/mrequest.js":36,"./messages/mresponse.js":37,"./messages/msend.js":38,"debug":42,"lodash":47,"simple-peer":59,"uuid/v4":64}],40:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var buffer = require('buffer');
+var Buffer = buffer.Buffer;
+var SlowBuffer = buffer.SlowBuffer;
+var MAX_LEN = buffer.kMaxLength || 2147483647;
+exports.alloc = function alloc(size, fill, encoding) {
+  if (typeof Buffer.alloc === 'function') {
+    return Buffer.alloc(size, fill, encoding);
+  }
+  if (typeof encoding === 'number') {
+    throw new TypeError('encoding must not be number');
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size > MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  var enc = encoding;
+  var _fill = fill;
+  if (_fill === undefined) {
+    enc = undefined;
+    _fill = 0;
+  }
+  var buf = new Buffer(size);
+  if (typeof _fill === 'string') {
+    var fillBuf = new Buffer(_fill, enc);
+    var flen = fillBuf.length;
+    var i = -1;
+    while (++i < size) {
+      buf[i] = fillBuf[i % flen];
+    }
+  } else {
+    buf.fill(_fill);
+  }
+  return buf;
+}
+exports.allocUnsafe = function allocUnsafe(size) {
+  if (typeof Buffer.allocUnsafe === 'function') {
+    return Buffer.allocUnsafe(size);
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size > MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  return new Buffer(size);
+}
+exports.from = function from(value, encodingOrOffset, length) {
+  if (typeof Buffer.from === 'function' && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
+    return Buffer.from(value, encodingOrOffset, length);
+  }
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number');
+  }
+  if (typeof value === 'string') {
+    return new Buffer(value, encodingOrOffset);
+  }
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    var offset = encodingOrOffset;
+    if (arguments.length === 1) {
+      return new Buffer(value);
+    }
+    if (typeof offset === 'undefined') {
+      offset = 0;
+    }
+    var len = length;
+    if (typeof len === 'undefined') {
+      len = value.byteLength - offset;
+    }
+    if (offset >= value.byteLength) {
+      throw new RangeError('\'offset\' is out of bounds');
+    }
+    if (len > value.byteLength - offset) {
+      throw new RangeError('\'length\' is out of bounds');
+    }
+    return new Buffer(value.slice(offset, offset + len));
+  }
+  if (Buffer.isBuffer(value)) {
+    var out = new Buffer(value.length);
+    value.copy(out, 0, 0, value.length);
+    return out;
+  }
+  if (value) {
+    if (Array.isArray(value) || (typeof ArrayBuffer !== 'undefined' && value.buffer instanceof ArrayBuffer) || 'length' in value) {
+      return new Buffer(value);
+    }
+    if (value.type === 'Buffer' && Array.isArray(value.data)) {
+      return new Buffer(value.data);
+    }
+  }
+
+  throw new TypeError('First argument must be a string, Buffer, ' + 'ArrayBuffer, Array, or array-like object.');
+}
+exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
+  if (typeof Buffer.allocUnsafeSlow === 'function') {
+    return Buffer.allocUnsafeSlow(size);
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size >= MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  return new SlowBuffer(size);
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"buffer":9}],41:[function(require,module,exports){
+(function (Buffer){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = Buffer.isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+}).call(this,{"isBuffer":require("../../../../../../is-buffer/index.js")})
+},{"../../../../../../is-buffer/index.js":15}],42:[function(require,module,exports){
+module.exports=require(10)
+},{"./debug":43,"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/browser.js":10,"_process":68}],43:[function(require,module,exports){
+module.exports=require(11)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/debug.js":11,"ms":48}],44:[function(require,module,exports){
+// originally pulled out of simple-peer
+
+module.exports = function getBrowserRTC () {
+  if (typeof window === 'undefined') return null
+  var wrtc = {
+    RTCPeerConnection: window.RTCPeerConnection || window.mozRTCPeerConnection ||
+      window.webkitRTCPeerConnection,
+    RTCSessionDescription: window.RTCSessionDescription ||
+      window.mozRTCSessionDescription || window.webkitRTCSessionDescription,
+    RTCIceCandidate: window.RTCIceCandidate || window.mozRTCIceCandidate ||
+      window.webkitRTCIceCandidate
+  }
+  if (!wrtc.RTCPeerConnection) return null
+  return wrtc
+}
+
+},{}],45:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],46:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],47:[function(require,module,exports){
+module.exports=require(16)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":16}],48:[function(require,module,exports){
+module.exports=require(17)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/ms/index.js":17}],49:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20794,7 +21200,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":44}],29:[function(require,module,exports){
+},{"_process":68}],50:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -20834,7 +21240,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":44,"buffer":7}],30:[function(require,module,exports){
+},{"_process":68,"buffer":9}],51:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -20910,7 +21316,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":32,"./_stream_writable":34,"core-util-is":21,"inherits":25,"process-nextick-args":28}],31:[function(require,module,exports){
+},{"./_stream_readable":53,"./_stream_writable":55,"core-util-is":41,"inherits":45,"process-nextick-args":49}],52:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -20937,7 +21343,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":33,"core-util-is":21,"inherits":25}],32:[function(require,module,exports){
+},{"./_stream_transform":54,"core-util-is":41,"inherits":45}],53:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20966,14 +21372,7 @@ var EElistenerCount = function (emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream;
-(function () {
-  try {
-    Stream = require('st' + 'ream');
-  } catch (_) {} finally {
-    if (!Stream) Stream = require('events').EventEmitter;
-  }
-})();
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 var Buffer = require('buffer').Buffer;
@@ -21000,6 +21399,8 @@ var BufferList = require('./internal/streams/BufferList');
 var StringDecoder;
 
 util.inherits(Readable, Stream);
+
+var kProxyEvents = ['error', 'close', 'destroy', 'pause', 'resume'];
 
 function prependListener(emitter, event, fn) {
   // Sadly this is not cacheable as some libraries bundle their own
@@ -21725,10 +22126,9 @@ Readable.prototype.wrap = function (stream) {
   }
 
   // proxy certain important events.
-  var events = ['error', 'close', 'destroy', 'pause', 'resume'];
-  forEach(events, function (ev) {
-    stream.on(ev, self.emit.bind(self, ev));
-  });
+  for (var n = 0; n < kProxyEvents.length; n++) {
+    stream.on(kProxyEvents[n], self.emit.bind(self, kProxyEvents[n]));
+  }
 
   // when we try to consume some more bytes, simply unpause the
   // underlying stream.
@@ -21881,7 +22281,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":30,"./internal/streams/BufferList":35,"_process":44,"buffer":7,"buffer-shims":20,"core-util-is":21,"events":8,"inherits":25,"isarray":26,"process-nextick-args":28,"string_decoder/":39,"util":6}],33:[function(require,module,exports){
+},{"./_stream_duplex":51,"./internal/streams/BufferList":56,"./internal/streams/stream":57,"_process":68,"buffer":9,"buffer-shims":40,"core-util-is":41,"events":12,"inherits":45,"isarray":46,"process-nextick-args":49,"string_decoder/":60,"util":8}],54:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -22064,7 +22464,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":30,"core-util-is":21,"inherits":25}],34:[function(require,module,exports){
+},{"./_stream_duplex":51,"core-util-is":41,"inherits":45}],55:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -22100,14 +22500,7 @@ var internalUtil = {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream;
-(function () {
-  try {
-    Stream = require('st' + 'ream');
-  } catch (_) {} finally {
-    if (!Stream) Stream = require('events').EventEmitter;
-  }
-})();
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 var Buffer = require('buffer').Buffer;
@@ -22618,7 +23011,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":30,"_process":44,"buffer":7,"buffer-shims":20,"core-util-is":21,"events":8,"inherits":25,"process-nextick-args":28,"util-deprecate":40}],35:[function(require,module,exports){
+},{"./_stream_duplex":51,"./internal/streams/stream":57,"_process":68,"buffer":9,"buffer-shims":40,"core-util-is":41,"inherits":45,"process-nextick-args":49,"util-deprecate":61}],56:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -22683,27 +23076,19 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":7,"buffer-shims":20}],36:[function(require,module,exports){
-(function (process){
-var Stream = (function (){
-  try {
-    return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
-  } catch(_){}
-}());
+},{"buffer":9,"buffer-shims":40}],57:[function(require,module,exports){
+module.exports = require('events').EventEmitter;
+
+},{"events":12}],58:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
-exports.Stream = Stream || exports;
+exports.Stream = exports;
 exports.Readable = exports;
 exports.Writable = require('./lib/_stream_writable.js');
 exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
-  module.exports = Stream;
-}
-
-}).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":30,"./lib/_stream_passthrough.js":31,"./lib/_stream_readable.js":32,"./lib/_stream_transform.js":33,"./lib/_stream_writable.js":34,"_process":44}],37:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":51,"./lib/_stream_passthrough.js":52,"./lib/_stream_readable.js":53,"./lib/_stream_transform.js":54,"./lib/_stream_writable.js":55}],59:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -23010,6 +23395,13 @@ Peer.prototype._destroy = function (err, onclose) {
 
 Peer.prototype._setupData = function (event) {
   var self = this
+  if (!event.channel) {
+    // In some situations `pc.createDataChannel()` returns `undefined` (in wrtc),
+    // which is invalid behavior. Handle it gracefully.
+    // See: https://github.com/feross/simple-peer/issues/163
+    return self._onError(new Error('Data channel event is missing `channel` property'))
+  }
+
   self._channel = event.channel
   self._channel.binaryType = 'arraybuffer'
 
@@ -23349,7 +23741,7 @@ Peer.prototype._onChannelMessage = function (event) {
   var self = this
   if (self.destroyed) return
   var data = event.data
-  if (data instanceof ArrayBuffer) data = new Buffer(data)
+  if (data instanceof ArrayBuffer) data = Buffer.from(data)
   self.push(data)
 }
 
@@ -23460,267 +23852,281 @@ Peer.prototype._transformConstraints = function (constraints) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":7,"debug":22,"get-browser-rtc":24,"inherits":25,"randombytes":29,"readable-stream":36}],38:[function(require,module,exports){
+},{"buffer":9,"debug":42,"get-browser-rtc":44,"inherits":45,"randombytes":50,"readable-stream":58}],60:[function(require,module,exports){
 'use strict';
-module.exports = SortedArray
-var search = require('binary-search')
-
-function SortedArray(cmp, arr) {
-  if (typeof cmp != 'function')
-    throw new TypeError('comparator must be a function')
-
-  this.arr = arr || []
-  this.cmp = cmp
-}
-
-SortedArray.prototype.insert = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  if (index < 0)
-    index = ~index
-
-  this.arr.splice(index, 0, element)
-}
-
-SortedArray.prototype.indexOf = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  return index >= 0
-    ? index
-    : -1
-}
-
-SortedArray.prototype.remove = function(element) {
-  var index = search(this.arr, element, this.cmp)
-  if (index < 0)
-    return false
-
-  this.arr.splice(index, 1)
-  return true
-}
-
-},{"binary-search":19}],39:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 var Buffer = require('buffer').Buffer;
+var bufferShim = require('buffer-shims');
 
-var isBufferEncoding = Buffer.isEncoding
-  || function(encoding) {
-       switch (encoding && encoding.toLowerCase()) {
-         case 'hex': case 'utf8': case 'utf-8': case 'ascii': case 'binary': case 'base64': case 'ucs2': case 'ucs-2': case 'utf16le': case 'utf-16le': case 'raw': return true;
-         default: return false;
-       }
-     }
-
-
-function assertEncoding(encoding) {
-  if (encoding && !isBufferEncoding(encoding)) {
-    throw new Error('Unknown encoding: ' + encoding);
+var isEncoding = Buffer.isEncoding || function (encoding) {
+  encoding = '' + encoding;
+  switch (encoding && encoding.toLowerCase()) {
+    case 'hex':case 'utf8':case 'utf-8':case 'ascii':case 'binary':case 'base64':case 'ucs2':case 'ucs-2':case 'utf16le':case 'utf-16le':case 'raw':
+      return true;
+    default:
+      return false;
   }
+};
+
+function _normalizeEncoding(enc) {
+  if (!enc) return 'utf8';
+  var retried;
+  while (true) {
+    switch (enc) {
+      case 'utf8':
+      case 'utf-8':
+        return 'utf8';
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return 'utf16le';
+      case 'latin1':
+      case 'binary':
+        return 'latin1';
+      case 'base64':
+      case 'ascii':
+      case 'hex':
+        return enc;
+      default:
+        if (retried) return; // undefined
+        enc = ('' + enc).toLowerCase();
+        retried = true;
+    }
+  }
+};
+
+// Do not cache `Buffer.isEncoding` when checking encoding names as some
+// modules monkey-patch it to support additional encodings
+function normalizeEncoding(enc) {
+  var nenc = _normalizeEncoding(enc);
+  if (typeof nenc !== 'string' && (Buffer.isEncoding === isEncoding || !isEncoding(enc))) throw new Error('Unknown encoding: ' + enc);
+  return nenc || enc;
 }
 
 // StringDecoder provides an interface for efficiently splitting a series of
 // buffers into a series of JS strings without breaking apart multi-byte
-// characters. CESU-8 is handled as part of the UTF-8 encoding.
-//
-// @TODO Handling all encodings inside a single object makes it very difficult
-// to reason about this code, so it should be split up in the future.
-// @TODO There should be a utf8-strict encoding that rejects invalid UTF-8 code
-// points as used by CESU-8.
-var StringDecoder = exports.StringDecoder = function(encoding) {
-  this.encoding = (encoding || 'utf8').toLowerCase().replace(/[-_]/, '');
-  assertEncoding(encoding);
+// characters.
+exports.StringDecoder = StringDecoder;
+function StringDecoder(encoding) {
+  this.encoding = normalizeEncoding(encoding);
+  var nb;
   switch (this.encoding) {
-    case 'utf8':
-      // CESU-8 represents each of Surrogate Pair by 3-bytes
-      this.surrogateSize = 3;
-      break;
-    case 'ucs2':
     case 'utf16le':
-      // UTF-16 represents each of Surrogate Pair by 2-bytes
-      this.surrogateSize = 2;
-      this.detectIncompleteChar = utf16DetectIncompleteChar;
+      this.text = utf16Text;
+      this.end = utf16End;
+      nb = 4;
+      break;
+    case 'utf8':
+      this.fillLast = utf8FillLast;
+      nb = 4;
       break;
     case 'base64':
-      // Base-64 stores 3 bytes in 4 chars, and pads the remainder.
-      this.surrogateSize = 3;
-      this.detectIncompleteChar = base64DetectIncompleteChar;
+      this.text = base64Text;
+      this.end = base64End;
+      nb = 3;
       break;
     default:
-      this.write = passThroughWrite;
+      this.write = simpleWrite;
+      this.end = simpleEnd;
       return;
   }
-
-  // Enough space to store all bytes of a single character. UTF-8 needs 4
-  // bytes, but CESU-8 may require up to 6 (3 bytes per surrogate).
-  this.charBuffer = new Buffer(6);
-  // Number of bytes received for the current incomplete multi-byte character.
-  this.charReceived = 0;
-  // Number of bytes expected for the current incomplete multi-byte character.
-  this.charLength = 0;
-};
-
-
-// write decodes the given buffer and returns it as JS string that is
-// guaranteed to not contain any partial multi-byte characters. Any partial
-// character found at the end of the buffer is buffered up, and will be
-// returned when calling write again with the remaining bytes.
-//
-// Note: Converting a Buffer containing an orphan surrogate to a String
-// currently works, but converting a String to a Buffer (via `new Buffer`, or
-// Buffer#write) will replace incomplete surrogates with the unicode
-// replacement character. See https://codereview.chromium.org/121173009/ .
-StringDecoder.prototype.write = function(buffer) {
-  var charStr = '';
-  // if our last write ended with an incomplete multibyte character
-  while (this.charLength) {
-    // determine how many remaining bytes this buffer has to offer for this char
-    var available = (buffer.length >= this.charLength - this.charReceived) ?
-        this.charLength - this.charReceived :
-        buffer.length;
-
-    // add the new bytes to the char buffer
-    buffer.copy(this.charBuffer, this.charReceived, 0, available);
-    this.charReceived += available;
-
-    if (this.charReceived < this.charLength) {
-      // still not enough chars in this buffer? wait for more ...
-      return '';
-    }
-
-    // remove bytes belonging to the current character from the buffer
-    buffer = buffer.slice(available, buffer.length);
-
-    // get the character that was split
-    charStr = this.charBuffer.slice(0, this.charLength).toString(this.encoding);
-
-    // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
-    var charCode = charStr.charCodeAt(charStr.length - 1);
-    if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-      this.charLength += this.surrogateSize;
-      charStr = '';
-      continue;
-    }
-    this.charReceived = this.charLength = 0;
-
-    // if there are no more bytes in this buffer, just emit our char
-    if (buffer.length === 0) {
-      return charStr;
-    }
-    break;
-  }
-
-  // determine and set charLength / charReceived
-  this.detectIncompleteChar(buffer);
-
-  var end = buffer.length;
-  if (this.charLength) {
-    // buffer the incomplete character bytes we got
-    buffer.copy(this.charBuffer, 0, buffer.length - this.charReceived, end);
-    end -= this.charReceived;
-  }
-
-  charStr += buffer.toString(this.encoding, 0, end);
-
-  var end = charStr.length - 1;
-  var charCode = charStr.charCodeAt(end);
-  // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
-  if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-    var size = this.surrogateSize;
-    this.charLength += size;
-    this.charReceived += size;
-    this.charBuffer.copy(this.charBuffer, size, 0, size);
-    buffer.copy(this.charBuffer, 0, 0, size);
-    return charStr.substring(0, end);
-  }
-
-  // or just emit the charStr
-  return charStr;
-};
-
-// detectIncompleteChar determines if there is an incomplete UTF-8 character at
-// the end of the given buffer. If so, it sets this.charLength to the byte
-// length that character, and sets this.charReceived to the number of bytes
-// that are available for this character.
-StringDecoder.prototype.detectIncompleteChar = function(buffer) {
-  // determine how many bytes we have to check at the end of this buffer
-  var i = (buffer.length >= 3) ? 3 : buffer.length;
-
-  // Figure out if one of the last i bytes of our buffer announces an
-  // incomplete char.
-  for (; i > 0; i--) {
-    var c = buffer[buffer.length - i];
-
-    // See http://en.wikipedia.org/wiki/UTF-8#Description
-
-    // 110XXXXX
-    if (i == 1 && c >> 5 == 0x06) {
-      this.charLength = 2;
-      break;
-    }
-
-    // 1110XXXX
-    if (i <= 2 && c >> 4 == 0x0E) {
-      this.charLength = 3;
-      break;
-    }
-
-    // 11110XXX
-    if (i <= 3 && c >> 3 == 0x1E) {
-      this.charLength = 4;
-      break;
-    }
-  }
-  this.charReceived = i;
-};
-
-StringDecoder.prototype.end = function(buffer) {
-  var res = '';
-  if (buffer && buffer.length)
-    res = this.write(buffer);
-
-  if (this.charReceived) {
-    var cr = this.charReceived;
-    var buf = this.charBuffer;
-    var enc = this.encoding;
-    res += buf.slice(0, cr).toString(enc);
-  }
-
-  return res;
-};
-
-function passThroughWrite(buffer) {
-  return buffer.toString(this.encoding);
+  this.lastNeed = 0;
+  this.lastTotal = 0;
+  this.lastChar = bufferShim.allocUnsafe(nb);
 }
 
-function utf16DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 2;
-  this.charLength = this.charReceived ? 2 : 0;
+StringDecoder.prototype.write = function (buf) {
+  if (buf.length === 0) return '';
+  var r;
+  var i;
+  if (this.lastNeed) {
+    r = this.fillLast(buf);
+    if (r === undefined) return '';
+    i = this.lastNeed;
+    this.lastNeed = 0;
+  } else {
+    i = 0;
+  }
+  if (i < buf.length) return r ? r + this.text(buf, i) : this.text(buf, i);
+  return r || '';
+};
+
+StringDecoder.prototype.end = utf8End;
+
+// Returns only complete characters in a Buffer
+StringDecoder.prototype.text = utf8Text;
+
+// Attempts to complete a partial non-UTF-8 character using bytes from a Buffer
+StringDecoder.prototype.fillLast = function (buf) {
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, buf.length);
+  this.lastNeed -= buf.length;
+};
+
+// Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
+// continuation byte.
+function utf8CheckByte(byte) {
+  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
+  return -1;
 }
 
-function base64DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 3;
-  this.charLength = this.charReceived ? 3 : 0;
+// Checks at most 3 bytes at the end of a Buffer in order to detect an
+// incomplete multi-byte UTF-8 character. The total number of bytes (2, 3, or 4)
+// needed to complete the UTF-8 character (if applicable) are returned.
+function utf8CheckIncomplete(self, buf, i) {
+  var j = buf.length - 1;
+  if (j < i) return 0;
+  var nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 1;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 2;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) {
+      if (nb === 2) nb = 0;else self.lastNeed = nb - 3;
+    }
+    return nb;
+  }
+  return 0;
 }
 
-},{"buffer":7}],40:[function(require,module,exports){
+// Validates as many continuation bytes for a multi-byte UTF-8 character as
+// needed or are available. If we see a non-continuation byte where we expect
+// one, we "replace" the validated continuation bytes we've seen so far with
+// UTF-8 replacement characters ('\ufffd'), to match v8's UTF-8 decoding
+// behavior. The continuation byte check is included three times in the case
+// where all of the continuation bytes for a character exist in the same buffer.
+// It is also done this way as a slight performance increase instead of using a
+// loop.
+function utf8CheckExtraBytes(self, buf, p) {
+  if ((buf[0] & 0xC0) !== 0x80) {
+    self.lastNeed = 0;
+    return '\ufffd'.repeat(p);
+  }
+  if (self.lastNeed > 1 && buf.length > 1) {
+    if ((buf[1] & 0xC0) !== 0x80) {
+      self.lastNeed = 1;
+      return '\ufffd'.repeat(p + 1);
+    }
+    if (self.lastNeed > 2 && buf.length > 2) {
+      if ((buf[2] & 0xC0) !== 0x80) {
+        self.lastNeed = 2;
+        return '\ufffd'.repeat(p + 2);
+      }
+    }
+  }
+}
+
+// Attempts to complete a multi-byte UTF-8 character using bytes from a Buffer.
+function utf8FillLast(buf) {
+  var p = this.lastTotal - this.lastNeed;
+  var r = utf8CheckExtraBytes(this, buf, p);
+  if (r !== undefined) return r;
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, p, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, p, 0, buf.length);
+  this.lastNeed -= buf.length;
+}
+
+// Returns all complete UTF-8 characters in a Buffer. If the Buffer ended on a
+// partial character, the character's bytes are buffered until the required
+// number of bytes are available.
+function utf8Text(buf, i) {
+  var total = utf8CheckIncomplete(this, buf, i);
+  if (!this.lastNeed) return buf.toString('utf8', i);
+  this.lastTotal = total;
+  var end = buf.length - (total - this.lastNeed);
+  buf.copy(this.lastChar, 0, end);
+  return buf.toString('utf8', i, end);
+}
+
+// For UTF-8, a replacement character for each buffered byte of a (partial)
+// character needs to be added to the output.
+function utf8End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
+  return r;
+}
+
+// UTF-16LE typically needs two bytes per character, but even if we have an even
+// number of bytes available, we need to check if we end on a leading/high
+// surrogate. In that case, we need to wait for the next two bytes in order to
+// decode the last character properly.
+function utf16Text(buf, i) {
+  if ((buf.length - i) % 2 === 0) {
+    var r = buf.toString('utf16le', i);
+    if (r) {
+      var c = r.charCodeAt(r.length - 1);
+      if (c >= 0xD800 && c <= 0xDBFF) {
+        this.lastNeed = 2;
+        this.lastTotal = 4;
+        this.lastChar[0] = buf[buf.length - 2];
+        this.lastChar[1] = buf[buf.length - 1];
+        return r.slice(0, -1);
+      }
+    }
+    return r;
+  }
+  this.lastNeed = 1;
+  this.lastTotal = 2;
+  this.lastChar[0] = buf[buf.length - 1];
+  return buf.toString('utf16le', i, buf.length - 1);
+}
+
+// For UTF-16LE we do not explicitly append special replacement characters if we
+// end on a partial character, we simply let v8 handle that.
+function utf16End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) {
+    var end = this.lastTotal - this.lastNeed;
+    return r + this.lastChar.toString('utf16le', 0, end);
+  }
+  return r;
+}
+
+function base64Text(buf, i) {
+  var n = (buf.length - i) % 3;
+  if (n === 0) return buf.toString('base64', i);
+  this.lastNeed = 3 - n;
+  this.lastTotal = 3;
+  if (n === 1) {
+    this.lastChar[0] = buf[buf.length - 1];
+  } else {
+    this.lastChar[0] = buf[buf.length - 2];
+    this.lastChar[1] = buf[buf.length - 1];
+  }
+  return buf.toString('base64', i, buf.length - n);
+}
+
+function base64End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + this.lastChar.toString('base64', 0, 3 - this.lastNeed);
+  return r;
+}
+
+// Pass bytes on through for single-byte encodings (e.g. ascii, latin1, hex)
+function simpleWrite(buf) {
+  return buf.toString(this.encoding);
+}
+
+function simpleEnd(buf) {
+  return buf && buf.length ? this.write(buf) : '';
+}
+},{"buffer":9,"buffer-shims":40}],61:[function(require,module,exports){
 (function (global){
 
 /**
@@ -23791,7 +24197,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],41:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -23816,7 +24222,7 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-},{}],42:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 (function (global){
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
@@ -23853,7 +24259,7 @@ if (!rng) {
 module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],43:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 var rng = require('./lib/rng');
 var bytesToUuid = require('./lib/bytesToUuid');
 
@@ -23884,7 +24290,13 @@ function v4(options, buf, offset) {
 
 module.exports = v4;
 
-},{"./lib/bytesToUuid":41,"./lib/rng":42}],44:[function(require,module,exports){
+},{"./lib/bytesToUuid":62,"./lib/rng":63}],65:[function(require,module,exports){
+module.exports=require(62)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/bytesToUuid.js":62}],66:[function(require,module,exports){
+module.exports=require(63)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/rng-browser.js":63}],67:[function(require,module,exports){
+module.exports=require(64)
+},{"./lib/bytesToUuid":65,"./lib/rng":66,"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/v4.js":64}],68:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -23972,477 +24384,385 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],45:[function(require,module,exports){
-module.exports=require(38)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/sorted-cmp-array/index.js":38,"binary-search":5}],"spray-wrtc":[function(require,module,exports){
+},{}],"spray-wrtc":[function(require,module,exports){
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+const debug = require('debug')('spray-wrtc');
+const N2N = require('n2n-overlay-wrtc');
+const _ = require('lodash');
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const PartialView = require('./partialview.js');
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+const MExchange = require('./messages/mexchange.js');
+const MJoin = require('./messages/mjoin.js');
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var EventEmitter = require('events');
-var NO = require('n2n-overlay-wrtc');
-var PartialView = require('./partialview.js');
-var MExchange = require('./messages.js');
-var _ = require('lodash');
+const ExEmptyView = require('./exceptions/exemptyview.js');
+const ExMessage = require('./exceptions/exmessage.js');
 
 /**
- * Implementation of the random peer sampling Spray
+ * Implementation of the random peer-sampling Spray. 
  */
+class Spray extends N2N {
+    /**
+     * You can pass other parameters such as webrtc options
+     * @param {object} [options = {}] Object with all options
+     * @param {string} [options.pid = 'spray-wrtc'] The identifier of this
+     * protocol. 
+     * @param {number} [options.delta] Every delta milliseconds, Spray shuffles
+     * its partial view with its oldest neighbor.
+     */
+    constructor (options = {}) {
+        // #0 initialize our N2N-parent
+        super( _.merge({ pid: 'spray-wrtc',
+                         delta: 1000 * 60 * 2,
+                         timeout: 1000 * 60 * 1,
+                         retry: 5}, options) );
+        // #1 constants (from N2N)
+        // this.PID = protocol identifier
+        // this.PEER = peer Id comprising inview and outview Ids
+        debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER);
+        // #2 initialize the partial view containing ages
+        this.partialView = new PartialView();
+        // #3 initialize the connectedness state of this protocol
+        this.state = 'disconnected';
+        // #4 periodic shuffling
+        this.periodic = null;
+        // #5 events
+        this.on('receive', (peerId, message) => this._receive(peerId, message));
+        // this.on('stream', (peerId, message) => { } ); // (TODO) ?;
+        this.on('open', (peerId) => {
+            this._open(peerId);
+            this._updateState();
+        });
+        this.on('close', (peerId) => {
+            this._close(peerId);
+            this._updateState();
+        });
+        this.on('fail', (peerId) => {
+            this._onArcDown(peerId);
+            this._updateState();
+        });
+    };
+    
+    /**
+     * @private Start periodic shuffling.
+     */
+    _start (delay = this.options.delta) {
+        this.periodic = setInterval( () => {
+            this._exchange();
+        }, delay);
+    };
 
-var Spray = function (_EventEmitter) {
-	_inherits(Spray, _EventEmitter);
+    /**
+     * @private Stop periodic shuffling.
+     */
+    _stop () {
+        clearInterval(this.periodic);
+    };
 
-	/**
-  * You can pass other parameters such as webrtc options
-  * @param {object} options Object with all options
-  * @param {string} options.protocol The protocol of the network
-  * @param {integer} options.deltatime Each deltatime, we shuffle !
-  * @param {integer} options.retry Number of retry when we send a message
-  * @param {integer} options.usedCoef Amount of clients shuffled between 0 and 1 (ie, [0;1])
-  * @param {integer} options.profile your profile
-  * @param {integer} options.k k profile saved
-  */
-	function Spray() {
-		var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    /**
+     * @private Called each time this protocol receives a message.
+     * @param {string} peerId The identifier of the peer that sent the message.
+     * @param {object|MExchange|MJoin} message The message received.
+     */ 
+    _receive (peerId, message) {        
+        if (message.type && message.type === 'MExchange') {
+            this._onExchange(peerId, message);
+        } else if (message.type && message.type === 'MJoin') {
+            this._onJoin(peerId);
+        } else {
+            throw new ExMessage('_receive', message, 'unhandled');
+        };
+    };
 
-		_classCallCheck(this, Spray);
+    /**
+     * @private Behavior when a connection is ready to be added in the partial
+     * view.
+     * @param {string} peerId The identifier of the new neighbor.
+     */
+    _open (peerId) {
+        debug('[%s] %s ===> %s', this.PID, this.PEER, peerId);
+        this.partialView.add(peerId);
+    };
 
-		// merge of options with default options
-		var _this = _possibleConstructorReturn(this, (Spray.__proto__ || Object.getPrototypeOf(Spray)).call(this));
+    /**
+     * @private Behavior when a connection is closed.
+     * @param {string} peerId The identifier of the removed arc.
+     */
+    _close (peerId) {
+        debug('[%s] %s =†=> %s', this.PID, this.PEER, peerId);
+    };
 
-		_this.opts = _.merge({
-			protocol: 'spray-wrtc',
-			encoding: function encoding(message) {
-				return JSON.stringify(message);
-				// return new Buffer('message');
-			},
-			decoding: function decoding(message) {
-				return JSON.parse(message);
-			},
-			deltatime: 1000 * 60 * 2,
-			retry: 10,
-			profile: {},
-			usedCoef: 0.5,
-			verbose: false
-		}, options);
+    
+    /**
+     * @private Update the connectedness state of the peer.
+     */
+    _updateState () {
+        const remember = this.state;
+        if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected'){
+            this.state = 'connected';
+        } else if ((this.i.size > 0 && this.o.size <= 0 ||
+                    this.o.size > 0 && this.i.size <= 0) &&
+                   remember !== 'partially connected'){
+            this.state = 'partially connected';
+        } else if (this.i.size <= 0 && this.o.size <= 0 &&
+                   remember !== 'disconnected') {
+            this.state = 'disconnected';
+            // this._stop();
+        };
+        (remember !== this.state) && this.emit('statechange', this.state);
+    };
+    
+    /**
+     * Joining a network.
+     * @param {callback} sender Function that will be called each time an offer
+     * arrives to this peer. It is the responsability of the caller to send 
+     * these offer (using sender) to the contact inside the network.
+     * @returns {Promise} A promise that is resolved when the peer joins the 
+     * network; rejected after a timeout, or already connected state.
+     */
+    join (sender) {
+        const joinPromise = new Promise( (resolve, reject) => {
+            // #0 connectedness state check
+            (this.state !== 'disconnected') && reject('connected');
+            // #1 set timeout before reject
+            let to = setTimeout( () => {
+                reject('timeout'); // (TODO) Join exception
+            }, this.options.timeout);
+            // #2 very first call, only done once
+            this.once('open', (peerId) => {
+                this.send(peerId, new MJoin(), this.options.retry);
+                this._start(); // start shuffling process
+                clearTimeout(to);
+                resolve();
+            });
+        });
+        this.connect(sender);
+        return joinPromise;
+    };
 
-		_this.verbose = _this.opts.verbose;
-		// #A constants
-		_this.protocol = _this.opts.protocol;
-		_this.DELTATIME = _this.opts.deltatime; // 2min
-		_this.RETRY = _this.opts.retry; // retry 10x to send messages
+    /**
+     * @private Behavior of the contact peer when a newcomer arrives.
+     * @param {string} peerId The identifier of the newcomer.
+     */ 
+    _onJoin (peerId) {
+        if (this.partialView.size > 0){
+            // #1 all neigbors -> peerId
+            debug('[%s] %s ===> join %s ===> %s neigbhors',
+                  this.PID, peerId, this.PEER, this.partialView.size);
+            this.partialView.forEach( (ages, neighbor) => {
+                ages.forEach( (age) => {
+                    this.connect(neighbor, peerId);
+                });
+            });
+        } else {
+            // #2 this -> peerId
+            debug('[%s] %s ===> join %s ===> %s',
+                  this.PID, peerId, this.PEER, peerId);
+            this.connect(null, peerId);
+            this._start();
+        };
+    };
 
-		// #B protocol variables
-		_this.partialView = new PartialView({
-			usedCoef: _this.opts.usedCoef
-		});
+    /**
+     * Get k neighbors from the partial view. If k is not reached, it tries to
+     * fill the gap with neighbors from the inview.  It is worth noting that
+     * each peer controls its outview but not its inview. The more the neigbhors
+     * from the outview the better.
+     * @param {number} k The number of neighbors requested. If k is not defined,
+     * it returns every known identifiers of the partial view.
+     * @return {string[]} Array of identifiers.
+     */
+    getPeers (k) {
+        let peers = []; 
+        if (typeof k === 'undefined') {
+            // #1 get all the partial view
+            this.partialView.forEach( (occ, peerId) => {
+                peers.push(peerId);
+            });
+        } else {
+            // #2 get random identifier from outview
+            let out = [];
+            this.partialView.forEach( (ages, peerId) => out.push(peerId) );
+            while (peers.length < k && out.length > 0) {
+                let rn = Math.floor( Math.random() * out.length );
+                peers.push( out[rn] );
+                out.splice( rn, 1 );
+            };
+            // #3 get random identifier from the inview to fill k-entries
+            let inView = [];
+            this.i.forEach( (occ, peerId) => inView.push(peerId) );
+            while (peers.length < k && inView.length > 0){
+                let rn = Math.floor( Math.random() * inView.length );
+                peers.push( inView[rn] );
+                inView.splice( rn, 1 );
+            };
+        };
+        debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length);
+        return peers;       
+    };
 
-		_this.neighborhoods = new NO(_this.opts);
+    /* *********************************
+     * Spray's protocol implementation *
+     ***********************************/
 
-		// update the profile with some identifiers
-		// at each suffling the profile is sent to all neighbours
-		_this.profile = _this.opts.profile;
-		_this.profile.inviewId = _this.neighborhoods.i.ID;
-		_this.profile.outviewId = _this.neighborhoods.o.ID;
+    /**
+     * @private Get a sample of the partial view.
+     * @param {string} [peerId] The identifier of the oldest neighbor chosen to
+     * perform a view exchange.
+     * @return {string[]} An array containing the identifiers of neighbors from
+     * this partial view.
+     */
+    _getSample (peerId) {
+        let sample = [];
+        // #1 create a flatten version of the partial view
+        let flatten = [];
+        this.partialView.forEach( (ages, neighbor) => {
+            ages.forEach( (age) => {
+                flatten.push(neighbor);
+            });
+        });
+        // #2 process the size of the sample
+        const sampleSize = Math.ceil(flatten.length / 2);
+        // #3 initiator removes a chosen neighbor entry and adds it to sample
+        if (typeof peerId !== 'undefined') {
+            flatten.splice(flatten.indexOf(peerId), 1);
+            sample.push(peerId);
+        };
+        // #4 add neighbors to the sample chosen at random
+        while (sample.length < sampleSize) {
+            const rn = Math.floor(Math.random() * flatten.length);
+            sample.push(flatten[rn]);
+            flatten.splice(rn, 1);
+        };
+        return sample;
+    };
 
-		_this.state = 'disconnect'; // (TODO) update state
+    /**
+     * @private Periodically called function that aims to balance the partial
+     * view and to mix the neighborhoods.
+     */
+    _exchange () {
+        // #0 if the partial view is empty --- could be due to disconnections,
+        // failure, or _onExchange started with other peers --- skip this round.
+        if (this.partialView.size <= 0) { return; }
+        this.partialView.increment();
+        const oldest = this.partialView.oldest;
+        // #1 send the notification to oldest that we perform an exchange
+        this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)
+            .then( () => {
+                // #A setup the exchange
+                // #2 get a sample from our partial view
+                let sample = this._getSample(oldest);
+                debug('[%s] %s ==> exchange %s ==> %s',
+                      this.PID, this.PEER, sample.length, oldest);
+                // #3 replace occurrences to oldest by ours
+                sample = sample.map( (peerId) => {
+                    return ((peerId===oldest) && this.getInviewId()) || peerId;
+                });
+                // #4 connect oldest -> sample
+                sample.forEach( (peerId) => {
+                    this.connect(oldest, peerId);
+                });
+                // #5 remove our own connection
+                sample = sample.map( (peerId) => {
+                    return ((peerId===this.getInviewId()) && oldest) || peerId;
+                });                
+                sample.forEach( (peerId) => {
+                    this.disconnect(peerId);
+                    if (peerId === oldest) {
+                        this.partialView.removeOldest(peerId);
+                    } else {
+                        this.partialView.removeYoungest(peerId);
+                    };
+                });
+            }).catch( (e) => {
+                // #B the peer cannot be reached, he is supposedly dead
+                debug('[%s] %s =X> exchange =X> %s',
+                      this.PID, this.PEER, oldest);                
+                this._onPeerDown(oldest);
+            });
+    };
 
-		// #C periodic shuffling
-		var self = _this;
-		setInterval(function () {
-			if (self.partialView.length() > 0) {
-				self.exchange();
-			}
-		}, _this.DELTATIME);
 
-		// #D receive event
-		function receive(id, message) {
-			// #0 must contain a message and a protocol, otherwise forward
-			if (message && message.type === 'MExchange' && message.protocol !== self.protocol) {
+    /**
+     * @private Behavior when this peer receives a shuffling request.
+     * @param {string} neighbor The identifier of the peer that sent this
+     * exchange request.
+     * @param {MExchange} message message containing the identifier of the peer
+     * that started the exchange.
+     */
+    _onExchange (neighbor, message) {
+        // #1 get a sample of neighbors from our partial view
+        this.partialView.increment();
+        let sample = this._getSample();
+        debug('[%s] %s ==> exchange %s ==> %s',
+              this.PID, neighbor, sample.length, this.PEER);
+        // #2 replace occurrences of the initiator by ours
+        sample = sample.map( (peerId) => {
+            return (peerId===message.inview) && this.getInviewId() || peerId;
+        });
+        // #3 establish connections
+        sample.forEach( (peerId) => {
+            this.connect(neighbor, peerId);
+        });
+        // #4 inverse replacement
+        sample = sample.map( (peerId) => {
+            return (peerId===this.getInviewId()) && message.inview || peerId;
+        });
+        // #5 disconnect arcs
+        sample.forEach( (peerId) => {
+            this.disconnect(peerId);
+            this.partialView.removeYoungest(peerId);
+        });
+    };
 
-				if (!message.view) {
-					self.onExchange(message);
-				} else {
-					// this.log(message.view.outviewId, message.view);
-					self.views.set(message.view.outviewId, message.view);
-				}
-			} else if (!message || message.protocol !== self.protocol) {
-				if (message && message.protocol) {
-					self.emit(message.protocol + '-receive', id, message);
-				} else {
-					self.emit('receive', id, message);
-				}
-			}
-		}
+    /**
+     * @private The function called when a neighbor is unreachable and
+     * supposedly crashed/departed. It probabilistically duplicates an arc.
+     * @param {string} peerId The identifier of the peer that seems down.
+     */
+    _onPeerDown (peerId) {
+        debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, peerId);
+        // #1 remove all occurrences of the peer in the partial view
+        const occ = this.partialView.removeAll(peerId);
+        // #2 probabilistically recreate arcs to a known peer
+        if (this.partialView.size > 0) {
+            // #A normal behavior
+            for (let i = 0; i < occ; ++i) {
+                if (Math.random() > (1 / (this.partialView.size + occ))) {
+                    // probabilistically duplicates one of the least frequent
+                    // peers
+                    this.connect(null, this.partialView.leastFrequent);
+                }
+            }
+        } else {
+            // #B last chance behavior (TODO) ask inview
+        };
+    };
 
-		_this.neighborhoods.on('receive', receive);
-		_this.neighborhoods.on('ready', function (id, view) {
-			var config = {
-				age: 0,
-				id: id
-			};
-			view === 'outview' && self.partialView.addNeighbor(config);
-			self.updateState();
-		});
+    /**
+     * @private A connection failed to establish properly, systematically
+     * duplicates an element of the partial view.
+     * @param {string|null} peerId The identifier of the peer we failed to 
+     * establish a connection with. Null if it was yet to be known.
+     */
+    _onArcDown (peerId) {
+        debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId||'unknown');
+        if (this.partialView.size > 0) {
+            // #1 normal behavior
+            this.connect(null, this.partialView.leastFrequent);
+        } else {
+            // #2 last chance behavior
+            // (TODO) ask inview
+            // const rn = Math.floor(Math.random() * this.i.size);
+            // let it = this.i.keys();                        
+            // this.II.connect(null, this.i.
+        };
+    };
+};
 
-		_this.neighborhoods.on('failed', function (id, view, reason) {
-			_this.log('Spray:on:Failed:', id, view, reason);
-			view === 'outview' && self.onArcDown();
-		});
-
-		_this.neighborhoods.on('disconnect', function () {
-			self.updateState();
-		});
-
-		return _this;
-	}
-
-	_createClass(Spray, [{
-		key: 'log',
-		value: function log() {
-			if (this.verbose) {
-				for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-					args[_key] = arguments[_key];
-				}
-
-				console.log('[SPRAY-WRTC]', args);
-			}
-		}
-
-		/**
-   * Joining as; or contacted by an outsider
-   * @param {callback} callbacks the callbacks function, see module 'n2n-overlay-wrtc'.
-   * @param {object} message ...
-   * @return {void}
-   */
-
-	}, {
-		key: 'connection',
-		value: function connection(callbacks, message) {
-			var _this2 = this;
-
-			var self = this;
-			var onReadyFunction = callbacks && callbacks.onReady;
-			// #1 if this peer is the contact, overload the onready function
-			// with the spray joining mechanism that will inject log(x) arcs in
-			// the network
-			if (message) {
-				callbacks.onReady = function (id) {
-					if (self.partialView.length() > 0) {
-						// #A signal the arrival of a new peer to its outview
-						self.partialView.get().forEach(function (n) {
-
-							if (n.id !== id) {
-								self.neighborhoods.connect(n, id);
-							} else {
-								_this2.log('n:', n, '| id:', id);
-							}
-						});
-					} else {
-						// #B adds it to its own outview (for only 2-peers network)
-						self.neighborhoods.connect(null, id);
-					}
-					// #C callback the original onReady function
-					onReadyFunction && onReadyFunction(id);
-				};
-			} else {
-				callbacks.onReady = function (id) {
-					onReadyFunction && onReadyFunction(id);
-					// #D emit a join event
-					self.emit('join', id);
-				};
-			}
-			// #2 start establishing the first connection
-			this.neighborhoods.connection(callbacks, message);
-		}
-
-		/**
-   * Leave the network
-   * @param {integer} timer the timeout before really shutting down. The time can
-   * be spent on healing the network before departure. (In milliseconds)
-   * @return {void}
-   */
-
-	}, {
-		key: 'leave',
-		value: function leave(timer) {
-			setTimeout(function () {
-				this.partialView.clear();
-				this.neighborhoods.disconnect();
-			}, timer);
-		}
-
-		/**
-   * Get a set of neighbors from both inview and outview. It is worth
-   * noting that each peer controls its outview, but not its inview. Thus, the
-   * outview may be less versatile.
-   * @param {integer} k the number of neighbors requested, if k is not defined, it returns
-   * every known identifiers.
-   * @return {object} { i:[id1,id2...idk], o:[id1,id2...idk] }
-   */
-
-	}, {
-		key: 'getPeers',
-		value: function getPeers(k) {
-			var result = {
-				i: [],
-				o: []
-			};
-			// #A copy the identifiers of the inview
-			var inview = this.neighborhoods.get('inview');
-			for (var i = 0; i < inview.length; ++i) {
-				result.i.push(inview[i].id);
-			}
-			// #B remove entries if there are too many
-			while (k && result.i.length > k && result.i.length > 0) {
-				var rn = Math.floor(Math.random() * result.i.length);
-				result.i.splice(rn, 1);
-			}
-			// #C copy the identifiers of the outview
-			var outview = this.neighborhoods.get('outview');
-			for (var _i = 0; _i < outview.length; ++_i) {
-				result.o.push(outview[_i].id);
-			}
-			// #D remove entries if there are too many
-			while (k && result.o.length > k && result.o.length > 0) {
-				var _rn = Math.floor(Math.random() * result.o.length);
-				result.o.splice(_rn, 1);
-			}
-			return result;
-		}
-
-		/**
-   * Send a message using the id of the arc used to communicate
-   * @param {string} id the identifier of the communication channel
-   * @param {object} message the message to send
-   * @param {integer} retry the number of times the protocol tries to send the message each seconds
-   * @return {boolean} true if the message has been sent at first try, false otherwise
-   */
-
-	}, {
-		key: 'send',
-		value: function send(id, message, retry) {
-			var r = retry || this.RETRY;
-			var result = this.neighborhoods.send(id, message);
-			var self = this;
-			if (!result && r === 0) {
-				// #1 if it fails to send the message, the peer is considered down
-				self.onPeerDown(id);
-			} else if (!result && r > 0) {
-				// #2 give it another try
-				setTimeout(function () {
-					self.send(id, message, r - 1);
-				}, 1000);
-			}
-			return result;
-		}
-
-		/**
-   * Get the string representation of the partial view of spray
-   * @return {string} String representation of the partialView
-   */
-
-	}, {
-		key: 'toString',
-		value: function toString() {
-			var result = '@' + this.neighborhoods.inview.ID + ';' + this.neighborhoods.outview.ID + '   [ ';
-			var pv = this.partialView.get();
-			for (var i = 0; i < pv.length; ++i) {
-				result += '(' + pv[i].age + ' ' + pv[i].id + ') ';
-			}
-			result += ']';
-			return result;
-		}
-
-		// ====================================
-		//        PRIVATE functions         //
-		// ====================================
-
-		/**
-   * Update the local connection state of the peer and emit an event
-   * if the state is different than at the previous call of this function.
-   * The emitted event is 'statechange' with the
-   * arguments 'connect' | 'partial' | 'disconnect'
-   * @return {void}
-   */
-
-	}, {
-		key: 'updateState',
-		value: function updateState() {
-			// (TODO) handle it without reaching the neighbor-wrtc module...
-			if (this.neighborhoods.o.living.ms.arr.length > 0 && this.neighborhoods.i.living.ms.arr.length > 0 && this.state !== 'connect') {
-				// #1 connected means (1+ inview, 1+ outview)
-				this.state = 'connect';
-				this.emit('statechange', 'connect');
-			} else if (this.neighborhoods.o.living.ms.arr.length === 0 && this.neighborhoods.i.living.ms.arr.length > 0 || (this.neighborhoods.o.living.ms.arr.length > 0 || this.neighborhoods.i.living.ms.arr.length === 0) && this.state !== 'partial') {
-				// #2 partially connected means (1+ inview, 0 outview) or (0 i, 1+ o)
-				this.state = 'partial';
-				this.emit('statechange', 'partial');
-			} else if (this.neighborhoods.o.living.ms.arr.length === 0 && this.neighborhoods.i.living.ms.arr.length === 0 && this.state !== 'disconnect') {
-				// #3 disconnected means (0 inview, 0 outview)
-				this.state = 'disconnect';
-				this.emit('statechange', 'disconnect');
-			}
-		}
-
-		/* *****************************************************************************
-   * Spray's protocol implementation
-   ******************************************************************************/
-
-		/**
-   * Periodically called function that aims to balance the partial view
-   * and to mix the neighborhoods
-   * @return {void}
-   */
-
-	}, {
-		key: 'exchange',
-		value: function exchange() {
-			var self = this;
-
-			var oldest = null;
-			var sent = false;
-			this.partialView.increment();
-			// #1 get the oldest neighbor reachable
-			while (!oldest && !sent && this.partialView.length() > 0) {
-				// oldest = this.partialView.getOldest();
-				oldest = this.partialView.getOldest();
-				var message = MExchange(null, this.neighborhoods.i.ID, this.neighborhoods.o.ID);
-				sent = this.send(oldest.id, message, 0);
-			}
-			if (this.partialView.length() === 0) {
-				this.log('Partial view is 0 length');
-				return;
-			}
-			// #2 get a sample from our partial view
-			var sample = this.partialView.getSample(oldest, true);
-			// #3 establish connections oldest -> sample
-			// #A remove the chosen arcs
-			var i = 0;
-			while (i < sample.length) {
-				var e = sample[i];
-				var removed = self.neighborhoods.disconnect(e.id);
-				if (!removed) {
-					// the partial view is late
-					// #a inform the partial view of the departure of the peer
-					self.onPeerDown(e.id);
-					// #b clear the sample from references to this id
-					var j = 0;
-					while (j < sample.length) {
-						if (sample[j].id === e.id) {
-							sample.splice(j, 1);
-						} else {
-							++j;
-						}
-					}
-				} else {
-					// normal behavior
-					self.partialView.removePeer(e.id, e.age);
-					++i;
-				}
-			}
-			// #B from oldest to chosen neighbor
-			sample.forEach(function (e) {
-				self.neighborhoods.connect(oldest.id, e.id !== oldest.id && e.id);
-			});
-			this.emit('shuffling', 'exchange');
-		}
-
-		/**
-   * Event executed when we receive an exchange request
-   * @param {object} msg message containing the identifier of the peer that started the
-   * exchange
-   * @return {void}
-   */
-
-	}, {
-		key: 'onExchange',
-		value: function onExchange(msg) {
-			var self = this;
-			// #1 get a sample of neighbors from our partial view
-			this.partialView.increment();
-			var sample = this.partialView.getSample(msg.inview, false);
-			// #A remove the chosen neighbor from our partialview
-			var i = 0;
-			while (i < sample.length) {
-				var e = sample[i];
-				var removed = self.neighborhoods.disconnect(e.id);
-				if (!removed) {
-					// the partial view is late
-					// #a inform the partial view of the departure of the peer
-					self.onPeerDown(e.id);
-					// #b clear the sample from references to this id
-					var j = 0;
-					while (j < sample.length) {
-						if (sample[j].id === e.id) {
-							sample.splice(j, 1);
-						} else {
-							++j;
-						}
-					}
-				} else {
-					// normal behavior
-					self.partialView.removePeer(e.id, e.age);
-					++i;
-				}
-			}
-			// #B from initiator to chosen neigbhor
-			sample.forEach(function (e) {
-				self.neighborhoods.connect(msg.outview, e.id !== msg.inview && e.id);
-			});
-			this.emit('shuffling', 'onExchange');
-		}
-
-		/**
-   * The function called when a neighbor is unreachable and supposedly
-   * crashed/departed. It probabilistically keeps an arc up
-   * @param {string} id the identifier of the channel that seems down
-   * @return {void}
-   */
-
-	}, {
-		key: 'onPeerDown',
-		value: function onPeerDown(id) {
-			this.log('@spray: The peer ' + JSON.stringify(id) + ' seems down.');
-			// #A remove all occurrences of the peer in the partial view
-			var occ = this.partialView.removeAll(id);
-			// #B probabilistically recreate an arc to a known peer
-			if (this.partialView.length() > 0) {
-				for (var i = 0; i < occ; ++i) {
-					if (Math.random() > 1 / (this.partialView.length() + occ)) {
-						var rn = Math.floor(Math.random() * this.partialView.length());
-						this.neighborhoods.connect(null, this.partialView.array.arr[rn]);
-					}
-				}
-			}
-		}
-
-		/**
-   * A connection failed to establish properly, systematically duplicates
-   * an element of the partial view.
-   * @return {void}
-   */
-
-	}, {
-		key: 'onArcDown',
-		value: function onArcDown() {
-			this.log('@spray: An arc failed to establish.');
-			if (this.partialView.length() > 0) {
-				var rn = Math.floor(Math.random() * this.partialView.length());
-				this.neighborhoods.connect(null, this.partialView.array.arr[rn]);
-			}
-		}
-	}]);
-
-	return Spray;
-}(EventEmitter);
 
 module.exports = Spray;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNwcmF5LmpzIl0sIm5hbWVzIjpbIkV2ZW50RW1pdHRlciIsInJlcXVpcmUiLCJOTyIsIlBhcnRpYWxWaWV3IiwiTUV4Y2hhbmdlIiwiXyIsIlNwcmF5Iiwib3B0aW9ucyIsIm9wdHMiLCJtZXJnZSIsInByb3RvY29sIiwiZW5jb2RpbmciLCJtZXNzYWdlIiwiSlNPTiIsInN0cmluZ2lmeSIsImRlY29kaW5nIiwicGFyc2UiLCJkZWx0YXRpbWUiLCJyZXRyeSIsInByb2ZpbGUiLCJ1c2VkQ29lZiIsInZlcmJvc2UiLCJERUxUQVRJTUUiLCJSRVRSWSIsInBhcnRpYWxWaWV3IiwibmVpZ2hib3Job29kcyIsImludmlld0lkIiwiaSIsIklEIiwib3V0dmlld0lkIiwibyIsInN0YXRlIiwic2VsZiIsInNldEludGVydmFsIiwibGVuZ3RoIiwiZXhjaGFuZ2UiLCJyZWNlaXZlIiwiaWQiLCJ0eXBlIiwidmlldyIsIm9uRXhjaGFuZ2UiLCJ2aWV3cyIsInNldCIsImVtaXQiLCJvbiIsImNvbmZpZyIsImFnZSIsImFkZE5laWdoYm9yIiwidXBkYXRlU3RhdGUiLCJyZWFzb24iLCJsb2ciLCJvbkFyY0Rvd24iLCJhcmdzIiwiY29uc29sZSIsImNhbGxiYWNrcyIsIm9uUmVhZHlGdW5jdGlvbiIsIm9uUmVhZHkiLCJnZXQiLCJmb3JFYWNoIiwibiIsImNvbm5lY3QiLCJjb25uZWN0aW9uIiwidGltZXIiLCJzZXRUaW1lb3V0IiwiY2xlYXIiLCJkaXNjb25uZWN0IiwiayIsInJlc3VsdCIsImludmlldyIsInB1c2giLCJybiIsIk1hdGgiLCJmbG9vciIsInJhbmRvbSIsInNwbGljZSIsIm91dHZpZXciLCJyIiwic2VuZCIsIm9uUGVlckRvd24iLCJwdiIsImxpdmluZyIsIm1zIiwiYXJyIiwib2xkZXN0Iiwic2VudCIsImluY3JlbWVudCIsImdldE9sZGVzdCIsInNhbXBsZSIsImdldFNhbXBsZSIsImUiLCJyZW1vdmVkIiwiaiIsInJlbW92ZVBlZXIiLCJtc2ciLCJv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Q0Q7Ozs7RUF6WmtCdEUsWTs7QUE4WnBCaUcsT0FBT0MsT0FBUCxHQUFpQjVGLEtBQWpCIiwiZmlsZSI6InNwcmF5LmpzIiwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBzdHJpY3QnO1xuXG5jb25zdCAgRXZlbnRFbWl0dGVyID0gcmVxdWlyZSgnZXZlbnRzJyk7XG5jb25zdCAgTk8gPSByZXF1aXJlKCduMm4tb3ZlcmxheS13cnRjJyk7XG5jb25zdCAgUGFydGlhbFZpZXcgPSByZXF1aXJlKCcuL3BhcnRpYWx2aWV3LmpzJyk7XG5jb25zdCAgTUV4Y2hhbmdlID0gcmVxdWlyZSgnLi9tZXNzYWdlcy5qcycpO1xuY29uc3QgIF8gPSByZXF1aXJlKCdsb2Rhc2gnKTtcblxuLyoqXG4gKiBJbXBsZW1lbnRhdGlvbiBvZiB0aGUgcmFuZG9tIHBlZXIgc2FtcGxpbmcgU3ByYXlcbiAqL1xuY2xhc3MgU3ByYXkgZXh0ZW5kcyBFdmVudEVtaXR0ZXIge1xuXHQvKipcblx0ICogWW91IGNhbiBwYXNzIG90aGVyIHBhcmFtZXRlcnMgc3VjaCBhcyB3ZWJydGMgb3B0aW9uc1xuXHQgKiBAcGFyYW0ge29iamVjdH0gb3B0aW9ucyBPYmplY3Qgd2l0aCBhbGwgb3B0aW9uc1xuXHQgKiBAcGFyYW0ge3N0cmluZ30gb3B0aW9ucy5wcm90b2NvbCBUaGUgcHJvdG9jb2wgb2YgdGhlIG5ldHdvcmtcblx0ICogQHBhcmFtIHtpbnRlZ2VyfSBvcHRpb25zLmRlbHRhdGltZSBFYWNoIGRlbHRhdGltZSwgd2Ugc2h1ZmZsZSAhXG5cdCAqIEBwYXJhbSB7aW50ZWdlcn0gb3B0aW9ucy5yZXRyeSBOdW1iZXIgb2YgcmV0cnkgd2hlbiB3ZSBzZW5kIGEgbWVzc2FnZVxuXHQgKiBAcGFyYW0ge2ludGVnZXJ9IG9wdGlvbnMudXNlZENvZWYgQW1vdW50IG9mIGNsaWVudHMgc2h1ZmZsZWQgYmV0d2VlbiAwIGFuZCAxIChpZSwgWzA7MV0pXG5cdCAqIEBwYXJhbSB7aW50ZWdlcn0gb3B0aW9ucy5wcm9maWxlIHlvdXIgcHJvZmlsZVxuXHQgKiBAcGFyYW0ge2ludGVnZXJ9IG9wdGlvbnMuayBrIHByb2ZpbGUgc2F2ZWRcblx0ICovXG5cdGNvbnN0cnVjdG9yIChvcHRpb25zID0ge30pIHtcblx0XHRzdXBlcigpO1xuXG5cdFx0Ly8gbWVyZ2Ugb2Ygb3B0aW9ucyB3aXRoIGRlZmF1bHQgb3B0aW9uc1xuXHRcdHRoaXMub3B0cyA9IF8ubWVyZ2Uoe1xuXHRcdFx0cHJvdG9jb2w6ICdzcHJheS13cnRjJyxcblx0XHRcdGVuY29kaW5nOiAobWVzc2FnZSkgPT4ge1xuXHRcdFx0XHRyZXR1cm4gSlNPTi5zdHJpbmdpZnkobWVzc2FnZSk7XG5cdFx0XHRcdC8vIHJldHVybiBuZXcgQnVmZmVyKCdtZXNzYWdlJyk7XG5cdFx0XHR9LFxuXHRcdFx0ZGVjb2Rpbmc6IChtZXNzYWdlKSA9PiB7XG5cdFx0XHRcdHJldHVybiBKU09OLnBhcnNlKG1lc3NhZ2UpO1xuXHRcdFx0fSxcblx0XHRcdGRlbHRhdGltZTogMTAwMCAqIDYwICogMixcblx0XHRcdHJldHJ5OiAxMCxcblx0XHRcdHByb2ZpbGU6IHt9LFxuXHRcdFx0dXNlZENvZWY6IDAuNSxcblx0XHRcdHZlcmJvc2U6IGZhbHNlXG5cdFx0fSwgb3B0aW9ucyk7XG5cblx0XHR0aGlzLnZlcmJvc2UgPSB0aGlzLm9wdHMudmVyYm9zZTtcblx0XHQvLyAjQSBjb25zdGFudHNcblx0XHR0aGlzLnByb3RvY29sID0gdGhpcy5vcHRzLnByb3RvY29sO1xuXHRcdHRoaXMuREVMVEFUSU1FID0gdGhpcy5vcHRzLmRlbHRhdGltZTsgLy8gMm1pblxuXHRcdHRoaXMuUkVUUlkgPSB0aGlzLm9wdHMucmV0cnk7IC8vIHJldHJ5IDEweCB0byBzZW5kIG1lc3NhZ2VzXG5cblx0XHQvLyAjQiBwcm90b2NvbCB2YXJpYWJsZXNcblx0XHR0aGlzLnBhcnRpYWxWaWV3ID0gbmV3IFBhcnRpYWxWaWV3KCB7XG5cdFx0XHR1c2VkQ29lZjogdGhpcy5vcHRzLnVzZWRDb2VmXG5cdFx0fSk7XG5cblx0XHR0aGlzLm5laWdoYm9yaG9vZHMgPSBuZXcgTk8odGhpcy5vcHRzKTtcblxuXHRcdC8vIHVwZGF0ZSB0aGUgcHJvZmlsZSB3aXRoIHNvbWUgaWRlbnRpZmllcnNcblx0XHQvLyBhdCBlYWNoIHN1ZmZsaW5nIHRoZSBwcm9maWxlIGlzIHNlbnQgdG8gYWxsIG5laWdoYm91cnNcblx0XHR0aGlzLnByb2ZpbGUgPSB0aGlzLm9wdHMucHJvZmlsZTtcblx0XHR0aGlzLnByb2ZpbGUuaW52aWV3SWQgPSB0aGlzLm5laWdoYm9yaG9vZHMuaS5JRDtcblx0XHR0aGlzLnByb2ZpbGUub3V0dmlld0lkID0gdGhpcy5uZWlnaGJvcmhvb2RzLm8uSUQ7XG5cblxuXHRcdHRoaXMuc3RhdGUgPSAnZGlzY29ubmVjdCc7IC8vIChUT0RPKSB1cGRhdGUgc3RhdGVcblxuXHRcdC8vICNDIHBlcmlvZGljIHNodWZmbGluZ1xuXHRcdGNvbnN0IHNlbGYgPSB0aGlzO1xuXHRcdHNldEludGVydmFsKCgpID0+IHtcblx0XHRcdGlmKHNlbGYucGFydGlhbFZpZXcubGVuZ3RoKCkgPiAwKSB7XG5cdFx0XHRcdHNlbGYuZXhjaGFuZ2UoKTtcblx0XHRcdH1cblx0XHR9LCB0aGlzLkRFTFRBVElNRSk7XG5cblx0XHQvLyAjRCByZWNlaXZlIGV2ZW50XG5cdFx0ZnVuY3Rpb24gcmVjZWl2ZSAoaWQsIG1lc3NhZ2UpIHtcblx0XHRcdC8vICMwIG11c3QgY29udGFpbiBhIG1lc3NhZ2UgYW5kIGEgcHJvdG9jb2wsIG90aGVyd2lzZSBmb3J3YXJkXG5cdFx0XHRpZiAobWVzc2FnZSAmJiBtZXNzYWdlLnR5cGUgPT09ICdNRXhjaGFuZ2UnICYmIG1lc3NhZ2UucHJvdG9jb2wgIT09IHNlbGYucHJvdG9jb2wpIHtcblxuXHRcdFx0XHRpZighbWVzc2FnZS52aWV3KSB7XG5cdFx0XHRcdFx0c2VsZi5vbkV4Y2hhbmdlKG1lc3NhZ2UpO1xuXHRcdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHRcdC8vIHRoaXMubG9nKG1lc3NhZ2Uudmlldy5vdXR2aWV3SWQsIG1lc3NhZ2Uudmlldyk7XG5cdFx0XHRcdFx0c2VsZi52aWV3cy5zZXQobWVzc2FnZS52aWV3Lm91dHZpZXdJZCwgbWVzc2FnZS52aWV3KTtcblx0XHRcdFx0fVxuXG5cdFx0XHR9IGVsc2UgaWYgKCFtZXNzYWdlIHx8IG1lc3NhZ2UucHJvdG9jb2wgIT09IHNlbGYucHJvdG9jb2wpIHtcblx0XHRcdFx0aWYgKG1lc3NhZ2UgJiYgbWVzc2FnZS5wcm90b2NvbCkge1xuXHRcdFx0XHRcdHNlbGYuZW1pdChgJHttZXNzYWdlLnByb3RvY29sfS1yZWNlaXZlYCwgaWQsIG1lc3NhZ2UpO1xuXHRcdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHRcdHNlbGYuZW1pdCgncmVjZWl2ZScsIGlkLCBtZXNzYWdlKTtcblx0XHRcdFx0fVxuXHRcdFx0fVxuXHRcdH1cblxuXHRcdHRoaXMubmVpZ2hib3Job29kcy5vbigncmVjZWl2ZScsIHJlY2VpdmUpO1xuXHRcdHRoaXMubmVpZ2hib3Job29kcy5vbigncmVhZHknLCAoaWQsIHZpZXcpID0+IHtcblx0XHRcdGNvbnN0IGNvbmZpZyA9IHtcblx0XHRcdFx0YWdlOiAwLFxuXHRcdFx0XHRpZFxuXHRcdFx0fTtcblx0XHRcdCh2aWV3ID09PSAnb3V0dmlldycpICYmIHNlbGYucGFydGlhbFZpZXcuYWRkTmVpZ2hib3IoY29uZmlnKTtcblx0XHRcdHNlbGYudXBkYXRlU3RhdGUoKTtcblx0XHR9KTtcblxuXHRcdHRoaXMubmVpZ2hib3Job29kcy5vbignZmFpbGVkJywgKGlkLCB2aWV3LCByZWFzb24pID0+IHtcblx0XHRcdHRoaXMubG9nKCdTcHJheTpvbjpGYWlsZWQ6JywgaWQsIHZpZXcsIHJlYXNvbik7XG5cdFx0XHQodmlldyA9PT0gJ291dHZpZXcnKSAmJiBzZWxmLm9uQXJjRG93bigpO1xuXHRcdH0pO1xuXG5cdFx0dGhpcy5uZWlnaGJvcmhvb2RzLm9uKCdkaXNjb25uZWN0JywgKCkgPT4ge1xuXHRcdFx0c2VsZi51cGRhdGVTdGF0ZSgpO1xuXHRcdH0pO1xuXG5cdH1cblxuXHRsb2cgKC4uLmFyZ3MpIHtcblx0XHRpZih0aGlzLnZlcmJvc2UpIHtcblx0XHRcdGNvbnNvbGUubG9nKCdbU1BSQVktV1JUQ10nLCBhcmdzKTtcblx0XHR9XG5cdH1cblxuXHQvKipcblx0ICogSm9pbmluZyBhczsgb3IgY29udGFjdGVkIGJ5IGFuIG91dHNpZGVyXG5cdCAqIEBwYXJhbSB7Y2FsbGJhY2t9IGNhbGxiYWNrcyB0aGUgY2FsbGJhY2tzIGZ1bmN0aW9uLCBzZWUgbW9kdWxlICduMm4tb3ZlcmxheS13cnRjJy5cblx0ICogQHBhcmFtIHtvYmplY3R9IG1lc3NhZ2UgLi4uXG5cdCAqIEByZXR1cm4ge3ZvaWR9XG5cdCAqL1xuXHRjb25uZWN0aW9uIChjYWxsYmFja3MsIG1lc3NhZ2UpIHtcblx0XHRjb25zdCBzZWxmID0gdGhpcztcblx0XHRjb25zdCBvblJlYWR5RnVuY3Rpb24gPSBjYWxsYmFja3MgJiYgY2FsbGJhY2tzLm9uUmVhZHk7XG5cdFx0Ly8gIzEgaWYgdGhpcyBwZWVyIGlzIHRoZSBjb250YWN0LCBvdmVybG9hZCB0aGUgb25yZWFkeSBmdW5jdGlvblxuXHRcdC8vIHdpdGggdGhlIHNwcmF5IGpvaW5pbmcgbWVjaGFuaXNtIHRoYXQgd2lsbCBpbmplY3QgbG9nKHgpIGFyY3MgaW5cblx0XHQvLyB0aGUgbmV0d29ya1xuXHRcdGlmIChtZXNzYWdlKSB7XG5cdFx0XHRjYWxsYmFja3Mub25SZWFkeSA9IGlkID0+IHtcblx0XHRcdFx0aWYgKHNlbGYucGFydGlhbFZpZXcubGVuZ3RoKCkgPiAwKSB7XG5cdFx0XHRcdFx0Ly8gI0Egc2lnbmFsIHRoZSBhcnJpdmFsIG9mIGEgbmV3IHBlZXIgdG8gaXRzIG91dHZpZXdcblx0XHRcdFx0XHRzZWxmLnBhcnRpYWxWaWV3LmdldCgpLmZvckVhY2gobiA9PiB7XG5cblx0XHRcdFx0XHRcdGlmKG4uaWQgIT09IGlkKSB7XG5cdFx0XHRcdFx0XHRcdHNlbGYubmVpZ2hib3Job29kcy5jb25uZWN0KG4sIGlkKTtcblx0XHRcdFx0XHRcdH1lbHNlIHtcblx0XHRcdFx0XHRcdFx0dGhpcy5sb2coJ246JywgbiwgJ3wgaWQ6JywgaWQpO1xuXHRcdFx0XHRcdFx0fVxuXHRcdFx0XHRcdH0pO1xuXHRcdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHRcdC8vICNCIGFkZHMgaXQgdG8gaXRzIG93biBvdXR2aWV3IChmb3Igb25seSAyLXBlZXJzIG5ldHdvcmspXG5cdFx0XHRcdFx0c2VsZi5uZWlnaGJvcmhvb2RzLmNvbm5lY3QobnVsbCwgaWQpO1xuXHRcdFx0XHR9XG5cdFx0XHRcdC8vICNDIGNhbGxiYWNrIHRoZSBvcmlnaW5hbCBvblJlYWR5IGZ1bmN0aW9uXG5cdFx0XHRcdG9uUmVhZHlGdW5jdGlvbiAmJiBvblJlYWR5RnVuY3Rpb24oaWQpO1xuXHRcdFx0fTtcblx0XHR9IGVsc2Uge1xuXHRcdFx0Y2FsbGJhY2tzLm9uUmVhZHkgPSBpZCA9PiB7XG5cdFx0XHRcdG9uUmVhZHlGdW5jdGlvbiAmJiBvblJlYWR5RnVuY3Rpb24oaWQpO1xuXHRcdFx0XHQvLyAjRCBlbWl0IGEgam9pbiBldmVudFxuXHRcdFx0XHRzZWxmLmVtaXQoJ2pvaW4nLCBpZCk7XG5cdFx0XHR9O1xuXHRcdH1cblx0XHQvLyAjMiBzdGFydCBlc3RhYmxpc2hpbmcgdGhlIGZpcnN0IGNvbm5lY3Rpb25cblx0XHR0aGlzLm5laWdoYm9yaG9vZHMuY29ubmVjdGlvbihjYWxsYmFja3MsIG1lc3NhZ2UpO1xuXHR9XG5cblx0LyoqXG5cdCAqIExlYXZlIHRoZSBuZXR3b3JrXG5cdCAqIEBwYXJhbSB7aW50ZWdlcn0gdGltZXIgdGhlIHRpbWVvdXQgYmVmb3JlIHJlYWxseSBzaHV0dGluZyBkb3duLiBUaGUgdGltZSBjYW5cblx0ICogYmUgc3BlbnQgb24gaGVhbGluZyB0aGUgbmV0d29yayBiZWZvcmUgZGVwYXJ0dXJlLiAoSW4gbWlsbGlzZWNvbmRzKVxuXHQgKiBAcmV0dXJuIHt2b2lkfVxuXHQgKi9cblx0bGVhdmUgKHRpbWVyKSB7XG5cdFx0c2V0VGltZW91dChmdW5jdGlvbiAoKSB7XG5cdFx0XHR0aGlzLnBhcnRpYWxWaWV3LmNsZWFyKCk7XG5cdFx0XHR0aGlzLm5laWdoYm9yaG9vZHMuZGlzY29ubmVjdCgpO1xuXHRcdH0sIHRpbWVyKTtcblx0fVxuXG5cblx0LyoqXG5cdCAqIEdldCBhIHNldCBvZiBuZWlnaGJvcnMgZnJvbSBib3RoIGludmlldyBhbmQgb3V0dmlldy4gSXQgaXMgd29ydGhcblx0ICogbm90aW5nIHRoYXQgZWFjaCBwZWVyIGNvbnRyb2xzIGl0cyBvdXR2aWV3LCBidXQgbm90IGl0cyBpbnZpZXcuIFRodXMsIHRoZVxuXHQgKiBvdXR2aWV3IG1heSBiZSBsZXNzIHZlcnNhdGlsZS5cblx0ICogQHBhcmFtIHtpbnRlZ2VyfSBrIHRoZSBudW1iZXIgb2YgbmVpZ2hib3JzIHJlcXVlc3RlZCwgaWYgayBpcyBub3QgZGVmaW5lZCwgaXQgcmV0dXJuc1xuXHQgKiBldmVyeSBrbm93biBpZGVudGlmaWVycy5cblx0ICogQHJldHVybiB7b2JqZWN0fSB7IGk6W2lkMSxpZDIuLi5pZGtdLCBvOltpZDEsaWQyLi4uaWRrXSB9XG5cdCAqL1xuXHRnZXRQZWVycyAoaykge1xuXHRcdGxldCByZXN1bHQgPSB7XG5cdFx0XHRpOiBbXSxcblx0XHRcdG86IFtdXG5cdFx0fTtcblx0XHQvLyAjQSBjb3B5IHRoZSBpZGVudGlmaWVycyBvZiB0aGUgaW52aWV3XG5cdFx0Y29uc3QgaW52aWV3ID0gdGhpcy5uZWlnaGJvcmhvb2RzLmdldCgnaW52aWV3Jyk7XG5cdFx0Zm9yIChsZXQgaSA9IDA7IGkgPCBpbnZpZXcubGVuZ3RoOyArK2kpIHtcblx0XHRcdHJlc3VsdC5pLnB1c2goaW52aWV3W2ldLmlkKTtcblx0XHR9XG5cdFx0Ly8gI0IgcmVtb3ZlIGVudHJpZXMgaWYgdGhlcmUgYXJlIHRvbyBtYW55XG5cdFx0d2hpbGUgKGsgJiYgKHJlc3VsdC5pLmxlbmd0aCA+IGspICYmIChyZXN1bHQuaS5sZW5ndGggPiAwKSkge1xuXHRcdFx0Y29uc3Qgcm4gPSBNYXRoLmZsb29yKE1hdGgucmFuZG9tKCkgKiByZXN1bHQuaS5sZW5ndGgpO1xuXHRcdFx0cmVzdWx0Lmkuc3BsaWNlKHJuLCAxKTtcblx0XHR9XG5cdFx0Ly8gI0MgY29weSB0aGUgaWRlbnRpZmllcnMgb2YgdGhlIG91dHZpZXdcblx0XHRjb25zdCBvdXR2aWV3ID0gdGhpcy5uZWlnaGJvcmhvb2RzLmdldCgnb3V0dmlldycpO1xuXHRcdGZvciAobGV0IGkgPSAwOyBpIDwgb3V0dmlldy5sZW5ndGg7ICsraSkge1xuXHRcdFx0cmVzdWx0Lm8ucHVzaChvdXR2aWV3W2ldLmlkKTtcblx0XHR9XG5cdFx0Ly8gI0QgcmVtb3ZlIGVudHJpZXMgaWYgdGhlcmUgYXJlIHRvbyBtYW55XG5cdFx0d2hpbGUgKGsgJiYgKHJlc3VsdC5vLmxlbmd0aCA+IGspICYmIChyZXN1bHQuby5sZW5ndGggPiAwKSkge1xuXHRcdFx0Y29uc3Qgcm4gPSBNYXRoLmZsb29yKE1hdGgucmFuZG9tKCkgKiByZXN1bHQuby5sZW5ndGgpO1xuXHRcdFx0cmVzdWx0Lm8uc3BsaWNlKHJuLCAxKTtcblx0XHR9XG5cdFx0cmV0dXJuIHJlc3VsdDtcblx0fVxuXG5cdC8qKlxuXHQgKiBTZW5kIGEgbWVzc2FnZSB1c2luZyB0aGUgaWQgb2YgdGhlIGFyYyB1c2VkIHRvIGNvbW11bmljYXRlXG5cdCAqIEBwYXJhbSB7c3RyaW5nfSBpZCB0aGUgaWRlbnRpZmllciBvZiB0aGUgY29tbXVuaWNhdGlvbiBjaGFubmVsXG5cdCAqIEBwYXJhbSB7b2JqZWN0fSBtZXNzYWdlIHRoZSBtZXNzYWdlIHRvIHNlbmRcblx0ICogQHBhcmFtIHtpbnRlZ2VyfSByZXRyeSB0aGUgbnVtYmVyIG9mIHRpbWVzIHRoZSBwcm90b2NvbCB0cmllcyB0byBzZW5kIHRoZSBtZXNzYWdlIGVhY2ggc2Vjb25kc1xuXHQgKiBAcmV0dXJuIHtib29sZWFufSB0cnVlIGlmIHRoZSBtZXNzYWdlIGhhcyBiZWVuIHNlbnQgYXQgZmlyc3QgdHJ5LCBmYWxzZSBvdGhlcndpc2Vcblx0ICovXG5cdHNlbmQgKGlkLCBtZXNzYWdlLCByZXRyeSkge1xuXHRcdGNvbnN0IHIgPSByZXRyeSB8fCB0aGlzLlJFVFJZO1xuXHRcdGNvbnN0IHJlc3VsdCA9IHRoaXMubmVpZ2hib3Job29kcy5zZW5kKGlkLCBtZXNzYWdlKTtcblx0XHRjb25zdCBzZWxmID0gdGhpcztcblx0XHRpZiAoIXJlc3VsdCAmJiByID09PSAwKSB7XG5cdFx0XHQvLyAjMSBpZiBpdCBmYWlscyB0byBzZW5kIHRoZSBtZXNzYWdlLCB0aGUgcGVlciBpcyBjb25zaWRlcmVkIGRvd25cblx0XHRcdHNlbGYub25QZWVyRG93bihpZCk7XG5cdFx0fSBlbHNlIGlmICghcmVzdWx0ICYmIHIgPiAwKSB7XG5cdFx0XHQvLyAjMiBnaXZlIGl0IGFub3RoZXIgdHJ5XG5cdFx0XHRzZXRUaW1lb3V0KCgpID0+IHtcblx0XHRcdFx0c2VsZi5zZW5kKGlkLCBtZXNzYWdlLCByIC0gMSk7XG5cdFx0XHR9LCAxMDAwKTtcblx0XHR9XG5cdFx0cmV0dXJuIHJlc3VsdDtcblx0fVxuXG5cdC8qKlxuXHQgKiBHZXQgdGhlIHN0cmluZyByZXByZXNlbnRhdGlvbiBvZiB0aGUgcGFydGlhbCB2aWV3IG9mIHNwcmF5XG5cdCAqIEByZXR1cm4ge3N0cmluZ30gU3RyaW5nIHJlcHJlc2VudGF0aW9uIG9mIHRoZSBwYXJ0aWFsVmlld1xuXHQgKi9cblx0dG9TdHJpbmcgKCkge1xuXHRcdGxldCByZXN1bHQgPSBgQCR7dGhpcy5uZWlnaGJvcmhvb2RzLmludmlldy5JRH07JHt0aGlzLm5laWdoYm9yaG9vZHMub3V0dmlldy5JRH0gICBbIGA7XG5cdFx0Y29uc3QgcHYgPSB0aGlzLnBhcnRpYWxWaWV3LmdldCgpO1xuXHRcdGZvciAobGV0IGkgPSAwOyBpIDwgcHYubGVuZ3RoOyArK2kpIHtcblx0XHRcdHJlc3VsdCArPSBgKCR7cHZbaV0uYWdlfSAke3B2W2ldLmlkfSkgYDtcblx0XHR9XG5cdFx0cmVzdWx0ICs9ICddJztcblx0XHRyZXR1cm4gcmVzdWx0O1xuXHR9XG5cblxuXHQvLyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT1cblx0Ly8gICAgICAgIFBSSVZBVEUgZnVuY3Rpb25zICAgICAgICAgLy9cblx0Ly8gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09XG5cblx0LyoqXG5cdCAqIFVwZGF0ZSB0aGUgbG9jYWwgY29ubmVjdGlvbiBzdGF0ZSBvZiB0aGUgcGVlciBhbmQgZW1pdCBhbiBldmVudFxuXHQgKiBpZiB0aGUgc3RhdGUgaXMgZGlmZmVyZW50IHRoYW4gYXQgdGhlIHByZXZpb3VzIGNhbGwgb2YgdGhpcyBmdW5jdGlvbi5cblx0ICogVGhlIGVtaXR0ZWQgZXZlbnQgaXMgJ3N0YXRlY2hhbmdlJyB3aXRoIHRoZVxuXHQgKiBhcmd1bWVudHMgJ2Nvbm5lY3QnIHwgJ3BhcnRpYWwnIHwgJ2Rpc2Nvbm5lY3QnXG5cdCAqIEByZXR1cm4ge3ZvaWR9XG5cdCAqL1xuXHR1cGRhdGVTdGF0ZSAoKSB7XG5cdFx0Ly8gKFRPRE8pIGhhbmRsZSBpdCB3aXRob3V0IHJlYWNoaW5nIHRoZSBuZWlnaGJvci13cnRjIG1vZHVsZS4uLlxuXHRcdGlmICh0aGlzLm5laWdoYm9yaG9vZHMuby5saXZpbmcubXMuYXJyLmxlbmd0aCA+IDAgJiZcblx0XHRcdHRoaXMubmVpZ2hib3Job29kcy5pLmxpdmluZy5tcy5hcnIubGVuZ3RoID4gMCAmJlxuXHRcdFx0dGhpcy5zdGF0ZSAhPT0gJ2Nvbm5lY3QnKSB7XG5cdFx0XHQvLyAjMSBjb25uZWN0ZWQgbWVhbnMgKDErIGludmlldywgMSsgb3V0dmlldylcblx0XHRcdHRoaXMuc3RhdGUgPSAnY29ubmVjdCc7XG5cdFx0XHR0aGlzLmVtaXQoJ3N0YXRlY2hhbmdlJywgJ2Nvbm5lY3QnKTtcblx0XHR9IGVsc2UgaWYgKFxuXHRcdFx0KHRoaXMubmVpZ2hib3Job29kcy5vLmxpdmluZy5tcy5hcnIubGVuZ3RoID09PSAwICYmXG5cdFx0XHRcdHRoaXMubmVpZ2hib3Job29kcy5pLmxpdmluZy5tcy5hcnIubGVuZ3RoID4gMCkgfHxcblx0XHRcdCh0aGlzLm5laWdoYm9yaG9vZHMuby5saXZpbmcubXMuYXJyLmxlbmd0aCA+IDAgfHxcblx0XHRcdFx0dGhpcy5uZWlnaGJvcmhvb2RzLmkubGl2aW5nLm1zLmFyci5sZW5ndGggPT09IDApICYmXG5cdFx0XHQodGhpcy5zdGF0ZSAhPT0gJ3BhcnRpYWwnKSkge1xuXHRcdFx0Ly8gIzIgcGFydGlhbGx5IGNvbm5lY3RlZCBtZWFucyAoMSsgaW52aWV3LCAwIG91dHZpZXcpIG9yICgwIGksIDErIG8pXG5cdFx0XHR0aGlzLnN0YXRlID0gJ3BhcnRpYWwnO1xuXHRcdFx0dGhpcy5lbWl0KCdzdGF0ZWNoYW5nZScsICdwYXJ0aWFsJyk7XG5cdFx0fSBlbHNlIGlmICh0aGlzLm5laWdoYm9yaG9vZHMuby5saXZpbmcubXMuYXJyLmxlbmd0aCA9PT0gMCAmJlxuXHRcdFx0dGhpcy5uZWlnaGJvcmhvb2RzLmkubGl2aW5nLm1zLmFyci5sZW5ndGggPT09IDAgJiZcblx0XHRcdHRoaXMuc3RhdGUgIT09ICdkaXNjb25uZWN0Jykge1xuXHRcdFx0Ly8gIzMgZGlzY29ubmVjdGVkIG1lYW5zICgwIGludmlldywgMCBvdXR2aWV3KVxuXHRcdFx0dGhpcy5zdGF0ZSA9ICdkaXNjb25uZWN0Jztcblx0XHRcdHRoaXMuZW1pdCgnc3RhdGVjaGFuZ2UnLCAnZGlzY29ubmVjdCcpO1xuXHRcdH1cblx0fVxuXG5cdC8qICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqXG5cdCAqIFNwcmF5J3MgcHJvdG9jb2wgaW1wbGVtZW50YXRpb25cblx0ICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKi9cblxuXHQvKipcblx0ICogUGVyaW9kaWNhbGx5IGNhbGxlZCBmdW5jdGlvbiB0aGF0IGFpbXMgdG8gYmFsYW5jZSB0aGUgcGFydGlhbCB2aWV3XG5cdCAqIGFuZCB0byBtaXggdGhlIG5laWdoYm9yaG9vZHNcblx0ICogQHJldHVybiB7dm9pZH1cblx0ICovXG5cdGV4Y2hhbmdlICgpIHtcblx0XHRjb25zdCBzZWxmID0gdGhpcztcblxuXHRcdGxldCBvbGRlc3QgPSBudWxsO1xuXHRcdGxldCBzZW50ID0gZmFsc2U7XG5cdFx0dGhpcy5wYXJ0aWFsVmlldy5pbmNyZW1lbnQoKTtcblx0XHQvLyAjMSBnZXQgdGhlIG9sZGVzdCBuZWlnaGJvciByZWFjaGFibGVcblx0XHR3aGlsZSAoIW9sZGVzdCAmJiAhc2VudCAmJiB0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCgpID4gMCkge1xuXHRcdFx0Ly8gb2xkZXN0ID0gdGhpcy5wYXJ0aWFsVmlldy5nZXRPbGRlc3QoKTtcblx0XHRcdG9sZGVzdCA9IHRoaXMucGFydGlhbFZpZXcuZ2V0T2xkZXN0KCk7XG5cdFx0XHRjb25zdCBtZXNzYWdlID0gTUV4Y2hhbmdlKG51bGwsIHRoaXMubmVpZ2hib3Job29kcy5pLklELCB0aGlzLm5laWdoYm9yaG9vZHMuby5JRCk7XG5cdFx0XHRzZW50ID0gdGhpcy5zZW5kKG9sZGVzdC5pZCwgbWVzc2FnZSwgMCk7XG5cdFx0fVxuXHRcdGlmICh0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCgpID09PSAwKSB7XG5cdFx0XHR0aGlzLmxvZygnUGFydGlhbCB2aWV3IGlzIDAgbGVuZ3RoJyk7XG5cdFx0XHRyZXR1cm47XG5cdFx0fVxuXHRcdC8vICMyIGdldCBhIHNhbXBsZSBmcm9tIG91ciBwYXJ0aWFsIHZpZXdcblx0XHRjb25zdCBzYW1wbGUgPSB0aGlzLnBhcnRpYWxWaWV3LmdldFNhbXBsZShvbGRlc3QsIHRydWUpO1xuXHRcdC8vICMzIGVzdGFibGlzaCBjb25uZWN0aW9ucyBvbGRlc3QgLT4gc2FtcGxlXG5cdFx0Ly8gI0EgcmVtb3ZlIHRoZSBjaG9zZW4gYXJjc1xuXHRcdGxldCBpID0gMDtcblx0XHR3aGlsZSAoaSA8IHNhbXBsZS5sZW5ndGgpIHtcblx0XHRcdGNvbnN0IGUgPSBzYW1wbGVbaV07XG5cdFx0XHRjb25zdCByZW1vdmVkID0gc2VsZi5uZWlnaGJvcmhvb2RzLmRpc2Nvbm5lY3QoZS5pZCk7XG5cdFx0XHRpZiAoIXJlbW92ZWQpIHsgLy8gdGhlIHBhcnRpYWwgdmlldyBpcyBsYXRlXG5cdFx0XHRcdC8vICNhIGluZm9ybSB0aGUgcGFydGlhbCB2aWV3IG9mIHRoZSBkZXBhcnR1cmUgb2YgdGhlIHBlZXJcblx0XHRcdFx0c2VsZi5vblBlZXJEb3duKGUuaWQpO1xuXHRcdFx0XHQvLyAjYiBjbGVhciB0aGUgc2FtcGxlIGZyb20gcmVmZXJlbmNlcyB0byB0aGlzIGlkXG5cdFx0XHRcdGxldCBqID0gMDtcblx0XHRcdFx0d2hpbGUgKGogPCBzYW1wbGUubGVuZ3RoKSB7XG5cdFx0XHRcdFx0aWYgKHNhbXBsZVtqXS5pZCA9PT0gZS5pZCkge1xuXHRcdFx0XHRcdFx0c2FtcGxlLnNwbGljZShqLCAxKTtcblx0XHRcdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHRcdFx0KytqO1xuXHRcdFx0XHRcdH1cblx0XHRcdFx0fVxuXHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0Ly8gbm9ybWFsIGJlaGF2aW9yXG5cdFx0XHRcdHNlbGYucGFydGlhbFZpZXcucmVtb3ZlUGVlcihlLmlkLCBlLmFnZSk7XG5cdFx0XHRcdCsraTtcblx0XHRcdH1cblx0XHR9XG5cdFx0Ly8gI0IgZnJvbSBvbGRlc3QgdG8gY2hvc2VuIG5laWdoYm9yXG5cdFx0c2FtcGxlLmZvckVhY2goZSA9PiB7XG5cdFx0XHRzZWxmLm5laWdoYm9yaG9vZHMuY29ubmVjdChvbGRlc3QuaWQsIChlLmlkICE9PSBvbGRlc3QuaWQpICYmIGUuaWQpO1xuXHRcdH0pO1xuXHRcdHRoaXMuZW1pdCgnc2h1ZmZsaW5nJywgJ2V4Y2hhbmdlJyk7XG5cdH1cblxuXG5cdC8qKlxuXHQgKiBFdmVudCBleGVjdXRlZCB3aGVuIHdlIHJlY2VpdmUgYW4gZXhjaGFuZ2UgcmVxdWVzdFxuXHQgKiBAcGFyYW0ge29iamVjdH0gbXNnIG1lc3NhZ2UgY29udGFpbmluZyB0aGUgaWRlbnRpZmllciBvZiB0aGUgcGVlciB0aGF0IHN0YXJ0ZWQgdGhlXG5cdCAqIGV4Y2hhbmdlXG5cdCAqIEByZXR1cm4ge3ZvaWR9XG5cdCAqL1xuXHRvbkV4Y2hhbmdlIChtc2cpIHtcblx0XHRjb25zdCBzZWxmID0gdGhpcztcblx0XHQvLyAjMSBnZXQgYSBzYW1wbGUgb2YgbmVpZ2hib3JzIGZyb20gb3VyIHBhcnRpYWwgdmlld1xuXHRcdHRoaXMucGFydGlhbFZpZXcuaW5jcmVtZW50KCk7XG5cdFx0Y29uc3Qgc2FtcGxlID0gdGhpcy5wYXJ0aWFsVmlldy5nZXRTYW1wbGUobXNnLmludmlldywgZmFsc2UpO1xuXHRcdC8vICNBIHJlbW92ZSB0aGUgY2hvc2VuIG5laWdoYm9yIGZyb20gb3VyIHBhcnRpYWx2aWV3XG5cdFx0bGV0IGkgPSAwO1xuXHRcdHdoaWxlIChpIDwgc2FtcGxlLmxlbmd0aCkge1xuXHRcdFx0Y29uc3QgZSA9IHNhbXBsZVtpXTtcblx0XHRcdGNvbnN0IHJlbW92ZWQgPSBzZWxmLm5laWdoYm9yaG9vZHMuZGlzY29ubmVjdChlLmlkKTtcblx0XHRcdGlmICghcmVtb3ZlZCkgeyAvLyB0aGUgcGFydGlhbCB2aWV3IGlzIGxhdGVcblx0XHRcdFx0Ly8gI2EgaW5mb3JtIHRoZSBwYXJ0aWFsIHZpZXcgb2YgdGhlIGRlcGFydHVyZSBvZiB0aGUgcGVlclxuXHRcdFx0XHRzZWxmLm9uUGVlckRvd24oZS5pZCk7XG5cdFx0XHRcdC8vICNiIGNsZWFyIHRoZSBzYW1wbGUgZnJvbSByZWZlcmVuY2VzIHRvIHRoaXMgaWRcblx0XHRcdFx0bGV0IGogPSAwO1xuXHRcdFx0XHR3aGlsZSAoaiA8IHNhbXBsZS5sZW5ndGgpIHtcblx0XHRcdFx0XHRpZiAoc2FtcGxlW2pdLmlkID09PSBlLmlkKSB7XG5cdFx0XHRcdFx0XHRzYW1wbGUuc3BsaWNlKGosIDEpO1xuXHRcdFx0XHRcdH0gZWxzZSB7XG5cdFx0XHRcdFx0XHQrK2o7XG5cdFx0XHRcdFx0fVxuXHRcdFx0XHR9XG5cdFx0XHR9IGVsc2Uge1xuXHRcdFx0XHQvLyBub3JtYWwgYmVoYXZpb3Jcblx0XHRcdFx0c2VsZi5wYXJ0aWFsVmlldy5yZW1vdmVQZWVyKGUuaWQsIGUuYWdlKTtcblx0XHRcdFx0KytpO1xuXHRcdFx0fVxuXHRcdH1cblx0XHQvLyAjQiBmcm9tIGluaXRpYXRvciB0byBjaG9zZW4gbmVpZ2Job3Jcblx0XHRzYW1wbGUuZm9yRWFjaChlID0+IHtcblx0XHRcdHNlbGYubmVpZ2hib3Job29kcy5jb25uZWN0KG1zZy5vdXR2aWV3LCAoZS5pZCAhPT0gbXNnLmludmlldykgJiYgZS5pZCk7XG5cdFx0fSk7XG5cdFx0dGhpcy5lbWl0KCdzaHVmZmxpbmcnLCAnb25FeGNoYW5nZScpO1xuXHR9XG5cblx0LyoqXG5cdCAqIFRoZSBmdW5jdGlvbiBjYWxsZWQgd2hlbiBhIG5laWdoYm9yIGlzIHVucmVhY2hhYmxlIGFuZCBzdXBwb3NlZGx5XG5cdCAqIGNyYXNoZWQvZGVwYXJ0ZWQuIEl0IHByb2JhYmlsaXN0aWNhbGx5IGtlZXBzIGFuIGFyYyB1cFxuXHQgKiBAcGFyYW0ge3N0cmluZ30gaWQgdGhlIGlkZW50aWZpZXIgb2YgdGhlIGNoYW5uZWwgdGhhdCBzZWVtcyBkb3duXG5cdCAqIEByZXR1cm4ge3ZvaWR9XG5cdCAqL1xuXHRvblBlZXJEb3duIChpZCkge1xuXHRcdHRoaXMubG9nKGBAc3ByYXk6IFRoZSBwZWVyICR7SlNPTi5zdHJpbmdpZnkoaWQpfSBzZWVtcyBkb3duLmApO1xuXHRcdC8vICNBIHJlbW92ZSBhbGwgb2NjdXJyZW5jZXMgb2YgdGhlIHBlZXIgaW4gdGhlIHBhcnRpYWwgdmlld1xuXHRcdGNvbnN0IG9jYyA9IHRoaXMucGFydGlhbFZpZXcucmVtb3ZlQWxsKGlkKTtcblx0XHQvLyAjQiBwcm9iYWJpbGlzdGljYWxseSByZWNyZWF0ZSBhbiBhcmMgdG8gYSBrbm93biBwZWVyXG5cdFx0aWYgKHRoaXMucGFydGlhbFZpZXcubGVuZ3RoKCkgPiAwKSB7XG5cdFx0XHRmb3IgKGxldCBpID0gMDsgaSA8IG9jYzsgKytpKSB7XG5cdFx0XHRcdGlmIChNYXRoLnJhbmRvbSgpID4gKDEgLyAodGhpcy5wYXJ0aWFsVmlldy5sZW5ndGgoKSArIG9jYykpKSB7XG5cdFx0XHRcdFx0Y29uc3Qgcm4gPSBNYXRoLmZsb29yKE1hdGgucmFuZG9tKCkgKiB0aGlzLnBhcnRpYWxWaWV3Lmxlbmd0aCgpKTtcblx0XHRcdFx0XHR0aGlzLm5laWdoYm9yaG9vZHMuY29ubmVjdChudWxsLCB0aGlzLnBhcnRpYWxWaWV3LmFycmF5LmFycltybl0pO1xuXHRcdFx0XHR9XG5cdFx0XHR9XG5cdFx0fVxuXHR9XG5cblx0LyoqXG5cdCAqIEEgY29ubmVjdGlvbiBmYWlsZWQgdG8gZXN0YWJsaXNoIHByb3Blcmx5LCBzeXN0ZW1hdGljYWxseSBkdXBsaWNhdGVzXG5cdCAqIGFuIGVsZW1lbnQgb2YgdGhlIHBhcnRpYWwgdmlldy5cblx0ICogQHJldHVybiB7dm9pZH1cblx0ICovXG5cdG9uQXJjRG93biAoKSB7XG5cdFx0dGhpcy5sb2coJ0BzcHJheTogQW4gYXJjIGZhaWxlZCB0byBlc3RhYmxpc2guJyk7XG5cdFx0aWYgKHRoaXMucGFydGlhbFZpZXcubGVuZ3RoKCkgPiAwKSB7XG5cdFx0XHRjb25zdCBybiA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIHRoaXMucGFydGlhbFZpZXcubGVuZ3RoKCkpO1xuXHRcdFx0dGhpcy5uZWlnaGJvcmhvb2RzLmNvbm5lY3QobnVsbCwgdGhpcy5wYXJ0aWFsVmlldy5hcnJheS5hcnJbcm5dKTtcblx0XHR9XG5cdH1cblxufVxuXG5cbm1vZHVsZS5leHBvcnRzID0gU3ByYXk7XG4iXX0=
-},{"./messages.js":2,"./partialview.js":3,"events":8,"lodash":12,"n2n-overlay-wrtc":14}]},{},[]);
+
+},{"./exceptions/exemptyview.js":1,"./exceptions/exmessage.js":2,"./messages/mexchange.js":4,"./messages/mjoin.js":5,"./partialview.js":6,"debug":10,"lodash":16,"n2n-overlay-wrtc":22}]},{},[]);
