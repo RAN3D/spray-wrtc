@@ -11,6 +11,33 @@ Scamp [4]. It adapts the partial view of each member to the network size using
 local knowledge only. Therefore, without any configuration, each peer
 automatically adjust its functioning to the need of the network.
 
+## Principle
+
+<p align='center'>
+    <img src='./img/joining.gif'/>
+</p>
+
+Peers joining the network inject a logarithmic number of arcs with them. Thus, a
+10-peers network has on average 2.3 connections per peer, a 100-peers network
+has on average 4.6 connections per peer, a 1000 peers network has on average 6.9
+connections per peer etc. Consequently, the number of connections scales well in
+terms of number of peers.
+
+The figure shows that peers are highly clustered. Furthermore, the oldest peers
+have many outgoing arcs while the newest only has one outgoing arc. To solve
+this issue, the peers must periodically shuffle their partial view of the
+network.
+
+<p align='center'>
+    <img src='./img/shuffling.gif' />
+</p>
+
+Periodically, a peer chooses one of its neighbor to exchange with. Both peers
+provide half of their partial view comprising neighbors chosen at random. Both
+peers disconnect from the neighbors they provided and connect to the neighbors
+they obtained. Periodic shufflings balance the outgoing arcs among the
+peers. The resulting network has a low clustering coefficient.
+
 ## Installation
 
 ```$ npm install spray-wrtc```

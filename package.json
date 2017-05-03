@@ -34,7 +34,7 @@
         "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
         "build": "browserify -r ./lib/spray.js:spray-wrtc > build/spray-wrtc.bundle.js",
         "esdoc": "esdoc && npm run esdoc:example",
-        "esdoc:example": "cp -R ./build ./examples ./docs",
+        "esdoc:example": "cp -R ./build ./examples ./img ./docs",
         "test": "npm run all",
         "all": "npm run debug && npm run build && npm run esdoc"
     },
