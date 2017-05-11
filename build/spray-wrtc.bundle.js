@@ -22,6 +22,25 @@ module.exports = ExEmptyView;
 'use strict';
 
 /**
+ * Exception threw when the joining phase of Spray does not work as intended.
+ */
+class ExJoin {
+    /**
+     * @param {string} source The name of the function that threw the exception.
+     * @param {string} reason The reason the joining failed.
+     */
+    constructor (source, reason) {
+        this.source = source;
+        this.message = reason;
+    };
+};
+
+module.exports = ExJoin;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+/**
  * Spray encountered a problem with a message.
  */
 class ExMessage {
@@ -40,7 +59,7 @@ class ExMessage {
 
 module.exports = ExMessage;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 /**
@@ -62,7 +81,7 @@ class ExPeerNotFound {
 
 module.exports = ExPeerNotFound;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 /**
@@ -80,7 +99,7 @@ class MExchange {
 
 module.exports = MExchange;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 /**
@@ -94,7 +113,7 @@ class MJoin {
 
 module.exports = MJoin;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 const ExPeerNotFound = require('./exceptions/expeernotfound.js');
@@ -210,7 +229,7 @@ class PartialView extends Map {
 
 module.exports = PartialView;
 
-},{"./exceptions/expeernotfound.js":3}],7:[function(require,module,exports){
+},{"./exceptions/expeernotfound.js":4}],8:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -332,9 +351,9 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],8:[function(require,module,exports){
-
 },{}],9:[function(require,module,exports){
+
+},{}],10:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1388,7 +1407,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":7,"ieee754":13,"is-array":14}],10:[function(require,module,exports){
+},{"base64-js":8,"ieee754":14,"is-array":15}],11:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -1577,7 +1596,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":11,"_process":60}],11:[function(require,module,exports){
+},{"./debug":12,"_process":61}],12:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -1781,7 +1800,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":17}],12:[function(require,module,exports){
+},{"ms":18}],13:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2084,7 +2103,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -2170,7 +2189,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 /**
  * isArray
@@ -2205,7 +2224,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -2228,7 +2247,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19316,7 +19335,7 @@ function isSlowBuffer (obj) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -19467,7 +19486,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's'
 }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19490,7 +19509,7 @@ class MConnectTo {
 
 module.exports = MConnectTo;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19505,7 +19524,7 @@ class MDirect {
 
 module.exports = MDirect;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19528,7 +19547,7 @@ class MForwarded {
 
 module.exports = MForwarded;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19550,7 +19569,7 @@ class MForwardTo {
 
 module.exports = MForwardTo;
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('n2n-overlay-wrtc');
@@ -19888,7 +19907,7 @@ class Neighbor extends EventEmitter {
 
 module.exports = Neighbor;
 
-},{"./messages/mconnectto.js":18,"./messages/mdirect.js":19,"./messages/mforwarded.js":20,"./messages/mforwardto.js":21,"debug":25,"events":12,"lodash":30,"neighborhood-wrtc":44,"uuid/v4":59}],23:[function(require,module,exports){
+},{"./messages/mconnectto.js":19,"./messages/mdirect.js":20,"./messages/mforwarded.js":21,"./messages/mforwardto.js":22,"debug":26,"events":13,"lodash":31,"neighborhood-wrtc":45,"uuid/v4":60}],24:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -20000,7 +20019,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":9}],24:[function(require,module,exports){
+},{"buffer":10}],25:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -20111,11 +20130,11 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../is-buffer/index.js")})
-},{"../../../../is-buffer/index.js":15}],25:[function(require,module,exports){
-module.exports=require(10)
-},{"./debug":26,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/browser.js":10,"_process":60}],26:[function(require,module,exports){
+},{"../../../../is-buffer/index.js":16}],26:[function(require,module,exports){
 module.exports=require(11)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/debug.js":11,"ms":31}],27:[function(require,module,exports){
+},{"./debug":27,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/browser.js":11,"_process":61}],27:[function(require,module,exports){
+module.exports=require(12)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/debug.js":12,"ms":32}],28:[function(require,module,exports){
 // originally pulled out of simple-peer
 
 module.exports = function getBrowserRTC () {
@@ -20132,7 +20151,7 @@ module.exports = function getBrowserRTC () {
   return wrtc
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -20157,18 +20176,18 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],30:[function(require,module,exports){
-module.exports=require(16)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/lodash/lodash.js":16}],31:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 module.exports=require(17)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/ms/index.js":17}],32:[function(require,module,exports){
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/lodash/lodash.js":17}],32:[function(require,module,exports){
+module.exports=require(18)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/ms/index.js":18}],33:[function(require,module,exports){
 'use strict';
 
 const ELiving = require('./entries/eliving.js');
@@ -20320,7 +20339,7 @@ class ArcStore {
 
 module.exports = ArcStore;
 
-},{"./entries/eliving.js":34,"./exceptions/exsocketnotfound.js":39}],33:[function(require,module,exports){
+},{"./entries/eliving.js":35,"./exceptions/exsocketnotfound.js":40}],34:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20343,7 +20362,7 @@ class EDying {
 
 module.exports = EDying;
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20411,7 +20430,7 @@ class ELiving {
 
 module.exports = ELiving;
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20440,7 +20459,7 @@ class EPending {
 
 module.exports = EPending;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20463,7 +20482,7 @@ class ExIncompleteMessage {
 
 module.exports = ExIncompleteMessage;
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20484,7 +20503,7 @@ class ExLateMessage {
 
 module.exports = ExLateMessage;
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20504,7 +20523,7 @@ class ExProtocolExists {
 
 module.exports = ExProtocolExists;
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20528,7 +20547,7 @@ class ExSocketNotFound {
 
 module.exports = ExSocketNotFound;
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20590,7 +20609,7 @@ class INeighborhood {
 
 module.exports = INeighborhood;
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20619,7 +20638,7 @@ class MRequest {
 
 module.exports = MRequest;
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20647,7 +20666,7 @@ class MResponse {
 
 module.exports = MResponse;
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20671,7 +20690,7 @@ class MSend {
 
 module.exports = MSend;
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('neighborhood-wrtc');
@@ -21145,7 +21164,7 @@ class Neighborhood {
 
 module.exports = Neighborhood;
 
-},{"./arcstore.js":32,"./entries/edying.js":33,"./entries/epending.js":35,"./exceptions/exincompletemessage.js":36,"./exceptions/exlatemessage.js":37,"./exceptions/exprotocolexists.js":38,"./interfaces/ineighborhood.js":40,"./messages/mrequest.js":41,"./messages/mresponse.js":42,"./messages/msend.js":43,"debug":25,"lodash":30,"simple-peer":54,"uuid/v4":59}],45:[function(require,module,exports){
+},{"./arcstore.js":33,"./entries/edying.js":34,"./entries/epending.js":36,"./exceptions/exincompletemessage.js":37,"./exceptions/exlatemessage.js":38,"./exceptions/exprotocolexists.js":39,"./interfaces/ineighborhood.js":41,"./messages/mrequest.js":42,"./messages/mresponse.js":43,"./messages/msend.js":44,"debug":26,"lodash":31,"simple-peer":55,"uuid/v4":60}],46:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21192,7 +21211,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":60}],46:[function(require,module,exports){
+},{"_process":61}],47:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -21232,7 +21251,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":60,"buffer":9}],47:[function(require,module,exports){
+},{"_process":61,"buffer":10}],48:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -21308,7 +21327,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":49,"./_stream_writable":51,"core-util-is":24,"inherits":28,"process-nextick-args":45}],48:[function(require,module,exports){
+},{"./_stream_readable":50,"./_stream_writable":52,"core-util-is":25,"inherits":29,"process-nextick-args":46}],49:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -21335,7 +21354,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":50,"core-util-is":24,"inherits":28}],49:[function(require,module,exports){
+},{"./_stream_transform":51,"core-util-is":25,"inherits":29}],50:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -22279,7 +22298,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":47,"./internal/streams/BufferList":52,"_process":60,"buffer":9,"buffer-shims":23,"core-util-is":24,"events":12,"inherits":28,"isarray":29,"process-nextick-args":45,"string_decoder/":55,"util":8}],50:[function(require,module,exports){
+},{"./_stream_duplex":48,"./internal/streams/BufferList":53,"_process":61,"buffer":10,"buffer-shims":24,"core-util-is":25,"events":13,"inherits":29,"isarray":30,"process-nextick-args":46,"string_decoder/":56,"util":9}],51:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -22462,7 +22481,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":47,"core-util-is":24,"inherits":28}],51:[function(require,module,exports){
+},{"./_stream_duplex":48,"core-util-is":25,"inherits":29}],52:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -23016,7 +23035,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":47,"_process":60,"buffer":9,"buffer-shims":23,"core-util-is":24,"events":12,"inherits":28,"process-nextick-args":45,"util-deprecate":56}],52:[function(require,module,exports){
+},{"./_stream_duplex":48,"_process":61,"buffer":10,"buffer-shims":24,"core-util-is":25,"events":13,"inherits":29,"process-nextick-args":46,"util-deprecate":57}],53:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -23081,7 +23100,7 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":9,"buffer-shims":23}],53:[function(require,module,exports){
+},{"buffer":10,"buffer-shims":24}],54:[function(require,module,exports){
 (function (process){
 var Stream = (function (){
   try {
@@ -23101,7 +23120,7 @@ if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
 }
 
 }).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":47,"./lib/_stream_passthrough.js":48,"./lib/_stream_readable.js":49,"./lib/_stream_transform.js":50,"./lib/_stream_writable.js":51,"_process":60}],54:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":48,"./lib/_stream_passthrough.js":49,"./lib/_stream_readable.js":50,"./lib/_stream_transform.js":51,"./lib/_stream_writable.js":52,"_process":61}],55:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -23858,7 +23877,7 @@ Peer.prototype._transformConstraints = function (constraints) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":9,"debug":25,"get-browser-rtc":27,"inherits":28,"randombytes":46,"readable-stream":53}],55:[function(require,module,exports){
+},{"buffer":10,"debug":26,"get-browser-rtc":28,"inherits":29,"randombytes":47,"readable-stream":54}],56:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -24081,7 +24100,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":9}],56:[function(require,module,exports){
+},{"buffer":10}],57:[function(require,module,exports){
 (function (global){
 
 /**
@@ -24152,7 +24171,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -24177,7 +24196,7 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 (function (global){
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
@@ -24214,7 +24233,7 @@ if (!rng) {
 module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var rng = require('./lib/rng');
 var bytesToUuid = require('./lib/bytesToUuid');
 
@@ -24245,7 +24264,7 @@ function v4(options, buf, offset) {
 
 module.exports = v4;
 
-},{"./lib/bytesToUuid":57,"./lib/rng":58}],60:[function(require,module,exports){
+},{"./lib/bytesToUuid":58,"./lib/rng":59}],61:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -24347,6 +24366,7 @@ const MJoin = require('./messages/mjoin.js');
 
 const ExEmptyView = require('./exceptions/exemptyview.js');
 const ExMessage = require('./exceptions/exmessage.js');
+const ExJoin = require('./exceptions/exjoin.js');
 
 /**
  * Implementation of the random peer-sampling Spray. 
@@ -24359,13 +24379,18 @@ class Spray extends N2N {
      * protocol. 
      * @param {number} [options.delta] Every delta milliseconds, Spray shuffles
      * its partial view with its oldest neighbor.
+     * @param {number} [options.a = 1] The number of arcs at each peer converges
+     * to a*log(N) + b, where N is the number of peers in the network.
+     * @param {nubmer} [options.b = 0] See above.
      */
     constructor (options = {}) {
         // #0 initialize our N2N-parent
         super( _.merge({ pid: 'spray-wrtc',
                          delta: 1000 * 60 * 2,
                          timeout: 1000 * 60 * 1,
-                         retry: 5}, options) );
+                         a: 1,
+                         b: 0,
+                         retry: 5 }, options));
         // #1 constants (from N2N)
         // this.PID = protocol identifier
         // this.PEER = peer Id comprising inview and outview Ids
@@ -24467,27 +24492,36 @@ class Spray extends N2N {
      * @param {callback} sender Function that will be called each time an offer
      * arrives to this peer. It is the responsability of the caller to send 
      * these offer (using sender) to the contact inside the network.
-     * @returns {Promise} A promise that is resolved when the peer joins the 
-     * network; rejected after a timeout, or already connected state.
+     * @returns {Promise} A promise that is resolved when the peer joins the
+     * network -- the resolve contains the peerId; rejected after a timeout, or
+     * already connected state.
      */
     join (sender) {
-        const joinPromise = new Promise( (resolve, reject) => {
+        let result = new Promise( (resolve, reject) => {
             // #0 connectedness state check
-            (this.state !== 'disconnected') && reject('connected');
+            (this.state !== 'disconnected') &&
+                reject(new ExJoin('join', 'Already connected.'));
             // #1 set timeout before reject
             let to = setTimeout( () => {
-                reject('timeout'); // (TODO) Join exception
+                reject(new ExJoin('join', 'Timeout exceeded.'));
             }, this.options.timeout);
             // #2 very first call, only done once
             this.once('open', (peerId) => {
-                this.send(peerId, new MJoin(), this.options.retry);
-                this._start(); // start shuffling process
-                clearTimeout(to);
-                resolve();
+                this.send(peerId, new MJoin(), this.options.retry)
+                    .then( () => {
+                        clearTimeout(to);
+                        this._start(); // start shuffling process
+                        this._inject(this.options.a - 1, 0, peerId);
+                        resolve(peerId);
+                    }).catch( () => {
+                        reject( new ExJoin('join',
+                                           'Could not notify remote contact.'));
+                    });
             });
         });
+        // #3 engage the very first connection of this peer
         this.connect(sender);
-        return joinPromise;
+        return result;
     };
 
     /**
@@ -24496,8 +24530,8 @@ class Spray extends N2N {
      */ 
     _onJoin (peerId) {
         if (this.partialView.size > 0){
-            // #1 all neigbors -> peerId
-            debug('[%s] %s ===> join %s ===> %s neigbhors',
+            // #1 all neighbors -> peerId
+            debug('[%s] %s ===> join %s ===> %s neighbors',
                   this.PID, peerId, this.PEER, this.partialView.size);
             this.partialView.forEach( (ages, neighbor) => {
                 ages.forEach( (age) => {
@@ -24505,10 +24539,10 @@ class Spray extends N2N {
                 });
             });
         } else {
-            // #2 this -> peerId
+            // #2 Seems like a 2-peer network;  this -> peerId;
             debug('[%s] %s ===> join %s ===> %s',
                   this.PID, peerId, this.PEER, peerId);
-            this.connect(null, peerId);
+            this._inject(this.options.a, this.options.b, peerId);
             this._start();
         };
     };
@@ -24676,12 +24710,14 @@ class Spray extends N2N {
         // #1 remove all occurrences of the peer in the partial view
         const occ = this.partialView.removeAll(peerId);
         // #2 probabilistically recreate arcs to a known peer
+        const proba = this.options.a / (this.partialView.size + occ) +
+              this.options.b / Math.exp(this.partialView.size + occ);
+        
         if (this.partialView.size > 0) {
             // #A normal behavior
             for (let i = 0; i < occ; ++i) {
-                if (Math.random() > (1 / (this.partialView.size + occ))) {
-                    // probabilistically duplicates one of the least frequent
-                    // peers
+                if (Math.random() > proba) {
+                    // probabilistically duplicate the least frequent peers
                     this.connect(null, this.partialView.leastFrequent);
                 }
             }
@@ -24709,9 +24745,36 @@ class Spray extends N2N {
             // this.II.connect(null, this.i.
         };
     };
+
+    /**
+     * @private Inject a*log(N) + b arcs leading to peerId. When parameters are
+     * not integers, the floating part is added probabilistically.
+     * @param {number} a  a * log
+     * @param {number} b + b
+     * @param {string} peerId The identifier of the peer to duplicate.
+     */
+    _inject (a, b, peerId) {
+        let copyA = a;
+        for (let i = 0; i < Math.floor(a); ++i) {
+            this.connect(null, peerId);
+            copyA -= 1;
+        };
+        if (Math.random() < copyA) {
+            this.connect(null, peerId);
+        };
+
+        let copyB = b;
+        for (let i = 0; i < Math.floor(b); ++i) {
+            this.connect(null, peerId);
+            copyB -= 1;
+        };
+        if (Math.random() < copyB) {
+            this.connect(null, peerId);
+        };        
+    };
 };
 
 
 module.exports = Spray;
 
-},{"./exceptions/exemptyview.js":1,"./exceptions/exmessage.js":2,"./messages/mexchange.js":4,"./messages/mjoin.js":5,"./partialview.js":6,"debug":10,"lodash":16,"n2n-overlay-wrtc":22}]},{},[]);
+},{"./exceptions/exemptyview.js":1,"./exceptions/exjoin.js":2,"./exceptions/exmessage.js":3,"./messages/mexchange.js":5,"./messages/mjoin.js":6,"./partialview.js":7,"debug":11,"lodash":17,"n2n-overlay-wrtc":23}]},{},[]);
