@@ -4,12 +4,19 @@ let graph = new window.P2PGraph('.graph');
 
 let N = 25;
 
+let a = 2;
+let b = 0;
+
+document.getElementById("theoretical").innerHTML = ""+ (N* (a*Math.log(N) + b));
+
 // #1 create N peers 
 let peers = [];
 let revertedIndex = new Map();
 for (let i = 0; i < N; ++i) {
     peers.push(new S({peer: i,
                       delta: 60*1000,
+                      a: a,
+                      b: b,
                       config:{trickle:true}}));
     revertedIndex.set(peers[i].NI.PEER, peers[i].PEER);
 };
@@ -43,11 +50,13 @@ for (let i = 0; i < N; ++i ){
         !graph.hasLink(peers[i].PEER, revertedIndex.get(peerId)) &&
             graph.connect(peers[i].PEER, revertedIndex.get(peerId));
         totalLinks += 1;
+        document.getElementById("actual").innerHTML = ""+ totalLinks;
     });
     peers[i].on('close', (peerId) => {
         (!peers[i].o.has(peerId)) &&
             graph.disconnect(peers[i].PEER, revertedIndex.get(peerId));
         totalLinks -= 1;
+        document.getElementById("actual").innerHTML = ""+ totalLinks;
     });
 };
 
