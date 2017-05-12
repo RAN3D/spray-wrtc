@@ -4,7 +4,7 @@ let graph = new window.P2PGraph('.graph');
 
 let N = 25;
 
-let a = 2;
+let a = 1;
 let b = 0;
 
 document.getElementById("theoretical").innerHTML = ""+ (N* (a*Math.log(N) + b));

@@ -116,6 +116,20 @@ module.exports = MJoin;
 },{}],7:[function(require,module,exports){
 'use strict';
 
+/**
+ * Message that signals the departure of the sender.
+ */
+class MLeave {
+    constructor () {
+        this.type = 'MLeave';
+    };
+};
+
+module.exports = MLeave;
+
+},{}],8:[function(require,module,exports){
+'use strict';
+
 const ExPeerNotFound = require('./exceptions/expeernotfound.js');
 
 /**
@@ -229,7 +243,7 @@ class PartialView extends Map {
 
 module.exports = PartialView;
 
-},{"./exceptions/expeernotfound.js":4}],8:[function(require,module,exports){
+},{"./exceptions/expeernotfound.js":4}],9:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -351,9 +365,9 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],9:[function(require,module,exports){
-
 },{}],10:[function(require,module,exports){
+
+},{}],11:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1407,7 +1421,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":8,"ieee754":14,"is-array":15}],11:[function(require,module,exports){
+},{"base64-js":9,"ieee754":15,"is-array":16}],12:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -1451,15 +1465,15 @@ function useColors() {
   // NB: In an Electron preload script, document will be defined but not fully
   // initialized. Since we know we're in Chrome, we'll just detect this case
   // explicitly
-  if (typeof window !== 'undefined' && window && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
+  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
     return true;
   }
 
   // is webkit? http://stackoverflow.com/a/16459606/376773
   // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && document && 'WebkitAppearance' in document.documentElement.style) ||
+  return (typeof document !== 'undefined' && document && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
     // is firebug? http://stackoverflow.com/a/398120/376773
-    (typeof window !== 'undefined' && window && window.console && (console.firebug || (console.exception && console.table))) ||
+    (typeof window !== 'undefined' && window && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
     // is firefox >= v31?
     // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
     (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
@@ -1596,7 +1610,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":12,"_process":61}],12:[function(require,module,exports){
+},{"./debug":13,"_process":70}],13:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -1740,7 +1754,7 @@ function enable(namespaces) {
   exports.names = [];
   exports.skips = [];
 
-  var split = (namespaces || '').split(/[\s,]+/);
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
   var len = split.length;
 
   for (var i = 0; i < len; i++) {
@@ -1800,7 +1814,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":18}],13:[function(require,module,exports){
+},{"ms":19}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2103,7 +2117,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -2189,7 +2203,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 /**
  * isArray
@@ -2224,7 +2238,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -2247,7 +2261,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19335,7 +19349,987 @@ function isSlowBuffer (obj) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
+/**
+ * Helpers.
+ */
+
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {}
+  var type = typeof val
+  if (type === 'string' && val.length > 0) {
+    return parse(val)
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ?
+			fmtLong(val) :
+			fmtShort(val)
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+}
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str)
+  if (str.length > 10000) {
+    return
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  if (!match) {
+    return
+  }
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd'
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h'
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm'
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's'
+  }
+  return ms + 'ms'
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms'
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's'
+}
+
+},{}],20:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message that requires from-peer to initiate a WebRTC connection with to
+ * to-peer.
+ */
+class MConnectTo {
+    /**
+     * @param {string} from The identifier of the peer that should initiate the
+     * WebRTC connection.
+     * @param {string} to The identifier of the peer that should accept the
+     * WebRTC connection.
+     */
+    constructor (from, to) {
+        this.from = from;
+        this.to = to;
+        this.type = 'MConnectTo';
+    };
+};
+
+module.exports = MConnectTo;
+
+},{}],21:[function(require,module,exports){
+'use strict';
+
+/**
+ * Messages traveling between two direct neighbors. It requests from the
+ * receiving peer that it initiates a connection with the emitter.
+ */
+class MDirect {
+    constructor () {
+        this.type = 'MDirect';
+    };
+};
+
+module.exports = MDirect;
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message piggybacking another message that has been forwarded by an
+ * intermediate peer.
+ */
+class MForwarded {
+    /**
+     * @param {string} from The departure of the piggybacked message.
+     * @param {string} to The arrival of the piggybacked message.
+     * @param {object} message The piggybacked message to deliver.
+     */
+    constructor (from, to, message) {
+        this.from = from;
+        this.to = to;
+        this.message = message;
+        this.type = 'MForwarded';
+    };
+};
+
+module.exports = MForwarded;
+
+},{}],23:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message that asks a peer to forward the piggybacked message to to-peer.
+ */
+class MForwardTo {
+    /**
+     * @param {string} from The departure of the message.
+     * @param {string} to The arrival of the piggybacked message.
+     * @param {object} message The message to piggyback.
+     */
+    constructor (from, to, message) {
+        this.from = from;
+        this.to = to;
+        this.message = message;
+        this.type = 'MForwardTo';        
+    };
+};
+
+module.exports = MForwardTo;
+
+},{}],24:[function(require,module,exports){
+'use strict';
+
+const debug = require('debug')('n2n-overlay-wrtc');
+const Neighborhood = require('neighborhood-wrtc');
+const EventEmitter = require('events');
+const _ = require('lodash');
+const uuid = require('uuid/v4');
+
+
+const MForwardTo = require('./messages/mforwardto.js');
+const MForwarded = require('./messages/mforwarded.js');
+const MConnectTo = require('./messages/mconnectto.js');
+const MDirect = require('./messages/mdirect.js');
+
+/**
+ * A peer has an inview and an outview, i.e., tables containing sockets to
+ * communicate with remote peers. This module transforms a peer so it can act as
+ * a bridge between its direct neighbors. Consequently, these neighbors can
+ * create their own communication channels: necessary data to establish the 
+ * connection travel through the bridge; once the connection is successfully 
+ * established, they communicate using their own direct connection.
+ */
+class Neighbor extends EventEmitter {
+    /**
+     * @param {object} [options] options represented as an object (refer to
+     * neighborhood-wrtc for other options).
+     * @param {string} [options.pid] The unique identifier of the protocol.
+     * @param {number} [options.retry = 5] The number of times it tries to send
+     * a message.
+     * @param {Neighborhood} [options.inview] The neighborhood used for inviews,
+     * i.e., incoming arcs.
+     * @param {Neighborhood} [options.outview] The neigbhorhood used for
+     * outviews, i.e., outgoing arcs.
+     */
+    constructor (options = {}) {
+        super();
+
+        // #0 process the options
+        this.options = _.merge( { pid: uuid(),
+                                  peer: uuid(),
+                                  retry: 5 }, options);
+        // #1 initialize unmutable protocolId
+        this.PID = this.options.pid;
+        // #2 initialize the neighborhoods /!\ i.peer and o.peer must be ≠
+        this.NI = this.options.inview ||
+            new Neighborhood( _.merge(_.merge( {}, this.options),
+                                      {peer: this.options.peer+'-I'}) );
+        this.NO = this.options.outview ||
+            new Neighborhood( _.merge(_.merge( {}, this.options),
+                                      {peer: this.options.peer+'-O'}) );
+        // #3 initialize the interfaces
+        this.II = this.NI.register(this);
+        this.IO = this.NO.register(this);
+        this.PEER = this.II.peer + '|' + this.IO.peer;
+        debug('[%s] registered to ==> %s ==>', this.PID, this.PEER);
+        // #4 intialize the tables
+        this.i = new Map();
+        this.o = new Map();
+    };
+
+    /**
+     * @private The getter of the identifier of this protocol.
+     * @returns {string} The identifier of this protocol.
+     */
+    _pid () {
+        return this.PID;
+    };
+    
+    /**
+     * @private Behavior when this protocol receives a message from peerId.
+     * @param {string} peerId The identifier of the peer that we received a 
+     * message from.
+     * @param {object} message The message received.
+     */
+    _received (peerId, message) {
+        if (message.type) {
+            if (message.type === 'MConnectTo' ||
+                message.type === 'MForwarded' ||
+                message.type === 'MForwardTo') {
+                this._bridge(peerId, message);
+            } else if (message.type === 'MResponse' ||
+                       message.type === 'MRequest' ||
+                       message.type === 'MDirect') {
+                this._direct(peerId, message);
+            } else {
+                this.emit('receive', peerId, message);
+            };
+        } else {
+            this.emit('receive', peerId, message);
+        };
+    };
+
+
+    /**
+     * @private Behavior when this protocol receives a stream from peerId.
+     * @param {string} peerId The identifier of the peer that we received a 
+     * message from.
+     * @param {object} stream The stream received.
+     */
+    _streamed (peerId, stream) {
+        this.emit('stream', peerId, stream);
+    };
+
+    
+    /**
+     * @private Update the local view.
+     * @param {string} peerId The identifier of the peer reachable through the
+     * newly added arc.
+     * @param {boolean} isOutgoing State if the added arc is outgoing or not.
+     */
+    _connected (peerId, isOutgoing) {
+        if (isOutgoing){
+            if (!this.o.has(peerId)){
+                this.o.set(peerId, 0);
+            };
+            this.o.set(peerId, this.o.get(peerId) + 1 );
+            this.emit('open', peerId); // only consider outgoing arcs
+        } else {
+            if (!this.i.has(peerId)){
+                this.i.set(peerId, 0);
+            };
+            this.i.set(peerId, this.i.get(peerId) + 1 );
+        };
+    };
+
+    /**
+     * @private Update the local view.
+     * @param {string} peerId The identifier of the peer that removed an arc.
+     */
+    _disconnected (peerId) {
+        if (this.o.has(peerId)){
+            this.o.set(peerId, this.o.get(peerId) - 1 );
+            (this.o.get(peerId) <= 0) && this.o.delete(peerId);
+            this.emit('close', peerId); // only outview
+        } else if (this.i.has(peerId)){
+            this.i.set(peerId, this.i.get(peerId) - 1 );
+            (this.i.get(peerId) <= 0) && this.i.delete(peerId);
+        };
+    };
+
+    /**
+     * @private Notify failure
+     * @param {string} peerId The identifier of the peer we failed to establish
+     * a connection with.
+     * @param {boolean} isOutgoing State whether or not the failed arc was 
+     * supposed to be an outgoing arc.
+     */
+    _failed (peerId, isOutgoing) {
+        // only takes into account the outgoing arcs
+        isOutgoing && this.emit('fail', peerId);
+    }
+    
+
+    /**
+     * @private Function that execute to bridge a connection establishement
+     * between two peers: we start from (i -> b -> a) to get (i -> b -> a) and
+     * (i -> a).
+     * @param {string} peerId The identifier of the peer that sent us the 
+     * message
+     * @param {MConnectTo|MForwardTo|MForwarded} msg The message received.
+     */
+    _bridge (peerId, msg) {
+        if (msg.type && msg.type === 'MConnectTo') {
+            // #1 we are the initiator
+            this.IO.connect( (req) => {
+                this.send(peerId, new MForwardTo(msg.from, msg.to, req),
+                          this.options.retry)
+                    .catch( (e) => { }); // nothing on catch
+            });
+        } else if (msg.type && msg.type === 'MForwardTo') {
+            // #2 we are the bridge
+            this.send(msg.to, new MForwarded(msg.from, msg.to, msg.message),
+                      this.options.retry)
+                .catch( (e) => { }); // nothing on catch
+        } else if (msg.type && msg.type === 'MForwarded' &&
+                   msg.message.type === 'MRequest') {
+            // #3 we are the acceptor
+            this.II.connect( (res) => {
+                this.send(peerId, new MForwardTo(msg.to, msg.from, res),
+                          this.options.retry)
+                    .catch( (e) => { }); // nothing on catch
+            }, msg.message );
+            // #4 reapplies #2
+        } else if (msg.type && msg.type === 'MForwarded' &&
+                   msg.message.type === 'MResponse') {
+            // #5 we are the finalizor
+            this.IO.connect( msg.message );
+        };
+    };
+
+    /**
+     * @private Create a connection with a neighbor: from (i -> a) we obtain
+     * either (i <-> a) or (i => a). In the former case, assuming that Peer a
+     * does not already have a connection to Peer i, it must create a WebRTC
+     * connection to a. In the latter case, Peer i only duplicates its arc to
+     * Peer a. Thus, it must disconnect twice to truly destroy the connection.
+     * @param {string} peerId The identifier of the peer that we received a
+     * message from.
+     * @param {string} message The received message.
+     */ 
+    _direct(peerId, message){
+        (message.type === 'MDirect') &&
+            this.IO.connect( (req) => {
+                this.send(peerId, req, this.options.retry).catch( (e) => { });
+            });
+        (message.type === 'MRequest') &&
+            this.II.connect( (res) => {
+                this.send(peerId, res, this.options.retry).catch( (e) => { });
+            }, message);
+        (message.type === 'MResponse') &&
+            this.IO.connect( message );
+    };
+    
+    
+    /**
+     * Send a message using either the inview or the outview.
+     * @param {string} peerId The identifier of the receiver.
+     * @param {object} message The message to send.
+     * @param {number} [retry = 0] Number of times it retries to send a
+     * message.
+     * @return {promise} Promise that resolves if the message is sent, reject 
+     * otherwise.
+     */
+    send(peerId, message, retry = 0){
+        let promise;
+        // #1 normal behavior
+        if (this.i.has(peerId)) {
+            promise = this.II.send(peerId, message, retry);
+        } else if (this.o.has(peerId)) {
+            promise = this.IO.send(peerId, message, retry);
+        } else {
+            // #2 last chance behavior
+            promise = new Promise( (resolve, reject) => {
+                const _send = (r) => {
+                    this.IO.send(peerId, message, 0)
+                        .then( () => resolve() )
+                        .catch( (e) => this.II.send(peerId, message, 0)
+                                .then( () => resolve() )
+                                .catch( (e) => {
+                                    if (r<retry){
+                                        setTimeout( () => {
+                                            _send (r+1);
+                                        }, 1000);
+                                    } else {
+                                        reject(e);
+                                    }
+                                }));};
+                _send(0);
+            });
+        };
+        return promise;
+    };
+
+    /**
+     * Create an arc (establishes a WebRTC connection if need be) from 'from' to
+     * 'to'. (TODO) explain function args
+     * @param {function|MResponse|string|null} from The identifier of the peer
+     * that must initiate the connection. Null implicitely means this.
+     * @param {MRequest|string|null} to The identifier of the peer that must
+     * accept the connection. Null implicitely means this.
+     */
+    connect (arg1 = null, arg2 = null) {
+        // #1 handle bootstrap using other communication channels than our
+        // own.
+        if (typeof arg1 === 'function' && arg2 === null) {
+            this.IO.connect( (req) => arg1(req) ); // arg1: callback
+        } else if (typeof arg1 === 'function' && arg2 !== null) {
+            debug('[%s] %s <π= ??? =π= %s',
+                  this.PID, this.getInviewId(), arg2.peer);
+            this.II.connect( (res) => arg1(res), arg2); // arg1: cb; arg2: msg
+        } else if (arg1 !== null && typeof arg1 === 'object' && arg2 === null) {
+            this.IO.connect( arg1 ); // arg1: msg
+        } else {
+            // #2 handle n2n connections
+            // #A replace our own identifier by null
+            if (arg1!==null && (arg1===this.IO.peer || arg1===this.II.peer)) {
+                arg1 = null;
+            };
+            if (arg2!==null && (arg2===this.IO.peer || arg2===this.II.peer)) {
+                arg2 = null;
+            };
+            
+            if (arg1 !== null && arg2 !== null){ 
+                // #1 arg1: from; arg2: to
+                // from -> this -> to  creates  from -> to
+                debug('[%s] %s =π= %s =π> %s', this.PID, arg1, this.PEER, arg2);
+                this.send(arg1, new MConnectTo(arg1, arg2),
+                          this.options.retry).catch( (e) => { } );
+            } else if (arg1 !== null) {
+                // #2 arg1: from
+                // from -> this  becomes  from => this
+                this.send(arg1, new MDirect(),
+                          this.options.retry).catch( (e) => { } );
+            } else if (arg2 !== null) {
+                // #3 arg2: to
+                // this -> to becomes this => to
+                this._direct(arg2, new MDirect()); // emulate a MDirect receipt
+            };
+        };        
+    };
+
+    /**
+     * Remove an arc of the outview or all arcs
+     * @param {string} peerId The identifier of the arc to remove.
+     */
+    disconnect (peerId) {
+        if (typeof peerId === 'undefined') {
+            this.II.disconnect();
+            this.IO.disconnect();
+        } else {
+            this.IO.disconnect(peerId);
+        };
+    }
+
+    /**
+     * Getter of the inview.
+     * @returns {Map} A new map comprising {peerId => occurrences}.
+     */
+    getInview () {
+        return new Map(this.i);
+    };
+
+    /**
+     * Getter of the inview ID.
+     * @returns {string} The identifier of the inview.
+     */
+    getInviewId () {
+        return this.NI.PEER;
+    };
+
+    /**
+     * Getter of the outview.
+     * @returns {Map} A new map comprising {peerId => occurrences}.
+     */
+    getOutview () {
+        return new Map(this.o);
+    };
+
+    /**
+     * Getter of the inview ID.
+     * @returns {string} The identifier of the outview.
+     */
+    getOutviewId () {
+        return this.NO.PEER;
+    };
+
+};
+
+module.exports = Neighbor;
+
+},{"./messages/mconnectto.js":20,"./messages/mdirect.js":21,"./messages/mforwarded.js":22,"./messages/mforwardto.js":23,"debug":25,"events":14,"lodash":27,"neighborhood-wrtc":41,"uuid/v4":69}],25:[function(require,module,exports){
+(function (process){
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = require('./debug');
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
+    return true;
+  }
+
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && document && 'WebkitAppearance' in document.documentElement.style) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (typeof window !== 'undefined' && window && window.console && (console.firebug || (console.exception && console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit')
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
+  }
+
+  return r;
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+}).call(this,require('_process'))
+},{"./debug":26,"_process":70}],26:[function(require,module,exports){
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
+exports.coerce = coerce;
+exports.disable = disable;
+exports.enable = enable;
+exports.enabled = enabled;
+exports.humanize = require('ms');
+
+/**
+ * The currently active debug mode names, and names to skip.
+ */
+
+exports.names = [];
+exports.skips = [];
+
+/**
+ * Map of special "%n" handling functions, for the debug "format" argument.
+ *
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+ */
+
+exports.formatters = {};
+
+/**
+ * Previous log timestamp.
+ */
+
+var prevTime;
+
+/**
+ * Select a color.
+ * @param {String} namespace
+ * @return {Number}
+ * @api private
+ */
+
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+
+  return exports.colors[Math.abs(hash) % exports.colors.length];
+}
+
+/**
+ * Create a debugger with the given `namespace`.
+ *
+ * @param {String} namespace
+ * @return {Function}
+ * @api public
+ */
+
+function createDebug(namespace) {
+
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
+
+    var self = debug;
+
+    // set `diff` timestamp
+    var curr = +new Date();
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
+    self.prev = prevTime;
+    self.curr = curr;
+    prevTime = curr;
+
+    // turn the `arguments` into a proper Array
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    args[0] = exports.coerce(args[0]);
+
+    if ('string' !== typeof args[0]) {
+      // anything else let's inspect with %O
+      args.unshift('%O');
+    }
+
+    // apply any `formatters` transformations
+    var index = 0;
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+      // if we encounter an escaped % then don't increase the array index
+      if (match === '%%') return match;
+      index++;
+      var formatter = exports.formatters[format];
+      if ('function' === typeof formatter) {
+        var val = args[index];
+        match = formatter.call(self, val);
+
+        // now we need to remove `args[index]` since it's inlined in the `format`
+        args.splice(index, 1);
+        index--;
+      }
+      return match;
+    });
+
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
+
+    var logFn = debug.log || exports.log || console.log.bind(console);
+    logFn.apply(self, args);
+  }
+
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
+
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
+
+  return debug;
+}
+
+/**
+ * Enables a debug mode by namespaces. This can include modes
+ * separated by a colon and wildcards.
+ *
+ * @param {String} namespaces
+ * @api public
+ */
+
+function enable(namespaces) {
+  exports.save(namespaces);
+
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (namespaces || '').split(/[\s,]+/);
+  var len = split.length;
+
+  for (var i = 0; i < len; i++) {
+    if (!split[i]) continue; // ignore empty strings
+    namespaces = split[i].replace(/\*/g, '.*?');
+    if (namespaces[0] === '-') {
+      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+    } else {
+      exports.names.push(new RegExp('^' + namespaces + '$'));
+    }
+  }
+}
+
+/**
+ * Disable debug output.
+ *
+ * @api public
+ */
+
+function disable() {
+  exports.enable('');
+}
+
+/**
+ * Returns true if the given mode name is enabled, false otherwise.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
+
+function enabled(name) {
+  var i, len;
+  for (i = 0, len = exports.skips.length; i < len; i++) {
+    if (exports.skips[i].test(name)) {
+      return false;
+    }
+  }
+  for (i = 0, len = exports.names.length; i < len; i++) {
+    if (exports.names[i].test(name)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Coerce `val`.
+ *
+ * @param {Mixed} val
+ * @return {Mixed}
+ * @api private
+ */
+
+function coerce(val) {
+  if (val instanceof Error) return val.stack || val.message;
+  return val;
+}
+
+},{"ms":28}],27:[function(require,module,exports){
+module.exports=require(18)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/lodash/lodash.js":18}],28:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -19486,708 +20480,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's'
 }
 
-},{}],19:[function(require,module,exports){
-'use strict';
-
-/**
- * Message that requires from-peer to initiate a WebRTC connection with to
- * to-peer.
- */
-class MConnectTo {
-    /**
-     * @param {string} from The identifier of the peer that should initiate the
-     * WebRTC connection.
-     * @param {string} to The identifier of the peer that should accept the
-     * WebRTC connection.
-     */
-    constructor (from, to) {
-        this.from = from;
-        this.to = to;
-        this.type = 'MConnectTo';
-    };
-};
-
-module.exports = MConnectTo;
-
-},{}],20:[function(require,module,exports){
-'use strict';
-
-/**
- * Messages traveling between two direct neighbors. It requests from the
- * receiving peer that it initiates a connection with the emitter.
- */
-class MDirect {
-    constructor () {
-        this.type = 'MDirect';
-    };
-};
-
-module.exports = MDirect;
-
-},{}],21:[function(require,module,exports){
-'use strict';
-
-/**
- * Message piggybacking another message that has been forwarded by an
- * intermediate peer.
- */
-class MForwarded {
-    /**
-     * @param {string} from The departure of the piggybacked message.
-     * @param {string} to The arrival of the piggybacked message.
-     * @param {object} message The piggybacked message to deliver.
-     */
-    constructor (from, to, message) {
-        this.from = from;
-        this.to = to;
-        this.message = message;
-        this.type = 'MForwarded';
-    };
-};
-
-module.exports = MForwarded;
-
-},{}],22:[function(require,module,exports){
-'use strict';
-
-/**
- * Message that asks a peer to forward the piggybacked message to to-peer.
- */
-class MForwardTo {
-    /**
-     * @param {string} from The departure of the message.
-     * @param {string} to The arrival of the piggybacked message.
-     * @param {object} message The message to piggyback.
-     */
-    constructor (from, to, message) {
-        this.from = from;
-        this.to = to;
-        this.message = message;
-        this.type = 'MForwardTo';        
-    };
-};
-
-module.exports = MForwardTo;
-
-},{}],23:[function(require,module,exports){
-'use strict';
-
-const debug = require('debug')('n2n-overlay-wrtc');
-const Neighborhood = require('neighborhood-wrtc');
-const EventEmitter = require('events');
-const _ = require('lodash');
-const uuid = require('uuid/v4');
-
-
-const MForwardTo = require('./messages/mforwardto.js');
-const MForwarded = require('./messages/mforwarded.js');
-const MConnectTo = require('./messages/mconnectto.js');
-const MDirect = require('./messages/mdirect.js');
-
-/**
- * A peer has an inview and an outview, i.e., tables containing sockets to
- * communicate with remote peers. This module transforms a peer so it can act as
- * a bridge between its direct neighbors. Consequently, these neighbors can
- * create their own communication channels: necessary data to establish the 
- * connection travel through the bridge; once the connection is successfully 
- * established, they communicate using their own direct connection.
- */
-class Neighbor extends EventEmitter {
-    /**
-     * @param {object} [options] options represented as an object (refer to
-     * neighborhood-wrtc for other options).
-     * @param {string} [options.pid] The unique identifier of the protocol.
-     * @param {Neighborhood} [options.inview] The neighborhood used for inviews,
-     * i.e., incoming arcs.
-     * @param {Neighborhood} [options.outview] The neigbhorhood used for
-     * outviews, i.e., outgoing arcs.
-     */
-    constructor (options = {}) {
-        super();
-
-        // #0 process the options
-        this.options = _.merge( { pid: uuid(), peer: uuid() }, options);
-        // #1 initialize unmutable protocolId
-        this.PID = this.options.pid;
-        // #2 initialize the neighborhoods /!\ i.peer and o.peer must be ≠
-        this.NI = this.options.inview ||
-            new Neighborhood( _.merge(_.merge( {}, this.options),
-                                      {peer: this.options.peer+'-I'}) );
-        this.NO = this.options.outview ||
-            new Neighborhood( _.merge(_.merge( {}, this.options),
-                                      {peer: this.options.peer+'-O'}) );
-        // #3 initialize the interfaces
-        this.II = this.NI.register(this);
-        this.IO = this.NO.register(this);
-        this.PEER = this.II.peer + '|' + this.IO.peer;
-        debug('[%s] registered to ==> %s ==>', this.PID, this.PEER);
-        // #4 intialize the tables
-        this.i = new Map();
-        this.o = new Map();
-    };
-
-    /**
-     * @private
-     * The getter of the identifier of this protocol.
-     * @returns {string} The identifier of this protocol.
-     */
-    _pid () {
-        return this.PID;
-    };
-    
-    /**
-     * @private
-     * Behavior when this protocol receives a message from peerId.
-     * @param {string} peerId The identifier of the peer that we received a 
-     * message from.
-     * @param {object} message The message received.
-     */
-    _received (peerId, message) {
-        if (message.type) {
-            if (message.type === 'MConnectTo' ||
-                message.type === 'MForwarded' ||
-                message.type === 'MForwardTo') {
-                this._bridge(peerId, message);
-            } else if (message.type === 'MResponse' ||
-                       message.type === 'MRequest' ||
-                       message.type === 'MDirect') {
-                this._direct(peerId, message);
-            } else {
-                this.emit('receive', peerId, message);
-            };
-        } else {
-            this.emit('receive', peerId, message);
-        };
-    };
-
-
-    /**
-     * @private
-     * Behavior when this protocol receives a stream from peerId.
-     * @param {string} peerId The identifier of the peer that we received a 
-     * message from.
-     * @param {object} stream The stream received.
-     */
-    _streamed (peerId, stream) {
-        this.emit('stream', peerId, stream);
-    };
-
-    
-    /**
-     * @private
-     * Update the local view.
-     * @param {string} peerId The identifier of the peer reachable through the
-     * newly added arc.
-     * @param {boolean} isOutgoing State if the added arc is outgoing or not.
-     */
-    _connected (peerId, isOutgoing) {
-        if (isOutgoing){
-            if (!this.o.has(peerId)){
-                this.o.set(peerId, 0);
-            };
-            this.o.set(peerId, this.o.get(peerId) + 1 );
-            this.emit('open', peerId); // only consider outgoing arcs
-        } else {
-            if (!this.i.has(peerId)){
-                this.i.set(peerId, 0);
-            };
-            this.i.set(peerId, this.i.get(peerId) + 1 );
-        };
-    };
-
-    /**
-     * @private
-     * Update the local view.
-     * @param {string} peerId The identifier of the peer that removed an arc.
-     */
-    _disconnected (peerId) {
-        if (this.o.has(peerId)){
-            this.o.set(peerId, this.o.get(peerId) - 1 );
-            (this.o.get(peerId) <= 0) && this.o.delete(peerId);
-            this.emit('close', peerId); // only outview
-        } else if (this.i.has(peerId)){
-            this.i.set(peerId, this.i.get(peerId) - 1 );
-            (this.i.get(peerId) <= 0) && this.i.delete(peerId);
-        };
-    };
-
-    /**
-     * @private
-     * Notify failure
-     * @param {string} peerId The identifier of the peer we failed to establish
-     * a connection with.
-     * @param {boolean} isOutgoing State whether or not the failed arc was 
-     * supposed to be an outgoing arc.
-     */
-    _failed (peerId, isOutgoing) {
-        // only takes into account the outgoing arcs
-        isOutgoing && this.emit('fail', peerId);
-    }
-    
-
-    /**
-     * @private
-     * Function that execute to bridge a connection establishement between two
-     * peers: we start from (i -> b -> a) to get (i -> b -> a) and (i -> a).
-     * @param {string} peerId The identifier of the peer that sent us the 
-     * message
-     * @param {MConnectTo|MForwardTo|MForwarded} msg The message received.
-     */
-    _bridge (peerId, msg) {
-        // #1 we are the initiator
-        (msg.type === 'MConnectTo') && this.IO.connect( (req) => {
-            this.send(peerId, new MForwardTo(msg.from, msg.to, req));
-        });
-        // #2 we are the bridge
-        (msg.type === 'MForwardTo') &&
-            this.send(msg.to, new MForwarded(msg.from, msg.to, msg.message));
-        // #3 we are the acceptor
-        (msg.type === 'MForwarded') && (msg.message.type === 'MRequest') &&
-            this.II.connect( (res) => {
-                this.send(peerId, new MForwardTo(msg.to, msg.from, res));
-            }, msg.message );
-        // #4 reapplies #2
-        // #5 we are the finalizor
-        (msg.type === 'MForwarded') && (msg.message.type === 'MResponse') &&
-            this.IO.connect( msg.message );
-    };
-
-    /**
-     * @private
-     * Create a connection with a neighbor: from (i -> a) we obtain 
-     * either (i <-> a) or (i => a). In the former case, assuming that Peer a 
-     * does not already have a connection to Peer i, it must create a WebRTC 
-     * connection to a. In the latter case, Peer i only duplicates its arc to
-     * Peer a. Thus, it must disconnect twice to truly destroy the connection.
-     * @param {string} peerId The identifier of the peer that we received a
-     * message from.
-     * @param {string} message The received message.
-     */ 
-    _direct(peerId, message){
-        (message.type === 'MDirect') &&
-            this.IO.connect( (req) => this.send(peerId, req) );
-        (message.type === 'MRequest') &&
-            this.II.connect( (res) => this.send(peerId, res), message);
-        (message.type === 'MResponse') &&
-            this.IO.connect( message );
-    };
-
-    
-    /**
-     * Send a message using either the inview or the outview.
-     * @param {string} peerId The identifier of the receiver.
-     * @param {object} message The message to send.
-     * @param {number} [retry = 0] Number of times it retries to send a
-     * message.
-     * @return {promise} Promise that resolves if the message is sent, reject 
-     * otherwise.
-     */
-    send(peerId, message, retry = 0){
-        let promise;
-        // #1 normal behavior
-        if (this.i.has(peerId)) {
-            promise = this.II.send(peerId, message, retry);
-        } else if (this.o.has(peerId)) {
-            promise = this.IO.send(peerId, message, retry);
-        } else {
-            // #2 last chance behavior
-            promise = new Promise( (resolve, reject) => {
-                const _send = (r) => {
-                    this.IO.send(peerId, message, 0)
-                        .then( () => resolve() )
-                        .catch( (e) => this.II.send(peerId, message, 0)
-                                .then( () => resolve() )
-                                .catch( (e) => {
-                                    if (r<retry){
-                                        setTimeout( () => {
-                                            _send (r+1);
-                                        }, 1000);
-                                    } else {
-                                        reject(e);
-                                    }
-                                }));};
-                _send(0);
-            });
-        };
-        return promise;
-    };
-
-    /**
-     * Create an arc (establishes a WebRTC connection if need be) from 'from' to
-     * 'to'. (TODO) explain function args
-     * @param {function|MResponse|string|null} from The identifier of the peer
-     * that must initiate the connection. Null implicitely means this.
-     * @param {MRequest|string|null} to The identifier of the peer that must
-     * accept the connection. Null implicitely means this.
-     */
-    connect (arg1 = null, arg2 = null) {
-        // #1 handle bootstrap using other communication channels than our
-        // own.
-        if (typeof arg1 === 'function' && arg2 === null) {
-            this.IO.connect( (req) => arg1(req) ); // arg1: callback
-        } else if (typeof arg1 === 'function' && arg2 !== null) {
-            debug('[%s] %s <π= ??? =π= %s',
-                  this.PID, this.getInviewId(), arg2.peer);
-            this.II.connect( (res) => arg1(res), arg2); // arg1: cb; arg2: msg
-        } else if (arg1 !== null && typeof arg1 === 'object' && arg2 === null) {
-            this.IO.connect( arg1 ); // arg1: msg
-        } else {
-            // #2 handle n2n connections
-            // #A replace our own identifier by null
-            if (arg1!==null && (arg1===this.IO.peer || arg1===this.II.peer)) {
-                arg1 = null;
-            };
-            if (arg2!==null && (arg2===this.IO.peer || arg2===this.II.peer)) {
-                arg2 = null;
-            };
-            
-            if (arg1 !== null && arg2 !== null){ 
-                // #1 arg1: from; arg2: to
-                // from -> this -> to  creates  from -> to
-                debug('[%s] %s =π= %s =π> %s', this.PID, arg1, this.PEER, arg2);
-                this.send(arg1, new MConnectTo(arg1, arg2));
-            } else if (arg1 !== null) {
-                // #2 arg1: from
-                // from -> this  becomes  from => this
-                this.send(arg1, new MDirect());
-            } else if (arg2 !== null) {
-                // #3 arg2: to
-                // this -> to becomes this => to
-                this._direct(arg2, new MDirect()); // emulate a MDirect receipt
-            };
-        };        
-    };
-
-    /**
-     * remove an arc of the outview or all arcs
-     * @param {string} peerId The identifier of the arc to remove.
-     */
-    disconnect (peerId) {
-        if (typeof peerId === 'undefined') {
-            this.II.disconnect();
-            this.IO.disconnect();
-        } else {
-            this.IO.disconnect(peerId);
-        };
-    }
-
-    /**
-     * Getter of the inview.
-     * @returns {Map} A new map comprising {peerId => occurrences}.
-     */
-    getInview () {
-        return new Map(this.i);
-    };
-
-    /**
-     * Getter of the inview ID.
-     * @returns {string} The identifier of the inview.
-     */
-    getInviewId () {
-        return this.NI.PEER;
-    };
-
-    /**
-     * Getter of the outview.
-     * @returns {Map} A new map comprising {peerId => occurrences}.
-     */
-    getOutview () {
-        return new Map(this.o);
-    };
-
-    /**
-     * Getter of the inview ID.
-     * @returns {string} The identifier of the outview.
-     */
-    getOutviewId () {
-        return this.NO.PEER;
-    };
-
-};
-
-module.exports = Neighbor;
-
-},{"./messages/mconnectto.js":19,"./messages/mdirect.js":20,"./messages/mforwarded.js":21,"./messages/mforwardto.js":22,"debug":26,"events":13,"lodash":31,"neighborhood-wrtc":45,"uuid/v4":60}],24:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var buffer = require('buffer');
-var Buffer = buffer.Buffer;
-var SlowBuffer = buffer.SlowBuffer;
-var MAX_LEN = buffer.kMaxLength || 2147483647;
-exports.alloc = function alloc(size, fill, encoding) {
-  if (typeof Buffer.alloc === 'function') {
-    return Buffer.alloc(size, fill, encoding);
-  }
-  if (typeof encoding === 'number') {
-    throw new TypeError('encoding must not be number');
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size > MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  var enc = encoding;
-  var _fill = fill;
-  if (_fill === undefined) {
-    enc = undefined;
-    _fill = 0;
-  }
-  var buf = new Buffer(size);
-  if (typeof _fill === 'string') {
-    var fillBuf = new Buffer(_fill, enc);
-    var flen = fillBuf.length;
-    var i = -1;
-    while (++i < size) {
-      buf[i] = fillBuf[i % flen];
-    }
-  } else {
-    buf.fill(_fill);
-  }
-  return buf;
-}
-exports.allocUnsafe = function allocUnsafe(size) {
-  if (typeof Buffer.allocUnsafe === 'function') {
-    return Buffer.allocUnsafe(size);
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size > MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  return new Buffer(size);
-}
-exports.from = function from(value, encodingOrOffset, length) {
-  if (typeof Buffer.from === 'function' && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
-    return Buffer.from(value, encodingOrOffset, length);
-  }
-  if (typeof value === 'number') {
-    throw new TypeError('"value" argument must not be a number');
-  }
-  if (typeof value === 'string') {
-    return new Buffer(value, encodingOrOffset);
-  }
-  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
-    var offset = encodingOrOffset;
-    if (arguments.length === 1) {
-      return new Buffer(value);
-    }
-    if (typeof offset === 'undefined') {
-      offset = 0;
-    }
-    var len = length;
-    if (typeof len === 'undefined') {
-      len = value.byteLength - offset;
-    }
-    if (offset >= value.byteLength) {
-      throw new RangeError('\'offset\' is out of bounds');
-    }
-    if (len > value.byteLength - offset) {
-      throw new RangeError('\'length\' is out of bounds');
-    }
-    return new Buffer(value.slice(offset, offset + len));
-  }
-  if (Buffer.isBuffer(value)) {
-    var out = new Buffer(value.length);
-    value.copy(out, 0, 0, value.length);
-    return out;
-  }
-  if (value) {
-    if (Array.isArray(value) || (typeof ArrayBuffer !== 'undefined' && value.buffer instanceof ArrayBuffer) || 'length' in value) {
-      return new Buffer(value);
-    }
-    if (value.type === 'Buffer' && Array.isArray(value.data)) {
-      return new Buffer(value.data);
-    }
-  }
-
-  throw new TypeError('First argument must be a string, Buffer, ' + 'ArrayBuffer, Array, or array-like object.');
-}
-exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
-  if (typeof Buffer.allocUnsafeSlow === 'function') {
-    return Buffer.allocUnsafeSlow(size);
-  }
-  if (typeof size !== 'number') {
-    throw new TypeError('size must be a number');
-  }
-  if (size >= MAX_LEN) {
-    throw new RangeError('size is too large');
-  }
-  return new SlowBuffer(size);
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":10}],25:[function(require,module,exports){
-(function (Buffer){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-
-function isArray(arg) {
-  if (Array.isArray) {
-    return Array.isArray(arg);
-  }
-  return objectToString(arg) === '[object Array]';
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = Buffer.isBuffer;
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-}).call(this,{"isBuffer":require("../../../../is-buffer/index.js")})
-},{"../../../../is-buffer/index.js":16}],26:[function(require,module,exports){
-module.exports=require(11)
-},{"./debug":27,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/browser.js":11,"_process":61}],27:[function(require,module,exports){
-module.exports=require(12)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/debug.js":12,"ms":32}],28:[function(require,module,exports){
-// originally pulled out of simple-peer
-
-module.exports = function getBrowserRTC () {
-  if (typeof window === 'undefined') return null
-  var wrtc = {
-    RTCPeerConnection: window.RTCPeerConnection || window.mozRTCPeerConnection ||
-      window.webkitRTCPeerConnection,
-    RTCSessionDescription: window.RTCSessionDescription ||
-      window.mozRTCSessionDescription || window.webkitRTCSessionDescription,
-    RTCIceCandidate: window.RTCIceCandidate || window.mozRTCIceCandidate ||
-      window.webkitRTCIceCandidate
-  }
-  if (!wrtc.RTCPeerConnection) return null
-  return wrtc
-}
-
 },{}],29:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],30:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],31:[function(require,module,exports){
-module.exports=require(17)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/lodash/lodash.js":17}],32:[function(require,module,exports){
-module.exports=require(18)
-},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/ms/index.js":18}],33:[function(require,module,exports){
 'use strict';
 
 const ELiving = require('./entries/eliving.js');
@@ -20339,7 +20632,7 @@ class ArcStore {
 
 module.exports = ArcStore;
 
-},{"./entries/eliving.js":35,"./exceptions/exsocketnotfound.js":40}],34:[function(require,module,exports){
+},{"./entries/eliving.js":31,"./exceptions/exsocketnotfound.js":36}],30:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20362,7 +20655,7 @@ class EDying {
 
 module.exports = EDying;
 
-},{}],35:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20430,7 +20723,7 @@ class ELiving {
 
 module.exports = ELiving;
 
-},{}],36:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20459,7 +20752,7 @@ class EPending {
 
 module.exports = EPending;
 
-},{}],37:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20482,7 +20775,7 @@ class ExIncompleteMessage {
 
 module.exports = ExIncompleteMessage;
 
-},{}],38:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20503,7 +20796,7 @@ class ExLateMessage {
 
 module.exports = ExLateMessage;
 
-},{}],39:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20523,7 +20816,7 @@ class ExProtocolExists {
 
 module.exports = ExProtocolExists;
 
-},{}],40:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20547,7 +20840,7 @@ class ExSocketNotFound {
 
 module.exports = ExSocketNotFound;
 
-},{}],41:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20609,7 +20902,7 @@ class INeighborhood {
 
 module.exports = INeighborhood;
 
-},{}],42:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20638,7 +20931,7 @@ class MRequest {
 
 module.exports = MRequest;
 
-},{}],43:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20666,7 +20959,7 @@ class MResponse {
 
 module.exports = MResponse;
 
-},{}],44:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20690,7 +20983,7 @@ class MSend {
 
 module.exports = MSend;
 
-},{}],45:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('neighborhood-wrtc');
@@ -20954,7 +21247,7 @@ class Neighborhood {
                 (!entry.successful || entry.alreadyExists) &&
                     entry.socket && entry.socket.destroy();
                 !entry.successful &&
-                    this.protocols.get(protocolId)._failed(entry.peer, true);
+                    this.protocols.get(protocolId)._failed(entry.peer, false);
                 this.pending.delete(entry.tid);
             }, this.options.timeout);            
         };
@@ -21164,7 +21457,287 @@ class Neighborhood {
 
 module.exports = Neighborhood;
 
-},{"./arcstore.js":33,"./entries/edying.js":34,"./entries/epending.js":36,"./exceptions/exincompletemessage.js":37,"./exceptions/exlatemessage.js":38,"./exceptions/exprotocolexists.js":39,"./interfaces/ineighborhood.js":41,"./messages/mrequest.js":42,"./messages/mresponse.js":43,"./messages/msend.js":44,"debug":26,"lodash":31,"simple-peer":55,"uuid/v4":60}],46:[function(require,module,exports){
+},{"./arcstore.js":29,"./entries/edying.js":30,"./entries/epending.js":32,"./exceptions/exincompletemessage.js":33,"./exceptions/exlatemessage.js":34,"./exceptions/exprotocolexists.js":35,"./interfaces/ineighborhood.js":37,"./messages/mrequest.js":38,"./messages/mresponse.js":39,"./messages/msend.js":40,"debug":44,"lodash":49,"simple-peer":61,"uuid/v4":66}],42:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var buffer = require('buffer');
+var Buffer = buffer.Buffer;
+var SlowBuffer = buffer.SlowBuffer;
+var MAX_LEN = buffer.kMaxLength || 2147483647;
+exports.alloc = function alloc(size, fill, encoding) {
+  if (typeof Buffer.alloc === 'function') {
+    return Buffer.alloc(size, fill, encoding);
+  }
+  if (typeof encoding === 'number') {
+    throw new TypeError('encoding must not be number');
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size > MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  var enc = encoding;
+  var _fill = fill;
+  if (_fill === undefined) {
+    enc = undefined;
+    _fill = 0;
+  }
+  var buf = new Buffer(size);
+  if (typeof _fill === 'string') {
+    var fillBuf = new Buffer(_fill, enc);
+    var flen = fillBuf.length;
+    var i = -1;
+    while (++i < size) {
+      buf[i] = fillBuf[i % flen];
+    }
+  } else {
+    buf.fill(_fill);
+  }
+  return buf;
+}
+exports.allocUnsafe = function allocUnsafe(size) {
+  if (typeof Buffer.allocUnsafe === 'function') {
+    return Buffer.allocUnsafe(size);
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size > MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  return new Buffer(size);
+}
+exports.from = function from(value, encodingOrOffset, length) {
+  if (typeof Buffer.from === 'function' && (!global.Uint8Array || Uint8Array.from !== Buffer.from)) {
+    return Buffer.from(value, encodingOrOffset, length);
+  }
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number');
+  }
+  if (typeof value === 'string') {
+    return new Buffer(value, encodingOrOffset);
+  }
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    var offset = encodingOrOffset;
+    if (arguments.length === 1) {
+      return new Buffer(value);
+    }
+    if (typeof offset === 'undefined') {
+      offset = 0;
+    }
+    var len = length;
+    if (typeof len === 'undefined') {
+      len = value.byteLength - offset;
+    }
+    if (offset >= value.byteLength) {
+      throw new RangeError('\'offset\' is out of bounds');
+    }
+    if (len > value.byteLength - offset) {
+      throw new RangeError('\'length\' is out of bounds');
+    }
+    return new Buffer(value.slice(offset, offset + len));
+  }
+  if (Buffer.isBuffer(value)) {
+    var out = new Buffer(value.length);
+    value.copy(out, 0, 0, value.length);
+    return out;
+  }
+  if (value) {
+    if (Array.isArray(value) || (typeof ArrayBuffer !== 'undefined' && value.buffer instanceof ArrayBuffer) || 'length' in value) {
+      return new Buffer(value);
+    }
+    if (value.type === 'Buffer' && Array.isArray(value.data)) {
+      return new Buffer(value.data);
+    }
+  }
+
+  throw new TypeError('First argument must be a string, Buffer, ' + 'ArrayBuffer, Array, or array-like object.');
+}
+exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
+  if (typeof Buffer.allocUnsafeSlow === 'function') {
+    return Buffer.allocUnsafeSlow(size);
+  }
+  if (typeof size !== 'number') {
+    throw new TypeError('size must be a number');
+  }
+  if (size >= MAX_LEN) {
+    throw new RangeError('size is too large');
+  }
+  return new SlowBuffer(size);
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"buffer":11}],43:[function(require,module,exports){
+(function (Buffer){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = Buffer.isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+}).call(this,{"isBuffer":require("../../../../../../is-buffer/index.js")})
+},{"../../../../../../is-buffer/index.js":17}],44:[function(require,module,exports){
+module.exports=require(12)
+},{"./debug":45,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/browser.js":12,"_process":70}],45:[function(require,module,exports){
+module.exports=require(13)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/debug/src/debug.js":13,"ms":50}],46:[function(require,module,exports){
+// originally pulled out of simple-peer
+
+module.exports = function getBrowserRTC () {
+  if (typeof window === 'undefined') return null
+  var wrtc = {
+    RTCPeerConnection: window.RTCPeerConnection || window.mozRTCPeerConnection ||
+      window.webkitRTCPeerConnection,
+    RTCSessionDescription: window.RTCSessionDescription ||
+      window.mozRTCSessionDescription || window.webkitRTCSessionDescription,
+    RTCIceCandidate: window.RTCIceCandidate || window.mozRTCIceCandidate ||
+      window.webkitRTCIceCandidate
+  }
+  if (!wrtc.RTCPeerConnection) return null
+  return wrtc
+}
+
+},{}],47:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],48:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],49:[function(require,module,exports){
+module.exports=require(18)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/lodash/lodash.js":18}],50:[function(require,module,exports){
+module.exports=require(19)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/ms/index.js":19}],51:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21211,7 +21784,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":61}],47:[function(require,module,exports){
+},{"_process":70}],52:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -21251,7 +21824,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":61,"buffer":10}],48:[function(require,module,exports){
+},{"_process":70,"buffer":11}],53:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -21327,7 +21900,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":50,"./_stream_writable":52,"core-util-is":25,"inherits":29,"process-nextick-args":46}],49:[function(require,module,exports){
+},{"./_stream_readable":55,"./_stream_writable":57,"core-util-is":43,"inherits":47,"process-nextick-args":51}],54:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -21354,7 +21927,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":51,"core-util-is":25,"inherits":29}],50:[function(require,module,exports){
+},{"./_stream_transform":56,"core-util-is":43,"inherits":47}],55:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21383,14 +21956,7 @@ var EElistenerCount = function (emitter, type) {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream;
-(function () {
-  try {
-    Stream = require('st' + 'ream');
-  } catch (_) {} finally {
-    if (!Stream) Stream = require('events').EventEmitter;
-  }
-})();
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 var Buffer = require('buffer').Buffer;
@@ -21417,6 +21983,8 @@ var BufferList = require('./internal/streams/BufferList');
 var StringDecoder;
 
 util.inherits(Readable, Stream);
+
+var kProxyEvents = ['error', 'close', 'destroy', 'pause', 'resume'];
 
 function prependListener(emitter, event, fn) {
   // Sadly this is not cacheable as some libraries bundle their own
@@ -22142,10 +22710,9 @@ Readable.prototype.wrap = function (stream) {
   }
 
   // proxy certain important events.
-  var events = ['error', 'close', 'destroy', 'pause', 'resume'];
-  forEach(events, function (ev) {
-    stream.on(ev, self.emit.bind(self, ev));
-  });
+  for (var n = 0; n < kProxyEvents.length; n++) {
+    stream.on(kProxyEvents[n], self.emit.bind(self, kProxyEvents[n]));
+  }
 
   // when we try to consume some more bytes, simply unpause the
   // underlying stream.
@@ -22298,7 +22865,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":48,"./internal/streams/BufferList":53,"_process":61,"buffer":10,"buffer-shims":24,"core-util-is":25,"events":13,"inherits":29,"isarray":30,"process-nextick-args":46,"string_decoder/":56,"util":9}],51:[function(require,module,exports){
+},{"./_stream_duplex":53,"./internal/streams/BufferList":58,"./internal/streams/stream":59,"_process":70,"buffer":11,"buffer-shims":42,"core-util-is":43,"events":14,"inherits":47,"isarray":48,"process-nextick-args":51,"string_decoder/":62,"util":10}],56:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -22481,7 +23048,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":48,"core-util-is":25,"inherits":29}],52:[function(require,module,exports){
+},{"./_stream_duplex":53,"core-util-is":43,"inherits":47}],57:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -22517,14 +23084,7 @@ var internalUtil = {
 /*</replacement>*/
 
 /*<replacement>*/
-var Stream;
-(function () {
-  try {
-    Stream = require('st' + 'ream');
-  } catch (_) {} finally {
-    if (!Stream) Stream = require('events').EventEmitter;
-  }
-})();
+var Stream = require('./internal/streams/stream');
 /*</replacement>*/
 
 var Buffer = require('buffer').Buffer;
@@ -23035,7 +23595,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":48,"_process":61,"buffer":10,"buffer-shims":24,"core-util-is":25,"events":13,"inherits":29,"process-nextick-args":46,"util-deprecate":57}],53:[function(require,module,exports){
+},{"./_stream_duplex":53,"./internal/streams/stream":59,"_process":70,"buffer":11,"buffer-shims":42,"core-util-is":43,"inherits":47,"process-nextick-args":51,"util-deprecate":63}],58:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -23100,27 +23660,19 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":10,"buffer-shims":24}],54:[function(require,module,exports){
-(function (process){
-var Stream = (function (){
-  try {
-    return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
-  } catch(_){}
-}());
+},{"buffer":11,"buffer-shims":42}],59:[function(require,module,exports){
+module.exports = require('events').EventEmitter;
+
+},{"events":14}],60:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
-exports.Stream = Stream || exports;
+exports.Stream = exports;
 exports.Readable = exports;
 exports.Writable = require('./lib/_stream_writable.js');
 exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
-  module.exports = Stream;
-}
-
-}).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":48,"./lib/_stream_passthrough.js":49,"./lib/_stream_readable.js":50,"./lib/_stream_transform.js":51,"./lib/_stream_writable.js":52,"_process":61}],55:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":53,"./lib/_stream_passthrough.js":54,"./lib/_stream_readable.js":55,"./lib/_stream_transform.js":56,"./lib/_stream_writable.js":57}],61:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -23427,6 +23979,13 @@ Peer.prototype._destroy = function (err, onclose) {
 
 Peer.prototype._setupData = function (event) {
   var self = this
+  if (!event.channel) {
+    // In some situations `pc.createDataChannel()` returns `undefined` (in wrtc),
+    // which is invalid behavior. Handle it gracefully.
+    // See: https://github.com/feross/simple-peer/issues/163
+    return self._onError(new Error('Data channel event is missing `channel` property'))
+  }
+
   self._channel = event.channel
   self._channel.binaryType = 'arraybuffer'
 
@@ -23766,7 +24325,7 @@ Peer.prototype._onChannelMessage = function (event) {
   var self = this
   if (self.destroyed) return
   var data = event.data
-  if (data instanceof ArrayBuffer) data = new Buffer(data)
+  if (data instanceof ArrayBuffer) data = Buffer.from(data)
   self.push(data)
 }
 
@@ -23877,230 +24436,281 @@ Peer.prototype._transformConstraints = function (constraints) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":10,"debug":26,"get-browser-rtc":28,"inherits":29,"randombytes":47,"readable-stream":54}],56:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
+},{"buffer":11,"debug":44,"get-browser-rtc":46,"inherits":47,"randombytes":52,"readable-stream":60}],62:[function(require,module,exports){
+'use strict';
 
 var Buffer = require('buffer').Buffer;
+var bufferShim = require('buffer-shims');
 
-var isBufferEncoding = Buffer.isEncoding
-  || function(encoding) {
-       switch (encoding && encoding.toLowerCase()) {
-         case 'hex': case 'utf8': case 'utf-8': case 'ascii': case 'binary': case 'base64': case 'ucs2': case 'ucs-2': case 'utf16le': case 'utf-16le': case 'raw': return true;
-         default: return false;
-       }
-     }
-
-
-function assertEncoding(encoding) {
-  if (encoding && !isBufferEncoding(encoding)) {
-    throw new Error('Unknown encoding: ' + encoding);
+var isEncoding = Buffer.isEncoding || function (encoding) {
+  encoding = '' + encoding;
+  switch (encoding && encoding.toLowerCase()) {
+    case 'hex':case 'utf8':case 'utf-8':case 'ascii':case 'binary':case 'base64':case 'ucs2':case 'ucs-2':case 'utf16le':case 'utf-16le':case 'raw':
+      return true;
+    default:
+      return false;
   }
+};
+
+function _normalizeEncoding(enc) {
+  if (!enc) return 'utf8';
+  var retried;
+  while (true) {
+    switch (enc) {
+      case 'utf8':
+      case 'utf-8':
+        return 'utf8';
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return 'utf16le';
+      case 'latin1':
+      case 'binary':
+        return 'latin1';
+      case 'base64':
+      case 'ascii':
+      case 'hex':
+        return enc;
+      default:
+        if (retried) return; // undefined
+        enc = ('' + enc).toLowerCase();
+        retried = true;
+    }
+  }
+};
+
+// Do not cache `Buffer.isEncoding` when checking encoding names as some
+// modules monkey-patch it to support additional encodings
+function normalizeEncoding(enc) {
+  var nenc = _normalizeEncoding(enc);
+  if (typeof nenc !== 'string' && (Buffer.isEncoding === isEncoding || !isEncoding(enc))) throw new Error('Unknown encoding: ' + enc);
+  return nenc || enc;
 }
 
 // StringDecoder provides an interface for efficiently splitting a series of
 // buffers into a series of JS strings without breaking apart multi-byte
-// characters. CESU-8 is handled as part of the UTF-8 encoding.
-//
-// @TODO Handling all encodings inside a single object makes it very difficult
-// to reason about this code, so it should be split up in the future.
-// @TODO There should be a utf8-strict encoding that rejects invalid UTF-8 code
-// points as used by CESU-8.
-var StringDecoder = exports.StringDecoder = function(encoding) {
-  this.encoding = (encoding || 'utf8').toLowerCase().replace(/[-_]/, '');
-  assertEncoding(encoding);
+// characters.
+exports.StringDecoder = StringDecoder;
+function StringDecoder(encoding) {
+  this.encoding = normalizeEncoding(encoding);
+  var nb;
   switch (this.encoding) {
-    case 'utf8':
-      // CESU-8 represents each of Surrogate Pair by 3-bytes
-      this.surrogateSize = 3;
-      break;
-    case 'ucs2':
     case 'utf16le':
-      // UTF-16 represents each of Surrogate Pair by 2-bytes
-      this.surrogateSize = 2;
-      this.detectIncompleteChar = utf16DetectIncompleteChar;
+      this.text = utf16Text;
+      this.end = utf16End;
+      nb = 4;
+      break;
+    case 'utf8':
+      this.fillLast = utf8FillLast;
+      nb = 4;
       break;
     case 'base64':
-      // Base-64 stores 3 bytes in 4 chars, and pads the remainder.
-      this.surrogateSize = 3;
-      this.detectIncompleteChar = base64DetectIncompleteChar;
+      this.text = base64Text;
+      this.end = base64End;
+      nb = 3;
       break;
     default:
-      this.write = passThroughWrite;
+      this.write = simpleWrite;
+      this.end = simpleEnd;
       return;
   }
-
-  // Enough space to store all bytes of a single character. UTF-8 needs 4
-  // bytes, but CESU-8 may require up to 6 (3 bytes per surrogate).
-  this.charBuffer = new Buffer(6);
-  // Number of bytes received for the current incomplete multi-byte character.
-  this.charReceived = 0;
-  // Number of bytes expected for the current incomplete multi-byte character.
-  this.charLength = 0;
-};
-
-
-// write decodes the given buffer and returns it as JS string that is
-// guaranteed to not contain any partial multi-byte characters. Any partial
-// character found at the end of the buffer is buffered up, and will be
-// returned when calling write again with the remaining bytes.
-//
-// Note: Converting a Buffer containing an orphan surrogate to a String
-// currently works, but converting a String to a Buffer (via `new Buffer`, or
-// Buffer#write) will replace incomplete surrogates with the unicode
-// replacement character. See https://codereview.chromium.org/121173009/ .
-StringDecoder.prototype.write = function(buffer) {
-  var charStr = '';
-  // if our last write ended with an incomplete multibyte character
-  while (this.charLength) {
-    // determine how many remaining bytes this buffer has to offer for this char
-    var available = (buffer.length >= this.charLength - this.charReceived) ?
-        this.charLength - this.charReceived :
-        buffer.length;
-
-    // add the new bytes to the char buffer
-    buffer.copy(this.charBuffer, this.charReceived, 0, available);
-    this.charReceived += available;
-
-    if (this.charReceived < this.charLength) {
-      // still not enough chars in this buffer? wait for more ...
-      return '';
-    }
-
-    // remove bytes belonging to the current character from the buffer
-    buffer = buffer.slice(available, buffer.length);
-
-    // get the character that was split
-    charStr = this.charBuffer.slice(0, this.charLength).toString(this.encoding);
-
-    // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
-    var charCode = charStr.charCodeAt(charStr.length - 1);
-    if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-      this.charLength += this.surrogateSize;
-      charStr = '';
-      continue;
-    }
-    this.charReceived = this.charLength = 0;
-
-    // if there are no more bytes in this buffer, just emit our char
-    if (buffer.length === 0) {
-      return charStr;
-    }
-    break;
-  }
-
-  // determine and set charLength / charReceived
-  this.detectIncompleteChar(buffer);
-
-  var end = buffer.length;
-  if (this.charLength) {
-    // buffer the incomplete character bytes we got
-    buffer.copy(this.charBuffer, 0, buffer.length - this.charReceived, end);
-    end -= this.charReceived;
-  }
-
-  charStr += buffer.toString(this.encoding, 0, end);
-
-  var end = charStr.length - 1;
-  var charCode = charStr.charCodeAt(end);
-  // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
-  if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-    var size = this.surrogateSize;
-    this.charLength += size;
-    this.charReceived += size;
-    this.charBuffer.copy(this.charBuffer, size, 0, size);
-    buffer.copy(this.charBuffer, 0, 0, size);
-    return charStr.substring(0, end);
-  }
-
-  // or just emit the charStr
-  return charStr;
-};
-
-// detectIncompleteChar determines if there is an incomplete UTF-8 character at
-// the end of the given buffer. If so, it sets this.charLength to the byte
-// length that character, and sets this.charReceived to the number of bytes
-// that are available for this character.
-StringDecoder.prototype.detectIncompleteChar = function(buffer) {
-  // determine how many bytes we have to check at the end of this buffer
-  var i = (buffer.length >= 3) ? 3 : buffer.length;
-
-  // Figure out if one of the last i bytes of our buffer announces an
-  // incomplete char.
-  for (; i > 0; i--) {
-    var c = buffer[buffer.length - i];
-
-    // See http://en.wikipedia.org/wiki/UTF-8#Description
-
-    // 110XXXXX
-    if (i == 1 && c >> 5 == 0x06) {
-      this.charLength = 2;
-      break;
-    }
-
-    // 1110XXXX
-    if (i <= 2 && c >> 4 == 0x0E) {
-      this.charLength = 3;
-      break;
-    }
-
-    // 11110XXX
-    if (i <= 3 && c >> 3 == 0x1E) {
-      this.charLength = 4;
-      break;
-    }
-  }
-  this.charReceived = i;
-};
-
-StringDecoder.prototype.end = function(buffer) {
-  var res = '';
-  if (buffer && buffer.length)
-    res = this.write(buffer);
-
-  if (this.charReceived) {
-    var cr = this.charReceived;
-    var buf = this.charBuffer;
-    var enc = this.encoding;
-    res += buf.slice(0, cr).toString(enc);
-  }
-
-  return res;
-};
-
-function passThroughWrite(buffer) {
-  return buffer.toString(this.encoding);
+  this.lastNeed = 0;
+  this.lastTotal = 0;
+  this.lastChar = bufferShim.allocUnsafe(nb);
 }
 
-function utf16DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 2;
-  this.charLength = this.charReceived ? 2 : 0;
+StringDecoder.prototype.write = function (buf) {
+  if (buf.length === 0) return '';
+  var r;
+  var i;
+  if (this.lastNeed) {
+    r = this.fillLast(buf);
+    if (r === undefined) return '';
+    i = this.lastNeed;
+    this.lastNeed = 0;
+  } else {
+    i = 0;
+  }
+  if (i < buf.length) return r ? r + this.text(buf, i) : this.text(buf, i);
+  return r || '';
+};
+
+StringDecoder.prototype.end = utf8End;
+
+// Returns only complete characters in a Buffer
+StringDecoder.prototype.text = utf8Text;
+
+// Attempts to complete a partial non-UTF-8 character using bytes from a Buffer
+StringDecoder.prototype.fillLast = function (buf) {
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, buf.length);
+  this.lastNeed -= buf.length;
+};
+
+// Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
+// continuation byte.
+function utf8CheckByte(byte) {
+  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
+  return -1;
 }
 
-function base64DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 3;
-  this.charLength = this.charReceived ? 3 : 0;
+// Checks at most 3 bytes at the end of a Buffer in order to detect an
+// incomplete multi-byte UTF-8 character. The total number of bytes (2, 3, or 4)
+// needed to complete the UTF-8 character (if applicable) are returned.
+function utf8CheckIncomplete(self, buf, i) {
+  var j = buf.length - 1;
+  if (j < i) return 0;
+  var nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 1;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 2;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) {
+      if (nb === 2) nb = 0;else self.lastNeed = nb - 3;
+    }
+    return nb;
+  }
+  return 0;
 }
 
-},{"buffer":10}],57:[function(require,module,exports){
+// Validates as many continuation bytes for a multi-byte UTF-8 character as
+// needed or are available. If we see a non-continuation byte where we expect
+// one, we "replace" the validated continuation bytes we've seen so far with
+// UTF-8 replacement characters ('\ufffd'), to match v8's UTF-8 decoding
+// behavior. The continuation byte check is included three times in the case
+// where all of the continuation bytes for a character exist in the same buffer.
+// It is also done this way as a slight performance increase instead of using a
+// loop.
+function utf8CheckExtraBytes(self, buf, p) {
+  if ((buf[0] & 0xC0) !== 0x80) {
+    self.lastNeed = 0;
+    return '\ufffd'.repeat(p);
+  }
+  if (self.lastNeed > 1 && buf.length > 1) {
+    if ((buf[1] & 0xC0) !== 0x80) {
+      self.lastNeed = 1;
+      return '\ufffd'.repeat(p + 1);
+    }
+    if (self.lastNeed > 2 && buf.length > 2) {
+      if ((buf[2] & 0xC0) !== 0x80) {
+        self.lastNeed = 2;
+        return '\ufffd'.repeat(p + 2);
+      }
+    }
+  }
+}
+
+// Attempts to complete a multi-byte UTF-8 character using bytes from a Buffer.
+function utf8FillLast(buf) {
+  var p = this.lastTotal - this.lastNeed;
+  var r = utf8CheckExtraBytes(this, buf, p);
+  if (r !== undefined) return r;
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, p, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, p, 0, buf.length);
+  this.lastNeed -= buf.length;
+}
+
+// Returns all complete UTF-8 characters in a Buffer. If the Buffer ended on a
+// partial character, the character's bytes are buffered until the required
+// number of bytes are available.
+function utf8Text(buf, i) {
+  var total = utf8CheckIncomplete(this, buf, i);
+  if (!this.lastNeed) return buf.toString('utf8', i);
+  this.lastTotal = total;
+  var end = buf.length - (total - this.lastNeed);
+  buf.copy(this.lastChar, 0, end);
+  return buf.toString('utf8', i, end);
+}
+
+// For UTF-8, a replacement character for each buffered byte of a (partial)
+// character needs to be added to the output.
+function utf8End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
+  return r;
+}
+
+// UTF-16LE typically needs two bytes per character, but even if we have an even
+// number of bytes available, we need to check if we end on a leading/high
+// surrogate. In that case, we need to wait for the next two bytes in order to
+// decode the last character properly.
+function utf16Text(buf, i) {
+  if ((buf.length - i) % 2 === 0) {
+    var r = buf.toString('utf16le', i);
+    if (r) {
+      var c = r.charCodeAt(r.length - 1);
+      if (c >= 0xD800 && c <= 0xDBFF) {
+        this.lastNeed = 2;
+        this.lastTotal = 4;
+        this.lastChar[0] = buf[buf.length - 2];
+        this.lastChar[1] = buf[buf.length - 1];
+        return r.slice(0, -1);
+      }
+    }
+    return r;
+  }
+  this.lastNeed = 1;
+  this.lastTotal = 2;
+  this.lastChar[0] = buf[buf.length - 1];
+  return buf.toString('utf16le', i, buf.length - 1);
+}
+
+// For UTF-16LE we do not explicitly append special replacement characters if we
+// end on a partial character, we simply let v8 handle that.
+function utf16End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) {
+    var end = this.lastTotal - this.lastNeed;
+    return r + this.lastChar.toString('utf16le', 0, end);
+  }
+  return r;
+}
+
+function base64Text(buf, i) {
+  var n = (buf.length - i) % 3;
+  if (n === 0) return buf.toString('base64', i);
+  this.lastNeed = 3 - n;
+  this.lastTotal = 3;
+  if (n === 1) {
+    this.lastChar[0] = buf[buf.length - 1];
+  } else {
+    this.lastChar[0] = buf[buf.length - 2];
+    this.lastChar[1] = buf[buf.length - 1];
+  }
+  return buf.toString('base64', i, buf.length - n);
+}
+
+function base64End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + this.lastChar.toString('base64', 0, 3 - this.lastNeed);
+  return r;
+}
+
+// Pass bytes on through for single-byte encodings (e.g. ascii, latin1, hex)
+function simpleWrite(buf) {
+  return buf.toString(this.encoding);
+}
+
+function simpleEnd(buf) {
+  return buf && buf.length ? this.write(buf) : '';
+}
+},{"buffer":11,"buffer-shims":42}],63:[function(require,module,exports){
 (function (global){
 
 /**
@@ -24171,7 +24781,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],58:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -24196,7 +24806,7 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-},{}],59:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 (function (global){
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
@@ -24233,7 +24843,7 @@ if (!rng) {
 module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],60:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var rng = require('./lib/rng');
 var bytesToUuid = require('./lib/bytesToUuid');
 
@@ -24264,7 +24874,13 @@ function v4(options, buf, offset) {
 
 module.exports = v4;
 
-},{"./lib/bytesToUuid":58,"./lib/rng":59}],61:[function(require,module,exports){
+},{"./lib/bytesToUuid":64,"./lib/rng":65}],67:[function(require,module,exports){
+module.exports=require(64)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/bytesToUuid.js":64}],68:[function(require,module,exports){
+module.exports=require(65)
+},{"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/rng-browser.js":65}],69:[function(require,module,exports){
+module.exports=require(66)
+},{"./lib/bytesToUuid":67,"./lib/rng":68,"/Users/chat-wane/Desktop/project/spray/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/v4.js":66}],70:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -24363,6 +24979,7 @@ const PartialView = require('./partialview.js');
 
 const MExchange = require('./messages/mexchange.js');
 const MJoin = require('./messages/mjoin.js');
+const MLeave = require('./messages/mleave.js');
 
 const ExEmptyView = require('./exceptions/exemptyview.js');
 const ExMessage = require('./exceptions/exmessage.js');
@@ -24444,6 +25061,8 @@ class Spray extends N2N {
             this._onExchange(peerId, message);
         } else if (message.type && message.type === 'MJoin') {
             this._onJoin(peerId);
+        } else if (message.type && message.type === 'MLeave') {
+            this._onLeave(peerId);
         } else {
             throw new ExMessage('_receive', message, 'unhandled');
         };
@@ -24544,6 +25163,71 @@ class Spray extends N2N {
                   this.PID, peerId, this.PEER, peerId);
             this._inject(this.options.a, this.options.b, peerId);
             this._start();
+        };
+    };
+
+    /**
+     * Leave the network. If time is given, it tries to patch the network before
+     * leaving.
+     * @param {number} [time = 0] The time (in milliseconds) given to this peer
+     * to patch the network before trully leaving.
+     */
+    leave (time = 0) {
+        // #0 stop shufflings
+        this._stop();
+        if (time > 0) {
+            // #1 patch the network; in total must remove a.log(N) + b arcs
+            // inview -> this -> outview   becomes   inview -> outview
+            // #A flatten the inview and the outview
+            let inview = this.getInview();
+            let flattenI = [];
+            inview.forEach( (occ, peerId) => flattenI.push(peerId) );
+            let outview = this.getOutview();
+            let flattenO = [];
+            outview.forEach( (occ, peerId) => flattenO.push(peerId) );
+            // #B process the number of arc to save
+            // (TODO) double check this proportion
+            let toKeep = outview.size - this.options.a;
+            // #C bridge connections
+            // (TODO) check more than 2 in flattenI and flattenO is ≠
+            for (let i = 0; i < Math.floor(toKeep); ++i) {
+                const rnI = Math.floor(Math.random() * flattenI.length);
+                let different = flattenO
+                    .filter( (peerId) => peerId !== flattenI[rnI] );
+                if (different.length > 0) {
+                    const rnO = Math.floor(Math.random() * different.length);
+                    this.connect(flattenI[rnI], different[rnO]);
+                };
+            };
+            // (TODO) add probabilistic bridging if toKeep is a floating number
+
+            flattenI.forEach( (peerId) => {
+                this.send(peerId, new MLeave(), this.options.retry)
+                    .catch( (e) => { } );
+            });
+            
+            flattenO.forEach( (peerId) => {                
+                this._onLeave(peerId);
+            });
+        } else {
+            // #2 just leave
+            setTimeout( () => this.disconnect(),
+                        Math.max(0, time - this.options.timeout));
+        };
+    };
+
+    /**
+     * @private A remote peer we target just left the network. We remove it from
+     * our partial view.
+     * @param {string} peerId The identifier of the peer that just left.
+     */
+    _onLeave (peerId) {
+        if (this.partialView.has(peerId)) {
+            debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId);
+            const occ = this.partialView.removeAll(peerId);
+            for (let i = 0; i < occ; ++i ) {
+                this.disconnect(peerId);
+            };
         };
     };
 
@@ -24706,12 +25390,12 @@ class Spray extends N2N {
      * @param {string} peerId The identifier of the peer that seems down.
      */
     _onPeerDown (peerId) {
-        debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, peerId);
+        debug('[%s] ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId);
         // #1 remove all occurrences of the peer in the partial view
         const occ = this.partialView.removeAll(peerId);
         // #2 probabilistically recreate arcs to a known peer
-        const proba = this.options.a / (this.partialView.size + occ) +
-              this.options.b / Math.exp(this.partialView.size + occ);
+        // (TODO) double check this
+        const proba = this.options.a / (this.partialView.size + occ);
         
         if (this.partialView.size > 0) {
             // #A normal behavior
@@ -24777,4 +25461,4 @@ class Spray extends N2N {
 
 module.exports = Spray;
 
-},{"./exceptions/exemptyview.js":1,"./exceptions/exjoin.js":2,"./exceptions/exmessage.js":3,"./messages/mexchange.js":5,"./messages/mjoin.js":6,"./partialview.js":7,"debug":11,"lodash":17,"n2n-overlay-wrtc":23}]},{},[]);
+},{"./exceptions/exemptyview.js":1,"./exceptions/exjoin.js":2,"./exceptions/exmessage.js":3,"./messages/mexchange.js":5,"./messages/mjoin.js":6,"./messages/mleave.js":7,"./partialview.js":8,"debug":12,"lodash":18,"n2n-overlay-wrtc":24}]},{},[]);
