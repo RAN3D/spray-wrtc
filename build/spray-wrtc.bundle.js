@@ -25173,6 +25173,12 @@ class Spray extends N2N {
      * to patch the network before trully leaving.
      */
     leave (time = 0) {
+        // ugly way
+        const saveNITimeout = this.NI.options.timeout;
+        const saveNOTimeout = this.NO.options.timeout;
+        this.NI.options.timeout = time;
+        this.NO.options.timeout = time;
+        
         // #0 stop shufflings
         this._stop();
         if (time > 0) {
@@ -25211,9 +25217,12 @@ class Spray extends N2N {
             });
         } else {
             // #2 just leave
-            setTimeout( () => this.disconnect(),
-                        Math.max(0, time - this.options.timeout));
+            this.partialView.clear();
+            this.disconnect();
         };
+
+        this.NI.options.timeout = saveNITimeout;
+        this.NO.options.timeout = saveNOTimeout;
     };
 
     /**
@@ -25274,6 +25283,22 @@ class Spray extends N2N {
      ***********************************/
 
     /**
+     * @private Check the partial view, i.e., weither or not connections are
+     * still up and usable.
+     */    
+    _checkPartialView () {
+        let down = [];
+        this.partialView.forEach( (ages, peerId) => {
+            if (!this.o.has(peerId)){
+                down.push(peerId);
+            };
+        });
+        down.forEach( (peerId) => {
+            this._onPeerDown(peerId);
+        });
+    };
+    
+    /**
      * @private Get a sample of the partial view.
      * @param {string} [peerId] The identifier of the oldest neighbor chosen to
      * perform a view exchange.
@@ -25310,6 +25335,7 @@ class Spray extends N2N {
      * view and to mix the neighborhoods.
      */
     _exchange () {
+        this._checkPartialView();
         // #0 if the partial view is empty --- could be due to disconnections,
         // failure, or _onExchange started with other peers --- skip this round.
         if (this.partialView.size <= 0) { return; }
@@ -25334,7 +25360,7 @@ class Spray extends N2N {
                 // #5 remove our own connection
                 sample = sample.map( (peerId) => {
                     return ((peerId===this.getInviewId()) && oldest) || peerId;
-                });                
+                });  
                 sample.forEach( (peerId) => {
                     this.disconnect(peerId);
                     if (peerId === oldest) {
@@ -25360,6 +25386,7 @@ class Spray extends N2N {
      * that started the exchange.
      */
     _onExchange (neighbor, message) {
+        this._checkPartialView();
         // #1 get a sample of neighbors from our partial view
         this.partialView.increment();
         let sample = this._getSample();
