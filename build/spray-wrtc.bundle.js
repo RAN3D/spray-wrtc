@@ -22,6 +22,25 @@ module.exports = ExEmptyView;
 'use strict';
 
 /**
+ * Exception threw when the joining phase of Spray does not work as intended.
+ */
+class ExJoin {
+    /**
+     * @param {string} source The name of the function that threw the exception.
+     * @param {string} reason The reason the joining failed.
+     */
+    constructor (source, reason) {
+        this.source = source;
+        this.message = reason;
+    };
+};
+
+module.exports = ExJoin;
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+/**
  * Spray encountered a problem with a message.
  */
 class ExMessage {
@@ -40,7 +59,7 @@ class ExMessage {
 
 module.exports = ExMessage;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 /**
@@ -62,7 +81,7 @@ class ExPeerNotFound {
 
 module.exports = ExPeerNotFound;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 /**
@@ -80,7 +99,7 @@ class MExchange {
 
 module.exports = MExchange;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 /**
@@ -94,7 +113,21 @@ class MJoin {
 
 module.exports = MJoin;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+'use strict';
+
+/**
+ * Message that signals the departure of the sender.
+ */
+class MLeave {
+    constructor () {
+        this.type = 'MLeave';
+    };
+};
+
+module.exports = MLeave;
+
+},{}],8:[function(require,module,exports){
 'use strict';
 
 const ExPeerNotFound = require('./exceptions/expeernotfound.js');
@@ -210,7 +243,7 @@ class PartialView extends Map {
 
 module.exports = PartialView;
 
-},{"./exceptions/expeernotfound.js":3}],7:[function(require,module,exports){
+},{"./exceptions/expeernotfound.js":4}],9:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -332,9 +365,9 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -1388,7 +1421,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":7,"ieee754":13,"is-array":14}],10:[function(require,module,exports){
+},{"base64-js":9,"ieee754":15,"is-array":16}],12:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -1577,7 +1610,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":11,"_process":68}],11:[function(require,module,exports){
+},{"./debug":13,"_process":70}],13:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -1781,7 +1814,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":17}],12:[function(require,module,exports){
+},{"ms":19}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2084,7 +2117,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -2170,7 +2203,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 
 /**
  * isArray
@@ -2205,7 +2238,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -2228,7 +2261,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19316,7 +19349,7 @@ function isSlowBuffer (obj) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -19467,7 +19500,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's'
 }
 
-},{}],18:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19490,7 +19523,7 @@ class MConnectTo {
 
 module.exports = MConnectTo;
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19505,7 +19538,7 @@ class MDirect {
 
 module.exports = MDirect;
 
-},{}],20:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19528,7 +19561,7 @@ class MForwarded {
 
 module.exports = MForwarded;
 
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 /**
@@ -19550,7 +19583,7 @@ class MForwardTo {
 
 module.exports = MForwardTo;
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('n2n-overlay-wrtc');
@@ -19578,6 +19611,8 @@ class Neighbor extends EventEmitter {
      * @param {object} [options] options represented as an object (refer to
      * neighborhood-wrtc for other options).
      * @param {string} [options.pid] The unique identifier of the protocol.
+     * @param {number} [options.retry = 5] The number of times it tries to send
+     * a message.
      * @param {Neighborhood} [options.inview] The neighborhood used for inviews,
      * i.e., incoming arcs.
      * @param {Neighborhood} [options.outview] The neigbhorhood used for
@@ -19587,7 +19622,9 @@ class Neighbor extends EventEmitter {
         super();
 
         // #0 process the options
-        this.options = _.merge( { pid: uuid(), peer: uuid() }, options);
+        this.options = _.merge( { pid: uuid(),
+                                  peer: uuid(),
+                                  retry: 5 }, options);
         // #1 initialize unmutable protocolId
         this.PID = this.options.pid;
         // #2 initialize the neighborhoods /!\ i.peer and o.peer must be ≠
@@ -19608,8 +19645,7 @@ class Neighbor extends EventEmitter {
     };
 
     /**
-     * @private
-     * The getter of the identifier of this protocol.
+     * @private The getter of the identifier of this protocol.
      * @returns {string} The identifier of this protocol.
      */
     _pid () {
@@ -19617,8 +19653,7 @@ class Neighbor extends EventEmitter {
     };
     
     /**
-     * @private
-     * Behavior when this protocol receives a message from peerId.
+     * @private Behavior when this protocol receives a message from peerId.
      * @param {string} peerId The identifier of the peer that we received a 
      * message from.
      * @param {object} message The message received.
@@ -19643,8 +19678,7 @@ class Neighbor extends EventEmitter {
 
 
     /**
-     * @private
-     * Behavior when this protocol receives a stream from peerId.
+     * @private Behavior when this protocol receives a stream from peerId.
      * @param {string} peerId The identifier of the peer that we received a 
      * message from.
      * @param {object} stream The stream received.
@@ -19655,8 +19689,7 @@ class Neighbor extends EventEmitter {
 
     
     /**
-     * @private
-     * Update the local view.
+     * @private Update the local view.
      * @param {string} peerId The identifier of the peer reachable through the
      * newly added arc.
      * @param {boolean} isOutgoing State if the added arc is outgoing or not.
@@ -19677,8 +19710,7 @@ class Neighbor extends EventEmitter {
     };
 
     /**
-     * @private
-     * Update the local view.
+     * @private Update the local view.
      * @param {string} peerId The identifier of the peer that removed an arc.
      */
     _disconnected (peerId) {
@@ -19693,8 +19725,7 @@ class Neighbor extends EventEmitter {
     };
 
     /**
-     * @private
-     * Notify failure
+     * @private Notify failure
      * @param {string} peerId The identifier of the peer we failed to establish
      * a connection with.
      * @param {boolean} isOutgoing State whether or not the failed arc was 
@@ -19707,37 +19738,46 @@ class Neighbor extends EventEmitter {
     
 
     /**
-     * @private
-     * Function that execute to bridge a connection establishement between two
-     * peers: we start from (i -> b -> a) to get (i -> b -> a) and (i -> a).
+     * @private Function that execute to bridge a connection establishement
+     * between two peers: we start from (i -> b -> a) to get (i -> b -> a) and
+     * (i -> a).
      * @param {string} peerId The identifier of the peer that sent us the 
      * message
      * @param {MConnectTo|MForwardTo|MForwarded} msg The message received.
      */
     _bridge (peerId, msg) {
-        // #1 we are the initiator
-        (msg.type === 'MConnectTo') && this.IO.connect( (req) => {
-            this.send(peerId, new MForwardTo(msg.from, msg.to, req));
-        });
-        // #2 we are the bridge
-        (msg.type === 'MForwardTo') &&
-            this.send(msg.to, new MForwarded(msg.from, msg.to, msg.message));
-        // #3 we are the acceptor
-        (msg.type === 'MForwarded') && (msg.message.type === 'MRequest') &&
+        if (msg.type && msg.type === 'MConnectTo') {
+            // #1 we are the initiator
+            this.IO.connect( (req) => {
+                this.send(peerId, new MForwardTo(msg.from, msg.to, req),
+                          this.options.retry)
+                    .catch( (e) => { }); // nothing on catch
+            });
+        } else if (msg.type && msg.type === 'MForwardTo') {
+            // #2 we are the bridge
+            this.send(msg.to, new MForwarded(msg.from, msg.to, msg.message),
+                      this.options.retry)
+                .catch( (e) => { }); // nothing on catch
+        } else if (msg.type && msg.type === 'MForwarded' &&
+                   msg.message.type === 'MRequest') {
+            // #3 we are the acceptor
             this.II.connect( (res) => {
-                this.send(peerId, new MForwardTo(msg.to, msg.from, res));
+                this.send(peerId, new MForwardTo(msg.to, msg.from, res),
+                          this.options.retry)
+                    .catch( (e) => { }); // nothing on catch
             }, msg.message );
-        // #4 reapplies #2
-        // #5 we are the finalizor
-        (msg.type === 'MForwarded') && (msg.message.type === 'MResponse') &&
+            // #4 reapplies #2
+        } else if (msg.type && msg.type === 'MForwarded' &&
+                   msg.message.type === 'MResponse') {
+            // #5 we are the finalizor
             this.IO.connect( msg.message );
+        };
     };
 
     /**
-     * @private
-     * Create a connection with a neighbor: from (i -> a) we obtain 
-     * either (i <-> a) or (i => a). In the former case, assuming that Peer a 
-     * does not already have a connection to Peer i, it must create a WebRTC 
+     * @private Create a connection with a neighbor: from (i -> a) we obtain
+     * either (i <-> a) or (i => a). In the former case, assuming that Peer a
+     * does not already have a connection to Peer i, it must create a WebRTC
      * connection to a. In the latter case, Peer i only duplicates its arc to
      * Peer a. Thus, it must disconnect twice to truly destroy the connection.
      * @param {string} peerId The identifier of the peer that we received a
@@ -19746,13 +19786,17 @@ class Neighbor extends EventEmitter {
      */ 
     _direct(peerId, message){
         (message.type === 'MDirect') &&
-            this.IO.connect( (req) => this.send(peerId, req) );
+            this.IO.connect( (req) => {
+                this.send(peerId, req, this.options.retry).catch( (e) => { });
+            });
         (message.type === 'MRequest') &&
-            this.II.connect( (res) => this.send(peerId, res), message);
+            this.II.connect( (res) => {
+                this.send(peerId, res, this.options.retry).catch( (e) => { });
+            }, message);
         (message.type === 'MResponse') &&
             this.IO.connect( message );
     };
-
+    
     
     /**
      * Send a message using either the inview or the outview.
@@ -19826,11 +19870,13 @@ class Neighbor extends EventEmitter {
                 // #1 arg1: from; arg2: to
                 // from -> this -> to  creates  from -> to
                 debug('[%s] %s =π= %s =π> %s', this.PID, arg1, this.PEER, arg2);
-                this.send(arg1, new MConnectTo(arg1, arg2));
+                this.send(arg1, new MConnectTo(arg1, arg2),
+                          this.options.retry).catch( (e) => { } );
             } else if (arg1 !== null) {
                 // #2 arg1: from
                 // from -> this  becomes  from => this
-                this.send(arg1, new MDirect());
+                this.send(arg1, new MDirect(),
+                          this.options.retry).catch( (e) => { } );
             } else if (arg2 !== null) {
                 // #3 arg2: to
                 // this -> to becomes this => to
@@ -19840,7 +19886,7 @@ class Neighbor extends EventEmitter {
     };
 
     /**
-     * remove an arc of the outview or all arcs
+     * Remove an arc of the outview or all arcs
      * @param {string} peerId The identifier of the arc to remove.
      */
     disconnect (peerId) {
@@ -19888,15 +19934,15 @@ class Neighbor extends EventEmitter {
 
 module.exports = Neighbor;
 
-},{"./messages/mconnectto.js":18,"./messages/mdirect.js":19,"./messages/mforwarded.js":20,"./messages/mforwardto.js":21,"debug":23,"events":12,"lodash":25,"neighborhood-wrtc":39,"uuid/v4":67}],23:[function(require,module,exports){
-module.exports=require(10)
-},{"./debug":24,"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/browser.js":10,"_process":68}],24:[function(require,module,exports){
-module.exports=require(11)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/debug.js":11,"ms":26}],25:[function(require,module,exports){
-module.exports=require(16)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":16}],26:[function(require,module,exports){
-module.exports=require(17)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/ms/index.js":17}],27:[function(require,module,exports){
+},{"./messages/mconnectto.js":20,"./messages/mdirect.js":21,"./messages/mforwarded.js":22,"./messages/mforwardto.js":23,"debug":25,"events":14,"lodash":27,"neighborhood-wrtc":41,"uuid/v4":69}],25:[function(require,module,exports){
+module.exports=require(12)
+},{"./debug":26,"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/browser.js":12,"_process":70}],26:[function(require,module,exports){
+module.exports=require(13)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/debug.js":13,"ms":28}],27:[function(require,module,exports){
+module.exports=require(18)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":18}],28:[function(require,module,exports){
+module.exports=require(19)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/ms/index.js":19}],29:[function(require,module,exports){
 'use strict';
 
 const ELiving = require('./entries/eliving.js');
@@ -20048,7 +20094,7 @@ class ArcStore {
 
 module.exports = ArcStore;
 
-},{"./entries/eliving.js":29,"./exceptions/exsocketnotfound.js":34}],28:[function(require,module,exports){
+},{"./entries/eliving.js":31,"./exceptions/exsocketnotfound.js":36}],30:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20071,7 +20117,7 @@ class EDying {
 
 module.exports = EDying;
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20139,7 +20185,7 @@ class ELiving {
 
 module.exports = ELiving;
 
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20168,7 +20214,7 @@ class EPending {
 
 module.exports = EPending;
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20191,7 +20237,7 @@ class ExIncompleteMessage {
 
 module.exports = ExIncompleteMessage;
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20212,7 +20258,7 @@ class ExLateMessage {
 
 module.exports = ExLateMessage;
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20232,7 +20278,7 @@ class ExProtocolExists {
 
 module.exports = ExProtocolExists;
 
-},{}],34:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20256,7 +20302,7 @@ class ExSocketNotFound {
 
 module.exports = ExSocketNotFound;
 
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20318,7 +20364,7 @@ class INeighborhood {
 
 module.exports = INeighborhood;
 
-},{}],36:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20347,7 +20393,7 @@ class MRequest {
 
 module.exports = MRequest;
 
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20375,7 +20421,7 @@ class MResponse {
 
 module.exports = MResponse;
 
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 /**
@@ -20399,7 +20445,7 @@ class MSend {
 
 module.exports = MSend;
 
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 const debug = require('debug')('neighborhood-wrtc');
@@ -20873,7 +20919,7 @@ class Neighborhood {
 
 module.exports = Neighborhood;
 
-},{"./arcstore.js":27,"./entries/edying.js":28,"./entries/epending.js":30,"./exceptions/exincompletemessage.js":31,"./exceptions/exlatemessage.js":32,"./exceptions/exprotocolexists.js":33,"./interfaces/ineighborhood.js":35,"./messages/mrequest.js":36,"./messages/mresponse.js":37,"./messages/msend.js":38,"debug":42,"lodash":47,"simple-peer":59,"uuid/v4":64}],40:[function(require,module,exports){
+},{"./arcstore.js":29,"./entries/edying.js":30,"./entries/epending.js":32,"./exceptions/exincompletemessage.js":33,"./exceptions/exlatemessage.js":34,"./exceptions/exprotocolexists.js":35,"./interfaces/ineighborhood.js":37,"./messages/mrequest.js":38,"./messages/mresponse.js":39,"./messages/msend.js":40,"debug":44,"lodash":49,"simple-peer":61,"uuid/v4":66}],42:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -20985,7 +21031,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":9}],41:[function(require,module,exports){
+},{"buffer":11}],43:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -21096,11 +21142,11 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../../../is-buffer/index.js")})
-},{"../../../../../../is-buffer/index.js":15}],42:[function(require,module,exports){
-module.exports=require(10)
-},{"./debug":43,"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/browser.js":10,"_process":68}],43:[function(require,module,exports){
-module.exports=require(11)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/debug.js":11,"ms":48}],44:[function(require,module,exports){
+},{"../../../../../../is-buffer/index.js":17}],44:[function(require,module,exports){
+module.exports=require(12)
+},{"./debug":45,"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/browser.js":12,"_process":70}],45:[function(require,module,exports){
+module.exports=require(13)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/debug/src/debug.js":13,"ms":50}],46:[function(require,module,exports){
 // originally pulled out of simple-peer
 
 module.exports = function getBrowserRTC () {
@@ -21117,7 +21163,7 @@ module.exports = function getBrowserRTC () {
   return wrtc
 }
 
-},{}],45:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -21142,18 +21188,18 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],47:[function(require,module,exports){
-module.exports=require(16)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":16}],48:[function(require,module,exports){
-module.exports=require(17)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/ms/index.js":17}],49:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
+module.exports=require(18)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/lodash/lodash.js":18}],50:[function(require,module,exports){
+module.exports=require(19)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/ms/index.js":19}],51:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -21200,7 +21246,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 }
 
 }).call(this,require('_process'))
-},{"_process":68}],50:[function(require,module,exports){
+},{"_process":70}],52:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -21240,7 +21286,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":68,"buffer":9}],51:[function(require,module,exports){
+},{"_process":70,"buffer":11}],53:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -21316,7 +21362,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":53,"./_stream_writable":55,"core-util-is":41,"inherits":45,"process-nextick-args":49}],52:[function(require,module,exports){
+},{"./_stream_readable":55,"./_stream_writable":57,"core-util-is":43,"inherits":47,"process-nextick-args":51}],54:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -21343,7 +21389,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":54,"core-util-is":41,"inherits":45}],53:[function(require,module,exports){
+},{"./_stream_transform":56,"core-util-is":43,"inherits":47}],55:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -22281,7 +22327,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":51,"./internal/streams/BufferList":56,"./internal/streams/stream":57,"_process":68,"buffer":9,"buffer-shims":40,"core-util-is":41,"events":12,"inherits":45,"isarray":46,"process-nextick-args":49,"string_decoder/":60,"util":8}],54:[function(require,module,exports){
+},{"./_stream_duplex":53,"./internal/streams/BufferList":58,"./internal/streams/stream":59,"_process":70,"buffer":11,"buffer-shims":42,"core-util-is":43,"events":14,"inherits":47,"isarray":48,"process-nextick-args":51,"string_decoder/":62,"util":10}],56:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -22464,7 +22510,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":51,"core-util-is":41,"inherits":45}],55:[function(require,module,exports){
+},{"./_stream_duplex":53,"core-util-is":43,"inherits":47}],57:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -23011,7 +23057,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":51,"./internal/streams/stream":57,"_process":68,"buffer":9,"buffer-shims":40,"core-util-is":41,"inherits":45,"process-nextick-args":49,"util-deprecate":61}],56:[function(require,module,exports){
+},{"./_stream_duplex":53,"./internal/streams/stream":59,"_process":70,"buffer":11,"buffer-shims":42,"core-util-is":43,"inherits":47,"process-nextick-args":51,"util-deprecate":63}],58:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -23076,10 +23122,10 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":9,"buffer-shims":40}],57:[function(require,module,exports){
+},{"buffer":11,"buffer-shims":42}],59:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":12}],58:[function(require,module,exports){
+},{"events":14}],60:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -23088,7 +23134,7 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":51,"./lib/_stream_passthrough.js":52,"./lib/_stream_readable.js":53,"./lib/_stream_transform.js":54,"./lib/_stream_writable.js":55}],59:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":53,"./lib/_stream_passthrough.js":54,"./lib/_stream_readable.js":55,"./lib/_stream_transform.js":56,"./lib/_stream_writable.js":57}],61:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -23852,7 +23898,7 @@ Peer.prototype._transformConstraints = function (constraints) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":9,"debug":42,"get-browser-rtc":44,"inherits":45,"randombytes":50,"readable-stream":58}],60:[function(require,module,exports){
+},{"buffer":11,"debug":44,"get-browser-rtc":46,"inherits":47,"randombytes":52,"readable-stream":60}],62:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -24126,7 +24172,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"buffer":9,"buffer-shims":40}],61:[function(require,module,exports){
+},{"buffer":11,"buffer-shims":42}],63:[function(require,module,exports){
 (function (global){
 
 /**
@@ -24197,7 +24243,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],62:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -24222,7 +24268,7 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-},{}],63:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 (function (global){
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
@@ -24259,7 +24305,7 @@ if (!rng) {
 module.exports = rng;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],64:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var rng = require('./lib/rng');
 var bytesToUuid = require('./lib/bytesToUuid');
 
@@ -24290,13 +24336,13 @@ function v4(options, buf, offset) {
 
 module.exports = v4;
 
-},{"./lib/bytesToUuid":62,"./lib/rng":63}],65:[function(require,module,exports){
-module.exports=require(62)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/bytesToUuid.js":62}],66:[function(require,module,exports){
-module.exports=require(63)
-},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/rng-browser.js":63}],67:[function(require,module,exports){
+},{"./lib/bytesToUuid":64,"./lib/rng":65}],67:[function(require,module,exports){
 module.exports=require(64)
-},{"./lib/bytesToUuid":65,"./lib/rng":66,"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/v4.js":64}],68:[function(require,module,exports){
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/bytesToUuid.js":64}],68:[function(require,module,exports){
+module.exports=require(65)
+},{"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/lib/rng-browser.js":65}],69:[function(require,module,exports){
+module.exports=require(66)
+},{"./lib/bytesToUuid":67,"./lib/rng":68,"/home/travis/build/RAN3D/spray-wrtc/node_modules/n2n-overlay-wrtc/node_modules/neighborhood-wrtc/node_modules/uuid/v4.js":66}],70:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -24395,9 +24441,11 @@ const PartialView = require('./partialview.js');
 
 const MExchange = require('./messages/mexchange.js');
 const MJoin = require('./messages/mjoin.js');
+const MLeave = require('./messages/mleave.js');
 
 const ExEmptyView = require('./exceptions/exemptyview.js');
 const ExMessage = require('./exceptions/exmessage.js');
+const ExJoin = require('./exceptions/exjoin.js');
 
 /**
  * Implementation of the random peer-sampling Spray. 
@@ -24410,13 +24458,18 @@ class Spray extends N2N {
      * protocol. 
      * @param {number} [options.delta] Every delta milliseconds, Spray shuffles
      * its partial view with its oldest neighbor.
+     * @param {number} [options.a = 1] The number of arcs at each peer converges
+     * to a*log(N) + b, where N is the number of peers in the network.
+     * @param {nubmer} [options.b = 0] See above.
      */
     constructor (options = {}) {
         // #0 initialize our N2N-parent
         super( _.merge({ pid: 'spray-wrtc',
                          delta: 1000 * 60 * 2,
                          timeout: 1000 * 60 * 1,
-                         retry: 5}, options) );
+                         a: 1,
+                         b: 0,
+                         retry: 5 }, options));
         // #1 constants (from N2N)
         // this.PID = protocol identifier
         // this.PEER = peer Id comprising inview and outview Ids
@@ -24470,6 +24523,8 @@ class Spray extends N2N {
             this._onExchange(peerId, message);
         } else if (message.type && message.type === 'MJoin') {
             this._onJoin(peerId);
+        } else if (message.type && message.type === 'MLeave') {
+            this._onLeave(peerId);
         } else {
             throw new ExMessage('_receive', message, 'unhandled');
         };
@@ -24518,27 +24573,36 @@ class Spray extends N2N {
      * @param {callback} sender Function that will be called each time an offer
      * arrives to this peer. It is the responsability of the caller to send 
      * these offer (using sender) to the contact inside the network.
-     * @returns {Promise} A promise that is resolved when the peer joins the 
-     * network; rejected after a timeout, or already connected state.
+     * @returns {Promise} A promise that is resolved when the peer joins the
+     * network -- the resolve contains the peerId; rejected after a timeout, or
+     * already connected state.
      */
     join (sender) {
-        const joinPromise = new Promise( (resolve, reject) => {
+        let result = new Promise( (resolve, reject) => {
             // #0 connectedness state check
-            (this.state !== 'disconnected') && reject('connected');
+            (this.state !== 'disconnected') &&
+                reject(new ExJoin('join', 'Already connected.'));
             // #1 set timeout before reject
             let to = setTimeout( () => {
-                reject('timeout'); // (TODO) Join exception
+                reject(new ExJoin('join', 'Timeout exceeded.'));
             }, this.options.timeout);
             // #2 very first call, only done once
             this.once('open', (peerId) => {
-                this.send(peerId, new MJoin(), this.options.retry);
-                this._start(); // start shuffling process
-                clearTimeout(to);
-                resolve();
+                this.send(peerId, new MJoin(), this.options.retry)
+                    .then( () => {
+                        clearTimeout(to);
+                        this._start(); // start shuffling process
+                        this._inject(this.options.a - 1, 0, peerId);
+                        resolve(peerId);
+                    }).catch( () => {
+                        reject( new ExJoin('join',
+                                           'Could not notify remote contact.'));
+                    });
             });
         });
+        // #3 engage the very first connection of this peer
         this.connect(sender);
-        return joinPromise;
+        return result;
     };
 
     /**
@@ -24547,8 +24611,8 @@ class Spray extends N2N {
      */ 
     _onJoin (peerId) {
         if (this.partialView.size > 0){
-            // #1 all neigbors -> peerId
-            debug('[%s] %s ===> join %s ===> %s neigbhors',
+            // #1 all neighbors -> peerId
+            debug('[%s] %s ===> join %s ===> %s neighbors',
                   this.PID, peerId, this.PEER, this.partialView.size);
             this.partialView.forEach( (ages, neighbor) => {
                 ages.forEach( (age) => {
@@ -24556,11 +24620,85 @@ class Spray extends N2N {
                 });
             });
         } else {
-            // #2 this -> peerId
+            // #2 Seems like a 2-peer network;  this -> peerId;
             debug('[%s] %s ===> join %s ===> %s',
                   this.PID, peerId, this.PEER, peerId);
-            this.connect(null, peerId);
+            this._inject(this.options.a, this.options.b, peerId);
             this._start();
+        };
+    };
+
+    /**
+     * Leave the network. If time is given, it tries to patch the network before
+     * leaving.
+     * @param {number} [time = 0] The time (in milliseconds) given to this peer
+     * to patch the network before trully leaving.
+     */
+    leave (time = 0) {
+        // ugly way
+        const saveNITimeout = this.NI.options.timeout;
+        const saveNOTimeout = this.NO.options.timeout;
+        this.NI.options.timeout = time;
+        this.NO.options.timeout = time;
+        
+        // #0 stop shufflings
+        this._stop();
+        if (time > 0) {
+            // #1 patch the network; in total must remove a.log(N) + b arcs
+            // inview -> this -> outview   becomes   inview -> outview
+            // #A flatten the inview and the outview
+            let inview = this.getInview();
+            let flattenI = [];
+            inview.forEach( (occ, peerId) => flattenI.push(peerId) );
+            let outview = this.getOutview();
+            let flattenO = [];
+            outview.forEach( (occ, peerId) => flattenO.push(peerId) );
+            // #B process the number of arc to save
+            // (TODO) double check this proportion
+            let toKeep = outview.size - this.options.a;
+            // #C bridge connections
+            // (TODO) check more than 2 in flattenI and flattenO is ≠
+            for (let i = 0; i < Math.floor(toKeep); ++i) {
+                const rnI = Math.floor(Math.random() * flattenI.length);
+                let different = flattenO
+                    .filter( (peerId) => peerId !== flattenI[rnI] );
+                if (different.length > 0) {
+                    const rnO = Math.floor(Math.random() * different.length);
+                    this.connect(flattenI[rnI], different[rnO]);
+                };
+            };
+            // (TODO) add probabilistic bridging if toKeep is a floating number
+
+            flattenI.forEach( (peerId) => {
+                this.send(peerId, new MLeave(), this.options.retry)
+                    .catch( (e) => { } );
+            });
+            
+            flattenO.forEach( (peerId) => {                
+                this._onLeave(peerId);
+            });
+        } else {
+            // #2 just leave
+            this.partialView.clear();
+            this.disconnect();
+        };
+
+        this.NI.options.timeout = saveNITimeout;
+        this.NO.options.timeout = saveNOTimeout;
+    };
+
+    /**
+     * @private A remote peer we target just left the network. We remove it from
+     * our partial view.
+     * @param {string} peerId The identifier of the peer that just left.
+     */
+    _onLeave (peerId) {
+        if (this.partialView.has(peerId)) {
+            debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId);
+            const occ = this.partialView.removeAll(peerId);
+            for (let i = 0; i < occ; ++i ) {
+                this.disconnect(peerId);
+            };
         };
     };
 
@@ -24607,6 +24745,22 @@ class Spray extends N2N {
      ***********************************/
 
     /**
+     * @private Check the partial view, i.e., weither or not connections are
+     * still up and usable.
+     */    
+    _checkPartialView () {
+        let down = [];
+        this.partialView.forEach( (ages, peerId) => {
+            if (!this.o.has(peerId)){
+                down.push(peerId);
+            };
+        });
+        down.forEach( (peerId) => {
+            this._onPeerDown(peerId);
+        });
+    };
+    
+    /**
      * @private Get a sample of the partial view.
      * @param {string} [peerId] The identifier of the oldest neighbor chosen to
      * perform a view exchange.
@@ -24643,6 +24797,7 @@ class Spray extends N2N {
      * view and to mix the neighborhoods.
      */
     _exchange () {
+        this._checkPartialView();
         // #0 if the partial view is empty --- could be due to disconnections,
         // failure, or _onExchange started with other peers --- skip this round.
         if (this.partialView.size <= 0) { return; }
@@ -24667,7 +24822,7 @@ class Spray extends N2N {
                 // #5 remove our own connection
                 sample = sample.map( (peerId) => {
                     return ((peerId===this.getInviewId()) && oldest) || peerId;
-                });                
+                });  
                 sample.forEach( (peerId) => {
                     this.disconnect(peerId);
                     if (peerId === oldest) {
@@ -24693,6 +24848,7 @@ class Spray extends N2N {
      * that started the exchange.
      */
     _onExchange (neighbor, message) {
+        this._checkPartialView();
         // #1 get a sample of neighbors from our partial view
         this.partialView.increment();
         let sample = this._getSample();
@@ -24723,16 +24879,18 @@ class Spray extends N2N {
      * @param {string} peerId The identifier of the peer that seems down.
      */
     _onPeerDown (peerId) {
-        debug('[%s] ==> %s ==> ††† %s †††', this.PID, this.PEER, peerId);
+        debug('[%s] ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId);
         // #1 remove all occurrences of the peer in the partial view
         const occ = this.partialView.removeAll(peerId);
         // #2 probabilistically recreate arcs to a known peer
+        // (TODO) double check this
+        const proba = this.options.a / (this.partialView.size + occ);
+        
         if (this.partialView.size > 0) {
             // #A normal behavior
             for (let i = 0; i < occ; ++i) {
-                if (Math.random() > (1 / (this.partialView.size + occ))) {
-                    // probabilistically duplicates one of the least frequent
-                    // peers
+                if (Math.random() > proba) {
+                    // probabilistically duplicate the least frequent peers
                     this.connect(null, this.partialView.leastFrequent);
                 }
             }
@@ -24760,9 +24918,36 @@ class Spray extends N2N {
             // this.II.connect(null, this.i.
         };
     };
+
+    /**
+     * @private Inject a*log(N) + b arcs leading to peerId. When parameters are
+     * not integers, the floating part is added probabilistically.
+     * @param {number} a  a * log
+     * @param {number} b + b
+     * @param {string} peerId The identifier of the peer to duplicate.
+     */
+    _inject (a, b, peerId) {
+        let copyA = a;
+        for (let i = 0; i < Math.floor(a); ++i) {
+            this.connect(null, peerId);
+            copyA -= 1;
+        };
+        if (Math.random() < copyA) {
+            this.connect(null, peerId);
+        };
+
+        let copyB = b;
+        for (let i = 0; i < Math.floor(b); ++i) {
+            this.connect(null, peerId);
+            copyB -= 1;
+        };
+        if (Math.random() < copyB) {
+            this.connect(null, peerId);
+        };        
+    };
 };
 
 
 module.exports = Spray;
 
-},{"./exceptions/exemptyview.js":1,"./exceptions/exmessage.js":2,"./messages/mexchange.js":4,"./messages/mjoin.js":5,"./partialview.js":6,"debug":10,"lodash":16,"n2n-overlay-wrtc":22}]},{},[]);
+},{"./exceptions/exemptyview.js":1,"./exceptions/exjoin.js":2,"./exceptions/exmessage.js":3,"./messages/mexchange.js":5,"./messages/mjoin.js":6,"./messages/mleave.js":7,"./partialview.js":8,"debug":12,"lodash":18,"n2n-overlay-wrtc":24}]},{},[]);

@@ -6,6 +6,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "spray-wrtc/lib/exceptions/exjoin.js~exjoin",
+    "class/lib/exceptions/exjoin.js~ExJoin.html",
+    "<span>ExJoin</span> <span class=\"search-result-import-path\">spray-wrtc/lib/exceptions/exjoin.js</span>",
+    "class"
+  ],
+  [
     "spray-wrtc/lib/exceptions/exmessage.js~exmessage",
     "class/lib/exceptions/exmessage.js~ExMessage.html",
     "<span>ExMessage</span> <span class=\"search-result-import-path\">spray-wrtc/lib/exceptions/exmessage.js</span>",
@@ -27,6 +33,12 @@ window.esdocSearchIndex = [
     "spray-wrtc/lib/messages/mjoin.js~mjoin",
     "class/lib/messages/mjoin.js~MJoin.html",
     "<span>MJoin</span> <span class=\"search-result-import-path\">spray-wrtc/lib/messages/mjoin.js</span>",
+    "class"
+  ],
+  [
+    "spray-wrtc/lib/messages/mleave.js~mleave",
+    "class/lib/messages/mleave.js~MLeave.html",
+    "<span>MLeave</span> <span class=\"search-result-import-path\">spray-wrtc/lib/messages/mleave.js</span>",
     "class"
   ],
   [
@@ -402,6 +414,30 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "lib/exceptions/exjoin.js",
+    "file/lib/exceptions/exjoin.js.html",
+    "lib/exceptions/exjoin.js",
+    "file"
+  ],
+  [
+    "lib/exceptions/exjoin.js~exjoin#constructor",
+    "class/lib/exceptions/exjoin.js~ExJoin.html#instance-constructor-constructor",
+    "lib/exceptions/exjoin.js~ExJoin#constructor",
+    "method"
+  ],
+  [
+    "lib/exceptions/exjoin.js~exjoin#message",
+    "class/lib/exceptions/exjoin.js~ExJoin.html#instance-member-message",
+    "lib/exceptions/exjoin.js~ExJoin#message",
+    "member"
+  ],
+  [
+    "lib/exceptions/exjoin.js~exjoin#source",
+    "class/lib/exceptions/exjoin.js~ExJoin.html#instance-member-source",
+    "lib/exceptions/exjoin.js~ExJoin#source",
+    "member"
+  ],
+  [
     "lib/exceptions/exmessage.js",
     "file/lib/exceptions/exmessage.js.html",
     "lib/exceptions/exmessage.js",
@@ -498,6 +534,24 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "lib/messages/mleave.js",
+    "file/lib/messages/mleave.js.html",
+    "lib/messages/mleave.js",
+    "file"
+  ],
+  [
+    "lib/messages/mleave.js~mleave#constructor",
+    "class/lib/messages/mleave.js~MLeave.html#instance-constructor-constructor",
+    "lib/messages/mleave.js~MLeave#constructor",
+    "method"
+  ],
+  [
+    "lib/messages/mleave.js~mleave#type",
+    "class/lib/messages/mleave.js~MLeave.html#instance-member-type",
+    "lib/messages/mleave.js~MLeave#type",
+    "member"
+  ],
+  [
     "lib/partialview.js",
     "file/lib/partialview.js.html",
     "lib/partialview.js",
@@ -558,6 +612,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/spray.js~spray#_checkpartialview",
+    "class/lib/spray.js~Spray.html#instance-method-_checkPartialView",
+    "lib/spray.js~Spray#_checkPartialView",
+    "method"
+  ],
+  [
     "lib/spray.js~spray#_close",
     "class/lib/spray.js~Spray.html#instance-method-_close",
     "lib/spray.js~Spray#_close",
@@ -576,6 +636,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "lib/spray.js~spray#_inject",
+    "class/lib/spray.js~Spray.html#instance-method-_inject",
+    "lib/spray.js~Spray#_inject",
+    "method"
+  ],
+  [
     "lib/spray.js~spray#_onarcdown",
     "class/lib/spray.js~Spray.html#instance-method-_onArcDown",
     "lib/spray.js~Spray#_onArcDown",
@@ -591,6 +657,12 @@ window.esdocSearchIndex = [
     "lib/spray.js~spray#_onjoin",
     "class/lib/spray.js~Spray.html#instance-method-_onJoin",
     "lib/spray.js~Spray#_onJoin",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#_onleave",
+    "class/lib/spray.js~Spray.html#instance-method-_onLeave",
+    "lib/spray.js~Spray#_onLeave",
     "method"
   ],
   [
@@ -645,6 +717,12 @@ window.esdocSearchIndex = [
     "lib/spray.js~spray#join",
     "class/lib/spray.js~Spray.html#instance-method-join",
     "lib/spray.js~Spray#join",
+    "method"
+  ],
+  [
+    "lib/spray.js~spray#leave",
+    "class/lib/spray.js~Spray.html#instance-method-leave",
+    "lib/spray.js~Spray#leave",
     "method"
   ],
   [
