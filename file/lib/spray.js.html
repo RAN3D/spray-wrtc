@@ -19,7 +19,7 @@
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
-  <a data-ice="repoURL" href="https://github.com/ran3d/spray-wrtc.git" class="repo-url-github">Repository</a>
+  <a data-ice="repoURL" href="https://github.com/ran3d/spray-wrtc" class="repo-url-github">Repository</a>
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -51,7 +51,7 @@
 
 const debug = require(&apos;debug&apos;)(&apos;spray-wrtc&apos;);
 const N2N = require(&apos;n2n-overlay-wrtc&apos;);
-const _ = require(&apos;lodash&apos;);
+const merge = require(&apos;lodash.merge&apos;);
 
 const PartialView = require(&apos;./partialview.js&apos;);
 
@@ -80,8 +80,8 @@ class Spray extends N2N {
      */
     constructor (options = {}) {
         // #0 initialize our N2N-parent
-        super( _.merge({ pid: &apos;spray-wrtc&apos;,
-                         delta: 1000 * 60 * 2,
+        super( merge({ pid: &apos;spray-wrtc&apos;,
+                       delta: 1000 * 60 * 2,
                          timeout: 1000 * 60 * 1,
                          a: 1,
                          b: 0,
