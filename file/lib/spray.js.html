@@ -3,14 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/spray.js | spray-wrtc API Document</title>
+  <title data-ice="title">lib/spray.js | spray-wrtc</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
-  
-  
   <script src="script/manual.js"></script>
-</head>
+<meta name="description" content="Adaptive random peer-sampling protocol running on top of WebRTC"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="spray-wrtc"><meta property="twitter:description" content="Adaptive random peer-sampling protocol running on top of WebRTC"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -19,7 +17,6 @@
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
-  <a data-ice="repoURL" href="https://github.com/ran3d/spray-wrtc" class="repo-url-github">Repository</a>
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -27,19 +24,18 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-</header>
+<a style="position:relative; top:3px;" href="https://github.com/ran3d/spray-wrtc"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html">PartialView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/spray.js~Spray.html">Spray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-N2N">N2N</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">exceptions</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#exceptions">exceptions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exjoin.js~ExJoin.html">ExJoin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exmessage.js~ExMessage.html">ExMessage</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html">ExPeerNotFound</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">messages</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#messages">messages</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mjoin.js~MJoin.html">MJoin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mleave.js~MLeave.html">MLeave</a></span></span></li>
 </ul>
@@ -49,7 +45,7 @@
 <div class="content" data-ice="content"><h1 data-ice="title">lib/spray.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
 
-const debug = require(&apos;debug&apos;)(&apos;spray-wrtc&apos;);
+const debug = (require(&apos;debug&apos;))(&apos;spray-wrtc&apos;);
 const N2N = require(&apos;n2n-overlay-wrtc&apos;);
 const merge = require(&apos;lodash.merge&apos;);
 
@@ -64,14 +60,14 @@ const ExMessage = require(&apos;./exceptions/exmessage.js&apos;);
 const ExJoin = require(&apos;./exceptions/exjoin.js&apos;);
 
 /**
- * Implementation of the random peer-sampling Spray. 
+ * Implementation of the random peer-sampling Spray.
  */
 class Spray extends N2N {
     /**
      * You can pass other parameters such as webrtc options
      * @param {object} [options = {}] Object with all options
      * @param {string} [options.pid = &apos;spray-wrtc&apos;] The identifier of this
-     * protocol. 
+     * protocol.
      * @param {number} [options.delta] Every delta milliseconds, Spray shuffles
      * its partial view with its oldest neighbor.
      * @param {number} [options.a = 1] The number of arcs at each peer converges
@@ -112,7 +108,7 @@ class Spray extends N2N {
             this._updateState();
         });
     };
-    
+
     /**
      * @private Start periodic shuffling.
      */
@@ -133,8 +129,8 @@ class Spray extends N2N {
      * @private Called each time this protocol receives a message.
      * @param {string} peerId The identifier of the peer that sent the message.
      * @param {object|MExchange|MJoin} message The message received.
-     */ 
-    _receive (peerId, message) {        
+     */
+    _receive (peerId, message) {
         if (message.type &amp;&amp; message.type === &apos;MExchange&apos;) {
             this._onExchange(peerId, message);
         } else if (message.type &amp;&amp; message.type === &apos;MJoin&apos;) {
@@ -164,7 +160,7 @@ class Spray extends N2N {
         debug(&apos;[%s] %s =&#x2020;=&gt; %s&apos;, this.PID, this.PEER, peerId);
     };
 
-    
+
     /**
      * @private Update the connectedness state of the peer.
      */
@@ -183,11 +179,11 @@ class Spray extends N2N {
         };
         (remember !== this.state) &amp;&amp; this.emit(&apos;statechange&apos;, this.state);
     };
-    
+
     /**
      * Joining a network.
      * @param {callback} sender Function that will be called each time an offer
-     * arrives to this peer. It is the responsability of the caller to send 
+     * arrives to this peer. It is the responsability of the caller to send
      * these offer (using sender) to the contact inside the network.
      * @returns {Promise} A promise that is resolved when the peer joins the
      * network -- the resolve contains the peerId; rejected after a timeout, or
@@ -224,7 +220,7 @@ class Spray extends N2N {
     /**
      * @private Behavior of the contact peer when a newcomer arrives.
      * @param {string} peerId The identifier of the newcomer.
-     */ 
+     */
     _onJoin (peerId) {
         if (this.partialView.size &gt; 0){
             // #1 all neighbors -&gt; peerId
@@ -256,7 +252,7 @@ class Spray extends N2N {
         const saveNOTimeout = this.NO.options.timeout;
         this.NI.options.timeout = time;
         this.NO.options.timeout = time;
-        
+
         // #0 stop shufflings
         this._stop();
         if (time &gt; 0) {
@@ -289,8 +285,8 @@ class Spray extends N2N {
                 this.send(peerId, new MLeave(), this.options.retry)
                     .catch( (e) =&gt; { } );
             });
-            
-            flattenO.forEach( (peerId) =&gt; {                
+
+            flattenO.forEach( (peerId) =&gt; {
                 this._onLeave(peerId);
             });
         } else {
@@ -328,7 +324,7 @@ class Spray extends N2N {
      * @return {string[]} Array of identifiers.
      */
     getPeers (k) {
-        let peers = []; 
+        let peers = [];
         if (typeof k === &apos;undefined&apos;) {
             // #1 get all the partial view
             this.partialView.forEach( (occ, peerId) =&gt; {
@@ -353,7 +349,7 @@ class Spray extends N2N {
             };
         };
         debug(&apos;[%s] %s provides %s peers&apos;, this.PID, this.PEER, peers.length);
-        return peers;       
+        return peers;
     };
 
     /* *********************************
@@ -363,7 +359,7 @@ class Spray extends N2N {
     /**
      * @private Check the partial view, i.e., weither or not connections are
      * still up and usable.
-     */    
+     */
     _checkPartialView () {
         let down = [];
         this.partialView.forEach( (ages, peerId) =&gt; {
@@ -375,7 +371,7 @@ class Spray extends N2N {
             this._onPeerDown(peerId);
         });
     };
-    
+
     /**
      * @private Get a sample of the partial view.
      * @param {string} [peerId] The identifier of the oldest neighbor chosen to
@@ -438,7 +434,7 @@ class Spray extends N2N {
                 // #5 remove our own connection
                 sample = sample.map( (peerId) =&gt; {
                     return ((peerId===this.getInviewId()) &amp;&amp; oldest) || peerId;
-                });  
+                });
                 sample.forEach( (peerId) =&gt; {
                     this.disconnect(peerId);
                     if (peerId === oldest) {
@@ -450,7 +446,7 @@ class Spray extends N2N {
             }).catch( (e) =&gt; {
                 // #B the peer cannot be reached, he is supposedly dead
                 debug(&apos;[%s] %s =X&gt; exchange =X&gt; %s&apos;,
-                      this.PID, this.PEER, oldest);                
+                      this.PID, this.PEER, oldest);
                 this._onPeerDown(oldest);
             });
     };
@@ -501,7 +497,7 @@ class Spray extends N2N {
         // #2 probabilistically recreate arcs to a known peer
         // (TODO) double check this
         const proba = this.options.a / (this.partialView.size + occ);
-        
+
         if (this.partialView.size &gt; 0) {
             // #A normal behavior
             for (let i = 0; i &lt; occ; ++i) {
@@ -518,7 +514,7 @@ class Spray extends N2N {
     /**
      * @private A connection failed to establish properly, systematically
      * duplicates an element of the partial view.
-     * @param {string|null} peerId The identifier of the peer we failed to 
+     * @param {string|null} peerId The identifier of the peer we failed to
      * establish a connection with. Null if it was yet to be known.
      */
     _onArcDown (peerId) {
@@ -530,7 +526,7 @@ class Spray extends N2N {
             // #2 last chance behavior
             // (TODO) ask inview
             // const rn = Math.floor(Math.random() * this.i.size);
-            // let it = this.i.keys();                        
+            // let it = this.i.keys();
             // this.II.connect(null, this.i.
         };
     };
@@ -559,7 +555,7 @@ class Spray extends N2N {
         };
         if (Math.random() &lt; copyB) {
             this.connect(null, peerId);
-        };        
+        };
     };
 };
 
@@ -570,7 +566,7 @@ module.exports = Spray;
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

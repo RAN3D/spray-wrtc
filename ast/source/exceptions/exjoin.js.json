@@ -90,6 +90,7 @@
                   "column": 5
                 }
               },
+              "static": false,
               "computed": false,
               "key": {
                 "type": "Identifier",
@@ -109,7 +110,6 @@
                 "name": "constructor",
                 "leadingComments": null
               },
-              "static": false,
               "kind": "constructor",
               "id": null,
               "generator": false,
@@ -512,6 +512,7 @@
                     "column": 5
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -531,7 +532,6 @@
                   "name": "constructor",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "constructor",
                 "id": null,
                 "generator": false,

@@ -3,14 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl">
-  <title data-ice="title">spray-wrtc API Document</title>
+  <title data-ice="title">Home | spray-wrtc</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
-  
-  
   <script src="script/manual.js"></script>
-</head>
+<meta name="description" content="Adaptive random peer-sampling protocol running on top of WebRTC"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="spray-wrtc"><meta property="twitter:description" content="Adaptive random peer-sampling protocol running on top of WebRTC"></head>
 <body class="layout-container" data-ice="rootContainer">
 
 <header>
@@ -19,7 +17,6 @@
   <a href="identifiers.html">Reference</a>
   <a href="source.html">Source</a>
   
-  <a data-ice="repoURL" href="https://github.com/ran3d/spray-wrtc" class="repo-url-github">Repository</a>
   <div class="search-box">
   <span>
     <img src="./image/search.png">
@@ -27,27 +24,25 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-</header>
+<a style="position:relative; top:3px;" href="https://github.com/ran3d/spray-wrtc"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/partialview.js~PartialView.html">PartialView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/spray.js~Spray.html">Spray</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-N2N">N2N</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">exceptions</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#exceptions">exceptions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exemptyview.js~ExEmptyView.html">ExEmptyView</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exjoin.js~ExJoin.html">ExJoin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/exmessage.js~ExMessage.html">ExMessage</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/exceptions/expeernotfound.js~ExPeerNotFound.html">ExPeerNotFound</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">messages</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#messages">messages</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mexchange.js~MExchange.html">MExchange</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mjoin.js~MJoin.html">MJoin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/lib/messages/mleave.js~MLeave.html">MLeave</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="spray-wrtc-build-status-https-travis-ci-org-ran3d-spray-wrtc-svg-branch-master-https-travis-ci-org-ran3d-spray-wrtc-">spray-wrtc <a href="https://travis-ci.org/RAN3D/spray-wrtc"><img src="https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master" alt="Build Status"></a></h1>
-<p>&lt;i&gt;Keywords: Random peer-sampling, adaptive, browser-to-browser communication,
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="spray-wrtc--a-href--https---travis-ci-org-ran3d-spray-wrtc---img-src--https---travis-ci-org-ran3d-spray-wrtc-svg-branch-master--alt--build-status----a-">spray-wrtc <a href="https://travis-ci.org/RAN3D/spray-wrtc"><img src="https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master" alt="Build Status"></a></h1><p>&lt;i&gt;Keywords: Random peer-sampling, adaptive, browser-to-browser communication,
 WebRTC&lt;/i&gt;</p>
 <p>This project aims to provide a <a href="http://www.webrtc.org">WebRTC</a> implementation of
 Spray.</p>
@@ -55,8 +50,7 @@ Spray.</p>
 Scamp [4]. It adapts the partial view of each member to the network size using
 local knowledge only. Therefore, without any configuration, each peer
 automatically adjust its functioning to the need of the network.</p>
-<h2 id="principle">Principle</h2>
-<p></p><p>
+<h2 id="principle">Principle</h2><p></p><p>
     <img src="./img/joining.gif">
 </p>
 
@@ -80,17 +74,12 @@ provide half of their partial view comprising neighbors chosen at random. Both
 peers disconnect from the neighbors they provided and connect to the neighbors
 they obtained. Periodic shufflings balance the outgoing arcs among the
 peers. The resulting network has a low clustering coefficient.</p>
-<h2 id="installation">Installation</h2>
-<p><code>$ npm install spray-wrtc</code></p>
-<h2 id="api">API</h2>
-<p>You can find the API <a href="https://ran3d.github.io/spray-wrtc/">here</a>.</p>
-<h2 id="example">Example</h2>
-<p>A usage example of this module is available <a href="https://ran3d.github.io/spray-wrtc/example/browser.html">here</a>.</p>
-<h2 id="miscellaneous">Miscellaneous</h2>
-<p>Peersim [5] simulations of Spray are available at
+<h2 id="installation">Installation</h2><p><code>$ npm install spray-wrtc</code></p>
+<h2 id="api">API</h2><p>You can find the API <a href="https://ran3d.github.io/spray-wrtc/">here</a>.</p>
+<h2 id="example">Example</h2><p>A usage example of this module is available <a href="https://ran3d.github.io/spray-wrtc/example/browser.html">here</a>.</p>
+<h2 id="miscellaneous">Miscellaneous</h2><p>Peersim [5] simulations of Spray are available at
 <a href="https://github.com/justayak/peersim-spray">peersim-spray</a>.</p>
-<h2 id="references">References</h2>
-<p>[1] B. N&#xE9;delec, J. Tanke, D. Frey, P. Molli, and A. Most&#xE9;faoui. Spray: an
+<h2 id="references">References</h2><p>[1] B. N&#xE9;delec, J. Tanke, D. Frey, P. Molli, and A. Most&#xE9;faoui. Spray: an
 Adaptive Random Peer Sampling Protocol. &lt;i&gt;Technical Report, LINA-University of
 Nantes; INRIA Rennes - Bretagne Atlantique, Sept 2015.&lt;/i&gt;</p>
 <p>[2] M. Jelasity, S. Voulgaris, R. Guerraoui, A.-M. Kermarrec, and M. Van
@@ -109,7 +98,7 @@ Sept. 2009.</p>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
