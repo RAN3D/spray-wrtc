@@ -17,7 +17,7 @@
     "dependencies": {
         "debug": "^3.1.0",
         "lodash": "^4.17.5",
-        "n2n-overlay-wrtc": "^2.0.4"
+        "n2n-overlay-wrtc": "^2.0.x"
     },
     "bundledDependencies": [
         "lodash",
