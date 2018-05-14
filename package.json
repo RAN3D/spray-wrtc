@@ -1,6 +1,6 @@
 {
     "name": "spray-wrtc",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
     "description": "Adaptive random peer-sampling protocol running on top of WebRTC",
     "main": "./lib/spray.js",
@@ -17,7 +17,8 @@
     "dependencies": {
         "debug": "^3.1.0",
         "lodash": "^4.17.5",
-        "n2n-overlay-wrtc": "^2.0.6"
+        "n2n-overlay-wrtc": "^2.0.6",
+        "npm": "^6.0.1"
     },
     "bundledDependencies": [
         "lodash",

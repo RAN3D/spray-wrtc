@@ -265,65 +265,97 @@ for (var i = 0, len = code.length; i < len; ++i) {
 revLookup['-'.charCodeAt(0)] = 62
 revLookup['_'.charCodeAt(0)] = 63
 
-function placeHoldersCount (b64) {
+function getLens (b64) {
   var len = b64.length
+
   if (len % 4 > 0) {
     throw new Error('Invalid string. Length must be a multiple of 4')
   }
 
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+  // Trim off extra bytes after placeholder bytes are found
+  // See: https://github.com/beatgammit/base64-js/issues/42
+  var validLen = b64.indexOf('=')
+  if (validLen === -1) validLen = len
+
+  var placeHoldersLen = validLen === len
+    ? 0
+    : 4 - (validLen % 4)
+
+  return [validLen, placeHoldersLen]
 }
 
+// base64 is 4/3 + up to two characters of the original data
 function byteLength (b64) {
-  // base64 is 4/3 + up to two characters of the original data
-  return (b64.length * 3 / 4) - placeHoldersCount(b64)
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function _byteLength (b64, validLen, placeHoldersLen) {
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
 }
 
 function toByteArray (b64) {
-  var i, l, tmp, placeHolders, arr
-  var len = b64.length
-  placeHolders = placeHoldersCount(b64)
+  var tmp
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
 
-  arr = new Arr((len * 3 / 4) - placeHolders)
+  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
+
+  var curByte = 0
 
   // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
+  var len = placeHoldersLen > 0
+    ? validLen - 4
+    : validLen
 
-  var L = 0
-
-  for (i = 0; i < l; i += 4) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
+  for (var i = 0; i < len; i += 4) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 18) |
+      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+      revLookup[b64.charCodeAt(i + 3)]
+    arr[curByte++] = (tmp >> 16) & 0xFF
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
   }
 
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
+  if (placeHoldersLen === 2) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 2) |
+      (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 1) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 10) |
+      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+      (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
   }
 
   return arr
 }
 
 function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+  return lookup[num >> 18 & 0x3F] +
+    lookup[num >> 12 & 0x3F] +
+    lookup[num >> 6 & 0x3F] +
+    lookup[num & 0x3F]
 }
 
 function encodeChunk (uint8, start, end) {
   var tmp
   var output = []
   for (var i = start; i < end; i += 3) {
-    tmp = ((uint8[i] << 16) & 0xFF0000) + ((uint8[i + 1] << 8) & 0xFF00) + (uint8[i + 2] & 0xFF)
+    tmp =
+      ((uint8[i] << 16) & 0xFF0000) +
+      ((uint8[i + 1] << 8) & 0xFF00) +
+      (uint8[i + 2] & 0xFF)
     output.push(tripletToBase64(tmp))
   }
   return output.join('')
@@ -333,30 +365,33 @@ function fromByteArray (uint8) {
   var tmp
   var len = uint8.length
   var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
   var parts = []
   var maxChunkLength = 16383 // must be multiple of 3
 
   // go through the array every three bytes, we'll deal with trailing stuff later
   for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+    parts.push(encodeChunk(
+      uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)
+    ))
   }
 
   // pad the end with zeros, but make sure to not forget the extra bytes
   if (extraBytes === 1) {
     tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
+    parts.push(
+      lookup[tmp >> 2] +
+      lookup[(tmp << 4) & 0x3F] +
+      '=='
+    )
   } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
+    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 10] +
+      lookup[(tmp >> 4) & 0x3F] +
+      lookup[(tmp << 2) & 0x3F] +
+      '='
+    )
   }
-
-  parts.push(output)
 
   return parts.join('')
 }
@@ -2411,7 +2446,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":14,"_process":42}],14:[function(require,module,exports){
+},{"./debug":14,"_process":41}],14:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -5872,23 +5907,23 @@ class N2N extends EventEmitter {
 
 module.exports = N2N;
 
-},{"./messages/mconnectto.js":23,"./messages/mdirect.js":24,"./messages/mforwarded.js":25,"./messages/mforwardto.js":26,"debug":13,"events":15,"lodash.merge":21,"neighborhood-wrtc":40,"uuid/v4":59}],28:[function(require,module,exports){
-'use strict';
+},{"./messages/mconnectto.js":23,"./messages/mdirect.js":24,"./messages/mforwarded.js":25,"./messages/mforwardto.js":26,"debug":13,"events":15,"lodash.merge":21,"neighborhood-wrtc":39,"uuid/v4":58}],28:[function(require,module,exports){
+'use strict'
 
-const ELiving = require('./entries/eliving.js');
+const ELiving = require('./entries/eliving.js')
 
-const ExSocketNotFound = require('./exceptions/exsocketnotfound.js');
+const ExSocketNotFound = require('./exceptions/exsocketnotfound.js')
 
 /**
  * Table that contains all living sockets that might be in use. Peers can
  * comprise multiples protocols that may use multiple times an arc.
  */
 class ArcStore {
-    constructor () {
-        this.store = new Map();
-    };
+  constructor () {
+    this.store = new Map()
+  };
 
-    /**
+  /**
      * ProtocolId adds another arc leading to peerId in the store
      * @param {string} peerId The identifier of the peer reachable through the
      * socket.
@@ -5897,27 +5932,27 @@ class ArcStore {
      * @param {object} socket The WebRTC socket. Can be null if the socket to
      * peerId is known to be in the store.
      */
-    insert (peerId, protocolId, socket) {
-        // #1 make sure the peerId exists if the socket is not set.
-        if (socket === null && !this.store.has(peerId)){
-            throw new ExSocketNotFound(
-                'arcStore',
-                peerId,
-                protocolId,
-                'Try to add an arc to a peer that does not exists');
-        };
-
-        // #2 the peerId is not known yet, create the entry
-        if (!this.store.has(peerId)){
-            let entry = new ELiving(peerId, protocolId, socket);
-            this.store.set(peerId, entry);
-        } else {
-            // #3 increment the number of arcs of protocolId
-            this.store.get(peerId).increment(protocolId);
-        }
+  insert (peerId, protocolId, socket) {
+    // #1 make sure the peerId exists if the socket is not set.
+    if (socket === null && !this.store.has(peerId)) {
+      throw new ExSocketNotFound(
+        'arcStore',
+        peerId,
+        protocolId,
+        'Try to add an arc to a peer that does not exists')
     };
 
-    /**
+    // #2 the peerId is not known yet, create the entry
+    if (!this.store.has(peerId)) {
+      let entry = new ELiving(peerId, protocolId, socket)
+      this.store.set(peerId, entry)
+    } else {
+      // #3 increment the number of arcs of protocolId
+      this.store.get(peerId).increment(protocolId)
+    }
+  };
+
+  /**
      * ProtocolId removes an arc to the peerId.
      * @param {string} peerId The identifier of the peer accessible through the
      * arc to delete.
@@ -5926,321 +5961,302 @@ class ArcStore {
      * @returns {ELiving} The entry if no protocol is using the socket, null
      * otherwise.
      */
-    remove (peerId, protocolId) {
-        let unusedSocket = null;
-        // #1 check if a socket to the arc exists
-        if (!this.store.has(peerId)){
-            throw new ExSocketNotFound(
-                'arcStore',
-                peerId,
-                protocolId,
-                'Try to remove an arc to a peer that does not exists');
-        };
-        // #2 check if the protocol has such arc
-        if (!this.store.get(peerId).decrement(protocolId)){
-            throw new ExSocketNotFound(
-                'arcStore',
-                peerId,
-                protocolId,
-                'Try to remove an arc from a protocol that does not have this arc');
-        };
-        // #3 remove the entry if no protocol use it
-        if (this.store.get(peerId).sum() <= 0){
-            unusedSocket = this.store.get(peerId);
-            this.store.delete(peerId);            
-        };
-        return unusedSocket;
+  remove (peerId, protocolId) {
+    let unusedSocket = null
+    // #1 check if a socket to the arc exists
+    if (!this.store.has(peerId)) {
+      throw new ExSocketNotFound(
+        'arcStore',
+        peerId,
+        protocolId,
+        'Try to remove an arc to a peer that does not exists')
     };
+    // #2 check if the protocol has such arc
+    if (!this.store.get(peerId).decrement(protocolId)) {
+      throw new ExSocketNotFound(
+        'arcStore',
+        peerId,
+        protocolId,
+        'Try to remove an arc from a protocol that does not have this arc')
+    };
+    // #3 remove the entry if no protocol use it
+    if (this.store.get(peerId).sum() <= 0) {
+      unusedSocket = this.store.get(peerId)
+      this.store.delete(peerId)
+    };
+    return unusedSocket
+  };
 
-    /**
+  /**
      * ProtocolId removes all its arcs.
      * @param {string} protocolId The identifier of the protocol that wishes to
      * remove all its arcs.
      * @returns {object[]} Objects comprising {peer, socket, occ}; peer being
-     * the identifier of the peer reachable through the socket, socket being a 
+     * the identifier of the peer reachable through the socket, socket being a
      * WebRTC connection that is not used by any protocols, null if protocols
      * still use it, occ being the number of arcs removed by protocolId.
      */
-    removeAll (protocolId) {
-        let result = [];
-        this.store.forEach( (v, k) => {
-            if (v.protocols.has(protocolId)){
-                let occ = v.protocols.get(protocolId);
-                let entry = {peer: v.peer, socket: null, occ: occ };
-                for (let i=0; i<occ; ++i){
-                    let unusedSocket = this.remove(k, protocolId);
-                    if (unusedSocket !== null){
-                        entry.socket = unusedSocket.socket;
-                        result.push(entry);
-                    };
-                };
-            };
-        });
-        return result;
-    };
+  removeAll (protocolId) {
+    let result = []
+    this.store.forEach((v, k) => {
+      if (v.protocols.has(protocolId)) {
+        let occ = v.protocols.get(protocolId)
+        let entry = {
+          peer: v.peer,
+          socket: null,
+          occ: occ
+        }
+        for (let i = 0; i < occ; ++i) {
+          let unusedSocket = this.remove(k, protocolId)
+          if (unusedSocket !== null) {
+            entry.socket = unusedSocket.socket
+            result.push(entry)
+          };
+        };
+      };
+    })
+    return result
+  };
 
-    /**
+  /**
      * Remove all arcs leading to peerId.
      * @param {string} peerId The identifier of the peer reachable by a WebRTC
      * connection to remove.
      * @returns {Map} Map where key is the identifier of the protocol that sees
      * its arcs being removed, and value is the number of arcs removed;
      */
-    removePeer (peerId){
-        let result;
-        if (this.store.has(peerId)){
-            result = this.store.get(peerId).protocols;
-            this.store.delete(peerId);
-        } else {
-            result = new Map();
-        }
-        return result;
-    };
+  removePeer (peerId) {
+    let result
+    if (this.store.has(peerId)) {
+      result = this.store.get(peerId).protocols
+      this.store.delete(peerId)
+    } else {
+      result = new Map()
+    }
+    return result
+  };
 
-    /**
+  /**
      * Check if the store has at least one occurrence of the peer.
      * @param {string} peerId The identifier of the peer to check.
      * @returns {boolean} true if it exists, false otherwise.
      */
-    contains (peerId) {
-        return this.store.has(peerId);
-    };
+  contains (peerId) {
+    return this.store.has(peerId)
+  };
 
-    /**
+  /**
      * Get the entry of the arc leading to PeerId
      * @param {string} peerId The identifier of the remote peer
      * @returns {ELiving} The entry containing peerId, null if it does not
      * exists.
      */
-    get (peerId) {
-        let entry = null;
-        if (this.contains(peerId)){
-            entry = this.store.get(peerId);
-        };
-        return entry;
+  get (peerId) {
+    let entry = null
+    if (this.contains(peerId)) {
+      entry = this.store.get(peerId)
     };
-    
+    return entry
+  };
 };
 
-module.exports = ArcStore;
+module.exports = ArcStore
 
-},{"./entries/eliving.js":30,"./exceptions/exsocketnotfound.js":35}],29:[function(require,module,exports){
-'use strict';
+},{"./entries/eliving.js":30,"./exceptions/exsocketnotfound.js":34}],29:[function(require,module,exports){
+'use strict'
 
 /**
  * Entry of the dying table containing sockets being removed.
  */
 class EDying {
-    /**
+  /**
      * @param {string} peerId The identifier of the peer reachable through the
      * socket.
      * @param {object} socket The WebRTC socket.
-     * @param {number} timeout Time before the connexion is completely removed 
+     * @param {number} timeout Time before the connexion is completely removed
      * and destroyed.
      */
-    constructor (peerId, socket, timeout){
-        this.peer = peerId; // key
-        this.socket = socket;
-        this.timeout = timeout;
-    };
+  constructor (peerId, socket, timeout) {
+    this.peer = peerId // key
+    this.socket = socket
+    this.timeout = timeout
+  };
 };
 
-module.exports = EDying;
+module.exports = EDying
 
 },{}],30:[function(require,module,exports){
-'use strict';
+'use strict'
 
 /**
  * Entry of the living table containing sockets still in use.
  */
 class ELiving {
-    /**
-     * @param {string} peerId The identifier of the peer reachable through the 
+  /**
+     * @param {string} peerId The identifier of the peer reachable through the
      * socket.
      * @param {string} protocolId The identifier of the protocol that creates an
      * arc to this peer using this socket. Protocols can have multiple arcs
      * leading to a same peer. Multiple protocols can share a same socket.
      * @param {object} socket The WebRTC socket.
      */
-    constructor (peerId, protocolId, socket) {
-        this.peer = peerId; // key
-        this.socket = socket;
+  constructor (peerId, protocolId, socket) {
+    this.peer = peerId // key
+    this.socket = socket
 
-        this.protocols = new Map();
-        this.increment(protocolId);
-    };
+    this.protocols = new Map()
+    this.increment(protocolId)
+  };
 
-    /**
+  /**
      * Add an occurrence of the arc to the protocol
      * @param {string} protocolId The identifier of the protocol.
      */
-    increment (protocolId) {
-        if (!this.protocols.has(protocolId)){
-            this.protocols.set(protocolId, 0);
-        };
-        this.protocols.set(protocolId, this.protocols.get(protocolId) + 1);
+  increment (protocolId) {
+    if (!this.protocols.has(protocolId)) {
+      this.protocols.set(protocolId, 0)
     };
+    this.protocols.set(protocolId, this.protocols.get(protocolId) + 1)
+  };
 
-    /**
+  /**
      * Remove an occurrence of the arc to the protocol
      * @param {string} protocolId The identifier of the protocol.
      * @returns {boolean} True if an arc has been remove, false if the protocol
      * do not have such arc.
      */
-    decrement (protocolId) {
-        let found = false;
-        if (this.protocols.has(protocolId)){
-            this.protocols.set(protocolId, this.protocols.get(protocolId) - 1);
-            if (this.protocols.get(protocolId) <= 0){
-                this.protocols.delete(protocolId);
-            };
-            found = true;
-        };
-        return found;        
+  decrement (protocolId) {
+    let found = false
+    if (this.protocols.has(protocolId)) {
+      this.protocols.set(protocolId, this.protocols.get(protocolId) - 1)
+      if (this.protocols.get(protocolId) <= 0) {
+        this.protocols.delete(protocolId)
+      };
+      found = true
     };
+    return found
+  };
 
-    /**
+  /**
      * Count the number of arcs leading to this peer
      * @returns {integer} The sum of occurrences of protocols using this
      * socket.
      */
-    sum () {
-        let result = 0;
-        this.protocols.forEach( (v, k) => {
-            result += v;
-        });
-        return result;
-    };
+  sum () {
+    let result = 0
+    this.protocols.forEach((v, k) => {
+      result += v
+    })
+    return result
+  };
 };
 
-module.exports = ELiving;
+module.exports = ELiving
 
 },{}],31:[function(require,module,exports){
-'use strict';
+'use strict'
 
 /**
  * Entry of the pending table containing sockets being created.
  */
 class EPending {
-    /**
+  /**
      * @param {string} temporaryId A temporary id used to retrieve the entry.
      * @param {string} peerId The identifier of the peer reachable through the
      * socket. Null if the peerId is yet to be known.
      * @param {string} protocolId The identifier of the protocol that wishes to
      * establish the connexion.
-     * @param {object} socket The WebRTC socket. 
+     * @param {object} socket The WebRTC socket.
      * @param {number} timeout Maximum time for a connexion to establish.
      */
-    constructor (temporaryId, peerId, protocolId, socket, timeout) {    
-        this.tid = temporaryId; // key
-        this.peer = peerId;
-        this.pid = protocolId;
-        this.socket = socket;
-        this.successful = false;
-        this.alreadyExists = false;
-        this.timeout = timeout;
-    };
+  constructor (temporaryId, peerId, protocolId, socket, timeout) {
+    this.tid = temporaryId // key
+    this.peer = peerId
+    this.pid = protocolId
+    this.socket = socket
+    this.successful = false
+    this.alreadyExists = false
+    this.timeout = timeout
+  };
 };
 
-module.exports = EPending;
+module.exports = EPending
 
 },{}],32:[function(require,module,exports){
-'use strict';
+'use strict'
 
 /**
  * Exception thrown when the message does not have the required data.
  */
 class ExIncompleteMessage {
-    /**
+  /**
      * @param {string} source The name of the function that threw the exception.
      * @param {EPending|ELiving|EDying} entry The entry that requested more
      * information.
      * @param {MResponse} message The message lacking data.
      */
-    constructor(source, entry, message) {
-        this.source = source;
-        this.entry = entry;
-        this.message = message;
-    }
+  constructor (source, entry, message) {
+    this.source = source
+    this.entry = entry
+    this.message = message
+  }
 };
 
-
-module.exports = ExIncompleteMessage;
+module.exports = ExIncompleteMessage
 
 },{}],33:[function(require,module,exports){
-'use strict';
-
-/**
- * Exception that fires when a message arrives too late and the entry in the
- * table has already been purged.
- */
-class ExLateMessage {
-    /**
-     * @param {string} source The function name that throw the exception.
-     * @param {object} message The late message
-     */
-    constructor (source, msg) {
-        this.source = source;
-        this.msg = msg;
-        this.message = 'The message arrives too late';
-    };
-};
-
-module.exports = ExLateMessage;
-
-},{}],34:[function(require,module,exports){
-'use strict';
+'use strict'
 
 /**
  * Exception that rise when a protocol registers and its identifier already
  * exists in registered protocols of neighborhood-wrtc.
  */
 class ExProtocolExists {
-    /**
+  /**
      * @param {string} protocolId The identifier of the protocol that already
      * exists
      */
-    constructor (protocolId) {
-        this.pid = protocolId;
-        this.message = 'The idenfifier of the registering protocol already exists.';
-    };
+  constructor (protocolId) {
+    this.pid = protocolId
+    this.message = 'The idenfifier of the registering protocol already exists.'
+  };
 };
 
-module.exports = ExProtocolExists;
+module.exports = ExProtocolExists
 
-},{}],35:[function(require,module,exports){
-'use strict';
+},{}],34:[function(require,module,exports){
+'use strict'
 
 /**
  * Exception that fires when trying to access or use a socket that does not
  * exist.
  */
 class ExSocketNotFound {
-    /**
+  /**
      * @param {string} source The source of the exception.
      * @param {string} peerId The identifier of the peer that has been tried.
      * @param {string} protocolId The identifier of the protocol that failed.
      * @param {string} message A error message.
      */
-    constructor (source, peerId, protocolId, message) {
-        this.source = source;
-        this.peer = peerId;
-        this.protocolId = protocolId;
-        this.message = message;
-    };
+  constructor (source, peerId, protocolId, message) {
+    this.source = source
+    this.peer = peerId
+    this.protocolId = protocolId
+    this.message = message
+  };
 };
 
-module.exports = ExSocketNotFound;
+module.exports = ExSocketNotFound
 
-},{}],36:[function(require,module,exports){
-'use strict';
+},{}],35:[function(require,module,exports){
+'use strict'
 
 /**
  * Interface of functions that are available to a protocol that registered
  * to this module.
  */
 class INeighborhood {
-    /**
+  /**
      * @param {string} peerId The identifier of the peer that created this
      * interface.
      * @param {function} connect The connection function provided by this
@@ -6249,36 +6265,36 @@ class INeighborhood {
      * module.
      * @param {function} send The send function provided by this module.
      */
-    constructor (peerId, connect, disconnect, send) {
-        this.peer = peerId;
-        this.connect = connect;
-        this.disconnect = disconnect;
-        this.send = send;        
-    };
+  constructor (peerId, connect, disconnect, send) {
+    this.peer = peerId
+    this.connect = connect
+    this.disconnect = disconnect
+    this.send = send
+  };
 
-    /**
+  /**
      * Create a WebRTC connexion.
      * @param {function|object} arg1 Either a callback function to send the
      * message to the remote peer (for instance, it can use a signaling server
      * or the already created WebRTC connexions), or a message received from the
      * remote peer.
-     * @param {object} arg2 The message received from a peer that initialized a 
+     * @param {object} arg2 The message received from a peer that initialized a
      * WebRTC connexion.
      */
-    connect (arg1, arg2) {
-        this.connect(arg1, arg2);
-    };
-        
-    /**
+  connect (arg1, arg2) {
+    this.connect(arg1, arg2)
+  };
+
+  /**
      * Remove an arc that led to peerId.
      * @param {string} peerId The identifier of the remote peer.
      * @returns {promise} Resolved when the arc is removed.
      */
-    disconnect (peerId) {
-        return this.disconnect(peerId);
-    };
+  disconnect (peerId) {
+    return this.disconnect(peerId)
+  };
 
-    /**
+  /**
      * Send message to peerId.
      * @param {string} peerId The identifier of the remote peer.
      * @param {string} message The message to send.
@@ -6287,128 +6303,131 @@ class INeighborhood {
      * @returns {promise} Resolved when the message is sent, reject
      * otherwise. Note that loss of messages is not handled by default.
      */
-    send (peerId, message, retry){
-        return this.send(peerId, message);
-    };
+  send (peerId, message, retry) {
+    return this.send(peerId, message)
+  };
 };
 
-module.exports = INeighborhood;
+module.exports = INeighborhood
 
-},{}],37:[function(require,module,exports){
-'use strict';
+},{}],36:[function(require,module,exports){
+'use strict'
 
 /**
  * The message containing the request to create a WebRTC connexion
  */
 class MRequest {
-    /**
+  /**
      * @param {string} temporaryId A temporary identifier during the socket
      * creation. The key will be changed to peerId when the connexion is
      * established successfully.
      * @param {string} peerId The identifier of the peer that will be reachable
      * through the socket being created. Null if it is yet to be known.
-     * @param {string} protocolId The identifier of the protocol to route 
+     * @param {string} protocolId The identifier of the protocol to route
      * messages.
      * @param {object} offer The WebRTC offer containing ways to establish a
      * direct peer-to-peer connexions. See WebRTC for more information.
      */
-    constructor (temporaryId, peerId, protocolId, offer) {
-        this.tid = temporaryId;
-        this.peer = peerId;
-        this.pid = protocolId;
-        this.offer = offer;
-        this.type = 'MRequest';
-    };
-};
+  constructor (temporaryId, peerId, protocolId, offer, offerType = 'init') {
+    this.tid = temporaryId
+    this.peer = peerId
+    this.pid = protocolId
+    this.offer = offer
+    this.type = 'MRequest'
+    this.offerType = offerType
+  }
+}
 
-module.exports = MRequest;
+module.exports = MRequest
 
-},{}],38:[function(require,module,exports){
-'use strict';
+},{}],37:[function(require,module,exports){
+'use strict'
 
 /**
  * The message containing the response to create a WebRTC connexion
  */
 class MResponse {
-    /**
+  /**
      * @param {string} temporaryId A temporary identifier during the socket
      * creation. The key will be changed to peerId when the connexion is established
      * successfully.
      * @param {string} peerId The identifier of the peer that will be reachable
      * through the socket being created. Null if it is yet to be known.
      * @param {string} protocolId The identifier of the protocol to route messages.
-     * @param {object} offer The WebRTC offer containing ways to establish a direct 
+     * @param {object} offer The WebRTC offer containing ways to establish a direct
      * peer-to-peer connexions. See WebRTC for more information.
      */
-    constructor (temporaryId, peerId, protocolId, offer) {
-        this.tid = temporaryId;
-        this.peer = peerId;
-        this.pid = protocolId;
-        this.offer = offer;
-        this.type = 'MResponse';
-    };
+  constructor (temporaryId, peerId, protocolId, offer, offerType = 'init') {
+    this.tid = temporaryId
+    this.peer = peerId
+    this.pid = protocolId
+    this.offer = offer
+    this.type = 'MResponse'
+    this.offerType = offerType
+  };
 };
 
-module.exports = MResponse;
+module.exports = MResponse
 
-},{}],39:[function(require,module,exports){
-'use strict';
+},{}],38:[function(require,module,exports){
+'use strict'
 
 /**
  * Message sent when protocolId wishes to send payload. It is a basic
  * encapsualtion of protocolId.
  */
 class MSend {
-    /**
+  /**
      * @param {string} peerId The identifier of the peer that sent the message
      * @param {string} protocolId The identifier of the protocol that sent the
      * message
      * @param {object} payload The payload of the message.
      */
-    constructor (peerId, protocolId, payload){
-        this.peer = peerId;
-        this.pid = protocolId;
-        this.payload = payload;
-        this.type = 'MSend';
-    };
+  constructor (peerId, protocolId, payload) {
+    this.peer = peerId
+    this.pid = protocolId
+    this.payload = payload
+    this.type = 'MSend'
+  };
 };
 
-module.exports = MSend;
+module.exports = MSend
 
-},{}],40:[function(require,module,exports){
-'use strict';
+},{}],39:[function(require,module,exports){
+'use strict'
 
-const debug = (require('debug'))('neighborhood-wrtc');
+const debug = (require('debug'))('neighborhood-wrtc')
 
-const merge = require('lodash.merge');
-const uuid = require('uuid/v4');
-const Socket = require('simple-peer');
+const merge = require('lodash.merge')
+const uuid = require('uuid/v4')
+const Socket = require('simple-peer')
 
-const ArcStore = require('./arcstore.js');
-const EPending = require('./entries/epending.js');
-const EDying = require('./entries/edying.js');
+const ArcStore = require('./arcstore.js')
+const EPending = require('./entries/epending.js')
+const EDying = require('./entries/edying.js')
 
-const INeighborhood = require('./interfaces/ineighborhood.js');
+const INeighborhood = require('./interfaces/ineighborhood.js')
 
-const MResponse = require('./messages/mresponse.js');
-const MRequest = require('./messages/mrequest.js');
-const MSend = require('./messages/msend.js');
+const MResponse = require('./messages/mresponse.js')
+const MRequest = require('./messages/mrequest.js')
+const MSend = require('./messages/msend.js')
 
-const ExLateMessage = require('./exceptions/exlatemessage.js');
-const ExProtocolExists = require('./exceptions/exprotocolexists.js');
-const ExIncompleteMessage = require('./exceptions/exincompletemessage.js');
+// const ExLateMessage = require('./exceptions/exlatemessage.js')
+const ExProtocolExists = require('./exceptions/exprotocolexists.js')
+const ExIncompleteMessage = require('./exceptions/exincompletemessage.js')
 
 /**
  * Easy-to-use interface to establish multiple WebRTC connections using
  * SimplePeer (npm: simple-peer)
  */
 class Neighborhood {
-    /**
+  /**
      * @param {object} [options] the options available to the connections, e.g.
      * timeout before
      * @param {object} [options.socketClass] simple-peer default socket class (usefull if you need to change the type of socket)
      * @param {object} [options.config] simple-peer options
-     * @param {number} [options.timeout = 60000] Time to wait (in milliseconds)
+     * @param {number} [options.timeout = 60000] Time to wait (in milliseconds) for dying socket
+     * @param {number} [options.pendingTimeout = 10000] Time to wait (in milliseconds) for pending socket
      * before neighborhood-wrtc assumes that a connection establishment failed,
      * or before an unused connection is removed.
      * @param {function} [options.encoding] Method to customize message sent,
@@ -6416,35 +6435,35 @@ class Neighborhood {
      * @param {function} [options.decoding] Method to decode a received message,
      * default: return JSON.parse(data);
      */
-    constructor (options) {
-        // #1 save options
-        this.options = {
-            socketClass: Socket,
-            peer: uuid(),
-            config: { iceServers: [], trickle: true, initiator: false },
-            timeout: 1 * 60 * 1000,
-            encoding: (d) => { return JSON.stringify(d); },
-            decoding: (d) => { return JSON.parse(d); }
-        };
-        this.options = merge(this.options, options);
-        this.encode = this.options.encoding; // not sure it should stay that
-        this.decode = this.options.decoding; // way
-
-        // #2 unmutable values
-        this.PEER = this.options.peer;
-        debug('[%s] initialized.', this.PEER);
-
-        // #3 initialize tables
-        this.pending = new Map(); // not finalized yet
-        this.living = new ArcStore(); // live and usable
-        this.dying = new Map(); // being removed
-
-        // #4 table of all registered protocols
-        this.protocols = new Map();
+  constructor (options) {
+    // #1 save options
+    this.options = {
+      socketClass: Socket,
+      peer: uuid(),
+      config: { iceServers: [], trickle: true, initiator: false },
+      timeout: 1 * 60 * 1000,
+      pendingTimeout: 10 * 1000,
+      encoding: (d) => { return JSON.stringify(d) },
+      decoding: (d) => { return JSON.parse(d) }
     }
+    this.options = merge(this.options, options)
+    this.encode = this.options.encoding // not sure it should stay that
+    this.decode = this.options.decoding // way
 
+    // #2 unmutable values
+    this.PEER = this.options.peer
+    debug('[%s] initialized.', this.PEER)
 
-    /**
+    // #3 initialize tables
+    this.pending = new Map() // not finalized yet
+    this.living = new ArcStore() // live and usable
+    this.dying = new Map() // being removed
+
+    // #4 table of all registered protocols
+    this.protocols = new Map()
+  }
+
+  /**
      * The protocolId asks this module to get an interface. The interface
      * comprises functions such as connect, disconnect, or send. ProtocolId
      * should provide some functions as well such as failed, opened, received,
@@ -6452,25 +6471,25 @@ class Neighborhood {
      * @param {IProtocol} protocol The protocol that requires the interface.
      * @returns {INeighborhood} The interface to use this module easily.
      */
-    register (protocol) {
-        if (!this.protocols.has(protocol._pid())){
-            debug('[%s] protocol %s just registered.',
-                  this.PEER, protocol._pid());
-            this.protocols.set(protocol._pid(), protocol);
-            return new INeighborhood(
-                this.PEER,
-                this._connect.bind(this, protocol._pid()),
-                this._disconnect.bind(this, protocol._pid()),
-                this._send.bind(this, protocol._pid())
-            );
-        } else {
-            throw new ExProtocolExists(protocol._pid());
-        };
-    };
+  register (protocol) {
+    if (!this.protocols.has(protocol._pid())) {
+      debug('[%s] protocol %s just registered.',
+        this.PEER, protocol._pid())
+      this.protocols.set(protocol._pid(), protocol)
+      return new INeighborhood(
+        this.PEER,
+        this._connect.bind(this, protocol._pid()),
+        this._disconnect.bind(this, protocol._pid()),
+        this._send.bind(this, protocol._pid())
+      )
+    } else {
+      throw new ExProtocolExists(protocol._pid())
+    }
+  }
 
-    // (TODO) unregister ?
+  // (TODO) unregister ?
 
-    /**
+  /**
      * @private
      * Create a WebRTC connection.
      * @param {string} protocolId The identifier of the protocol that wishes to
@@ -6482,17 +6501,17 @@ class Neighborhood {
      * @param {object} arg2 The message received from a peer that initialized a
      * WebRTC connection.
      */
-    _connect (protocolId, arg1, arg2){
-        if (typeof arg1 === 'function' && typeof arg2 === 'undefined') {
-            this._initiate(protocolId, arg1); // arg1: callback for offers
-        } else if (typeof arg1 === 'function' && typeof arg2 !== 'undefined'){
-            this._accept(protocolId, arg1, arg2); // arg1:callback, arg2:request
-        } else {
-            this._finalize(protocolId, arg1); // arg1: response
-        };
-    };
+  _connect (protocolId, arg1, arg2) {
+    if (typeof arg1 === 'function' && typeof arg2 === 'undefined') {
+      this._initiate(protocolId, arg1) // arg1: callback for offers
+    } else if (typeof arg1 === 'function' && typeof arg2 !== 'undefined') {
+      this._accept(protocolId, arg1, arg2) // arg1:callback, arg2:request
+    } else {
+      this._finalize(protocolId, arg1) // arg1: response
+    }
+  }
 
-    /**
+  /**
      * @private
      * Initiate the creation of a WebRTC connection. At this point, the identity
      * of the remote peer is unknown.
@@ -6500,127 +6519,153 @@ class Neighborhood {
      * connection.
      * @param {function} sender A function called at each offer
      */
-    _initiate (protocolId, sender) {
-        // #1 create an initiator
-        this.options.config.initiator = true;
-        let socket = new (this.options.socketClass)(this.options.config);
-        // #2 insert the new entry in the pending table
-        let entry = new EPending(uuid(), null, protocolId, socket);
-        this.pending.set(entry.tid, entry);
+  _initiate (protocolId, sender) {
+    // #1 create an initiator
+    this.options.config.initiator = true
+    let SocketClass = this.options.socketClass
+    let socket = new SocketClass(this.options.config)
+    // #2 insert the new entry in the pending table
+    let entry = new EPending(uuid(), null, protocolId, socket)
+    // entry.tid = peerIdToConnectWith || entry.tid
+    this.pending.set(entry.tid, entry)
 
-        // #3 define events
-        socket.once('connect', () => {
-            entry.successful = true;
-            if (this.living.contains(entry.peer)){
-                entry.alreadyExists = true;
-                entry.successful = true;
-                this.living.insert(entry.peer, protocolId);
-                debug('[%s] --- arc --> %s', this.PEER, entry.peer);
-                this.protocols.get(protocolId)._connected(entry.peer, true);
-                entry.peer = null; // becomes the unknown soldier
-            } else {
-                this.living.insert(entry.peer, protocolId, socket);
-                debug('[%s] --- WebRTC --> %s', this.PEER, entry.peer);
-                this.protocols.get(protocolId)._connected(entry.peer, true);
+    // #3 define events
+    socket.once('connect', () => {
+      entry.successful = true
+      if (this.living.contains(entry.peer)) {
+        entry.alreadyExists = true
+        entry.successful = true
+        this.living.insert(entry.peer, protocolId)
+        debug('[%s] --- arc --> %s', this.PEER, entry.peer)
+        this.protocols.get(protocolId)._connected(entry.peer, true)
+        entry.peer = null // becomes the unknown soldier
+      } else {
+        this.living.insert(entry.peer, protocolId, socket)
+        debug('[%s] --- WebRTC --> %s', this.PEER, entry.peer)
+        this.protocols.get(protocolId)._connected(entry.peer, true)
+      };
+
+      this._checkPendingEntry(entry)
+    })
+    socket.once('close', () => {
+      if (entry.peer !== null) { // if not the unknown soldier
+        if (this.living.contains(entry.peer)) {
+          // #A remove the socket from the table of living connections
+          let toNotify = this.living.removePeer(entry.peer)
+          // #B notify all protocols that were using this socket
+          toNotify.forEach((occ, pid) => {
+            for (let i = 0; i < occ; ++i) {
+              this.protocols.get(pid)._disconnected(entry.peer)
             };
-        });
-        socket.once('close', () => {
-            if (entry.peer !== null){ // if not the unknown soldier
-                if (this.living.contains(entry.peer)){
-                    // #A remove the socket from the table of living connections
-                    let toNotify = this.living.removePeer(entry.peer);
-                    // #B notify all protocols that were using this socket
-                    toNotify.forEach( (occ, pid) => {
-                        for (let i = 0; i<occ; ++i){
-                            this.protocols.get(pid)._disconnected(entry.peer);
-                        };
-                    });
-                } else if (this.dying.has(entry.peer)){
-                    let d = this.dying.get(entry.peer);
-                    clearTimeout(d.timeout);
-                    this.dying.delete(entry.peer);
-                };
-                debug('[%s] -‡- WebRTC -‡> %s', this.PEER, entry.peer);
-            } else {
-                debug('[%s] -‡- WebRTC -‡> %s', this.PEER, 'unknown');
-            };
-        });
+          })
+        } else if (this.dying.has(entry.peer)) {
+          let d = this.dying.get(entry.peer)
+          clearTimeout(d.timeout)
+          this.dying.delete(entry.peer)
+        };
+        debug('[%s] -‡- WebRTC -‡> %s', this.PEER, entry.peer)
+      } else {
+        debug('[%s] -‡- WebRTC -‡> %s', this.PEER, 'unknown')
+      };
+      this._checkPendingEntry(entry)
+    })
 
-        socket.on('data', (d) => {
-            let msg = this.decode(d);
-            this.protocols.get(msg.pid)._received(msg.peer, msg.payload);
-        });
-        socket.on('stream', (s) => {
-            this.protocols.get(entry.pid)._streamed(entry.peer, s);
-        });
-        socket.on('error', (e) => {
-            // Nothing here, for the failure are detected and handled after
-            // this.options.timeout milliseconds.
-            // console.log(e);
-        });
-        // #4 send offer message using sender
-        socket.on('signal', (offer) => {
-            sender(new MRequest(entry.tid, this.PEER, protocolId, offer));
-        });
+    socket.on('data', (d) => {
+      let msg = this.decode(d)
+      this.protocols.get(msg.pid)._received(msg.peer, msg.payload)
+    })
+    socket.on('stream', (s) => {
+      this.protocols.get(entry.pid)._streamed(entry.peer, s)
+    })
+    socket.on('error', (e) => {
+      // Nothing here, for the failure are detected and handled after
+      // this.options.timeout milliseconds.
+      debug(e)
+      socket.destroy()
+    })
+    // #4 send offer message using sender
+    socket.on('signal', (offer) => {
+      if (socket.connected && socket._isNegotiating) {
+        sender(new MRequest(entry.tid, this.PEER, protocolId, offer, 'renegociate'))
+      } else {
+        sender(new MRequest(entry.tid, this.PEER, protocolId, offer))
+      }
+    })
 
-        // #5 check if the socket has been established correctly
-        setTimeout( () => {
-            // (TODO) on destroy notify protocols that still use the socket
-            // (TODO) send MDisconnect messages to notify remote peer of the
-            // removal of an arc
-            (!entry.successful || entry.alreadyExists) &&
-                entry.socket.destroy();
-            !entry.successful &&
-                this.protocols.get(protocolId)._failed(entry.peer, true);
-            this.pending.delete(entry.tid);
-        }, this.options.timeout);
+    // #5 check if the socket has been established correctly
+    setTimeout(() => {
+      // (TODO) on destroy notify protocols that still use the socket
+      // (TODO) send MDisconnect messages to notify remote peer of the
+      // removal of an arc
+      (!entry.successful || entry.alreadyExists) && (entry.socket !== null) && entry.socket.destroy()
+      !entry.successful && this.protocols.get(protocolId)._failed(entry.peer, true)
+      this.pending.delete(entry.tid)
+    }, this.options.pendingTimeout)
+  };
 
-    };
-
-    /**
+  /**
      * @private
      * Try to finalize the WebRTC connection using the remote offers.
      * @param {string} protocolId The identifier of the protocol that wishes to
      * open a connection.
      * @param {MResponse} msg The message containing an offer, a peerId etc.
      */
-    _finalize(protocolId, msg) {
-        if (!this.pending.has(msg.tid)){
-            throw new ExLateMessage('_finalize', msg);
-        };
-
-        let entry = this.pending.get(msg.tid);
-        if (entry.alreadyExists || entry.successful) { return ;};
-
-        // #A check if the connection already exists
-        if (this.living.contains(msg.peer)){
-            entry.alreadyExists = true;
-            entry.successful = true;
-            this.living.insert(msg.peer, protocolId);
-            debug('[%s] --- arc --> %s', this.PEER, msg.peer);
-            this.protocols.get(protocolId)._connected(msg.peer, true);
-        } else if (this.dying.has(msg.peer)){
-            // #B rise from the dead
-            entry.alreadyExists = true;
-            entry.successful = true;
-            let rise = this.dying.get(msg.peer);
-            clearTimeout(rise.timeout);
-            this.dying.delete(msg.peer);
-            this.living.insert(msg.peer, protocolId, rise.socket);
-            debug('[%s] -¡- arc -¡> %s', this.PEER, msg.peer);
-            this.protocols.get(protocolId)._connected(msg.peer, true);
-        } else {
-            // #C just signal the offer
-            entry.peer = msg.peer;
-            if (!msg.offer) {
-                throw new ExIncompleteMessage('_finalize', entry, msg);
-            } else {
-                entry.socket.signal(msg.offer);
-            };
-        };
+  _finalize (protocolId, msg) {
+    if (msg.offerType === 'renegociate') {
+      debug(`[%s] _finalize regenociation:`, msg)
+      if (this.living.store.has(msg.peer)) {
+        const socket = this.living.get(msg.peer).socket
+        socket.connected && !socket._isNegociating && socket.signal(msg.offer)
+      }
+      return
+    }
+    if (!this.pending.has(msg.tid)) {
+      // debug(new ExLateMessage('_finalize', msg))
+      return
     };
 
-    /**
+    let entry = this.pending.get(msg.tid)
+    if (entry) {
+      if (entry.alreadyExists || entry.successful) {
+        this._checkPendingEntry(entry)
+        debug('The socket already exists: ', entry.peer)
+        return
+      }
+    }
+
+    // #A check if the connection already exists
+    if (this.living.contains(msg.peer)) {
+      entry.alreadyExists = true
+      entry.successful = true
+      this.living.insert(msg.peer, protocolId)
+      debug('[%s] --- arc --> %s', this.PEER, msg.peer)
+      this.protocols.get(protocolId)._connected(msg.peer, true)
+
+      this._checkPendingEntry(entry)
+    } else if (this.dying.has(msg.peer)) {
+      // #B rise from the dead
+      entry.alreadyExists = true
+      entry.successful = true
+      let rise = this.dying.get(msg.peer)
+      clearTimeout(rise.timeout)
+      this.dying.delete(msg.peer)
+      this.living.insert(msg.peer, protocolId, rise.socket)
+      debug('[%s] -¡- arc -¡> %s', this.PEER, msg.peer)
+      this.protocols.get(protocolId)._connected(msg.peer, true)
+
+      this._checkPendingEntry(entry)
+    } else {
+      // #C just signal the offer
+      entry.peer = msg.peer
+      if (!msg.offer) {
+        throw new ExIncompleteMessage('_finalize', entry, msg)
+      } else {
+        entry.socket.signal(msg.offer)
+      };
+    };
+  };
+
+  /**
      * @private
      * Establish a connection in response to the request of remote peer.
      * @param {string} protocolId The identifier of the protocol that wishes to
@@ -6629,126 +6674,141 @@ class Neighborhood {
      * initiating peer.
      * @param {MRequest} msg The request message containing offers, peerId, etc.
      **/
-    _accept (protocolId, sender, msg) {
-        // #1 initialize the entry if it does not exist
-        let firstCall = false;
-        if (!this.pending.has(msg.tid)) {
-            firstCall = true;
-            let entry = new EPending(msg.tid, msg.peer, protocolId);
-            this.pending.set(entry.tid, entry);
+  _accept (protocolId, sender, msg) {
+    if (msg.offerType === 'renegociate') {
+      debug(`[%s] _accept regenociation:`, msg)
+      if (this.living.store.has(msg.peer)) {
+        this.living.get(msg.peer).socket.signal(msg.offer)
+      }
+      return
+    }
+    // #1 initialize the entry if it does not exist
+    let firstCall = false
+    const tid = msg.tid
+    const peer = msg.peer
+    if (!this.pending.has(tid)) {
+      firstCall = true
+      let entry = new EPending(tid, peer, protocolId)
+      this.pending.set(tid, entry)
 
-            setTimeout( () => {
-                (!entry.successful || entry.alreadyExists) &&
-                    entry.socket && entry.socket.destroy();
-                !entry.successful &&
-                    this.protocols.get(protocolId)._failed(entry.peer, false);
-                this.pending.delete(entry.tid);
-            }, this.options.timeout);
-        };
+      setTimeout(() => {
+        (!entry.successful || entry.alreadyExists) && entry.socket && entry.socket.destroy()
+        !entry.successful && this.protocols.get(protocolId)._failed(peer, false)
+        this.pending.delete(tid)
+      }, this.options.pendingTimeout)
+    }
 
-        // #2 check if a WebRTC connection to peerId already exists
-        let entry = this.pending.get(msg.tid);
-        if (entry.alreadyExists || entry.successful) { return ;};
+    // #2 check if a WebRTC connection to peerId already exists
+    let entry = this.pending.get(msg.tid)
+    // let entry = this.pending.get(peer);
+    if (entry.alreadyExists || entry.successful) { return };
 
-        // #A check if the connection already exists
-        if (this.living.contains(msg.peer)){
-            entry.alreadyExists = true;
-            entry.successful = true;
-            this.living.insert(msg.peer, protocolId);
-            debug('[%s] <-- arc --- %s', this.PEER, entry.peer);
-            this.protocols.get(protocolId)._connected(msg.peer, false);
-            firstCall && sender(new MResponse(entry.tid,
-                                              this.PEER,
-                                              protocolId,
-                                              null));
-        } else if (this.dying.has(msg.peer)){
-            // #B rise from the dead
-            entry.alreadyExists = true;
-            entry.successful = true;
-            let rise = this.dying.get(msg.peer);
-            clearTimeout(rise.timeout);
-            this.dying.delete(msg.peer);
-            this.living.insert(msg.peer, protocolId, rise.socket);
-            debug('[%s] <¡- arc -¡- %s', this.PEER, msg.peer);
-            this.protocols.get(protocolId)._connected(msg.peer, false);
-            firstCall && sender(new MResponse(entry.tid,
-                                              this.PEER,
-                                              protocolId,
-                                              null));
-        } else {
-            // #3 create the events and signal the offer
-            if (firstCall && !entry.socket){
-                // #A create a socket
-                this.options.config.initiator = false;
-                let socket = new (this.options.socketClass)(this.options.config);
-                // #B update the entry
-                entry.socket = socket;
-                // #C define events
-                socket.once('connect', () => {
-                    entry.successful = true;
-                    if (this.living.contains(entry.peer)) {
-                        entry.alreadyExists = true;
-                        entry.successful = true;
-                        this.living.insert(entry.peer, protocolId);
-                        debug('[%s] <-- arc --- %s', this.PEER, entry.peer);
-                        this.protocols.get(protocolId)._connected(entry.peer,
-                                                                  false);
-                        entry.peer = null; // becomes the unknown soldier
-                    } else {
-                        this.living.insert(entry.peer, protocolId, socket);
-                        debug('[%s] <-- WebRTC --- %s', this.PEER, entry.peer);
-                        this.protocols.get(protocolId)._connected(entry.peer,
-                                                                  false);
-                    };
-                });
-                socket.once('close', () => {
-                    if (entry.peer !== null){ // if not the unknown soldier
-                        if (this.living.contains(entry.peer)){
-                            // #A remove the socket from the table of
-                            // living connections
-                            let toNotify = this.living.removePeer(entry.peer);
-                            // #B notify all protocols that were using
-                            // this socket
-                            toNotify.forEach( (occ, pid) => {
-                                for (let i = 0; i<occ; ++i){
-                                    this.protocols.get(pid)
-                                        ._disconnected(entry.peer);
-                                };
-                            });
-                        } else if (this.dying.has(entry.peer)){
-                            let d = this.dying.get(entry.peer);
-                            clearTimeout(d.timeout);
-                            this.dying.delete(entry.peer);
-                        };
-                        debug('[%s] <‡- WebRTC -‡- %s', this.PEER, entry.peer);
-                    } else {
-                        debug('[%s] <‡- WebRTC -‡- %s', this.PEER, 'unknown');
-                    };
-                });
+    // #A check if the connection already exists
+    if (this.living.contains(msg.peer)) {
+      entry.alreadyExists = true
+      entry.successful = true
+      this.living.insert(msg.peer, protocolId)
+      debug('[%s] <-- arc --- %s', this.PEER, entry.peer)
+      this.protocols.get(protocolId)._connected(msg.peer, false)
+      firstCall && sender(new MResponse(entry.tid, this.PEER, protocolId, null))
 
-                socket.on('data', (d) => {
-                    let msg = this.decode(d);
-                    this.protocols.get(msg.pid)._received(msg.peer,msg.payload);
-                });
-                socket.on('stream', (s) => {
-                    this.protocols.get(entry.pid)._streamed(entry.peer, s);
-                });
-                socket.on('error', (e) => {
-                    // Nothing here, for the failure are detected and handled
-                    // after this.options.timeout milliseconds.
-                    // console.log(e);
-                });
-                // #4 send offer message using sender
-                socket.on('signal', (offer) => {
-                    sender(new MResponse(entry.tid,this.PEER,protocolId,offer));
-                });
+      this._checkPendingEntry(entry)
+    } else if (this.dying.has(msg.peer)) {
+      // #B rise from the dead
+      entry.alreadyExists = true
+      entry.successful = true
+      let rise = this.dying.get(msg.peer)
+      clearTimeout(rise.timeout)
+      this.dying.delete(msg.peer)
+      this.living.insert(msg.peer, protocolId, rise.socket)
+      debug('[%s] <¡- arc -¡- %s', this.PEER, msg.peer)
+      this.protocols.get(protocolId)._connected(msg.peer, false)
+      firstCall && sender(new MResponse(entry.tid, this.PEER, protocolId, null))
+
+      // delete the pending entry cause we do not use the created one if exists
+      this._checkPendingEntry(entry)
+    } else {
+      // #3 create the events and signal the offer
+      if (firstCall && !entry.socket) {
+        // #A create a socket
+        this.options.config.initiator = false
+        let SocketClass = this.options.socketClass
+        let socket = new SocketClass(this.options.config)
+        // #B update the entry
+        entry.socket = socket
+        // #C define events
+        socket.once('connect', () => {
+          entry.successful = true
+          if (this.living.contains(entry.peer)) {
+            entry.alreadyExists = true
+            entry.successful = true
+            this.living.insert(entry.peer, protocolId)
+            debug('[%s] <-- arc --- %s', this.PEER, entry.peer)
+            this.protocols.get(protocolId)._connected(entry.peer,
+              false)
+            entry.peer = null // becomes the unknown soldier
+          } else {
+            this.living.insert(entry.peer, protocolId, socket)
+            debug('[%s] <-- WebRTC --- %s', this.PEER, entry.peer)
+            this.protocols.get(protocolId)._connected(entry.peer,
+              false)
+          };
+
+          this._checkPendingEntry(entry)
+        })
+        socket.once('close', () => {
+          if (entry.peer !== null) { // if not the unknown soldier
+            if (this.living.contains(entry.peer)) {
+              // #A remove the socket from the table of
+              // living connections
+              let toNotify = this.living.removePeer(entry.peer)
+              // #B notify all protocols that were using
+              // this socket
+              toNotify.forEach((occ, pid) => {
+                for (let i = 0; i < occ; ++i) {
+                  this.protocols.get(pid)
+                    ._disconnected(entry.peer)
+                };
+              })
+            } else if (this.dying.has(entry.peer)) {
+              let d = this.dying.get(entry.peer)
+              clearTimeout(d.timeout)
+              this.dying.delete(entry.peer)
             };
-            entry.socket.signal(msg.offer);
-        };
+            debug('[%s] <‡- WebRTC -‡- %s', this.PEER, entry.peer)
+          } else {
+            debug('[%s] <‡- WebRTC -‡- %s', this.PEER, 'unknown')
+          };
+          this._checkPendingEntry(entry)
+        })
+
+        socket.on('data', (d) => {
+          let msg = this.decode(d)
+          this.protocols.get(msg.pid)._received(msg.peer, msg.payload)
+        })
+        socket.on('stream', (s) => {
+          this.protocols.get(entry.pid)._streamed(entry.peer, s)
+        })
+        socket.on('error', (e) => {
+          // Nothing here, for the failure are detected and handled
+          // after this.options.timeout milliseconds.
+          debug(e)
+          socket.destroy()
+        })
+        // #4 send offer message using sender
+        socket.on('signal', (offer) => {
+          if (socket.connected && !socket._isNegotiating) {
+            sender(new MResponse(entry.tid, this.PEER, protocolId, offer, 'renegociate'))
+          } else {
+            sender(new MResponse(entry.tid, this.PEER, protocolId, offer))
+          }
+        })
+      };
+      entry.socket.signal(msg.offer)
     };
+  };
 
-
-    /**
+  /**
      * @private
      * Remove an arc from protocolId leading to peerId. If it was the last arc,
      * the WebRTC connexion is downgraded to the dying table. In this table, the
@@ -6758,49 +6818,53 @@ class Neighborhood {
      * @param {string|undefined} peerId The identifier of the peer. If no arg,
      * remove all arcs of protocolId.
      */
-    _disconnect (protocolId, peerId) {
-        if (typeof peerId === 'undefined'){
-            // #1 remove all arcs
-            var entries = this.living.removeAll(protocolId);
-            entries.forEach( (entry) => {
-                if (entry.socket !== null){
-                    var dying = new EDying(entry.peer,
-                                           entry.socket,
-                                           setTimeout( () => {
-                                               entry.socket.destroy();
-                                           }, this.options.timeout));
-                    this.dying.set(dying.peer, dying);
-                };
-
-                for (let i=0; i<entry.occ; ++i){
-                    if (entry.socket === null ||
-                        (entry.socket !== null && i<entry.occ-1) ) {
-                        debug('[%s] ††† arc ††† %s', this.PEER, peerId);
-                    } else {
-                        debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId);
-                    };
-                    this.protocols.get(protocolId)._disconnected(entry.peer);
-                };
-            });
-        } else {
-            // #2 remove one arc
-            var entry = this.living.remove(peerId, protocolId);
-            if (entry) {
-                var dying = new EDying(entry.peer,
-                                       entry.socket,
-                                       setTimeout( () => {
-                                           entry.socket.destroy();
-                                       }, this.options.timeout));
-                this.dying.set(dying.peer, dying);
-                debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId);
-            } else {
-                debug('[%s] ††† arc ††† %s', this.PEER, peerId);
-            };
-            this.protocols.get(protocolId)._disconnected(peerId);
+  _disconnect (protocolId, peerId) {
+    if (typeof peerId === 'undefined') {
+      // #1 remove all arcs
+      var entries = this.living.removeAll(protocolId)
+      entries.forEach((entry) => {
+        if (entry.socket !== null) {
+          var dying = new EDying(entry.peer,
+            entry.socket,
+            setTimeout(() => {
+              entry.socket && entry.socket.destroy()
+            }, this.options.timeout))
+          this.dying.set(dying.peer, dying)
         };
-    };
 
-    /**
+        for (let i = 0; i < entry.occ; ++i) {
+          if (entry.socket === null ||
+                        (entry.socket !== null && i < entry.occ - 1)) {
+            debug('[%s] ††† arc ††† %s', this.PEER, peerId)
+          } else {
+            debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId)
+          };
+          this.protocols.get(protocolId)._disconnected(entry.peer)
+        };
+      })
+    } else {
+      var entry = null
+      // #2 remove one arc
+      try {
+        entry = this.living.remove(peerId, protocolId)
+      } catch (e) {
+        console.log(e) // dangerous
+        // noop
+      }
+      if (entry) {
+        var dying = new EDying(entry.peer, entry.socket, setTimeout(() => {
+          entry.socket && entry.socket.destroy()
+        }, this.options.timeout))
+        this.dying.set(dying.peer, dying)
+        debug('[%s] ††† WebRTC ††† %s', this.PEER, peerId)
+      } else {
+        debug('[%s] ††† arc ††† %s', this.PEER, peerId)
+      };
+      this.protocols.get(protocolId)._disconnected(peerId)
+    };
+  };
+
+  /**
      * @private
      * Send a message to a remote peer. It encapsulates the message
      * from protocolId to help the remote peer to route the message to the
@@ -6814,44 +6878,59 @@ class Neighborhood {
      * @returns {promise} Resolved when the message is sent, reject
      * otherwise. Note that loss of messages is not handled by default.
      */
-    _send (protocolId, peerId, message, retry = 0) {
-        return new Promise( (resolve, reject) => {
-            // #1 get the proper entry in the tables
-            let entry = null;
-            if (this.living.contains(peerId)){
-                entry = this.living.get(peerId);
-            } else if (this.dying.has(peerId)){
-                entry = this.dying.get(peerId); // (TODO) warn: not safe
-            };
+  _send (protocolId, peerId, message, retry = 0) {
+    return new Promise((resolve, reject) => {
+      // #1 get the proper entry in the tables
+      let entry = null
+      if (this.living.contains(peerId)) {
+        entry = this.living.get(peerId)
+      } else if (this.dying.has(peerId)) {
+        entry = this.dying.get(peerId) // (TODO) warn: not safe
+      };
+      if (entry === null) {
+        // console.log(protocolId, peerId, message, retry, this.living.store.size, this.dying.size)
+        reject(new Error('peer not found: ' + peerId))
+      }
+      // #2 define the recursive sending function
+      let __send = (r) => {
+        try {
+          entry.socket.send(this.encode(new MSend(this.PEER,
+            protocolId,
+            message)))
+          debug('[%s] --- msg --> %s:%s',
+            this.PEER, peerId, protocolId)
+          resolve()
+        } catch (e) {
+          debug('[%s] -X- msg -X> %s:%s',
+            this.PEER, peerId, protocolId)
+          if (r < retry) {
+            setTimeout(() => { __send(r + 1) }, 1000)
+          } else {
+            reject(e)
+          };
+        };
+      }
+      // #3 start to send
+      __send(0)
+    })
+  };
 
-            // #2 define the recursive sending function
-            let __send = (r) => {
-                try {
-                    entry.socket.send(this.encode(new MSend(this.PEER,
-                                                            protocolId,
-                                                            message)));
-                    debug('[%s] --- msg --> %s:%s',
-                          this.PEER, peerId, protocolId);
-                    resolve();
-                } catch (e) {
-                    debug('[%s] -X- msg -X> %s:%s',
-                          this.PEER, peerId, protocolId);
-                    if (r < retry){
-                        setTimeout ( () => { __send(r+1); }, 1000);
-                    } else {
-                        reject(e);
-                    };
-                };
-            };
-            // #3 start to send
-            __send(0);
-        });
-    };
+  _checkPendingEntry (entry) {
+    if (this.pending.has(entry.tid)) {
+      if (entry.peer === null) {
+        if (entry.socket) {
+          entry.socket.destroy()
+          entry.socket = null
+        }
+      }
+      this.pending.delete(entry.tid)
+    }
+  }
 };
 
-module.exports = Neighborhood;
+module.exports = Neighborhood
 
-},{"./arcstore.js":28,"./entries/edying.js":29,"./entries/epending.js":31,"./exceptions/exincompletemessage.js":32,"./exceptions/exlatemessage.js":33,"./exceptions/exprotocolexists.js":34,"./interfaces/ineighborhood.js":36,"./messages/mrequest.js":37,"./messages/mresponse.js":38,"./messages/msend.js":39,"debug":13,"lodash.merge":21,"simple-peer":54,"uuid/v4":59}],41:[function(require,module,exports){
+},{"./arcstore.js":28,"./entries/edying.js":29,"./entries/epending.js":31,"./exceptions/exincompletemessage.js":32,"./exceptions/exprotocolexists.js":33,"./interfaces/ineighborhood.js":35,"./messages/mrequest.js":36,"./messages/mresponse.js":37,"./messages/msend.js":38,"debug":13,"lodash.merge":21,"simple-peer":53,"uuid/v4":58}],40:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -6899,7 +6978,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":42}],42:[function(require,module,exports){
+},{"_process":41}],41:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7085,7 +7164,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],43:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function (process,global){
 'use strict'
 
@@ -7127,7 +7206,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":42,"safe-buffer":53}],44:[function(require,module,exports){
+},{"_process":41,"safe-buffer":52}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7259,7 +7338,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":46,"./_stream_writable":48,"core-util-is":12,"inherits":18,"process-nextick-args":41}],45:[function(require,module,exports){
+},{"./_stream_readable":45,"./_stream_writable":47,"core-util-is":12,"inherits":18,"process-nextick-args":40}],44:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7307,7 +7386,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":47,"core-util-is":12,"inherits":18}],46:[function(require,module,exports){
+},{"./_stream_transform":46,"core-util-is":12,"inherits":18}],45:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8329,7 +8408,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":44,"./internal/streams/BufferList":49,"./internal/streams/destroy":50,"./internal/streams/stream":51,"_process":42,"core-util-is":12,"events":15,"inherits":18,"isarray":20,"process-nextick-args":41,"safe-buffer":53,"string_decoder/":55,"util":10}],47:[function(require,module,exports){
+},{"./_stream_duplex":43,"./internal/streams/BufferList":48,"./internal/streams/destroy":49,"./internal/streams/stream":50,"_process":41,"core-util-is":12,"events":15,"inherits":18,"isarray":20,"process-nextick-args":40,"safe-buffer":52,"string_decoder/":54,"util":10}],46:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8544,7 +8623,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":44,"core-util-is":12,"inherits":18}],48:[function(require,module,exports){
+},{"./_stream_duplex":43,"core-util-is":12,"inherits":18}],47:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9234,7 +9313,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":44,"./internal/streams/destroy":50,"./internal/streams/stream":51,"_process":42,"core-util-is":12,"inherits":18,"process-nextick-args":41,"safe-buffer":53,"util-deprecate":56}],49:[function(require,module,exports){
+},{"./_stream_duplex":43,"./internal/streams/destroy":49,"./internal/streams/stream":50,"_process":41,"core-util-is":12,"inherits":18,"process-nextick-args":40,"safe-buffer":52,"util-deprecate":55}],48:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9314,7 +9393,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":53,"util":10}],50:[function(require,module,exports){
+},{"safe-buffer":52,"util":10}],49:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -9389,10 +9468,10 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":41}],51:[function(require,module,exports){
+},{"process-nextick-args":40}],50:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":15}],52:[function(require,module,exports){
+},{"events":15}],51:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -9401,7 +9480,7 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":44,"./lib/_stream_passthrough.js":45,"./lib/_stream_readable.js":46,"./lib/_stream_transform.js":47,"./lib/_stream_writable.js":48}],53:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":43,"./lib/_stream_passthrough.js":44,"./lib/_stream_readable.js":45,"./lib/_stream_transform.js":46,"./lib/_stream_writable.js":47}],52:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -9465,7 +9544,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":11}],54:[function(require,module,exports){
+},{"buffer":11}],53:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -9512,7 +9591,7 @@ function Peer (opts) {
   self.answerConstraints = self._transformConstraints(opts.answerConstraints || {})
   self.reconnectTimer = opts.reconnectTimer || false
   self.sdpTransform = opts.sdpTransform || function (sdp) { return sdp }
-  self.stream = opts.stream || false
+  self.streams = opts.streams || (opts.stream ? [opts.stream] : []) // support old "stream" option
   self.trickle = opts.trickle !== undefined ? opts.trickle : true
 
   self.destroyed = false
@@ -9530,9 +9609,9 @@ function Peer (opts) {
 
   if (!self._wrtc) {
     if (typeof window === 'undefined') {
-      throw new Error('No WebRTC support: Specify `opts.wrtc` option in this environment')
+      throw makeError('No WebRTC support: Specify `opts.wrtc` option in this environment', 'ERR_WEBRTC_SUPPORT')
     } else {
-      throw new Error('No WebRTC support: Not a supported browser')
+      throw makeError('No WebRTC support: Not a supported browser', 'ERR_WEBRTC_SUPPORT')
     }
   }
 
@@ -9541,7 +9620,15 @@ function Peer (opts) {
   self._iceComplete = false // ice candidate trickle done (got null candidate)
   self._channel = null
   self._pendingCandidates = []
-  self._previousStreams = []
+
+  self._isNegotiating = false // is this peer waiting for negotiation to complete?
+  self._batchedNegotiation = false // batch synchronous negotiations
+  self._queuedNegotiation = false // is there a queued negotiation request?
+  self._sendersAwaitingStable = []
+  self._senderMap = new WeakMap()
+
+  self._remoteTracks = []
+  self._remoteStreams = []
 
   self._chunk = null
   self._cb = null
@@ -9552,7 +9639,6 @@ function Peer (opts) {
 
   // We prefer feature detection whenever possible, but sometimes that's not
   // possible for certain implementations.
-  self._isWrtc = Array.isArray(self._pc.RTCIceConnectionStates)
   self._isReactNativeWebrtc = typeof self._pc._peerConnectionId === 'number'
 
   self._pc.oniceconnectionstatechange = function () {
@@ -9572,14 +9658,9 @@ function Peer (opts) {
   // - onconnectionstatechange
   // - onicecandidateerror
   // - onfingerprintfailure
+  // - onnegotiationneeded
 
   if (self.initiator) {
-    var createdOffer = false
-    self._pc.onnegotiationneeded = function () {
-      if (!createdOffer) self._createOffer()
-      createdOffer = true
-    }
-
     self._setupData({
       channel: self._pc.createDataChannel(self.channelName, self.channelConfig)
     })
@@ -9590,26 +9671,18 @@ function Peer (opts) {
   }
 
   if ('addTrack' in self._pc) {
-    // WebRTC Spec, Firefox
-    if (self.stream) {
-      self.stream.getTracks().forEach(function (track) {
-        self._pc.addTrack(track, self.stream)
+    if (self.streams) {
+      self.streams.forEach(function (stream) {
+        self.addStream(stream)
       })
     }
     self._pc.ontrack = function (event) {
       self._onTrack(event)
     }
-  } else {
-    // Chrome, etc. This can be removed once all browsers support `ontrack`
-    if (self.stream) self._pc.addStream(self.stream)
-    self._pc.onaddstream = function (event) {
-      self._onAddStream(event)
-    }
   }
 
-  // HACK: wrtc doesn't fire the 'negotionneeded' event
-  if (self.initiator && self._isWrtc) {
-    self._pc.onnegotiationneeded()
+  if (self.initiator) {
+    self._needsNegotiation()
   }
 
   self._onFinishBound = function () {
@@ -9652,7 +9725,7 @@ Peer.prototype.address = function () {
 
 Peer.prototype.signal = function (data) {
   var self = this
-  if (self.destroyed) throw new Error('cannot signal after peer is destroyed')
+  if (self.destroyed) throw makeError('cannot signal after peer is destroyed', 'ERR_SIGNALING')
   if (typeof data === 'string') {
     try {
       data = JSON.parse(data)
@@ -9662,6 +9735,10 @@ Peer.prototype.signal = function (data) {
   }
   self._debug('signal()')
 
+  if (data.renegotiate) {
+    self._debug('got request to renegotiate')
+    self._needsNegotiation()
+  }
   if (data.candidate) {
     if (self._pc.remoteDescription && self._pc.remoteDescription.type) self._addIceCandidate(data.candidate)
     else self._pendingCandidates.push(data.candidate)
@@ -9676,10 +9753,10 @@ Peer.prototype.signal = function (data) {
       self._pendingCandidates = []
 
       if (self._pc.remoteDescription.type === 'offer') self._createAnswer()
-    }, function (err) { self.destroy(err) })
+    }, function (err) { self.destroy(makeError(err, 'ERR_SET_REMOTE_DESCRIPTION')) })
   }
-  if (!data.sdp && !data.candidate) {
-    self.destroy(new Error('signal() called with invalid signal data'))
+  if (!data.sdp && !data.candidate && !data.renegotiate) {
+    self.destroy(makeError('signal() called with invalid signal data', 'ERR_SIGNALING'))
   }
 }
 
@@ -9689,20 +9766,124 @@ Peer.prototype._addIceCandidate = function (candidate) {
     self._pc.addIceCandidate(
       new self._wrtc.RTCIceCandidate(candidate),
       noop,
-      function (err) { self.destroy(err) }
+      function (err) { self.destroy(makeError(err, 'ERR_ADD_ICE_CANDIDATE')) }
     )
   } catch (err) {
-    self.destroy(new Error('error adding candidate: ' + err.message))
+    self.destroy(makeError('error adding candidate: ' + err.message, 'ERR_ADD_ICE_CANDIDATE'))
   }
 }
 
 /**
  * Send text/binary data to the remote peer.
- * @param {TypedArrayView|ArrayBuffer|Buffer|string|Blob|Object} chunk
+ * @param {ArrayBufferView|ArrayBuffer|Buffer|string|Blob} chunk
  */
 Peer.prototype.send = function (chunk) {
   var self = this
   self._channel.send(chunk)
+}
+
+/**
+ * Add a MediaStream to the connection.
+ * @param {MediaStream} stream
+ */
+Peer.prototype.addStream = function (stream) {
+  var self = this
+
+  self._debug('addStream()')
+
+  stream.getTracks().forEach(function (track) {
+    self.addTrack(track, stream)
+  })
+}
+
+/**
+ * Add a MediaStreamTrack to the connection.
+ * @param {MediaStreamTrack} track
+ * @param {MediaStream} stream
+ */
+Peer.prototype.addTrack = function (track, stream) {
+  var self = this
+
+  self._debug('addTrack()')
+
+  var sender = self._pc.addTrack(track, stream)
+  var submap = self._senderMap.get(track) || new WeakMap() // nested WeakMaps map [track, stream] to sender
+  submap.set(stream, sender)
+  self._senderMap.set(track, submap)
+  self._needsNegotiation()
+}
+
+/**
+ * Remove a MediaStreamTrack from the connection.
+ * @param {MediaStreamTrack} track
+ * @param {MediaStream} stream
+ */
+Peer.prototype.removeTrack = function (track, stream) {
+  var self = this
+
+  self._debug('removeSender()')
+
+  var submap = self._senderMap.get(track)
+  var sender = submap ? submap.get(stream) : null
+  if (!sender) {
+    self.destroy(new Error('Cannot remove track that was never added.'))
+  }
+  try {
+    self._pc.removeTrack(sender)
+  } catch (err) {
+    if (err.name === 'NS_ERROR_UNEXPECTED') {
+      self._sendersAwaitingStable.push(sender) // HACK: Firefox must wait until (signalingState === stable) https://bugzilla.mozilla.org/show_bug.cgi?id=1133874
+    } else {
+      self.destroy(err)
+    }
+  }
+}
+
+/**
+ * Remove a MediaStream from the connection.
+ * @param {MediaStream} stream
+ */
+Peer.prototype.removeStream = function (stream) {
+  var self = this
+
+  self._debug('removeSenders()')
+
+  stream.getTracks().forEach(function (track) {
+    self.removeTrack(track, stream)
+  })
+}
+
+Peer.prototype._needsNegotiation = function () {
+  var self = this
+
+  self._debug('_needsNegotiation')
+  if (self._batchedNegotiation) return // batch synchronous renegotiations
+  self._batchedNegotiation = true
+  setTimeout(function () {
+    self._batchedNegotiation = false
+    self._debug('starting batched negotiation')
+    self.negotiate()
+  }, 0)
+}
+
+Peer.prototype.negotiate = function () {
+  var self = this
+
+  if (self.initiator) {
+    if (self._isNegotiating) {
+      self._queuedNegotiation = true
+      self._debug('already negotiating, queueing')
+    } else {
+      self._debug('start negotiation')
+      self._createOffer()
+    }
+  } else {
+    self._debug('requesting negotiation from initiator')
+    self.emit('signal', { // request initiator to renegotiate
+      renegotiate: true
+    })
+  }
+  self._isNegotiating = true
 }
 
 // TODO: Delete this method once readable-stream is updated to contain a default
@@ -9728,7 +9909,9 @@ Peer.prototype._destroy = function (err, cb) {
   self.connected = false
   self._pcReady = false
   self._channelReady = false
-  self._previousStreams = null
+  self._remoteTracks = null
+  self._remoteStreams = null
+  self._senderMap = null
 
   clearInterval(self._interval)
   clearTimeout(self._reconnectTimeout)
@@ -9740,6 +9923,16 @@ Peer.prototype._destroy = function (err, cb) {
   if (self._onFinishBound) self.removeListener('finish', self._onFinishBound)
   self._onFinishBound = null
 
+  if (self._channel) {
+    try {
+      self._channel.close()
+    } catch (err) {}
+
+    self._channel.onmessage = null
+    self._channel.onopen = null
+    self._channel.onclose = null
+    self._channel.onerror = null
+  }
   if (self._pc) {
     try {
       self._pc.close()
@@ -9751,22 +9944,8 @@ Peer.prototype._destroy = function (err, cb) {
     self._pc.onicecandidate = null
     if ('addTrack' in self._pc) {
       self._pc.ontrack = null
-    } else {
-      self._pc.onaddstream = null
     }
-    self._pc.onnegotiationneeded = null
     self._pc.ondatachannel = null
-  }
-
-  if (self._channel) {
-    try {
-      self._channel.close()
-    } catch (err) {}
-
-    self._channel.onmessage = null
-    self._channel.onopen = null
-    self._channel.onclose = null
-    self._channel.onerror = null
   }
   self._pc = null
   self._channel = null
@@ -9782,7 +9961,7 @@ Peer.prototype._setupData = function (event) {
     // In some situations `pc.createDataChannel()` returns `undefined` (in wrtc),
     // which is invalid behavior. Handle it gracefully.
     // See: https://github.com/feross/simple-peer/issues/163
-    return self.destroy(new Error('Data channel event is missing `channel` property'))
+    return self.destroy(makeError('Data channel event is missing `channel` property', 'ERR_DATA_CHANNEL'))
   }
 
   self._channel = event.channel
@@ -9807,7 +9986,7 @@ Peer.prototype._setupData = function (event) {
     self._onChannelClose()
   }
   self._channel.onerror = function (err) {
-    self.destroy(err)
+    self.destroy(makeError(err, 'ERR_DATA_CHANNEL'))
   }
 }
 
@@ -9815,13 +9994,13 @@ Peer.prototype._read = function () {}
 
 Peer.prototype._write = function (chunk, encoding, cb) {
   var self = this
-  if (self.destroyed) return cb(new Error('cannot write after peer is destroyed'))
+  if (self.destroyed) return cb(makeError('cannot write after peer is destroyed', 'ERR_DATA_CHANNEL'))
 
   if (self.connected) {
     try {
       self.send(chunk)
     } catch (err) {
-      return self.destroy(err)
+      return self.destroy(makeError(err, 'ERR_DATA_CHANNEL'))
     }
     if (self._channel.bufferedAmount > MAX_BUFFERED_AMOUNT) {
       self._debug('start backpressure: bufferedAmount %d', self._channel.bufferedAmount)
@@ -9867,13 +10046,14 @@ Peer.prototype._createOffer = function () {
     self._pc.setLocalDescription(offer, onSuccess, onError)
 
     function onSuccess () {
+      self._debug('createOffer success')
       if (self.destroyed) return
       if (self.trickle || self._iceComplete) sendOffer()
       else self.once('_iceComplete', sendOffer) // wait for candidates
     }
 
     function onError (err) {
-      self.destroy(err)
+      self.destroy(makeError(err, 'ERR_SET_LOCAL_DESCRIPTION'))
     }
 
     function sendOffer () {
@@ -9884,7 +10064,7 @@ Peer.prototype._createOffer = function () {
         sdp: signal.sdp
       })
     }
-  }, function (err) { self.destroy(err) }, self.offerConstraints)
+  }, function (err) { self.destroy(makeError(err, 'ERR_CREATE_OFFER')) }, self.offerConstraints)
 }
 
 Peer.prototype._createAnswer = function () {
@@ -9903,7 +10083,7 @@ Peer.prototype._createAnswer = function () {
     }
 
     function onError (err) {
-      self.destroy(err)
+      self.destroy(makeError(err, 'ERR_SET_LOCAL_DESCRIPTION'))
     }
 
     function sendAnswer () {
@@ -9914,7 +10094,7 @@ Peer.prototype._createAnswer = function () {
         sdp: signal.sdp
       })
     }
-  }, function (err) { self.destroy(err) }, self.answerConstraints)
+  }, function (err) { self.destroy(makeError(err, 'ERR_CREATE_ANSWER')) }, self.answerConstraints)
 }
 
 Peer.prototype._onIceStateChange = function () {
@@ -9935,22 +10115,11 @@ Peer.prototype._onIceStateChange = function () {
     self._pcReady = true
     self._maybeReady()
   }
-  if (iceConnectionState === 'disconnected') {
-    if (self.reconnectTimer) {
-      // If user has set `opt.reconnectTimer`, allow time for ICE to attempt a reconnect
-      clearTimeout(self._reconnectTimeout)
-      self._reconnectTimeout = setTimeout(function () {
-        self.destroy()
-      }, self.reconnectTimer)
-    } else {
-      self.destroy()
-    }
-  }
   if (iceConnectionState === 'failed') {
-    self.destroy(new Error('Ice connection failed.'))
+    self.destroy(makeError('Ice connection failed.', 'ERR_ICE_CONNECTION_FAILURE'))
   }
   if (iceConnectionState === 'closed') {
-    self.destroy()
+    self.destroy(new Error('Ice connection closed.'))
   }
 }
 
@@ -10042,7 +10211,7 @@ Peer.prototype._maybeReady = function () {
 
       items.forEach(function (item) {
         // Spec-compliant
-        if (item.type === 'transport') {
+        if (item.type === 'transport' && item.selectedCandidatePairId) {
           setSelectedCandidatePair(candidatePairs[item.selectedCandidatePairId])
         }
 
@@ -10113,7 +10282,7 @@ Peer.prototype._maybeReady = function () {
         try {
           self.send(self._chunk)
         } catch (err) {
-          return self.destroy(err)
+          return self.destroy(makeError(err, 'ERR_DATA_CHANNEL'))
         }
         self._chunk = null
         self._debug('sent chunk from "write before connect"')
@@ -10148,6 +10317,28 @@ Peer.prototype._onInterval = function () {
 Peer.prototype._onSignalingStateChange = function () {
   var self = this
   if (self.destroyed) return
+
+  if (self._pc.signalingState === 'stable') {
+    self._isNegotiating = false
+
+    // HACK: Firefox doesn't yet support removing tracks when signalingState !== 'stable'
+    self._debug('flushing sender queue', self._sendersAwaitingStable)
+    self._sendersAwaitingStable.forEach(function (sender) {
+      self.removeTrack(sender)
+      self._queuedNegotiation = true
+    })
+    self._sendersAwaitingStable = []
+
+    if (self._queuedNegotiation) {
+      self._debug('flushing negotiation queue')
+      self._queuedNegotiation = false
+      self._needsNegotiation() // negotiate again
+    }
+
+    self._debug('negotiate')
+    self.emit('negotiate')
+  }
+
   self._debug('signalingStateChange %s', self._pc.signalingState)
   self.emit('signalingStateChange', self._pc.signalingState)
 }
@@ -10201,21 +10392,28 @@ Peer.prototype._onChannelClose = function () {
   self.destroy()
 }
 
-Peer.prototype._onAddStream = function (event) {
-  var self = this
-  if (self.destroyed) return
-  self._debug('on add stream')
-  self.emit('stream', event.stream)
-}
-
 Peer.prototype._onTrack = function (event) {
   var self = this
   if (self.destroyed) return
-  self._debug('on track')
-  var id = event.streams[0].id
-  if (self._previousStreams.indexOf(id) !== -1) return // Only fire one 'stream' event, even though there may be multiple tracks per stream
-  self._previousStreams.push(id)
-  self.emit('stream', event.streams[0])
+
+  event.streams.forEach(function (eventStream) {
+    self._debug('on track')
+    self.emit('track', event.track, eventStream)
+
+    self._remoteTracks.push({
+      track: event.track,
+      stream: eventStream
+    })
+
+    if (self._remoteStreams.some(function (remoteStream) {
+      return remoteStream.id === eventStream.id
+    })) return // Only fire one 'stream' event, even though there may be multiple tracks per stream
+
+    self._remoteStreams.push(eventStream)
+    setTimeout(function () {
+      self.emit('stream', eventStream) // ensure all tracks have been added
+    }, 0)
+  })
 }
 
 Peer.prototype._debug = function () {
@@ -10274,10 +10472,16 @@ Peer.prototype._transformConstraints = function (constraints) {
   return constraints
 }
 
+function makeError (message, code) {
+  var err = new Error(message)
+  err.code = code
+  return err
+}
+
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":11,"debug":13,"get-browser-rtc":16,"inherits":18,"randombytes":43,"readable-stream":52}],55:[function(require,module,exports){
+},{"buffer":11,"debug":13,"get-browser-rtc":16,"inherits":18,"randombytes":42,"readable-stream":51}],54:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10574,7 +10778,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":53}],56:[function(require,module,exports){
+},{"safe-buffer":52}],55:[function(require,module,exports){
 (function (global){
 
 /**
@@ -10645,7 +10849,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],57:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -10670,7 +10874,7 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-},{}],58:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
 // and inconsistent support for the `crypto` API.  We do the best we can via
@@ -10704,7 +10908,7 @@ if (getRandomValues) {
   };
 }
 
-},{}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var rng = require('./lib/rng');
 var bytesToUuid = require('./lib/bytesToUuid');
 
@@ -10735,7 +10939,7 @@ function v4(options, buf, offset) {
 
 module.exports = v4;
 
-},{"./lib/bytesToUuid":57,"./lib/rng":58}],"spray-wrtc":[function(require,module,exports){
+},{"./lib/bytesToUuid":56,"./lib/rng":57}],"spray-wrtc":[function(require,module,exports){
 'use strict'
 
 const debug = (require('debug'))('spray-wrtc')
@@ -10767,110 +10971,110 @@ class Spray extends N2N {
      * to a*log(N) + b, where N is the number of peers in the network.
      * @param {nubmer} [options.b = 0] See above.
      */
-  constructor (options = {}) {
+    constructor (options = {}) {
         // #0 initialize our N2N-parent
-    super(merge({ pid: 'spray-wrtc',
-      delta: 1000 * 60 * 2,
-      timeout: 1000 * 60 * 1,
-      a: 1,
-      b: 0,
-      retry: 5 }, options))
+        super(merge({ pid: 'spray-wrtc',
+                      delta: 1000 * 60 * 2,
+                      timeout: 1000 * 60 * 1,
+                      a: 1,
+                      b: 0,
+                      retry: 5 }, options))
         // #1 constants (from N2N)
         // this.PID = protocol identifier
         // this.PEER = peer Id comprising inview and outview Ids
-    debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER)
+        debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER)
         // #2 initialize the partial view containing ages
-    this.partialView = new PartialView()
+        this.partialView = new PartialView()
         // #3 initialize the connectedness state of this protocol
-    this.state = 'disconnected'
+        this.state = 'disconnected'
         // #4 periodic shuffling
-    this.periodic = null
+        this.periodic = null
         // #5 events
-    this.on('receive', (peerId, message) => this._receive(peerId, message))
+        this.on('receive', (peerId, message) => this._receive(peerId, message))
         // this.on('stream', (peerId, message) => { } ); // (TODO) ?;
-    this.on('open', (peerId) => {
-      this._open(peerId)
-      this._updateState()
-    })
-    this.on('close', (peerId) => {
-      this._close(peerId)
-      this._updateState()
-    })
-    this.on('fail', (peerId) => {
-      this._onArcDown(peerId)
-      this._updateState()
-    })
-  };
+        this.on('open', (peerId) => {
+            this._open(peerId)
+            this._updateState()
+        })
+        this.on('close', (peerId) => {
+            this._close(peerId)
+            this._updateState()
+        })
+        this.on('fail', (peerId) => {
+            this._onArcDown(peerId)
+            this._updateState()
+        })
+    };
 
     /**
      * @private Start periodic shuffling.
      */
-  _start (delay = this.options.delta) {
-    this.periodic = setInterval(() => {
-      this._exchange()
-    }, delay)
-  };
+    _start (delay = this.options.delta) {
+        this.periodic = setInterval(() => {
+            this._exchange()
+        }, delay)
+    };
 
     /**
      * @private Stop periodic shuffling.
      */
-  _stop () {
-    clearInterval(this.periodic)
-  };
+    _stop () {
+        clearInterval(this.periodic)
+    };
 
     /**
      * @private Called each time this protocol receives a message.
      * @param {string} peerId The identifier of the peer that sent the message.
      * @param {object|MExchange|MJoin} message The message received.
      */
-  _receive (peerId, message) {
-    if (message.type && message.type === 'MExchange') {
-      this._onExchange(peerId, message)
-    } else if (message.type && message.type === 'MJoin') {
-      this._onJoin(peerId)
-    } else if (message.type && message.type === 'MLeave') {
-      this._onLeave(peerId)
-    } else {
-      throw new ExMessage('_receive', message, 'unhandled')
+    _receive (peerId, message) {
+        if (message.type && message.type === 'MExchange') {
+            this._onExchange(peerId, message)
+        } else if (message.type && message.type === 'MJoin') {
+            this._onJoin(peerId)
+        } else if (message.type && message.type === 'MLeave') {
+            this._onLeave(peerId)
+        } else {
+            throw new ExMessage('_receive', message, 'unhandled')
+        };
     };
-  };
 
     /**
      * @private Behavior when a connection is ready to be added in the partial
      * view.
      * @param {string} peerId The identifier of the new neighbor.
      */
-  _open (peerId) {
-    debug('[%s] %s ===> %s', this.PID, this.PEER, peerId)
-    this.partialView.add(peerId)
-  };
+    _open (peerId) {
+        debug('[%s] %s ===> %s', this.PID, this.PEER, peerId)
+        this.partialView.add(peerId)
+    };
 
     /**
      * @private Behavior when a connection is closed.
      * @param {string} peerId The identifier of the removed arc.
      */
-  _close (peerId) {
-    debug('[%s] %s =†=> %s', this.PID, this.PEER, peerId)
-  };
+    _close (peerId) {
+        debug('[%s] %s =†=> %s', this.PID, this.PEER, peerId)
+    };
 
     /**
      * @private Update the connectedness state of the peer.
      */
-  _updateState () {
-    const remember = this.state
-    if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected') {
-      this.state = 'connected'
-    } else if ((this.i.size > 0 && this.o.size <= 0 ||
+    _updateState () {
+        const remember = this.state
+        if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected') {
+            this.state = 'connected'
+        } else if ((this.i.size > 0 && this.o.size <= 0 ||
                     this.o.size > 0 && this.i.size <= 0) &&
                    remember !== 'partially connected') {
-      this.state = 'partially connected'
-    } else if (this.i.size <= 0 && this.o.size <= 0 &&
+            this.state = 'partially connected'
+        } else if (this.i.size <= 0 && this.o.size <= 0 &&
                    remember !== 'disconnected') {
-      this.state = 'disconnected'
+            this.state = 'disconnected'
             // this._stop();
+        };
+        (remember !== this.state) && this.emit('statechange', this.state)
     };
-    (remember !== this.state) && this.emit('statechange', this.state)
-  };
 
     /**
      * Joining a network.
@@ -10881,56 +11085,56 @@ class Spray extends N2N {
      * network -- the resolve contains the peerId; rejected after a timeout, or
      * already connected state.
      */
-  join (sender) {
-    let result = new Promise((resolve, reject) => {
+    join (sender) {
+        let result = new Promise((resolve, reject) => {
             // #0 connectedness state check
-      (this.state !== 'disconnected') &&
+            (this.state !== 'disconnected') &&
                 reject(new ExJoin('join', 'Already connected.'))
             // #1 set timeout before reject
-      let to = setTimeout(() => {
-        reject(new ExJoin('join', 'Timeout exceeded.'))
-      }, this.options.timeout)
+            let to = setTimeout(() => {
+                reject(new ExJoin('join', 'Timeout exceeded.'))
+            }, this.options.timeout)
             // #2 very first call, only done once
-      this.once('open', (peerId) => {
-        this.send(peerId, new MJoin(), this.options.retry)
+            this.once('open', (peerId) => {
+                this.send(peerId, new MJoin(), this.options.retry)
                     .then(() => {
-                      clearTimeout(to)
-                      this._start() // start shuffling process
-                      this._inject(this.options.a - 1, 0, peerId)
-                      resolve(peerId)
+                        clearTimeout(to)
+                        this._start() // start shuffling process
+                        this._inject(this.options.a - 1, 0, peerId)
+                        resolve(peerId)
                     }).catch(() => {
-                      reject(new ExJoin('join',
-                                           'Could not notify remote contact.'))
+                        reject(new ExJoin('join',
+                                          'Could not notify remote contact.'))
                     })
-      })
-    })
+            })
+        })
         // #3 engage the very first connection of this peer
-    this.connect(sender)
-    return result
-  };
+        this.connect(sender)
+        return result
+    };
 
     /**
      * @private Behavior of the contact peer when a newcomer arrives.
      * @param {string} peerId The identifier of the newcomer.
      */
-  _onJoin (peerId) {
-    if (this.partialView.size > 0) {
+    _onJoin (peerId) {
+        if (this.partialView.size > 0) {
             // #1 all neighbors -> peerId
-      debug('[%s] %s ===> join %s ===> %s neighbors',
+            debug('[%s] %s ===> join %s ===> %s neighbors',
                   this.PID, peerId, this.PEER, this.partialView.size)
-      this.partialView.forEach((ages, neighbor) => {
-        ages.forEach((age) => {
-          this.connect(neighbor, peerId)
-        })
-      })
-    } else {
+            this.partialView.forEach((ages, neighbor) => {
+                ages.forEach((age) => {
+                    this.connect(neighbor, peerId)
+                })
+            })
+        } else {
             // #2 Seems like a 2-peer network;  this -> peerId;
-      debug('[%s] %s ===> join %s ===> %s',
+            debug('[%s] %s ===> join %s ===> %s',
                   this.PID, peerId, this.PEER, peerId)
-      this._inject(this.options.a, this.options.b, peerId)
-      this._start()
+            this._inject(3*this.options.a-1, 2*this.options.b, peerId)
+            this._start()
+        };
     };
-  };
 
     /**
      * Leave the network. If time is given, it tries to patch the network before
@@ -10938,73 +11142,73 @@ class Spray extends N2N {
      * @param {number} [time = 0] The time (in milliseconds) given to this peer
      * to patch the network before trully leaving.
      */
-  leave (time = 0) {
+    leave (time = 0) {
         // ugly way
-    const saveNITimeout = this.NI.options.timeout
-    const saveNOTimeout = this.NO.options.timeout
-    this.NI.options.timeout = time
-    this.NO.options.timeout = time
+        const saveNITimeout = this.NI.options.timeout
+        const saveNOTimeout = this.NO.options.timeout
+        this.NI.options.timeout = time
+        this.NO.options.timeout = time
 
         // #0 stop shufflings
-    this._stop()
-    if (time > 0) {
+        this._stop()
+        if (time > 0) {
             // #1 patch the network; in total must remove a.log(N) + b arcs
             // inview -> this -> outview   becomes   inview -> outview
             // #A flatten the inview and the outview
-      let inview = this.getInview()
-      let flattenI = []
-      inview.forEach((occ, peerId) => flattenI.push(peerId))
-      let outview = this.getOutview()
-      let flattenO = []
-      outview.forEach((occ, peerId) => flattenO.push(peerId))
+            let inview = this.getInview()
+            let flattenI = []
+            inview.forEach((occ, peerId) => flattenI.push(peerId))
+            let outview = this.getOutview()
+            let flattenO = []
+            outview.forEach((occ, peerId) => flattenO.push(peerId))
             // #B process the number of arc to save
             // (TODO) double check this proportion
-      let toKeep = outview.size - this.options.a
+            let toKeep = outview.size - this.options.a
             // #C bridge connections
             // (TODO) check more than 2 in flattenI and flattenO is ≠
-      for (let i = 0; i < Math.floor(toKeep); ++i) {
-        const rnI = Math.floor(Math.random() * flattenI.length)
-        let different = flattenO
+            for (let i = 0; i < Math.floor(toKeep); ++i) {
+                const rnI = Math.floor(Math.random() * flattenI.length)
+                let different = flattenO
                     .filter((peerId) => peerId !== flattenI[rnI])
-        if (different.length > 0) {
-          const rnO = Math.floor(Math.random() * different.length)
-          this.connect(flattenI[rnI], different[rnO])
-        };
-      };
+                if (different.length > 0) {
+                    const rnO = Math.floor(Math.random() * different.length)
+                    this.connect(flattenI[rnI], different[rnO])
+                };
+            };
             // (TODO) add probabilistic bridging if toKeep is a floating number
 
-      flattenI.forEach((peerId) => {
-        this.send(peerId, new MLeave(), this.options.retry)
+            flattenI.forEach((peerId) => {
+                this.send(peerId, new MLeave(), this.options.retry)
                     .catch((e) => { })
-      })
+            })
 
-      flattenO.forEach((peerId) => {
-        this._onLeave(peerId)
-      })
-    } else {
+            flattenO.forEach((peerId) => {
+                this._onLeave(peerId)
+            })
+        } else {
             // #2 just leave
-      this.partialView.clear()
-      this.disconnect()
-    };
+            this.partialView.clear()
+            this.disconnect()
+        };
 
-    this.NI.options.timeout = saveNITimeout
-    this.NO.options.timeout = saveNOTimeout
-  };
+        this.NI.options.timeout = saveNITimeout
+        this.NO.options.timeout = saveNOTimeout
+    };
 
     /**
      * @private A remote peer we target just left the network. We remove it from
      * our partial view.
      * @param {string} peerId The identifier of the peer that just left.
      */
-  _onLeave (peerId) {
-    if (this.partialView.has(peerId)) {
-      debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId)
-      const occ = this.partialView.removeAll(peerId)
-      for (let i = 0; i < occ; ++i) {
-        this.disconnect(peerId)
-      };
+    _onLeave (peerId) {
+        if (this.partialView.has(peerId)) {
+            debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId)
+            const occ = this.partialView.removeAll(peerId)
+            for (let i = 0; i < occ; ++i) {
+                this.disconnect(peerId)
+            };
+        };
     };
-  };
 
     /**
      * Get k neighbors from the partial view. If k is not reached, it tries to
@@ -11015,34 +11219,34 @@ class Spray extends N2N {
      * it returns every known identifiers of the partial view.
      * @return {string[]} Array of identifiers.
      */
-  getPeers (k) {
-    let peers = []
-    if (typeof k === 'undefined') {
+    getPeers (k) {
+        let peers = []
+        if (typeof k === 'undefined') {
             // #1 get all the partial view
-      this.partialView.forEach((occ, peerId) => {
-        peers.push(peerId)
-      })
-    } else {
+            this.partialView.forEach((occ, peerId) => {
+                peers.push(peerId)
+            })
+        } else {
             // #2 get random identifier from outview
-      let out = []
-      this.partialView.forEach((ages, peerId) => out.push(peerId))
-      while (peers.length < k && out.length > 0) {
-        let rn = Math.floor(Math.random() * out.length)
-        peers.push(out[rn])
-        out.splice(rn, 1)
-      };
+            let out = []
+            this.partialView.forEach((ages, peerId) => out.push(peerId))
+            while (peers.length < k && out.length > 0) {
+                let rn = Math.floor(Math.random() * out.length)
+                peers.push(out[rn])
+                out.splice(rn, 1)
+            };
             // #3 get random identifier from the inview to fill k-entries
-      let inView = []
-      this.i.forEach((occ, peerId) => inView.push(peerId))
-      while (peers.length < k && inView.length > 0) {
-        let rn = Math.floor(Math.random() * inView.length)
-        peers.push(inView[rn])
-        inView.splice(rn, 1)
-      };
+            let inView = []
+            this.i.forEach((occ, peerId) => inView.push(peerId))
+            while (peers.length < k && inView.length > 0) {
+                let rn = Math.floor(Math.random() * inView.length)
+                peers.push(inView[rn])
+                inView.splice(rn, 1)
+            };
+        };
+        debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length)
+        return peers
     };
-    debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length)
-    return peers
-  };
 
     /* *********************************
      * Spray's protocol implementation *
@@ -11052,17 +11256,17 @@ class Spray extends N2N {
      * @private Check the partial view, i.e., weither or not connections are
      * still up and usable.
      */
-  _checkPartialView () {
-    let down = []
-    this.partialView.forEach((ages, peerId) => {
-      if (!this.o.has(peerId)) {
-        down.push(peerId)
-      };
-    })
-    down.forEach((peerId) => {
-      this._onPeerDown(peerId)
-    })
-  };
+    _checkPartialView () {
+        let down = []
+        this.partialView.forEach((ages, peerId) => {
+            if (!this.o.has(peerId)) {
+                down.push(peerId)
+            };
+        })
+        down.forEach((peerId) => {
+            this._onPeerDown(peerId)
+        })
+    };
 
     /**
      * @private Get a sample of the partial view.
@@ -11071,78 +11275,77 @@ class Spray extends N2N {
      * @return {string[]} An array containing the identifiers of neighbors from
      * this partial view.
      */
-  _getSample (peerId) {
-    let sample = []
+    _getSample (peerId) {
+        let sample = []
         // #1 create a flatten version of the partial view
-    let flatten = []
-    this.partialView.forEach((ages, neighbor) => {
-      ages.forEach((age) => {
-        flatten.push(neighbor)
-      })
-    })
+        let flatten = []
+        this.partialView.forEach((ages, neighbor) => {
+            ages.forEach((age) => {
+                flatten.push(neighbor)
+            })
+        })
         // #2 process the size of the sample
-    const sampleSize = Math.ceil(flatten.length / 2)
+        const sampleSize = Math.ceil(flatten.length / 2)
         // #3 initiator removes a chosen neighbor entry and adds it to sample
-    if (typeof peerId !== 'undefined') {
-      flatten.splice(flatten.indexOf(peerId), 1)
-      sample.push(peerId)
-    };
+        if (typeof peerId !== 'undefined') {
+            flatten.splice(flatten.indexOf(peerId), 1)
+            sample.push(peerId)
+        };
         // #4 add neighbors to the sample chosen at random
-    while (sample.length < sampleSize) {
-      const rn = Math.floor(Math.random() * flatten.length)
-      sample.push(flatten[rn])
-      flatten.splice(rn, 1)
+        while (sample.length < sampleSize) {
+            const rn = Math.floor(Math.random() * flatten.length)
+            sample.push(flatten[rn])
+            flatten.splice(rn, 1)
+        };
+        return sample
     };
-    return sample
-  };
 
     /**
      * @private Periodically called function that aims to balance the partial
      * view and to mix the neighborhoods.
      */
-  _exchange () {
-    this._checkPartialView()
+    _exchange () {
+        this._checkPartialView()
         // #0 if the partial view is empty --- could be due to disconnections,
         // failure, or _onExchange started with other peers --- skip this round.
-    if (this.partialView.size <= 0) { return }
-    this.partialView.increment()
-    const oldest = this.partialView.oldest
-    debug('Exchange with oldest: ', oldest)
+        if (this.partialView.size <= 0) { return }
+        this.partialView.increment()
+        const oldest = this.partialView.oldest
         // #1 send the notification to oldest that we perform an exchange
-    this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)
+        this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)
             .then(() => {
                 // #A setup the exchange
                 // #2 get a sample from our partial view
-              let sample = this._getSample(oldest)
-              debug('[%s] %s ==> exchange %s ==> %s',
+                let sample = this._getSample(oldest)
+                debug('[%s] %s ==> exchange %s ==> %s',
                       this.PID, this.PEER, sample.length, oldest)
                 // #3 replace occurrences to oldest by ours
-              sample = sample.map((peerId) => {
-                return ((peerId === oldest) && this.getInviewId()) || peerId
-              })
+                sample = sample.map((peerId) => {
+                    return ((peerId === oldest) && this.getInviewId()) || peerId
+                })
                 // #4 connect oldest -> sample
-              sample.forEach((peerId) => {
-                this.connect(oldest, peerId)
-              })
+                sample.forEach((peerId) => {
+                    this.connect(oldest, peerId)
+                })
                 // #5 remove our own connection
-              sample = sample.map((peerId) => {
-                return ((peerId === this.getInviewId()) && oldest) || peerId
-              })
-              sample.forEach((peerId) => {
-                this.disconnect(peerId)
-                if (peerId === oldest) {
-                  this.partialView.removeOldest(peerId)
-                } else {
-                  this.partialView.removeYoungest(peerId)
-                };
-              })
+                sample = sample.map((peerId) => {
+                    return ((peerId === this.getInviewId()) && oldest) || peerId
+                })
+                sample.forEach((peerId) => {
+                    this.disconnect(peerId)
+                    if (peerId === oldest) {
+                        this.partialView.removeOldest(peerId)
+                    } else {
+                        this.partialView.removeYoungest(peerId)
+                    };
+                })
             }).catch((e) => {
                 // #B the peer cannot be reached, he is supposedly dead
-              debug('[%s] %s =X> exchange =X> %s',
+                debug('[%s] %s =X> exchange =X> %s',
                       this.PID, this.PEER, oldest)
-              this._onPeerDown(oldest)
+                this._onPeerDown(oldest)
             })
-  };
+    };
 
     /**
      * @private Behavior when this peer receives a shuffling request.
@@ -11151,57 +11354,57 @@ class Spray extends N2N {
      * @param {MExchange} message message containing the identifier of the peer
      * that started the exchange.
      */
-  _onExchange (neighbor, message) {
-    this._checkPartialView()
+    _onExchange (neighbor, message) {
+        this._checkPartialView()
         // #1 get a sample of neighbors from our partial view
-    this.partialView.increment()
-    let sample = this._getSample()
-    debug('[%s] %s ==> exchange %s ==> %s',
+        this.partialView.increment()
+        let sample = this._getSample()
+        debug('[%s] %s ==> exchange %s ==> %s',
               this.PID, neighbor, sample.length, this.PEER)
         // #2 replace occurrences of the initiator by ours
-    sample = sample.map((peerId) => {
-      return (peerId === message.inview) && this.getInviewId() || peerId
-    })
+        sample = sample.map((peerId) => {
+            return (peerId === message.inview) && this.getInviewId() || peerId
+        })
         // #3 establish connections
-    sample.forEach((peerId) => {
-      this.connect(neighbor, peerId)
-    })
+        sample.forEach((peerId) => {
+            this.connect(neighbor, peerId)
+        })
         // #4 inverse replacement
-    sample = sample.map((peerId) => {
-      return (peerId === this.getInviewId()) && message.inview || peerId
-    })
+        sample = sample.map((peerId) => {
+            return (peerId === this.getInviewId()) && message.inview || peerId
+        })
         // #5 disconnect arcs
-    sample.forEach((peerId) => {
-      this.disconnect(peerId)
-      this.partialView.removeYoungest(peerId)
-    })
-  };
+        sample.forEach((peerId) => {
+            this.disconnect(peerId)
+            this.partialView.removeYoungest(peerId)
+        })
+    };
 
     /**
      * @private The function called when a neighbor is unreachable and
      * supposedly crashed/departed. It probabilistically duplicates an arc.
      * @param {string} peerId The identifier of the peer that seems down.
      */
-  _onPeerDown (peerId) {
-    debug('[%s] ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId)
+    _onPeerDown (peerId) {
+        debug('[%s] ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId)
         // #1 remove all occurrences of the peer in the partial view
-    const occ = this.partialView.removeAll(peerId)
+        const occ = this.partialView.removeAll(peerId)
         // #2 probabilistically recreate arcs to a known peer
         // (TODO) double check this
-    const proba = this.options.a / (this.partialView.size + occ)
+        const proba = this.options.a / (this.partialView.size + occ)
 
-    if (this.partialView.size > 0) {
+        if (this.partialView.size > 0) {
             // #A normal behavior
-      for (let i = 0; i < occ; ++i) {
-        if (Math.random() > proba) {
+            for (let i = 0; i < occ; ++i) {
+                if (Math.random() > proba) {
                     // probabilistically duplicate the least frequent peers
-          this.connect(null, this.partialView.leastFrequent)
-        }
-      }
-    } else {
+                    this.connect(null, this.partialView.leastFrequent)
+                }
+            }
+        } else {
             // #B last chance behavior (TODO) ask inview
+        };
     };
-  };
 
     /**
      * @private A connection failed to establish properly, systematically
@@ -11209,19 +11412,19 @@ class Spray extends N2N {
      * @param {string|null} peerId The identifier of the peer we failed to
      * establish a connection with. Null if it was yet to be known.
      */
-  _onArcDown (peerId) {
-    debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown')
-    if (this.partialView.size > 0) {
+    _onArcDown (peerId) {
+        debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown')
+        if (this.partialView.size > 0) {
             // #1 normal behavior
-      this.connect(null, this.partialView.leastFrequent)
-    } else {
+            this.connect(null, this.partialView.leastFrequent)
+        } else {
             // #2 last chance behavior
             // (TODO) ask inview
             // const rn = Math.floor(Math.random() * this.i.size);
             // let it = this.i.keys();
             // this.II.connect(null, this.i.
+        };
     };
-  };
 
     /**
      * @private Inject a*log(N) + b arcs leading to peerId. When parameters are
@@ -11230,25 +11433,25 @@ class Spray extends N2N {
      * @param {number} b + b
      * @param {string} peerId The identifier of the peer to duplicate.
      */
-  _inject (a, b, peerId) {
-    let copyA = a
-    for (let i = 0; i < Math.floor(a); ++i) {
-      this.connect(null, peerId)
-      copyA -= 1
-    };
-    if (Math.random() < copyA) {
-      this.connect(null, peerId)
-    };
+    _inject (a, b, peerId) {
+        let copyA = a
+        for (let i = 0; i < Math.floor(a); ++i) {
+            this.connect(null, peerId)
+            copyA -= 1
+        };
+        if (Math.random() < copyA) {
+            this.connect(null, peerId)
+        };
 
-    let copyB = b
-    for (let i = 0; i < Math.floor(b); ++i) {
-      this.connect(null, peerId)
-      copyB -= 1
+        let copyB = b
+        for (let i = 0; i < Math.floor(b); ++i) {
+            this.connect(null, peerId)
+            copyB -= 1
+        };
+        if (Math.random() < copyB) {
+            this.connect(null, peerId)
+        };
     };
-    if (Math.random() < copyB) {
-      this.connect(null, peerId)
-    };
-  };
 };
 
 module.exports = Spray
