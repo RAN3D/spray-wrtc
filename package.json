@@ -1,6 +1,6 @@
 {
     "name": "spray-wrtc",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
     "description": "Adaptive random peer-sampling protocol running on top of WebRTC",
     "main": "./lib/spray.js",
