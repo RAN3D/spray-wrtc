@@ -2,12 +2,19 @@ const S = require('spray-wrtc');
 
 let graph = new window.P2PGraph('.graph');
 
-let N = 25;
+let N = 5;
 
 let a = 1;
-let b = 0;
+let b = 3;
+
+let harmonic = 3*a + 2*b;
+for (let i = 3; i <= N; ++i) {
+    harmonic += harmonic/(i-1) + a;
+};
+harmonic = harmonic;
 
 document.getElementById("theoretical").innerHTML = ""+ (N* (a*Math.log(N) + b));
+document.getElementById("harmonical").innerHTML = ""+ harmonic;
 
 // #1 create N peers 
 let peers = [];
@@ -28,12 +35,34 @@ const callback = (from, to) => {
     };
 };
 
+function nbNeighbors(p){
+    let result = 0;
+    p.partialView.forEach( (ages)=>{
+        result += ages.length;
+    });
+    return result;
+}
+
+
 // #3 peers join the network 1 by 1
 for (let i = 1; i < N ; ++i) {
     setTimeout( (nth) => {
-        const rn = Math.floor(Math.random() * nth);
-        peers[nth].join(callback(peers[nth], peers[rn]));
-    }, i*1000, i);
+        let avg = totalLinks/(nth-1);
+        let min = 12391284;
+        let chosen = 0;
+        for (let j = 0; j < (nth-1); ++j){
+            if (Math.abs(nbNeighbors(peers[j]) - avg) < min ) {
+                min = Math.abs(nbNeighbors(peers[j]) - avg);
+                chosen = j;
+            }
+                
+        }
+                   
+        // const rn = Math.floor(Math.random() * nth);
+        peers[nth].join(callback(peers[nth], peers[chosen]));
+        setTimeout( () => {
+            peers[nth]._exchange(); }            , 1000);
+    }, i*3000, i);
 };
 
 
