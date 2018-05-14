@@ -5,7 +5,7 @@ let graph = new window.P2PGraph('.graph');
 let N = 5;
 
 let a = 1;
-let b = 3;
+let b = 0;
 
 let harmonic = 3*a + 2*b;
 for (let i = 3; i <= N; ++i) {

@@ -234,7 +234,7 @@ class Spray extends N2N {
             // #2 Seems like a 2-peer network;  this -&gt; peerId;
             debug(&apos;[%s] %s ===&gt; join %s ===&gt; %s&apos;,
                   this.PID, peerId, this.PEER, peerId)
-            this._inject(3*this.options.a-1, 2*this.options.b, peerId)
+            this._inject(2*this.options.a, 2*this.options.b, peerId)
             this._start()
         };
     };
