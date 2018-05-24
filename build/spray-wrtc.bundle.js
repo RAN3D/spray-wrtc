@@ -5788,6 +5788,15 @@ class N2N extends EventEmitter {
         } else if (this.o.has(peerId)) {
             promise = this.IO.send(peerId, message, retry);
         } else {
+          // determine if it is an inview id or an outview arc and in case of inview, tranform it to outview and try to find it in the outview, reverse method for outview id
+          const root = peerId.substr(0, peerId.length-2)
+          const inv = root+'-I'
+          const out = root+'-O'
+          if(this.o.has(inv)) {
+            promise = this.IO.send(inv, message, retry);
+          } else if(this.i.has(out)) {
+            promise = this.II.send(out, message, retry);
+          } else {
             // #2 last chance behavior
             promise = new Promise( (resolve, reject) => {
                 const _send = (r) => {
@@ -5806,6 +5815,7 @@ class N2N extends EventEmitter {
                                 }));};
                 _send(0);
             });
+          }
         };
         return promise;
     };
@@ -5867,7 +5877,8 @@ class N2N extends EventEmitter {
             this.II.disconnect();
             this.IO.disconnect();
         } else {
-            this.IO.disconnect(peerId);
+          if(this.i.has(peerId)) this.II.disconnect(peerId);
+          if(this.o.has(peerId)) this.IO.disconnect(peerId);
         };
     }
 
@@ -5907,7 +5918,7 @@ class N2N extends EventEmitter {
 
 module.exports = N2N;
 
-},{"./messages/mconnectto.js":23,"./messages/mdirect.js":24,"./messages/mforwarded.js":25,"./messages/mforwardto.js":26,"debug":13,"events":15,"lodash.merge":21,"neighborhood-wrtc":39,"uuid/v4":58}],28:[function(require,module,exports){
+},{"./messages/mconnectto.js":23,"./messages/mdirect.js":24,"./messages/mforwarded.js":25,"./messages/mforwardto.js":26,"debug":13,"events":15,"lodash.merge":21,"neighborhood-wrtc":39,"uuid/v4":59}],28:[function(require,module,exports){
 'use strict'
 
 const ELiving = require('./entries/eliving.js')
@@ -6930,7 +6941,7 @@ class Neighborhood {
 
 module.exports = Neighborhood
 
-},{"./arcstore.js":28,"./entries/edying.js":29,"./entries/epending.js":31,"./exceptions/exincompletemessage.js":32,"./exceptions/exprotocolexists.js":33,"./interfaces/ineighborhood.js":35,"./messages/mrequest.js":36,"./messages/mresponse.js":37,"./messages/msend.js":38,"debug":13,"lodash.merge":21,"simple-peer":53,"uuid/v4":58}],40:[function(require,module,exports){
+},{"./arcstore.js":28,"./entries/edying.js":29,"./entries/epending.js":31,"./exceptions/exincompletemessage.js":32,"./exceptions/exprotocolexists.js":33,"./interfaces/ineighborhood.js":35,"./messages/mrequest.js":36,"./messages/mresponse.js":37,"./messages/msend.js":38,"debug":13,"lodash.merge":21,"simple-peer":53,"uuid/v4":59}],40:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -8624,7 +8635,7 @@ function done(stream, er, data) {
   return stream.push(null);
 }
 },{"./_stream_duplex":43,"core-util-is":12,"inherits":18}],47:[function(require,module,exports){
-(function (process,global){
+(function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9312,8 +9323,8 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":43,"./internal/streams/destroy":49,"./internal/streams/stream":50,"_process":41,"core-util-is":12,"inherits":18,"process-nextick-args":40,"safe-buffer":52,"util-deprecate":55}],48:[function(require,module,exports){
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+},{"./_stream_duplex":43,"./internal/streams/destroy":49,"./internal/streams/stream":50,"_process":41,"core-util-is":12,"inherits":18,"process-nextick-args":40,"safe-buffer":52,"timers":55,"util-deprecate":56}],48:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9589,7 +9600,6 @@ function Peer (opts) {
   self.constraints = self._transformConstraints(opts.constraints || Peer.constraints)
   self.offerConstraints = self._transformConstraints(opts.offerConstraints || {})
   self.answerConstraints = self._transformConstraints(opts.answerConstraints || {})
-  self.reconnectTimer = opts.reconnectTimer || false
   self.sdpTransform = opts.sdpTransform || function (sdp) { return sdp }
   self.streams = opts.streams || (opts.stream ? [opts.stream] : []) // support old "stream" option
   self.trickle = opts.trickle !== undefined ? opts.trickle : true
@@ -9633,7 +9643,6 @@ function Peer (opts) {
   self._chunk = null
   self._cb = null
   self._interval = null
-  self._reconnectTimeout = null
 
   self._pc = new (self._wrtc.RTCPeerConnection)(self.config, self.constraints)
 
@@ -9914,9 +9923,7 @@ Peer.prototype._destroy = function (err, cb) {
   self._senderMap = null
 
   clearInterval(self._interval)
-  clearTimeout(self._reconnectTimeout)
   self._interval = null
-  self._reconnectTimeout = null
   self._chunk = null
   self._cb = null
 
@@ -10111,7 +10118,6 @@ Peer.prototype._onIceStateChange = function () {
   self.emit('iceStateChange', iceConnectionState, iceGatheringState)
 
   if (iceConnectionState === 'connected' || iceConnectionState === 'completed') {
-    clearTimeout(self._reconnectTimeout)
     self._pcReady = true
     self._maybeReady()
   }
@@ -10779,6 +10785,85 @@ function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
 },{"safe-buffer":52}],55:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":41,"timers":55}],56:[function(require,module,exports){
 (function (global){
 
 /**
@@ -10849,7 +10934,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 /**
  * Convert array of 16 byte values to UUID string format of the form:
  * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -10874,7 +10959,7 @@ function bytesToUuid(buf, offset) {
 
 module.exports = bytesToUuid;
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 // Unique ID creation requires a high quality random # generator.  In the
 // browser this is a little complicated due to unknown quality of Math.random()
 // and inconsistent support for the `crypto` API.  We do the best we can via
@@ -10908,7 +10993,7 @@ if (getRandomValues) {
   };
 }
 
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var rng = require('./lib/rng');
 var bytesToUuid = require('./lib/bytesToUuid');
 
@@ -10939,7 +11024,7 @@ function v4(options, buf, offset) {
 
 module.exports = v4;
 
-},{"./lib/bytesToUuid":56,"./lib/rng":57}],"spray-wrtc":[function(require,module,exports){
+},{"./lib/bytesToUuid":57,"./lib/rng":58}],"spray-wrtc":[function(require,module,exports){
 'use strict'
 
 const debug = (require('debug'))('spray-wrtc')
