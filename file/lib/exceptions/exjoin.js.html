@@ -43,23 +43,23 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/exceptions/exjoin.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
 
 /**
  * Exception threw when the joining phase of Spray does not work as intended.
  */
 class ExJoin {
-    /**
+  /**
      * @param {string} source The name of the function that threw the exception.
      * @param {string} reason The reason the joining failed.
      */
-    constructor (source, reason) {
-        this.source = source;
-        this.message = reason;
-    };
+  constructor (source, reason) {
+    this.source = source
+    this.message = reason
+  };
 };
 
-module.exports = ExJoin;
+module.exports = ExJoin
 </code></pre>
 
 </div>

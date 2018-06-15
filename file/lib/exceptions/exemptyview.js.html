@@ -43,24 +43,23 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/exceptions/exemptyview.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
 
 /**
  * Exception that rises when the partial view is used as if there were neighbors
  * populating it, whereas there are none.
  */
 class ExEmptyView {
-    /**
+  /**
      * @param {string} source The function that throws the exception.
      */
-    constructor (source) {
-        this.source = source;
-        this.message = &apos;Partial view is used as it was not empty, yet it is.&apos;;
-    };
+  constructor (source) {
+    this.source = source
+    this.message = &apos;Partial view is used as it was not empty, yet it is.&apos;
+  };
 };
 
-module.exports = ExEmptyView;
-
+module.exports = ExEmptyView
 </code></pre>
 
 </div>

@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "lib/exceptions/exemptyview.js",
-    "content": "'use strict';\n\n/**\n * Exception that rises when the partial view is used as if there were neighbors\n * populating it, whereas there are none.\n */\nclass ExEmptyView {\n    /**\n     * @param {string} source The function that throws the exception.\n     */\n    constructor (source) {\n        this.source = source;\n        this.message = 'Partial view is used as it was not empty, yet it is.';\n    };\n};\n\nmodule.exports = ExEmptyView;\n\n",
+    "content": "'use strict'\n\n/**\n * Exception that rises when the partial view is used as if there were neighbors\n * populating it, whereas there are none.\n */\nclass ExEmptyView {\n  /**\n     * @param {string} source The function that throws the exception.\n     */\n  constructor (source) {\n    this.source = source\n    this.message = 'Partial view is used as it was not empty, yet it is.'\n  };\n};\n\nmodule.exports = ExEmptyView\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/exceptions/exemptyview.js",
     "access": "public",
@@ -652,7 +652,7 @@
     "__docId__": 53,
     "kind": "file",
     "name": "lib/exceptions/exjoin.js",
-    "content": "'use strict';\n\n/**\n * Exception threw when the joining phase of Spray does not work as intended.\n */\nclass ExJoin {\n    /**\n     * @param {string} source The name of the function that threw the exception.\n     * @param {string} reason The reason the joining failed.\n     */\n    constructor (source, reason) {\n        this.source = source;\n        this.message = reason;\n    };\n};\n\nmodule.exports = ExJoin;\n",
+    "content": "'use strict'\n\n/**\n * Exception threw when the joining phase of Spray does not work as intended.\n */\nclass ExJoin {\n  /**\n     * @param {string} source The name of the function that threw the exception.\n     * @param {string} reason The reason the joining failed.\n     */\n  constructor (source, reason) {\n    this.source = source\n    this.message = reason\n  };\n};\n\nmodule.exports = ExJoin\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/exceptions/exjoin.js",
     "access": "public",
@@ -747,7 +747,7 @@
     "__docId__": 58,
     "kind": "file",
     "name": "lib/exceptions/exmessage.js",
-    "content": "'use strict';\n\n/**\n * Spray encountered a problem with a message.\n */\nclass ExMessage {\n    /**\n     * @param {string} source The name of the function that threw.\n     * @param {object} message The incriminated message.\n     * @param {string} reason The reason of the throw.\n     */\n    constructor (source, message, reason){\n        this.source = source;\n        this.message = message;\n        this.reason = reason;\n    };\n};\n\n\nmodule.exports = ExMessage;\n",
+    "content": "'use strict'\n\n/**\n * Spray encountered a problem with a message.\n */\nclass ExMessage {\n  /**\n     * @param {string} source The name of the function that threw.\n     * @param {object} message The incriminated message.\n     * @param {string} reason The reason of the throw.\n     */\n  constructor (source, message, reason) {\n    this.source = source\n    this.message = message\n    this.reason = reason\n  };\n};\n\nmodule.exports = ExMessage\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/exceptions/exmessage.js",
     "access": "public",
@@ -869,7 +869,7 @@
     "__docId__": 64,
     "kind": "file",
     "name": "lib/exceptions/expeernotfound.js",
-    "content": "'use strict';\n\n/**\n * Exception that rises when the peer looked for does not exist in the partial\n * view.\n */\nclass ExPeerNotFound {\n    /**\n     * @param {string} source The function that throw the error.\n     * @param {string} [peerId = 'unknown'] The identifier of the peer if\n     * defined.\n     */\n    constructor (source, peerId = 'unknown') {\n        this.source = source;\n        this.peer = peerId;\n    };\n};\n\n\nmodule.exports = ExPeerNotFound;\n",
+    "content": "'use strict'\n\n/**\n * Exception that rises when the peer looked for does not exist in the partial\n * view.\n */\nclass ExPeerNotFound {\n  /**\n     * @param {string} source The function that throw the error.\n     * @param {string} [peerId = 'unknown'] The identifier of the peer if\n     * defined.\n     */\n  constructor (source, peerId = 'unknown') {\n    this.source = source\n    this.peer = peerId\n  };\n};\n\nmodule.exports = ExPeerNotFound\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/exceptions/expeernotfound.js",
     "access": "public",
@@ -966,7 +966,7 @@
     "__docId__": 69,
     "kind": "file",
     "name": "lib/messages/mexchange.js",
-    "content": "'use strict';\n\n/**\n * Message requesting an exchange of neighborhood.\n */\nclass MExchange {\n    /**\n     * @param {string} inview The identifier of the inview.\n     */\n    constructor (inview) {\n        this.inview = inview;\n        this.type = 'MExchange';\n    };\n };\n\nmodule.exports = MExchange;\n",
+    "content": "'use strict'\n\n/**\n * Message requesting an exchange of neighborhood.\n */\nclass MExchange {\n  /**\n     * @param {string} inview The identifier of the inview.\n     */\n  constructor (inview) {\n    this.inview = inview\n    this.type = 'MExchange'\n  };\n};\n\nmodule.exports = MExchange\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/messages/mexchange.js",
     "access": "public",
@@ -1051,7 +1051,7 @@
     "__docId__": 74,
     "kind": "file",
     "name": "lib/messages/mjoin.js",
-    "content": "'use strict';\n\n/**\n * Message sent by a newcommer to its contact when it joins the network.\n */\nclass MJoin {\n    constructor () {\n        this.type = 'MJoin';\n    };\n};\n\nmodule.exports = MJoin;\n",
+    "content": "'use strict'\n\n/**\n * Message sent by a newcommer to its contact when it joins the network.\n */\nclass MJoin {\n  constructor () {\n    this.type = 'MJoin'\n  };\n};\n\nmodule.exports = MJoin\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/messages/mjoin.js",
     "access": "public",
@@ -1108,7 +1108,7 @@
     "__docId__": 78,
     "kind": "file",
     "name": "lib/messages/mleave.js",
-    "content": "'use strict';\n\n/**\n * Message that signals the departure of the sender.\n */\nclass MLeave {\n    constructor () {\n        this.type = 'MLeave';\n    };\n};\n\nmodule.exports = MLeave;\n",
+    "content": "'use strict'\n\n/**\n * Message that signals the departure of the sender.\n */\nclass MLeave {\n  constructor () {\n    this.type = 'MLeave'\n  };\n};\n\nmodule.exports = MLeave\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/messages/mleave.js",
     "access": "public",
@@ -1165,7 +1165,7 @@
     "__docId__": 82,
     "kind": "file",
     "name": "lib/partialview.js",
-    "content": "'use strict';\n\nconst ExPeerNotFound = require('./exceptions/expeernotfound.js');\n\n/**\n * Structure containing the neighborhood of a peer.\n * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k\n */\nclass PartialView extends Map {\n    constructor () {\n        super();\n    };\n    \n    /**\n     * Get the oldest peer in the partial view.\n     * @returns {string} The oldest peer in the array.\n     */\n    get oldest () {\n        if (this.size <= 0) { throw new ExPeerNotFound('oldest'); };\n        let oldestPeer = null;\n        let oldestAge = 0;\n        this.forEach( (ages, peerId) => {\n            if (oldestAge <= ages[ages.length - 1]) {\n                oldestPeer = peerId;\n                oldestAge = ages[ages.length - 1];\n            };\n        });\n        return oldestPeer;\n    };\n\n\n    /**\n     * Increment the age of the whole partial view\n     */\n    increment () {\n        this.forEach( (ages, peerId) => {\n            this.set(peerId, ages.map( (age) => {return age+1;} ));\n        });\n    };\n\n    /**\n     * Add the peer to the partial view with an age of 0.\n     * @param {string} peerId The identifier of the peer added to the partial\n     * view.\n     */\n    add (peerId) {\n        (!this.has(peerId)) && this.set(peerId, new Array());        \n        this.get(peerId).unshift(0); // add 0 in front of the array\n    };\n\n    /**\n     * Remove the newest entry of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the \n     * partial view. \n     */\n    removeYoungest (peerId) {\n        if (!this.has(peerId)) {\n            throw new ExPeerNotFound('removeYoungest', peerId);\n        };\n        this.get(peerId).shift();\n        (this.get(peerId).length === 0) && this.delete(peerId);\n    };\n\n    /**\n     * Remove the oldest entry of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the \n     * partial view. \n     */\n    removeOldest (peerId) {\n        if (!this.has(peerId)) {\n            throw new ExPeerNotFound('removeOldest', peerId);\n        };\n        this.get(peerId).pop();\n        (this.get(peerId).length === 0) && this.delete(peerId);\n    };\n\n    \n    /**\n     * Remove all entries of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the \n     * partial view.\n     * @returns {number} The number of occurrences of peerId removed.\n     */\n    removeAll (peerId) {\n        if (!this.has(peerId)) {\n            throw new ExPeerNotFound('removeAll', peerId);\n        };\n        const occ = this.get(peerId).length;\n        this.delete(peerId);\n        return occ;\n    };\n       \n\n    /**\n     * Get the least frequent peer. If multiple peers have the same number of\n     * occurrences, it chooses one among them at random.\n     * @returns {string} The identifier of a least frequent peer.\n     */\n    get leastFrequent () {\n        let leastFrequent = [];\n        let frequency = Infinity;\n        this.forEach( (ages, peerId) => {\n            if (ages.length < frequency){\n                leastFrequent = [];\n                frequency = ages.length;\n            };\n            (ages.length === frequency) && leastFrequent.push(peerId);\n        });\n        return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];\n    };    \n}\n\n\nmodule.exports = PartialView;\n",
+    "content": "'use strict'\n\nconst ExPeerNotFound = require('./exceptions/expeernotfound.js')\n\n/**\n * Structure containing the neighborhood of a peer.\n * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k\n */\nclass PartialView extends Map {\n  /**\n     * Get the oldest peer in the partial view.\n     * @returns {string} The oldest peer in the array.\n     */\n  get oldest () {\n    if (this.size <= 0) { throw new ExPeerNotFound('oldest') };\n    let oldestPeer = null\n    let oldestAge = 0\n    this.forEach((ages, peerId) => {\n      if (oldestAge <= ages[ages.length - 1]) {\n        oldestPeer = peerId\n        oldestAge = ages[ages.length - 1]\n      };\n    })\n    return oldestPeer\n  };\n\n  /**\n     * Increment the age of the whole partial view\n     */\n  increment () {\n    this.forEach((ages, peerId) => {\n      this.set(peerId, ages.map((age) => { return age + 1 }))\n    })\n  };\n\n  /**\n     * Add the peer to the partial view with an age of 0.\n     * @param {string} peerId The identifier of the peer added to the partial\n     * view.\n     */\n  add (peerId) {\n    (!this.has(peerId)) && this.set(peerId, [])\n    this.get(peerId).unshift(0) // add 0 in front of the array\n  };\n\n  /**\n     * Remove the newest entry of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the\n     * partial view.\n     */\n  removeYoungest (peerId) {\n    if (!this.has(peerId)) {\n      throw new ExPeerNotFound('removeYoungest', peerId)\n    };\n    this.get(peerId).shift();\n    (this.get(peerId).length === 0) && this.delete(peerId)\n  };\n\n  /**\n     * Remove the oldest entry of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the\n     * partial view.\n     */\n  removeOldest (peerId) {\n    if (!this.has(peerId)) {\n      throw new ExPeerNotFound('removeOldest', peerId)\n    };\n    this.get(peerId).pop();\n    (this.get(peerId).length === 0) && this.delete(peerId)\n  };\n\n  /**\n     * Remove all entries of the peer from the partial view.\n     * @param {string} peerId The identifier of the peer to remove from the\n     * partial view.\n     * @returns {number} The number of occurrences of peerId removed.\n     */\n  removeAll (peerId) {\n    if (!this.has(peerId)) {\n      throw new ExPeerNotFound('removeAll', peerId)\n    };\n    const occ = this.get(peerId).length\n    this.delete(peerId)\n    return occ\n  };\n\n  /**\n     * Get the least frequent peer. If multiple peers have the same number of\n     * occurrences, it chooses one among them at random.\n     * @returns {string} The identifier of a least frequent peer.\n     */\n  get leastFrequent () {\n    let leastFrequent = []\n    let frequency = Infinity\n    this.forEach((ages, peerId) => {\n      if (ages.length < frequency) {\n        leastFrequent = []\n        frequency = ages.length\n      };\n      (ages.length === frequency) && leastFrequent.push(peerId)\n    })\n    return leastFrequent[Math.floor(Math.random() * leastFrequent.length)]\n  };\n}\n\nmodule.exports = PartialView\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/partialview.js",
     "access": "public",
@@ -1192,20 +1192,6 @@
   },
   {
     "__docId__": 84,
-    "kind": "constructor",
-    "name": "constructor",
-    "memberof": "lib/partialview.js~PartialView",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "lib/partialview.js~PartialView#constructor",
-    "access": "public",
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true
-  },
-  {
-    "__docId__": 85,
     "kind": "get",
     "name": "oldest",
     "memberof": "lib/partialview.js~PartialView",
@@ -1215,7 +1201,7 @@
     "longname": "lib/partialview.js~PartialView#oldest",
     "access": "public",
     "description": "Get the oldest peer in the partial view.",
-    "lineNumber": 18,
+    "lineNumber": 14,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1237,7 +1223,7 @@
     }
   },
   {
-    "__docId__": 86,
+    "__docId__": 85,
     "kind": "method",
     "name": "increment",
     "memberof": "lib/partialview.js~PartialView",
@@ -1247,12 +1233,12 @@
     "longname": "lib/partialview.js~PartialView#increment",
     "access": "public",
     "description": "Increment the age of the whole partial view",
-    "lineNumber": 35,
+    "lineNumber": 30,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 87,
+    "__docId__": 86,
     "kind": "method",
     "name": "add",
     "memberof": "lib/partialview.js~PartialView",
@@ -1262,7 +1248,7 @@
     "longname": "lib/partialview.js~PartialView#add",
     "access": "public",
     "description": "Add the peer to the partial view with an age of 0.",
-    "lineNumber": 46,
+    "lineNumber": 41,
     "params": [
       {
         "nullable": null,
@@ -1278,7 +1264,7 @@
     "return": null
   },
   {
-    "__docId__": 88,
+    "__docId__": 87,
     "kind": "method",
     "name": "removeYoungest",
     "memberof": "lib/partialview.js~PartialView",
@@ -1288,7 +1274,7 @@
     "longname": "lib/partialview.js~PartialView#removeYoungest",
     "access": "public",
     "description": "Remove the newest entry of the peer from the partial view.",
-    "lineNumber": 56,
+    "lineNumber": 51,
     "params": [
       {
         "nullable": null,
@@ -1298,13 +1284,13 @@
         "spread": false,
         "optional": false,
         "name": "peerId",
-        "description": "The identifier of the peer to remove from the \npartial view."
+        "description": "The identifier of the peer to remove from the\npartial view."
       }
     ],
     "return": null
   },
   {
-    "__docId__": 89,
+    "__docId__": 88,
     "kind": "method",
     "name": "removeOldest",
     "memberof": "lib/partialview.js~PartialView",
@@ -1314,7 +1300,7 @@
     "longname": "lib/partialview.js~PartialView#removeOldest",
     "access": "public",
     "description": "Remove the oldest entry of the peer from the partial view.",
-    "lineNumber": 69,
+    "lineNumber": 64,
     "params": [
       {
         "nullable": null,
@@ -1324,13 +1310,13 @@
         "spread": false,
         "optional": false,
         "name": "peerId",
-        "description": "The identifier of the peer to remove from the \npartial view."
+        "description": "The identifier of the peer to remove from the\npartial view."
       }
     ],
     "return": null
   },
   {
-    "__docId__": 90,
+    "__docId__": 89,
     "kind": "method",
     "name": "removeAll",
     "memberof": "lib/partialview.js~PartialView",
@@ -1340,7 +1326,7 @@
     "longname": "lib/partialview.js~PartialView#removeAll",
     "access": "public",
     "description": "Remove all entries of the peer from the partial view.",
-    "lineNumber": 84,
+    "lineNumber": 78,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1356,7 +1342,7 @@
         "spread": false,
         "optional": false,
         "name": "peerId",
-        "description": "The identifier of the peer to remove from the \npartial view."
+        "description": "The identifier of the peer to remove from the\npartial view."
       }
     ],
     "return": {
@@ -1369,7 +1355,7 @@
     }
   },
   {
-    "__docId__": 91,
+    "__docId__": 90,
     "kind": "get",
     "name": "leastFrequent",
     "memberof": "lib/partialview.js~PartialView",
@@ -1379,7 +1365,7 @@
     "longname": "lib/partialview.js~PartialView#leastFrequent",
     "access": "public",
     "description": "Get the least frequent peer. If multiple peers have the same number of\noccurrences, it chooses one among them at random.",
-    "lineNumber": 99,
+    "lineNumber": 92,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1401,10 +1387,10 @@
     }
   },
   {
-    "__docId__": 92,
+    "__docId__": 91,
     "kind": "file",
     "name": "lib/spray.js",
-    "content": "'use strict'\n\nconst debug = (require('debug'))('spray-wrtc')\nconst N2N = require('n2n-overlay-wrtc')\nconst merge = require('lodash.merge')\n\nconst PartialView = require('./partialview.js')\n\nconst MExchange = require('./messages/mexchange.js')\nconst MJoin = require('./messages/mjoin.js')\nconst MLeave = require('./messages/mleave.js')\n\nconst ExEmptyView = require('./exceptions/exemptyview.js')\nconst ExMessage = require('./exceptions/exmessage.js')\nconst ExJoin = require('./exceptions/exjoin.js')\n\n/**\n * Implementation of the random peer-sampling Spray.\n */\nclass Spray extends N2N {\n    /**\n     * You can pass other parameters such as webrtc options\n     * @param {object} [options = {}] Object with all options\n     * @param {string} [options.pid = 'spray-wrtc'] The identifier of this\n     * protocol.\n     * @param {number} [options.delta] Every delta milliseconds, Spray shuffles\n     * its partial view with its oldest neighbor.\n     * @param {number} [options.a = 1] The number of arcs at each peer converges\n     * to a*log(N) + b, where N is the number of peers in the network.\n     * @param {nubmer} [options.b = 0] See above.\n     */\n    constructor (options = {}) {\n        // #0 initialize our N2N-parent\n        super(merge({ pid: 'spray-wrtc',\n                      delta: 1000 * 60 * 2,\n                      timeout: 1000 * 60 * 1,\n                      a: 1,\n                      b: 0,\n                      retry: 5 }, options))\n        // #1 constants (from N2N)\n        // this.PID = protocol identifier\n        // this.PEER = peer Id comprising inview and outview Ids\n        debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER)\n        // #2 initialize the partial view containing ages\n        this.partialView = new PartialView()\n        // #3 initialize the connectedness state of this protocol\n        this.state = 'disconnected'\n        // #4 periodic shuffling\n        this.periodic = null\n        // #5 events\n        this.on('receive', (peerId, message) => this._receive(peerId, message))\n        // this.on('stream', (peerId, message) => { } ); // (TODO) ?;\n        this.on('open', (peerId) => {\n            this._open(peerId)\n            this._updateState()\n        })\n        this.on('close', (peerId) => {\n            this._close(peerId)\n            this._updateState()\n        })\n        this.on('fail', (peerId) => {\n            this._onArcDown(peerId)\n            this._updateState()\n        })\n    };\n\n    /**\n     * @private Start periodic shuffling.\n     */\n    _start (delay = this.options.delta) {\n        this.periodic = setInterval(() => {\n            this._exchange()\n        }, delay)\n    };\n\n    /**\n     * @private Stop periodic shuffling.\n     */\n    _stop () {\n        clearInterval(this.periodic)\n    };\n\n    /**\n     * @private Called each time this protocol receives a message.\n     * @param {string} peerId The identifier of the peer that sent the message.\n     * @param {object|MExchange|MJoin} message The message received.\n     */\n    _receive (peerId, message) {\n        if (message.type && message.type === 'MExchange') {\n            this._onExchange(peerId, message)\n        } else if (message.type && message.type === 'MJoin') {\n            this._onJoin(peerId)\n        } else if (message.type && message.type === 'MLeave') {\n            this._onLeave(peerId)\n        } else {\n            throw new ExMessage('_receive', message, 'unhandled')\n        };\n    };\n\n    /**\n     * @private Behavior when a connection is ready to be added in the partial\n     * view.\n     * @param {string} peerId The identifier of the new neighbor.\n     */\n    _open (peerId) {\n        debug('[%s] %s ===> %s', this.PID, this.PEER, peerId)\n        this.partialView.add(peerId)\n    };\n\n    /**\n     * @private Behavior when a connection is closed.\n     * @param {string} peerId The identifier of the removed arc.\n     */\n    _close (peerId) {\n        debug('[%s] %s =†=> %s', this.PID, this.PEER, peerId)\n    };\n\n    /**\n     * @private Update the connectedness state of the peer.\n     */\n    _updateState () {\n        const remember = this.state\n        if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected') {\n            this.state = 'connected'\n        } else if ((this.i.size > 0 && this.o.size <= 0 ||\n                    this.o.size > 0 && this.i.size <= 0) &&\n                   remember !== 'partially connected') {\n            this.state = 'partially connected'\n        } else if (this.i.size <= 0 && this.o.size <= 0 &&\n                   remember !== 'disconnected') {\n            this.state = 'disconnected'\n            // this._stop();\n        };\n        (remember !== this.state) && this.emit('statechange', this.state)\n    };\n\n    /**\n     * Joining a network.\n     * @param {callback} sender Function that will be called each time an offer\n     * arrives to this peer. It is the responsability of the caller to send\n     * these offer (using sender) to the contact inside the network.\n     * @returns {Promise} A promise that is resolved when the peer joins the\n     * network -- the resolve contains the peerId; rejected after a timeout, or\n     * already connected state.\n     */\n    join (sender) {\n        let result = new Promise((resolve, reject) => {\n            // #0 connectedness state check\n            (this.state !== 'disconnected') &&\n                reject(new ExJoin('join', 'Already connected.'))\n            // #1 set timeout before reject\n            let to = setTimeout(() => {\n                reject(new ExJoin('join', 'Timeout exceeded.'))\n            }, this.options.timeout)\n            // #2 very first call, only done once\n            this.once('open', (peerId) => {\n                this.send(peerId, new MJoin(), this.options.retry)\n                    .then(() => {\n                        clearTimeout(to)\n                        this._start() // start shuffling process\n                        this._inject(this.options.a - 1, 0, peerId)\n                        resolve(peerId)\n                    }).catch(() => {\n                        reject(new ExJoin('join',\n                                          'Could not notify remote contact.'))\n                    })\n            })\n        })\n        // #3 engage the very first connection of this peer\n        this.connect(sender)\n        return result\n    };\n\n    /**\n     * @private Behavior of the contact peer when a newcomer arrives.\n     * @param {string} peerId The identifier of the newcomer.\n     */\n    _onJoin (peerId) {\n        if (this.partialView.size > 0) {\n            // #1 all neighbors -> peerId\n            debug('[%s] %s ===> join %s ===> %s neighbors',\n                  this.PID, peerId, this.PEER, this.partialView.size)\n            this.partialView.forEach((ages, neighbor) => {\n                ages.forEach((age) => {\n                    this.connect(neighbor, peerId)\n                })\n            })\n        } else {\n            // #2 Seems like a 2-peer network;  this -> peerId;\n            debug('[%s] %s ===> join %s ===> %s',\n                  this.PID, peerId, this.PEER, peerId)\n            this._inject(2*this.options.a, 2*this.options.b, peerId)\n            this._start()\n        };\n    };\n\n    /**\n     * Leave the network. If time is given, it tries to patch the network before\n     * leaving.\n     * @param {number} [time = 0] The time (in milliseconds) given to this peer\n     * to patch the network before trully leaving.\n     */\n    leave (time = 0) {\n        // ugly way\n        const saveNITimeout = this.NI.options.timeout\n        const saveNOTimeout = this.NO.options.timeout\n        this.NI.options.timeout = time\n        this.NO.options.timeout = time\n\n        // #0 stop shufflings\n        this._stop()\n        if (time > 0) {\n            // #1 patch the network; in total must remove a.log(N) + b arcs\n            // inview -> this -> outview   becomes   inview -> outview\n            // #A flatten the inview and the outview\n            let inview = this.getInview()\n            let flattenI = []\n            inview.forEach((occ, peerId) => flattenI.push(peerId))\n            let outview = this.getOutview()\n            let flattenO = []\n            outview.forEach((occ, peerId) => flattenO.push(peerId))\n            // #B process the number of arc to save\n            // (TODO) double check this proportion\n            let toKeep = outview.size - this.options.a\n            // #C bridge connections\n            // (TODO) check more than 2 in flattenI and flattenO is ≠\n            for (let i = 0; i < Math.floor(toKeep); ++i) {\n                const rnI = Math.floor(Math.random() * flattenI.length)\n                let different = flattenO\n                    .filter((peerId) => peerId !== flattenI[rnI])\n                if (different.length > 0) {\n                    const rnO = Math.floor(Math.random() * different.length)\n                    this.connect(flattenI[rnI], different[rnO])\n                };\n            };\n            // (TODO) add probabilistic bridging if toKeep is a floating number\n\n            flattenI.forEach((peerId) => {\n                this.send(peerId, new MLeave(), this.options.retry)\n                    .catch((e) => { })\n            })\n\n            flattenO.forEach((peerId) => {\n                this._onLeave(peerId)\n            })\n        } else {\n            // #2 just leave\n            this.partialView.clear()\n            this.disconnect()\n        };\n\n        this.NI.options.timeout = saveNITimeout\n        this.NO.options.timeout = saveNOTimeout\n    };\n\n    /**\n     * @private A remote peer we target just left the network. We remove it from\n     * our partial view.\n     * @param {string} peerId The identifier of the peer that just left.\n     */\n    _onLeave (peerId) {\n        if (this.partialView.has(peerId)) {\n            debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId)\n            const occ = this.partialView.removeAll(peerId)\n            for (let i = 0; i < occ; ++i) {\n                this.disconnect(peerId)\n            };\n        };\n    };\n\n    /**\n     * Get k neighbors from the partial view. If k is not reached, it tries to\n     * fill the gap with neighbors from the inview.  It is worth noting that\n     * each peer controls its outview but not its inview. The more the neigbhors\n     * from the outview the better.\n     * @param {number} k The number of neighbors requested. If k is not defined,\n     * it returns every known identifiers of the partial view.\n     * @return {string[]} Array of identifiers.\n     */\n    getPeers (k) {\n        let peers = []\n        if (typeof k === 'undefined') {\n            // #1 get all the partial view\n            this.partialView.forEach((occ, peerId) => {\n                peers.push(peerId)\n            })\n        } else {\n            // #2 get random identifier from outview\n            let out = []\n            this.partialView.forEach((ages, peerId) => out.push(peerId))\n            while (peers.length < k && out.length > 0) {\n                let rn = Math.floor(Math.random() * out.length)\n                peers.push(out[rn])\n                out.splice(rn, 1)\n            };\n            // #3 get random identifier from the inview to fill k-entries\n            let inView = []\n            this.i.forEach((occ, peerId) => inView.push(peerId))\n            while (peers.length < k && inView.length > 0) {\n                let rn = Math.floor(Math.random() * inView.length)\n                peers.push(inView[rn])\n                inView.splice(rn, 1)\n            };\n        };\n        debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length)\n        return peers\n    };\n\n    /* *********************************\n     * Spray's protocol implementation *\n     ***********************************/\n\n    /**\n     * @private Check the partial view, i.e., weither or not connections are\n     * still up and usable.\n     */\n    _checkPartialView () {\n        let down = []\n        this.partialView.forEach((ages, peerId) => {\n            if (!this.o.has(peerId)) {\n                down.push(peerId)\n            };\n        })\n        down.forEach((peerId) => {\n            this._onPeerDown(peerId)\n        })\n    };\n\n    /**\n     * @private Get a sample of the partial view.\n     * @param {string} [peerId] The identifier of the oldest neighbor chosen to\n     * perform a view exchange.\n     * @return {string[]} An array containing the identifiers of neighbors from\n     * this partial view.\n     */\n    _getSample (peerId) {\n        let sample = []\n        // #1 create a flatten version of the partial view\n        let flatten = []\n        this.partialView.forEach((ages, neighbor) => {\n            ages.forEach((age) => {\n                flatten.push(neighbor)\n            })\n        })\n        // #2 process the size of the sample\n        const sampleSize = Math.ceil(flatten.length / 2)\n        // #3 initiator removes a chosen neighbor entry and adds it to sample\n        if (typeof peerId !== 'undefined') {\n            flatten.splice(flatten.indexOf(peerId), 1)\n            sample.push(peerId)\n        };\n        // #4 add neighbors to the sample chosen at random\n        while (sample.length < sampleSize) {\n            const rn = Math.floor(Math.random() * flatten.length)\n            sample.push(flatten[rn])\n            flatten.splice(rn, 1)\n        };\n        return sample\n    };\n\n    /**\n     * @private Periodically called function that aims to balance the partial\n     * view and to mix the neighborhoods.\n     */\n    _exchange () {\n        this._checkPartialView()\n        // #0 if the partial view is empty --- could be due to disconnections,\n        // failure, or _onExchange started with other peers --- skip this round.\n        if (this.partialView.size <= 0) { return }\n        this.partialView.increment()\n        const oldest = this.partialView.oldest\n        // #1 send the notification to oldest that we perform an exchange\n        this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)\n            .then(() => {\n                // #A setup the exchange\n                // #2 get a sample from our partial view\n                let sample = this._getSample(oldest)\n                debug('[%s] %s ==> exchange %s ==> %s',\n                      this.PID, this.PEER, sample.length, oldest)\n                // #3 replace occurrences to oldest by ours\n                sample = sample.map((peerId) => {\n                    return ((peerId === oldest) && this.getInviewId()) || peerId\n                })\n                // #4 connect oldest -> sample\n                sample.forEach((peerId) => {\n                    this.connect(oldest, peerId)\n                })\n                // #5 remove our own connection\n                sample = sample.map((peerId) => {\n                    return ((peerId === this.getInviewId()) && oldest) || peerId\n                })\n                sample.forEach((peerId) => {\n                    this.disconnect(peerId)\n                    if (peerId === oldest) {\n                        this.partialView.removeOldest(peerId)\n                    } else {\n                        this.partialView.removeYoungest(peerId)\n                    };\n                })\n            }).catch((e) => {\n                // #B the peer cannot be reached, he is supposedly dead\n                debug('[%s] %s =X> exchange =X> %s',\n                      this.PID, this.PEER, oldest)\n                this._onPeerDown(oldest)\n            })\n    };\n\n    /**\n     * @private Behavior when this peer receives a shuffling request.\n     * @param {string} neighbor The identifier of the peer that sent this\n     * exchange request.\n     * @param {MExchange} message message containing the identifier of the peer\n     * that started the exchange.\n     */\n    _onExchange (neighbor, message) {\n        this._checkPartialView()\n        // #1 get a sample of neighbors from our partial view\n        this.partialView.increment()\n        let sample = this._getSample()\n        debug('[%s] %s ==> exchange %s ==> %s',\n              this.PID, neighbor, sample.length, this.PEER)\n        // #2 replace occurrences of the initiator by ours\n        sample = sample.map((peerId) => {\n            return (peerId === message.inview) && this.getInviewId() || peerId\n        })\n        // #3 establish connections\n        sample.forEach((peerId) => {\n            this.connect(neighbor, peerId)\n        })\n        // #4 inverse replacement\n        sample = sample.map((peerId) => {\n            return (peerId === this.getInviewId()) && message.inview || peerId\n        })\n        // #5 disconnect arcs\n        sample.forEach((peerId) => {\n            this.disconnect(peerId)\n            this.partialView.removeYoungest(peerId)\n        })\n    };\n\n    /**\n     * @private The function called when a neighbor is unreachable and\n     * supposedly crashed/departed. It probabilistically duplicates an arc.\n     * @param {string} peerId The identifier of the peer that seems down.\n     */\n    _onPeerDown (peerId) {\n        debug('[%s] ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId)\n        // #1 remove all occurrences of the peer in the partial view\n        const occ = this.partialView.removeAll(peerId)\n        // #2 probabilistically recreate arcs to a known peer\n        // (TODO) double check this\n        const proba = this.options.a / (this.partialView.size + occ)\n\n        if (this.partialView.size > 0) {\n            // #A normal behavior\n            for (let i = 0; i < occ; ++i) {\n                if (Math.random() > proba) {\n                    // probabilistically duplicate the least frequent peers\n                    this.connect(null, this.partialView.leastFrequent)\n                }\n            }\n        } else {\n            // #B last chance behavior (TODO) ask inview\n        };\n    };\n\n    /**\n     * @private A connection failed to establish properly, systematically\n     * duplicates an element of the partial view.\n     * @param {string|null} peerId The identifier of the peer we failed to\n     * establish a connection with. Null if it was yet to be known.\n     */\n    _onArcDown (peerId) {\n        debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown')\n        if (this.partialView.size > 0) {\n            // #1 normal behavior\n            this.connect(null, this.partialView.leastFrequent)\n        } else {\n            // #2 last chance behavior\n            // (TODO) ask inview\n            // const rn = Math.floor(Math.random() * this.i.size);\n            // let it = this.i.keys();\n            // this.II.connect(null, this.i.\n        };\n    };\n\n    /**\n     * @private Inject a*log(N) + b arcs leading to peerId. When parameters are\n     * not integers, the floating part is added probabilistically.\n     * @param {number} a  a * log\n     * @param {number} b + b\n     * @param {string} peerId The identifier of the peer to duplicate.\n     */\n    _inject (a, b, peerId) {\n        let copyA = a\n        for (let i = 0; i < Math.floor(a); ++i) {\n            this.connect(null, peerId)\n            copyA -= 1\n        };\n        if (Math.random() < copyA) {\n            this.connect(null, peerId)\n        };\n\n        let copyB = b\n        for (let i = 0; i < Math.floor(b); ++i) {\n            this.connect(null, peerId)\n            copyB -= 1\n        };\n        if (Math.random() < copyB) {\n            this.connect(null, peerId)\n        };\n    };\n};\n\nmodule.exports = Spray\n",
+    "content": "'use strict'\n\nconst debug = (require('debug'))('spray-wrtc')\nconst N2N = require('n2n-overlay-wrtc')\nconst merge = require('lodash.merge')\n\nconst PartialView = require('./partialview.js')\n\nconst MExchange = require('./messages/mexchange.js')\nconst MJoin = require('./messages/mjoin.js')\nconst MLeave = require('./messages/mleave.js')\n\nconst ExMessage = require('./exceptions/exmessage.js')\nconst ExJoin = require('./exceptions/exjoin.js')\n\n/**\n * Implementation of the random peer-sampling Spray.\n */\nclass Spray extends N2N {\n  /**\n     * You can pass other parameters such as webrtc options\n     * @param {object} [options = {}] Object with all options\n     * @param {string} [options.pid = 'spray-wrtc'] The identifier of this\n     * protocol.\n     * @param {number} [options.delta] Every delta milliseconds, Spray shuffles\n     * its partial view with its oldest neighbor.\n     * @param {number} [options.a = 1] The number of arcs at each peer converges\n     * to a*log(N) + b, where N is the number of peers in the network.\n     * @param {nubmer} [options.b = 0] See above.\n     */\n  constructor (options = {}) {\n    // #0 initialize our N2N-parent\n    super(merge({ pid: 'spray-wrtc',\n      delta: 1000 * 60 * 2,\n      timeout: 1000 * 60 * 1,\n      a: 1,\n      b: 0,\n      retry: 5 }, options))\n    // #1 constants (from N2N)\n    // this.PID = protocol identifier\n    // this.PEER = peer Id comprising inview and outview Ids\n    debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER)\n    // #2 initialize the partial view containing ages\n    this.partialView = new PartialView()\n    // #3 initialize the connectedness state of this protocol\n    this.state = 'disconnected'\n    // #4 periodic shuffling\n    this.periodic = null\n    // #5 events\n    this.on('receive', (peerId, message) => this._receive(peerId, message))\n    // this.on('stream', (peerId, message) => { } ); // (TODO) ?;\n    this.on('open', (peerId) => {\n      this._open(peerId)\n      this._updateState()\n    })\n    this.on('close', (peerId) => {\n      this._close(peerId)\n      this._updateState()\n    })\n    this.on('fail', (peerId) => {\n      this._onArcDown(peerId)\n      this._updateState()\n    })\n  };\n\n  /**\n     * @private Start periodic shuffling.\n     */\n  _start (delay = this.options.delta) {\n    this.periodic = setInterval(() => {\n      this._exchange()\n    }, delay)\n  };\n\n  /**\n     * @private Stop periodic shuffling.\n     */\n  _stop () {\n    clearInterval(this.periodic)\n  };\n\n  /**\n     * @private Called each time this protocol receives a message.\n     * @param {string} peerId The identifier of the peer that sent the message.\n     * @param {object|MExchange|MJoin} message The message received.\n     */\n  _receive (peerId, message) {\n    if (message.type && message.type === 'MExchange') {\n      this._onExchange(peerId, message)\n    } else if (message.type && message.type === 'MJoin') {\n      this._onJoin(peerId)\n    } else if (message.type && message.type === 'MLeave') {\n      this._onLeave(peerId)\n    } else {\n      throw new ExMessage('_receive', message, 'unhandled')\n    };\n  };\n\n  /**\n     * @private Behavior when a connection is ready to be added in the partial\n     * view.\n     * @param {string} peerId The identifier of the new neighbor.\n     */\n  _open (peerId) {\n    debug('[%s] Open %s ===> %s', this.PID, this.PEER, peerId)\n    this.partialView.add(peerId)\n  };\n\n  /**\n     * @private Behavior when a connection is closed.\n     * @param {string} peerId The identifier of the removed arc.\n     */\n  _close (peerId) {\n    debug('[%s] Close %s =†=> %s', this.PID, this.PEER, peerId)\n    // wait 5 seconds before checking if the peer is still in the partialView or\n    // NOTE: we do this cause of concurrency, The connection could be correctly deleted and if we delete the connection sooner, the number of arcs reinjected could be higher than expected.\n    setTimeout(() => {\n      if (!this.o.has(peerId) && this.partialView.has(peerId)) {\n        console.log('removing peer: ', peerId)\n        this._onPeerDown(peerId)\n      };\n    }, 5000)\n  };\n\n  /**\n     * @private Update the connectedness state of the peer.\n     */\n  _updateState () {\n    const remember = this.state\n    if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected') {\n      this.state = 'connected'\n    } else if (((this.i.size > 0 && this.o.size <= 0) ||\n                    (this.o.size > 0 && this.i.size <= 0)) &&\n                   remember !== 'partially connected') {\n      this.state = 'partially connected'\n    } else if (this.i.size <= 0 && this.o.size <= 0 &&\n                   remember !== 'disconnected') {\n      this.state = 'disconnected'\n      // this._stop();\n    };\n    (remember !== this.state) && this.emit('statechange', this.state)\n  };\n\n  /**\n     * Joining a network.\n     * @param {callback} sender Function that will be called each time an offer\n     * arrives to this peer. It is the responsability of the caller to send\n     * these offer (using sender) to the contact inside the network.\n     * @returns {Promise} A promise that is resolved when the peer joins the\n     * network -- the resolve contains the peerId; rejected after a timeout, or\n     * already connected state.\n     */\n  join (sender) {\n    let result = new Promise((resolve, reject) => {\n      // #0 connectedness state check\n      (this.state !== 'disconnected') &&\n                reject(new ExJoin('join', 'Already connected.'))\n      // #1 set timeout before reject\n      let to = setTimeout(() => {\n        reject(new ExJoin('join', 'Timeout exceeded.'))\n      }, this.options.timeout)\n      // #2 very first call, only done once\n      this.once('open', (peerId) => {\n        this.send(peerId, new MJoin(), this.options.retry)\n          .then(() => {\n            clearTimeout(to)\n            this._start() // start shuffling process\n            this._inject(this.options.a - 1, 0, peerId)\n            resolve(peerId)\n          }).catch(() => {\n            reject(new ExJoin('join',\n              'Could not notify remote contact.'))\n          })\n      })\n    })\n    // #3 engage the very first connection of this peer\n    this.connect(sender)\n    return result\n  };\n\n  /**\n     * @private Behavior of the contact peer when a newcomer arrives.\n     * @param {string} peerId The identifier of the newcomer.\n     */\n  _onJoin (peerId) {\n    // cause of crash and rapid refresh\n    // some connection can stay in the partialView after a crash\n    // This appears in a 2-peers network where one of them refresh its \"page\".\n    // We receive the join event before the 'close' event\n    // we need to delete it before engaging the _onJoin process.\n    this._checkPartialView()\n    if (this.partialView.size > 0) {\n      // #1 all neighbors -> peerId\n      debug('[%s] %s ===> join %s ===> %s neighbors',\n        this.PID, peerId, this.PEER, this.partialView.size)\n      this.partialView.forEach((ages, neighbor) => {\n        ages.forEach((age) => {\n          this.connect(neighbor, peerId)\n        })\n      })\n    } else {\n      // #2 Seems like a 2-peer network;  this -> peerId;\n      debug('[%s] %s ===> join %s ===> %s',\n        this.PID, peerId, this.PEER, peerId)\n      this._inject(2 * this.options.a, 2 * this.options.b, peerId)\n      this._start()\n    };\n  };\n\n  /**\n     * Leave the network. If time is given, it tries to patch the network before\n     * leaving.\n     * @param {number} [time = 0] The time (in milliseconds) given to this peer\n     * to patch the network before trully leaving.\n     */\n  leave (time = 0) {\n    // ugly way\n    const saveNITimeout = this.NI.options.timeout\n    const saveNOTimeout = this.NO.options.timeout\n    this.NI.options.timeout = time\n    this.NO.options.timeout = time\n\n    // #0 stop shufflings\n    this._stop()\n    if (time > 0) {\n      // #1 patch the network; in total must remove a.log(N) + b arcs\n      // inview -> this -> outview   becomes   inview -> outview\n      // #A flatten the inview and the outview\n      let inview = this.getInview()\n      let flattenI = []\n      inview.forEach((occ, peerId) => flattenI.push(peerId))\n      let outview = this.getOutview()\n      let flattenO = []\n      outview.forEach((occ, peerId) => flattenO.push(peerId))\n      // #B process the number of arc to save\n      // (TODO) double check this proportion\n      let toKeep = outview.size - this.options.a\n      // #C bridge connections\n      // (TODO) check more than 2 in flattenI and flattenO is ≠\n      for (let i = 0; i < Math.floor(toKeep); ++i) {\n        const rnI = Math.floor(Math.random() * flattenI.length)\n        let different = flattenO\n          .filter((peerId) => peerId !== flattenI[rnI])\n        if (different.length > 0) {\n          const rnO = Math.floor(Math.random() * different.length)\n          this.connect(flattenI[rnI], different[rnO])\n        };\n      };\n      // (TODO) add probabilistic bridging if toKeep is a floating number\n\n      flattenI.forEach((peerId) => {\n        this.send(peerId, new MLeave(), this.options.retry)\n          .catch((e) => { })\n      })\n\n      flattenO.forEach((peerId) => {\n        this._onLeave(peerId)\n      })\n    } else {\n      // #2 just leave\n      this.partialView.clear()\n      this.disconnect()\n    };\n\n    this.NI.options.timeout = saveNITimeout\n    this.NO.options.timeout = saveNOTimeout\n  };\n\n  /**\n     * @private A remote peer we target just left the network. We remove it from\n     * our partial view.\n     * @param {string} peerId The identifier of the peer that just left.\n     */\n  _onLeave (peerId) {\n    if (this.partialView.has(peerId)) {\n      debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId)\n      const occ = this.partialView.removeAll(peerId)\n      for (let i = 0; i < occ; ++i) {\n        this.disconnect(peerId)\n      };\n    };\n  };\n\n  /**\n     * Get k neighbors from the partial view. If k is not reached, it tries to\n     * fill the gap with neighbors from the inview.  It is worth noting that\n     * each peer controls its outview but not its inview. The more the neigbhors\n     * from the outview the better.\n     * @param {number} k The number of neighbors requested. If k is not defined,\n     * it returns every known identifiers of the partial view.\n     * @return {string[]} Array of identifiers.\n     */\n  getPeers (k) {\n    let peers = []\n    if (typeof k === 'undefined') {\n      // #1 get all the partial view\n      this.partialView.forEach((occ, peerId) => {\n        peers.push(peerId)\n      })\n    } else {\n      // #2 get random identifier from outview\n      let out = []\n      this.partialView.forEach((ages, peerId) => out.push(peerId))\n      while (peers.length < k && out.length > 0) {\n        let rn = Math.floor(Math.random() * out.length)\n        peers.push(out[rn])\n        out.splice(rn, 1)\n      };\n      // #3 get random identifier from the inview to fill k-entries\n      let inView = []\n      this.i.forEach((occ, peerId) => inView.push(peerId))\n      while (peers.length < k && inView.length > 0) {\n        let rn = Math.floor(Math.random() * inView.length)\n        peers.push(inView[rn])\n        inView.splice(rn, 1)\n      };\n    };\n    debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length)\n    return peers\n  };\n\n  /* *********************************\n     * Spray's protocol implementation *\n     ***********************************/\n\n  /**\n     * @private Check the partial view, i.e., weither or not connections are\n     * still up and usable.\n     */\n  _checkPartialView () {\n    let down = []\n    this.partialView.forEach((ages, peerId) => {\n      if (!this.o.has(peerId)) {\n        down.push(peerId)\n      };\n    })\n    down.forEach((peerId) => {\n      this._onPeerDown(peerId)\n    })\n  };\n\n  /**\n     * @private Get a sample of the partial view.\n     * @param {string} [peerId] The identifier of the oldest neighbor chosen to\n     * perform a view exchange.\n     * @return {string[]} An array containing the identifiers of neighbors from\n     * this partial view.\n     */\n  _getSample (peerId) {\n    let sample = []\n    // #1 create a flatten version of the partial view\n    let flatten = []\n    this.partialView.forEach((ages, neighbor) => {\n      ages.forEach((age) => {\n        flatten.push(neighbor)\n      })\n    })\n    // #2 process the size of the sample\n    const sampleSize = Math.ceil(flatten.length / 2)\n    // #3 initiator removes a chosen neighbor entry and adds it to sample\n    if (typeof peerId !== 'undefined') {\n      flatten.splice(flatten.indexOf(peerId), 1)\n      sample.push(peerId)\n    };\n    // #4 add neighbors to the sample chosen at random\n    while (sample.length < sampleSize) {\n      const rn = Math.floor(Math.random() * flatten.length)\n      sample.push(flatten[rn])\n      flatten.splice(rn, 1)\n    };\n    return sample\n  };\n\n  /**\n     * @private Periodically called function that aims to balance the partial\n     * view and to mix the neighborhoods.\n     */\n  _exchange () {\n    this._checkPartialView()\n    // #0 if the partial view is empty --- could be due to disconnections,\n    // failure, or _onExchange started with other peers --- skip this round.\n    if (this.partialView.size <= 0) { return }\n    this.partialView.increment()\n    const oldest = this.partialView.oldest\n    // #1 send the notification to oldest that we perform an exchange\n    this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)\n      .then(() => {\n        // #A setup the exchange\n        // #2 get a sample from our partial view\n        let sample = this._getSample(oldest)\n        debug('[%s] %s ==> exchange %s ==> %s',\n          this.PID, this.PEER, sample.length, oldest)\n        // #3 replace occurrences to oldest by ours\n        sample = sample.map((peerId) => {\n          return ((peerId === oldest) && this.getInviewId()) || peerId\n        })\n        // #4 connect oldest -> sample\n        sample.forEach((peerId) => {\n          this.connect(oldest, peerId)\n        })\n        // #5 remove our own connection\n        sample = sample.map((peerId) => {\n          return ((peerId === this.getInviewId()) && oldest) || peerId\n        })\n        sample.forEach((peerId) => {\n          this.disconnect(peerId)\n          if (peerId === oldest) {\n            this.partialView.removeOldest(peerId)\n          } else {\n            this.partialView.removeYoungest(peerId)\n          };\n        })\n      }).catch((e) => {\n        // #B the peer cannot be reached, he is supposedly dead\n        debug('[%s] %s =X> exchange =X> %s',\n          this.PID, this.PEER, oldest)\n        this._onPeerDown(oldest)\n      })\n  };\n\n  /**\n     * @private Behavior when this peer receives a shuffling request.\n     * @param {string} neighbor The identifier of the peer that sent this\n     * exchange request.\n     * @param {MExchange} message message containing the identifier of the peer\n     * that started the exchange.\n     */\n  _onExchange (neighbor, message) {\n    this._checkPartialView()\n    // #1 get a sample of neighbors from our partial view\n    this.partialView.increment()\n    let sample = this._getSample()\n    debug('[%s] %s ==> exchange %s ==> %s',\n      this.PID, neighbor, sample.length, this.PEER)\n    // #2 replace occurrences of the initiator by ours\n    sample = sample.map((peerId) => {\n      if (peerId === message.inview) return this.getInviewId()\n      return peerId\n    })\n    // #3 establish connections\n    sample.forEach((peerId) => {\n      this.connect(neighbor, peerId)\n    })\n    // #4 inverse replacement\n    sample = sample.map((peerId) => {\n      if (peerId === this.getInviewId()) return message.inview\n      return peerId\n    })\n    // #5 disconnect arcs\n    sample.forEach((peerId) => {\n      this.disconnect(peerId)\n      this.partialView.removeYoungest(peerId)\n    })\n  };\n\n  /**\n     * @private The function called when a neighbor is unreachable and\n     * supposedly crashed/departed. It probabilistically duplicates an arc.\n     * @param {string} peerId The identifier of the peer that seems down.\n     */\n  _onPeerDown (peerId) {\n    debug('[%s] onPeerDown ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId)\n    // #1 remove all occurrences of the peer in the partial view\n    const occ = this.partialView.removeAll(peerId)\n    // #2 probabilistically recreate arcs to a known peer\n    // (TODO) double check this\n    const proba = this.options.a / (this.partialView.size + occ)\n\n    if (this.partialView.size > 0) {\n      // #A normal behavior\n      for (let i = 0; i < occ; ++i) {\n        if (Math.random() > proba) {\n          // probabilistically duplicate the least frequent peers\n          this.connect(null, this.partialView.leastFrequent)\n        }\n      }\n    } else {\n      // #B last chance behavior (TODO) ask inview\n    };\n  };\n\n  /**\n     * @private A connection failed to establish properly, systematically\n     * duplicates an element of the partial view.\n     * @param {string|null} peerId The identifier of the peer we failed to\n     * establish a connection with. Null if it was yet to be known.\n     */\n  _onArcDown (peerId) {\n    debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown')\n    if (this.partialView.size > 0) {\n      // #1 normal behavior\n      this.connect(null, this.partialView.leastFrequent)\n    } else {\n      // #2 last chance behavior\n      // (TODO) ask inview\n      // const rn = Math.floor(Math.random() * this.i.size);\n      // let it = this.i.keys();\n      // this.II.connect(null, this.i.\n    };\n  };\n\n  /**\n     * @private Inject a*log(N) + b arcs leading to peerId. When parameters are\n     * not integers, the floating part is added probabilistically.\n     * @param {number} a  a * log\n     * @param {number} b + b\n     * @param {string} peerId The identifier of the peer to duplicate.\n     */\n  _inject (a, b, peerId) {\n    let copyA = a\n    for (let i = 0; i < Math.floor(a); ++i) {\n      this.connect(null, peerId)\n      copyA -= 1\n    };\n    if (Math.random() < copyA) {\n      this.connect(null, peerId)\n    };\n\n    let copyB = b\n    for (let i = 0; i < Math.floor(b); ++i) {\n      this.connect(null, peerId)\n      copyB -= 1\n    };\n    if (Math.random() < copyB) {\n      this.connect(null, peerId)\n    };\n  };\n};\n\nmodule.exports = Spray\n",
     "static": true,
     "longname": "/home/travis/build/RAN3D/spray-wrtc/lib/spray.js",
     "access": "public",
@@ -1412,7 +1398,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 93,
+    "__docId__": 92,
     "kind": "variable",
     "name": "debug",
     "memberof": "lib/spray.js",
@@ -1433,7 +1419,7 @@
     "ignore": true
   },
   {
-    "__docId__": 94,
+    "__docId__": 93,
     "kind": "class",
     "name": "Spray",
     "memberof": "lib/spray.js",
@@ -1444,14 +1430,14 @@
     "importPath": "spray-wrtc",
     "importStyle": "Spray",
     "description": "Implementation of the random peer-sampling Spray.",
-    "lineNumber": 20,
+    "lineNumber": 19,
     "interface": false,
     "extends": [
       "n2n-overlay-wrtc~N2N"
     ]
   },
   {
-    "__docId__": 95,
+    "__docId__": 94,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "lib/spray.js~Spray",
@@ -1461,7 +1447,7 @@
     "longname": "lib/spray.js~Spray#constructor",
     "access": "public",
     "description": "You can pass other parameters such as webrtc options",
-    "lineNumber": 32,
+    "lineNumber": 31,
     "params": [
       {
         "nullable": null,
@@ -1524,7 +1510,7 @@
     ]
   },
   {
-    "__docId__": 96,
+    "__docId__": 95,
     "kind": "member",
     "name": "partialView",
     "memberof": "lib/spray.js~Spray",
@@ -1532,7 +1518,7 @@
     "longname": "lib/spray.js~Spray#partialView",
     "access": "public",
     "description": null,
-    "lineNumber": 45,
+    "lineNumber": 44,
     "undocument": true,
     "type": {
       "types": [
@@ -1541,7 +1527,7 @@
     }
   },
   {
-    "__docId__": 97,
+    "__docId__": 96,
     "kind": "member",
     "name": "state",
     "memberof": "lib/spray.js~Spray",
@@ -1549,7 +1535,7 @@
     "longname": "lib/spray.js~Spray#state",
     "access": "public",
     "description": null,
-    "lineNumber": 47,
+    "lineNumber": 46,
     "undocument": true,
     "type": {
       "types": [
@@ -1558,7 +1544,7 @@
     }
   },
   {
-    "__docId__": 98,
+    "__docId__": 97,
     "kind": "member",
     "name": "periodic",
     "memberof": "lib/spray.js~Spray",
@@ -1566,7 +1552,7 @@
     "longname": "lib/spray.js~Spray#periodic",
     "access": "public",
     "description": null,
-    "lineNumber": 49,
+    "lineNumber": 48,
     "undocument": true,
     "type": {
       "types": [
@@ -1575,7 +1561,7 @@
     }
   },
   {
-    "__docId__": 99,
+    "__docId__": 98,
     "kind": "method",
     "name": "_start",
     "memberof": "lib/spray.js~Spray",
@@ -1585,7 +1571,7 @@
     "longname": "lib/spray.js~Spray#_start",
     "access": "private",
     "description": "",
-    "lineNumber": 70,
+    "lineNumber": 69,
     "params": [
       {
         "name": "delay",
@@ -1598,7 +1584,7 @@
     "return": null
   },
   {
-    "__docId__": 101,
+    "__docId__": 100,
     "kind": "method",
     "name": "_stop",
     "memberof": "lib/spray.js~Spray",
@@ -1608,12 +1594,12 @@
     "longname": "lib/spray.js~Spray#_stop",
     "access": "private",
     "description": "",
-    "lineNumber": 79,
+    "lineNumber": 78,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 102,
+    "__docId__": 101,
     "kind": "method",
     "name": "_receive",
     "memberof": "lib/spray.js~Spray",
@@ -1623,7 +1609,7 @@
     "longname": "lib/spray.js~Spray#_receive",
     "access": "private",
     "description": "",
-    "lineNumber": 88,
+    "lineNumber": 87,
     "params": [
       {
         "nullable": null,
@@ -1651,7 +1637,7 @@
     "return": null
   },
   {
-    "__docId__": 103,
+    "__docId__": 102,
     "kind": "method",
     "name": "_open",
     "memberof": "lib/spray.js~Spray",
@@ -1661,7 +1647,7 @@
     "longname": "lib/spray.js~Spray#_open",
     "access": "private",
     "description": "",
-    "lineNumber": 105,
+    "lineNumber": 104,
     "params": [
       {
         "nullable": null,
@@ -1677,7 +1663,7 @@
     "return": null
   },
   {
-    "__docId__": 104,
+    "__docId__": 103,
     "kind": "method",
     "name": "_close",
     "memberof": "lib/spray.js~Spray",
@@ -1687,7 +1673,7 @@
     "longname": "lib/spray.js~Spray#_close",
     "access": "private",
     "description": "",
-    "lineNumber": 114,
+    "lineNumber": 113,
     "params": [
       {
         "nullable": null,
@@ -1703,7 +1689,7 @@
     "return": null
   },
   {
-    "__docId__": 105,
+    "__docId__": 104,
     "kind": "method",
     "name": "_updateState",
     "memberof": "lib/spray.js~Spray",
@@ -1713,12 +1699,12 @@
     "longname": "lib/spray.js~Spray#_updateState",
     "access": "private",
     "description": "",
-    "lineNumber": 121,
+    "lineNumber": 128,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 109,
+    "__docId__": 108,
     "kind": "method",
     "name": "join",
     "memberof": "lib/spray.js~Spray",
@@ -1728,7 +1714,7 @@
     "longname": "lib/spray.js~Spray#join",
     "access": "public",
     "description": "Joining a network.",
-    "lineNumber": 146,
+    "lineNumber": 153,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1757,7 +1743,7 @@
     }
   },
   {
-    "__docId__": 110,
+    "__docId__": 109,
     "kind": "method",
     "name": "_onJoin",
     "memberof": "lib/spray.js~Spray",
@@ -1767,7 +1753,7 @@
     "longname": "lib/spray.js~Spray#_onJoin",
     "access": "private",
     "description": "",
-    "lineNumber": 178,
+    "lineNumber": 185,
     "params": [
       {
         "nullable": null,
@@ -1783,7 +1769,7 @@
     "return": null
   },
   {
-    "__docId__": 111,
+    "__docId__": 110,
     "kind": "method",
     "name": "leave",
     "memberof": "lib/spray.js~Spray",
@@ -1793,7 +1779,7 @@
     "longname": "lib/spray.js~Spray#leave",
     "access": "public",
     "description": "Leave the network. If time is given, it tries to patch the network before\nleaving.",
-    "lineNumber": 203,
+    "lineNumber": 216,
     "params": [
       {
         "nullable": null,
@@ -1811,7 +1797,7 @@
     "return": null
   },
   {
-    "__docId__": 112,
+    "__docId__": 111,
     "kind": "method",
     "name": "_onLeave",
     "memberof": "lib/spray.js~Spray",
@@ -1821,7 +1807,7 @@
     "longname": "lib/spray.js~Spray#_onLeave",
     "access": "private",
     "description": "",
-    "lineNumber": 261,
+    "lineNumber": 274,
     "params": [
       {
         "nullable": null,
@@ -1837,7 +1823,7 @@
     "return": null
   },
   {
-    "__docId__": 113,
+    "__docId__": 112,
     "kind": "method",
     "name": "getPeers",
     "memberof": "lib/spray.js~Spray",
@@ -1847,7 +1833,7 @@
     "longname": "lib/spray.js~Spray#getPeers",
     "access": "public",
     "description": "Get k neighbors from the partial view. If k is not reached, it tries to\nfill the gap with neighbors from the inview.  It is worth noting that\neach peer controls its outview but not its inview. The more the neigbhors\nfrom the outview the better.",
-    "lineNumber": 280,
+    "lineNumber": 293,
     "params": [
       {
         "nullable": null,
@@ -1870,7 +1856,7 @@
     }
   },
   {
-    "__docId__": 114,
+    "__docId__": 113,
     "kind": "method",
     "name": "_checkPartialView",
     "memberof": "lib/spray.js~Spray",
@@ -1880,12 +1866,12 @@
     "longname": "lib/spray.js~Spray#_checkPartialView",
     "access": "private",
     "description": "",
-    "lineNumber": 317,
+    "lineNumber": 330,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 115,
+    "__docId__": 114,
     "kind": "method",
     "name": "_getSample",
     "memberof": "lib/spray.js~Spray",
@@ -1895,7 +1881,7 @@
     "longname": "lib/spray.js~Spray#_getSample",
     "access": "private",
     "description": "",
-    "lineNumber": 336,
+    "lineNumber": 349,
     "params": [
       {
         "nullable": null,
@@ -1918,7 +1904,7 @@
     }
   },
   {
-    "__docId__": 116,
+    "__docId__": 115,
     "kind": "method",
     "name": "_exchange",
     "memberof": "lib/spray.js~Spray",
@@ -1928,12 +1914,12 @@
     "longname": "lib/spray.js~Spray#_exchange",
     "access": "private",
     "description": "",
-    "lineNumber": 365,
+    "lineNumber": 378,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 117,
+    "__docId__": 116,
     "kind": "method",
     "name": "_onExchange",
     "memberof": "lib/spray.js~Spray",
@@ -1943,7 +1929,7 @@
     "longname": "lib/spray.js~Spray#_onExchange",
     "access": "private",
     "description": "",
-    "lineNumber": 415,
+    "lineNumber": 428,
     "params": [
       {
         "nullable": null,
@@ -1969,7 +1955,7 @@
     "return": null
   },
   {
-    "__docId__": 118,
+    "__docId__": 117,
     "kind": "method",
     "name": "_onPeerDown",
     "memberof": "lib/spray.js~Spray",
@@ -1979,7 +1965,7 @@
     "longname": "lib/spray.js~Spray#_onPeerDown",
     "access": "private",
     "description": "",
-    "lineNumber": 446,
+    "lineNumber": 461,
     "params": [
       {
         "nullable": null,
@@ -1995,7 +1981,7 @@
     "return": null
   },
   {
-    "__docId__": 119,
+    "__docId__": 118,
     "kind": "method",
     "name": "_onArcDown",
     "memberof": "lib/spray.js~Spray",
@@ -2005,7 +1991,7 @@
     "longname": "lib/spray.js~Spray#_onArcDown",
     "access": "private",
     "description": "",
-    "lineNumber": 473,
+    "lineNumber": 488,
     "params": [
       {
         "nullable": null,
@@ -2022,7 +2008,7 @@
     "return": null
   },
   {
-    "__docId__": 120,
+    "__docId__": 119,
     "kind": "method",
     "name": "_inject",
     "memberof": "lib/spray.js~Spray",
@@ -2032,7 +2018,7 @@
     "longname": "lib/spray.js~Spray#_inject",
     "access": "private",
     "description": "",
-    "lineNumber": 494,
+    "lineNumber": 509,
     "params": [
       {
         "nullable": null,
@@ -2069,7 +2055,7 @@
   },
   {
     "kind": "index",
-    "content": "# spray-wrtc [![Build Status](https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master)](https://travis-ci.org/RAN3D/spray-wrtc)\n\n<i>Keywords: Random peer-sampling, adaptive, browser-to-browser communication,\nWebRTC</i>\n\nThis project aims to provide a [WebRTC](http://www.webrtc.org) implementation of\nSpray.\n\nSpray [1] is a random peer-sampling protocol [2] inspired by both Cyclon [3] and\nScamp [4]. It adapts the partial view of each member to the network size using\nlocal knowledge only. Therefore, without any configuration, each peer\nautomatically adjust its functioning to the need of the network.\n\n## Principle\n\n<p align='center'>\n    <img src='./img/joining.gif'/>\n</p>\n\nPeers joining the network inject a logarithmic number of arcs with them. Thus, a\n10-peers network has on average 2.3 connections per peer, a 100-peers network\nhas on average 4.6 connections per peer, a 1000 peers network has on average 6.9\nconnections per peer etc. Consequently, the number of connections scales well in\nterms of number of peers.\n\nThe figure shows that peers are highly clustered. Furthermore, the oldest peers\nhave many outgoing arcs while the newest only has one outgoing arc. To solve\nthis issue, the peers must periodically shuffle their partial view of the\nnetwork.\n\n<p align='center'>\n    <img src='./img/shuffling.gif' />\n</p>\n\nPeriodically, a peer chooses one of its neighbor to exchange with. Both peers\nprovide half of their partial view comprising neighbors chosen at random. Both\npeers disconnect from the neighbors they provided and connect to the neighbors\nthey obtained. Periodic shufflings balance the outgoing arcs among the\npeers. The resulting network has a low clustering coefficient.\n\n## Installation\n\n```$ npm install spray-wrtc```\n\n## API\n\nYou can find the API [here](https://ran3d.github.io/spray-wrtc/).\n\n## Example\n\nA usage example of this module is available [here](https://ran3d.github.io/spray-wrtc/example/browser.html).\n\n## Miscellaneous\n\nPeersim [5] simulations of Spray are available at\n[peersim-spray](https://github.com/justayak/peersim-spray).\n\n## References\n\n[1] B. Nédelec, J. Tanke, D. Frey, P. Molli, and A. Mostéfaoui. Spray: an\nAdaptive Random Peer Sampling Protocol. <i>Technical Report, LINA-University of\nNantes; INRIA Rennes - Bretagne Atlantique, Sept 2015.</i>\n\n[2] M. Jelasity, S. Voulgaris, R. Guerraoui, A.-M. Kermarrec, and M. Van\nSteen. Gossip-based peer sampling. <i>ACM Transactions on Computer Systems\n(TOCS)</i>, 25(3):8, 2007.\n\n[3] S. Voulgaris, D. Gavidia, and M. van Steen. Cyclon: Inexpensive membership\nmanagement for unstructured p2p overlays. <i>Journal of Network and Systems\nManagement</i>, 13(2):197–217, 2005.\n\n[4] A. Ganesh, A.-M. Kermarrec, and L. Massoulié. Peer-to-peer membership\nmanagement for gossip-based protocols. <i>IEEE Transactions on Computers</i>,\n52(2):139–149, Feb 2003.\n\n[5] A. Montresor and M. Jelasity. Peersim: A scalable P2P simulator. <i>Proc. of\nthe 9th Int. Conference on Peer-to-Peer (P2P’09)</i>, pages 99–100, Seattle, WA,\nSept. 2009.\n",
+    "content": "# spray-wrtc [![Build Status](https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master)](https://travis-ci.org/RAN3D/spray-wrtc) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)\n\n<i>Keywords: Random peer-sampling, adaptive, browser-to-browser communication,\nWebRTC</i>\n\nThis project aims to provide a [WebRTC](http://www.webrtc.org) implementation of\nSpray.\n\nSpray [1] is a random peer-sampling protocol [2] inspired by both Cyclon [3] and\nScamp [4]. It adapts the partial view of each member to the network size using\nlocal knowledge only. Therefore, without any configuration, each peer\nautomatically adjust its functioning to the need of the network.\n\n## Principle\n\n<p align='center'>\n    <img src='./img/joining.gif'/>\n</p>\n\nPeers joining the network inject a logarithmic number of arcs with them. Thus, a\n10-peers network has on average 2.3 connections per peer, a 100-peers network\nhas on average 4.6 connections per peer, a 1000 peers network has on average 6.9\nconnections per peer etc. Consequently, the number of connections scales well in\nterms of number of peers.\n\nThe figure shows that peers are highly clustered. Furthermore, the oldest peers\nhave many outgoing arcs while the newest only has one outgoing arc. To solve\nthis issue, the peers must periodically shuffle their partial view of the\nnetwork.\n\n<p align='center'>\n    <img src='./img/shuffling.gif' />\n</p>\n\nPeriodically, a peer chooses one of its neighbor to exchange with. Both peers\nprovide half of their partial view comprising neighbors chosen at random. Both\npeers disconnect from the neighbors they provided and connect to the neighbors\nthey obtained. Periodic shufflings balance the outgoing arcs among the\npeers. The resulting network has a low clustering coefficient.\n\n## Installation\n\n```$ npm install spray-wrtc```\n\n## API\n\nYou can find the API [here](https://ran3d.github.io/spray-wrtc/).\n\n## Example\n\nA usage example of this module is available [here](https://ran3d.github.io/spray-wrtc/example/browser.html).\n\n## Miscellaneous\n\nPeersim [5] simulations of Spray are available at\n[peersim-spray](https://github.com/justayak/peersim-spray).\n\n## References\n\n[1] B. Nédelec, J. Tanke, D. Frey, P. Molli, and A. Mostéfaoui. Spray: an\nAdaptive Random Peer Sampling Protocol. <i>Technical Report, LINA-University of\nNantes; INRIA Rennes - Bretagne Atlantique, Sept 2015.</i>\n\n[2] M. Jelasity, S. Voulgaris, R. Guerraoui, A.-M. Kermarrec, and M. Van\nSteen. Gossip-based peer sampling. <i>ACM Transactions on Computer Systems\n(TOCS)</i>, 25(3):8, 2007.\n\n[3] S. Voulgaris, D. Gavidia, and M. van Steen. Cyclon: Inexpensive membership\nmanagement for unstructured p2p overlays. <i>Journal of Network and Systems\nManagement</i>, 13(2):197–217, 2005.\n\n[4] A. Ganesh, A.-M. Kermarrec, and L. Massoulié. Peer-to-peer membership\nmanagement for gossip-based protocols. <i>IEEE Transactions on Computers</i>,\n52(2):139–149, Feb 2003.\n\n[5] A. Montresor and M. Jelasity. Peersim: A scalable P2P simulator. <i>Proc. of\nthe 9th Int. Conference on Peer-to-Peer (P2P’09)</i>, pages 99–100, Seattle, WA,\nSept. 2009.\n",
     "longname": "/home/travis/build/RAN3D/spray-wrtc/README.md",
     "name": "./README.md",
     "static": true,
@@ -2077,7 +2063,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n    \"name\": \"spray-wrtc\",\n    \"version\": \"2.0.8\",\n    \"author\": \"Chat-Wane <grumpy.chat.wane@gmail.com>\",\n    \"description\": \"Adaptive random peer-sampling protocol running on top of WebRTC\",\n    \"main\": \"./lib/spray.js\",\n    \"repository\": {\n        \"type\": \"git\",\n        \"url\": \"https://github.com/ran3d/spray-wrtc\"\n    },\n    \"keywords\": [\n        \"Random peer-sampling\",\n        \"Adaptive\",\n        \"browser-to-browser communication\",\n        \"WebRTC\"\n    ],\n    \"dependencies\": {\n        \"debug\": \"^3.1.0\",\n        \"lodash\": \"^4.17.5\",\n        \"n2n-overlay-wrtc\": \"^2.0.x\",\n        \"npm\": \"^6.0.1\"\n    },\n    \"bundledDependencies\": [\n        \"lodash\",\n        \"debug\",\n        \"n2n-overlay-wrtc\"\n    ],\n    \"devDependencies\": {\n        \"browserify\": \"^16.1.1\",\n        \"esdoc\": \"^1.0.4\",\n        \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n        \"esdoc-node\": \"^1.0.3\",\n        \"esdoc-standard-plugin\": \"^1.0.0\",\n        \"p2p-graph\": \"^1.2.2\"\n    },\n    \"scripts\": {\n        \"debug\": \"browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js\",\n        \"build\": \"browserify -r ./lib/spray.js:spray-wrtc > build/spray-wrtc.bundle.js\",\n        \"esdoc\": \"esdoc && npm run esdoc:example\",\n        \"esdoc:example\": \"cp -R ./build ./examples ./img ./docs\",\n        \"test\": \"npm run all\",\n        \"all\": \"npm run debug && npm run build && npm run esdoc\"\n    },\n    \"license\": \"MIT\"\n}\n",
+    "content": "{\n  \"name\": \"spray-wrtc\",\n  \"version\": \"2.0.9\",\n  \"author\": \"Chat-Wane <grumpy.chat.wane@gmail.com>\",\n  \"description\": \"Adaptive random peer-sampling protocol running on top of WebRTC\",\n  \"main\": \"./lib/spray.js\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/ran3d/spray-wrtc\"\n  },\n  \"keywords\": [\n    \"Random peer-sampling\",\n    \"Adaptive\",\n    \"browser-to-browser communication\",\n    \"WebRTC\"\n  ],\n  \"dependencies\": {\n    \"debug\": \"^3.1.0\",\n    \"lodash\": \"^4.17.5\",\n    \"n2n-overlay-wrtc\": \"^2.0.x\"\n  },\n  \"bundledDependencies\": [\n    \"lodash\",\n    \"debug\",\n    \"n2n-overlay-wrtc\"\n  ],\n  \"devDependencies\": {\n    \"browserify\": \"^16.1.1\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-ecmascript-proposal-plugin\": \"^1.0.0\",\n    \"esdoc-node\": \"^1.0.3\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"p2p-graph\": \"^1.2.2\",\n    \"snazzy\": \"^7.1.1\",\n    \"standard\": \"*\"\n  },\n  \"scripts\": {\n    \"lint\": \"standard --verbose | snazzy\",\n    \"fix\": \"standard --fix\",\n    \"debug\": \"browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js\",\n    \"build\": \"browserify -r ./lib/spray.js:spray-wrtc > build/spray-wrtc.bundle.js\",\n    \"esdoc\": \"esdoc && npm run esdoc:example\",\n    \"esdoc:example\": \"cp -R ./build ./examples ./img ./docs\",\n    \"test\": \"npm run all\",\n    \"all\": \"npm run debug && npm run build && npm run esdoc\"\n  },\n  \"license\": \"MIT\",\n  \"standard\": {\n    \"ignore\": [\n      \"/build/\",\n      \"/img/\",\n      \"/examples/\"\n    ]\n  }\n}\n",
     "longname": "/home/travis/build/RAN3D/spray-wrtc/package.json",
     "name": "package.json",
     "static": true,

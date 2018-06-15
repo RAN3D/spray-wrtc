@@ -43,26 +43,25 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/exceptions/expeernotfound.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
 
 /**
  * Exception that rises when the peer looked for does not exist in the partial
  * view.
  */
 class ExPeerNotFound {
-    /**
+  /**
      * @param {string} source The function that throw the error.
      * @param {string} [peerId = &apos;unknown&apos;] The identifier of the peer if
      * defined.
      */
-    constructor (source, peerId = &apos;unknown&apos;) {
-        this.source = source;
-        this.peer = peerId;
-    };
+  constructor (source, peerId = &apos;unknown&apos;) {
+    this.source = source
+    this.peer = peerId
+  };
 };
 
-
-module.exports = ExPeerNotFound;
+module.exports = ExPeerNotFound
 </code></pre>
 
 </div>

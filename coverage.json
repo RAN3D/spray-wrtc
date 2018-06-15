@@ -1,6 +1,6 @@
 {
-  "coverage": "66.66%",
-  "expectCount": 60,
+  "coverage": "67.79%",
+  "expectCount": 59,
   "actualCount": 40,
   "files": {
     "lib/exceptions/exemptyview.js": {
@@ -61,20 +61,18 @@
       ]
     },
     "lib/partialview.js": {
-      "expectCount": 9,
+      "expectCount": 8,
       "actualCount": 8,
-      "undocumentLines": [
-        10
-      ]
+      "undocumentLines": []
     },
     "lib/spray.js": {
       "expectCount": 24,
       "actualCount": 20,
       "undocumentLines": [
         3,
-        45,
-        47,
-        49
+        44,
+        46,
+        48
       ]
     }
   }

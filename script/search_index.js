@@ -510,12 +510,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "lib/partialview.js~partialview#constructor",
-    "class/lib/partialview.js~PartialView.html#instance-constructor-constructor",
-    "lib/partialview.js~PartialView#constructor",
-    "method"
-  ],
-  [
     "lib/partialview.js~partialview#increment",
     "class/lib/partialview.js~PartialView.html#instance-method-increment",
     "lib/partialview.js~PartialView#increment",

@@ -43,120 +43,112 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">lib/partialview.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">&apos;use strict&apos;
 
-const ExPeerNotFound = require(&apos;./exceptions/expeernotfound.js&apos;);
+const ExPeerNotFound = require(&apos;./exceptions/expeernotfound.js&apos;)
 
 /**
  * Structure containing the neighborhood of a peer.
  * Map of {idPeer =&gt; [age_1, age_2.. age_k]} where age_1 &lt;= age_2 &lt;= .. &lt;= age_k
  */
 class PartialView extends Map {
-    constructor () {
-        super();
-    };
-    
-    /**
+  /**
      * Get the oldest peer in the partial view.
      * @returns {string} The oldest peer in the array.
      */
-    get oldest () {
-        if (this.size &lt;= 0) { throw new ExPeerNotFound(&apos;oldest&apos;); };
-        let oldestPeer = null;
-        let oldestAge = 0;
-        this.forEach( (ages, peerId) =&gt; {
-            if (oldestAge &lt;= ages[ages.length - 1]) {
-                oldestPeer = peerId;
-                oldestAge = ages[ages.length - 1];
-            };
-        });
-        return oldestPeer;
-    };
+  get oldest () {
+    if (this.size &lt;= 0) { throw new ExPeerNotFound(&apos;oldest&apos;) };
+    let oldestPeer = null
+    let oldestAge = 0
+    this.forEach((ages, peerId) =&gt; {
+      if (oldestAge &lt;= ages[ages.length - 1]) {
+        oldestPeer = peerId
+        oldestAge = ages[ages.length - 1]
+      };
+    })
+    return oldestPeer
+  };
 
-
-    /**
+  /**
      * Increment the age of the whole partial view
      */
-    increment () {
-        this.forEach( (ages, peerId) =&gt; {
-            this.set(peerId, ages.map( (age) =&gt; {return age+1;} ));
-        });
-    };
+  increment () {
+    this.forEach((ages, peerId) =&gt; {
+      this.set(peerId, ages.map((age) =&gt; { return age + 1 }))
+    })
+  };
 
-    /**
+  /**
      * Add the peer to the partial view with an age of 0.
      * @param {string} peerId The identifier of the peer added to the partial
      * view.
      */
-    add (peerId) {
-        (!this.has(peerId)) &amp;&amp; this.set(peerId, new Array());        
-        this.get(peerId).unshift(0); // add 0 in front of the array
-    };
+  add (peerId) {
+    (!this.has(peerId)) &amp;&amp; this.set(peerId, [])
+    this.get(peerId).unshift(0) // add 0 in front of the array
+  };
 
-    /**
+  /**
      * Remove the newest entry of the peer from the partial view.
-     * @param {string} peerId The identifier of the peer to remove from the 
-     * partial view. 
+     * @param {string} peerId The identifier of the peer to remove from the
+     * partial view.
      */
-    removeYoungest (peerId) {
-        if (!this.has(peerId)) {
-            throw new ExPeerNotFound(&apos;removeYoungest&apos;, peerId);
-        };
-        this.get(peerId).shift();
-        (this.get(peerId).length === 0) &amp;&amp; this.delete(peerId);
+  removeYoungest (peerId) {
+    if (!this.has(peerId)) {
+      throw new ExPeerNotFound(&apos;removeYoungest&apos;, peerId)
     };
+    this.get(peerId).shift();
+    (this.get(peerId).length === 0) &amp;&amp; this.delete(peerId)
+  };
 
-    /**
+  /**
      * Remove the oldest entry of the peer from the partial view.
-     * @param {string} peerId The identifier of the peer to remove from the 
-     * partial view. 
+     * @param {string} peerId The identifier of the peer to remove from the
+     * partial view.
      */
-    removeOldest (peerId) {
-        if (!this.has(peerId)) {
-            throw new ExPeerNotFound(&apos;removeOldest&apos;, peerId);
-        };
-        this.get(peerId).pop();
-        (this.get(peerId).length === 0) &amp;&amp; this.delete(peerId);
+  removeOldest (peerId) {
+    if (!this.has(peerId)) {
+      throw new ExPeerNotFound(&apos;removeOldest&apos;, peerId)
     };
+    this.get(peerId).pop();
+    (this.get(peerId).length === 0) &amp;&amp; this.delete(peerId)
+  };
 
-    
-    /**
+  /**
      * Remove all entries of the peer from the partial view.
-     * @param {string} peerId The identifier of the peer to remove from the 
+     * @param {string} peerId The identifier of the peer to remove from the
      * partial view.
      * @returns {number} The number of occurrences of peerId removed.
      */
-    removeAll (peerId) {
-        if (!this.has(peerId)) {
-            throw new ExPeerNotFound(&apos;removeAll&apos;, peerId);
-        };
-        const occ = this.get(peerId).length;
-        this.delete(peerId);
-        return occ;
+  removeAll (peerId) {
+    if (!this.has(peerId)) {
+      throw new ExPeerNotFound(&apos;removeAll&apos;, peerId)
     };
-       
+    const occ = this.get(peerId).length
+    this.delete(peerId)
+    return occ
+  };
 
-    /**
+  /**
      * Get the least frequent peer. If multiple peers have the same number of
      * occurrences, it chooses one among them at random.
      * @returns {string} The identifier of a least frequent peer.
      */
-    get leastFrequent () {
-        let leastFrequent = [];
-        let frequency = Infinity;
-        this.forEach( (ages, peerId) =&gt; {
-            if (ages.length &lt; frequency){
-                leastFrequent = [];
-                frequency = ages.length;
-            };
-            (ages.length === frequency) &amp;&amp; leastFrequent.push(peerId);
-        });
-        return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
-    };    
+  get leastFrequent () {
+    let leastFrequent = []
+    let frequency = Infinity
+    this.forEach((ages, peerId) =&gt; {
+      if (ages.length &lt; frequency) {
+        leastFrequent = []
+        frequency = ages.length
+      };
+      (ages.length === frequency) &amp;&amp; leastFrequent.push(peerId)
+    })
+    return leastFrequent[Math.floor(Math.random() * leastFrequent.length)]
+  };
 }
 
-
-module.exports = PartialView;
+module.exports = PartialView
 </code></pre>
 
 </div>
