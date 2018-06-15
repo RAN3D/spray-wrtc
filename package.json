@@ -1,45 +1,55 @@
 {
-    "name": "spray-wrtc",
-    "version": "2.0.8",
-    "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
-    "description": "Adaptive random peer-sampling protocol running on top of WebRTC",
-    "main": "./lib/spray.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ran3d/spray-wrtc"
-    },
-    "keywords": [
-        "Random peer-sampling",
-        "Adaptive",
-        "browser-to-browser communication",
-        "WebRTC"
-    ],
-    "dependencies": {
-        "debug": "^3.1.0",
-        "lodash": "^4.17.5",
-        "n2n-overlay-wrtc": "^2.0.x",
-        "npm": "^6.0.1"
-    },
-    "bundledDependencies": [
-        "lodash",
-        "debug",
-        "n2n-overlay-wrtc"
-    ],
-    "devDependencies": {
-        "browserify": "^16.1.1",
-        "esdoc": "^1.0.4",
-        "esdoc-ecmascript-proposal-plugin": "^1.0.0",
-        "esdoc-node": "^1.0.3",
-        "esdoc-standard-plugin": "^1.0.0",
-        "p2p-graph": "^1.2.2"
-    },
-    "scripts": {
-        "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
-        "build": "browserify -r ./lib/spray.js:spray-wrtc > build/spray-wrtc.bundle.js",
-        "esdoc": "esdoc && npm run esdoc:example",
-        "esdoc:example": "cp -R ./build ./examples ./img ./docs",
-        "test": "npm run all",
-        "all": "npm run debug && npm run build && npm run esdoc"
-    },
-    "license": "MIT"
+  "name": "spray-wrtc",
+  "version": "2.0.9",
+  "author": "Chat-Wane <grumpy.chat.wane@gmail.com>",
+  "description": "Adaptive random peer-sampling protocol running on top of WebRTC",
+  "main": "./lib/spray.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ran3d/spray-wrtc"
+  },
+  "keywords": [
+    "Random peer-sampling",
+    "Adaptive",
+    "browser-to-browser communication",
+    "WebRTC"
+  ],
+  "dependencies": {
+    "debug": "^3.1.0",
+    "lodash": "^4.17.5",
+    "n2n-overlay-wrtc": "^2.0.x"
+  },
+  "bundledDependencies": [
+    "lodash",
+    "debug",
+    "n2n-overlay-wrtc"
+  ],
+  "devDependencies": {
+    "browserify": "^16.1.1",
+    "esdoc": "^1.0.4",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-node": "^1.0.3",
+    "esdoc-standard-plugin": "^1.0.0",
+    "p2p-graph": "^1.2.2",
+    "snazzy": "^7.1.1",
+    "standard": "*"
+  },
+  "scripts": {
+    "lint": "standard --verbose | snazzy",
+    "fix": "standard --fix",
+    "debug": "browserify -r ./lib/spray.js:spray-wrtc --debug > build/spray-wrtc.bundle.debug.js",
+    "build": "browserify -r ./lib/spray.js:spray-wrtc > build/spray-wrtc.bundle.js",
+    "esdoc": "esdoc && npm run esdoc:example",
+    "esdoc:example": "cp -R ./build ./examples ./img ./docs",
+    "test": "npm run all",
+    "all": "npm run debug && npm run build && npm run esdoc"
+  },
+  "license": "MIT",
+  "standard": {
+    "ignore": [
+      "/build/",
+      "/img/",
+      "/examples/"
+    ]
+  }
 }

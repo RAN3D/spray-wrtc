@@ -1,4 +1,4 @@
-# spray-wrtc [![Build Status](https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master)](https://travis-ci.org/RAN3D/spray-wrtc)
+# spray-wrtc [![Build Status](https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master)](https://travis-ci.org/RAN3D/spray-wrtc) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 <i>Keywords: Random peer-sampling, adaptive, browser-to-browser communication,
 WebRTC</i>

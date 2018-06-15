@@ -1,249 +1,219 @@
 require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-'use strict';
-
-/**
- * Exception that rises when the partial view is used as if there were neighbors
- * populating it, whereas there are none.
- */
-class ExEmptyView {
-    /**
-     * @param {string} source The function that throws the exception.
-     */
-    constructor (source) {
-        this.source = source;
-        this.message = 'Partial view is used as it was not empty, yet it is.';
-    };
-};
-
-module.exports = ExEmptyView;
-
-
-},{}],2:[function(require,module,exports){
-'use strict';
+'use strict'
 
 /**
  * Exception threw when the joining phase of Spray does not work as intended.
  */
 class ExJoin {
-    /**
+  /**
      * @param {string} source The name of the function that threw the exception.
      * @param {string} reason The reason the joining failed.
      */
-    constructor (source, reason) {
-        this.source = source;
-        this.message = reason;
-    };
+  constructor (source, reason) {
+    this.source = source
+    this.message = reason
+  };
 };
 
-module.exports = ExJoin;
+module.exports = ExJoin
 
-},{}],3:[function(require,module,exports){
-'use strict';
+},{}],2:[function(require,module,exports){
+'use strict'
 
 /**
  * Spray encountered a problem with a message.
  */
 class ExMessage {
-    /**
+  /**
      * @param {string} source The name of the function that threw.
      * @param {object} message The incriminated message.
      * @param {string} reason The reason of the throw.
      */
-    constructor (source, message, reason){
-        this.source = source;
-        this.message = message;
-        this.reason = reason;
-    };
+  constructor (source, message, reason) {
+    this.source = source
+    this.message = message
+    this.reason = reason
+  };
 };
 
+module.exports = ExMessage
 
-module.exports = ExMessage;
-
-},{}],4:[function(require,module,exports){
-'use strict';
+},{}],3:[function(require,module,exports){
+'use strict'
 
 /**
  * Exception that rises when the peer looked for does not exist in the partial
  * view.
  */
 class ExPeerNotFound {
-    /**
+  /**
      * @param {string} source The function that throw the error.
      * @param {string} [peerId = 'unknown'] The identifier of the peer if
      * defined.
      */
-    constructor (source, peerId = 'unknown') {
-        this.source = source;
-        this.peer = peerId;
-    };
+  constructor (source, peerId = 'unknown') {
+    this.source = source
+    this.peer = peerId
+  };
 };
 
+module.exports = ExPeerNotFound
 
-module.exports = ExPeerNotFound;
-
-},{}],5:[function(require,module,exports){
-'use strict';
+},{}],4:[function(require,module,exports){
+'use strict'
 
 /**
  * Message requesting an exchange of neighborhood.
  */
 class MExchange {
-    /**
+  /**
      * @param {string} inview The identifier of the inview.
      */
-    constructor (inview) {
-        this.inview = inview;
-        this.type = 'MExchange';
-    };
- };
+  constructor (inview) {
+    this.inview = inview
+    this.type = 'MExchange'
+  };
+};
 
-module.exports = MExchange;
+module.exports = MExchange
 
-},{}],6:[function(require,module,exports){
-'use strict';
+},{}],5:[function(require,module,exports){
+'use strict'
 
 /**
  * Message sent by a newcommer to its contact when it joins the network.
  */
 class MJoin {
-    constructor () {
-        this.type = 'MJoin';
-    };
+  constructor () {
+    this.type = 'MJoin'
+  };
 };
 
-module.exports = MJoin;
+module.exports = MJoin
 
-},{}],7:[function(require,module,exports){
-'use strict';
+},{}],6:[function(require,module,exports){
+'use strict'
 
 /**
  * Message that signals the departure of the sender.
  */
 class MLeave {
-    constructor () {
-        this.type = 'MLeave';
-    };
+  constructor () {
+    this.type = 'MLeave'
+  };
 };
 
-module.exports = MLeave;
+module.exports = MLeave
 
-},{}],8:[function(require,module,exports){
-'use strict';
+},{}],7:[function(require,module,exports){
+'use strict'
 
-const ExPeerNotFound = require('./exceptions/expeernotfound.js');
+const ExPeerNotFound = require('./exceptions/expeernotfound.js')
 
 /**
  * Structure containing the neighborhood of a peer.
  * Map of {idPeer => [age_1, age_2.. age_k]} where age_1 <= age_2 <= .. <= age_k
  */
 class PartialView extends Map {
-    constructor () {
-        super();
-    };
-    
-    /**
+  /**
      * Get the oldest peer in the partial view.
      * @returns {string} The oldest peer in the array.
      */
-    get oldest () {
-        if (this.size <= 0) { throw new ExPeerNotFound('oldest'); };
-        let oldestPeer = null;
-        let oldestAge = 0;
-        this.forEach( (ages, peerId) => {
-            if (oldestAge <= ages[ages.length - 1]) {
-                oldestPeer = peerId;
-                oldestAge = ages[ages.length - 1];
-            };
-        });
-        return oldestPeer;
-    };
+  get oldest () {
+    if (this.size <= 0) { throw new ExPeerNotFound('oldest') };
+    let oldestPeer = null
+    let oldestAge = 0
+    this.forEach((ages, peerId) => {
+      if (oldestAge <= ages[ages.length - 1]) {
+        oldestPeer = peerId
+        oldestAge = ages[ages.length - 1]
+      };
+    })
+    return oldestPeer
+  };
 
-
-    /**
+  /**
      * Increment the age of the whole partial view
      */
-    increment () {
-        this.forEach( (ages, peerId) => {
-            this.set(peerId, ages.map( (age) => {return age+1;} ));
-        });
-    };
+  increment () {
+    this.forEach((ages, peerId) => {
+      this.set(peerId, ages.map((age) => { return age + 1 }))
+    })
+  };
 
-    /**
+  /**
      * Add the peer to the partial view with an age of 0.
      * @param {string} peerId The identifier of the peer added to the partial
      * view.
      */
-    add (peerId) {
-        (!this.has(peerId)) && this.set(peerId, new Array());        
-        this.get(peerId).unshift(0); // add 0 in front of the array
-    };
+  add (peerId) {
+    (!this.has(peerId)) && this.set(peerId, [])
+    this.get(peerId).unshift(0) // add 0 in front of the array
+  };
 
-    /**
+  /**
      * Remove the newest entry of the peer from the partial view.
-     * @param {string} peerId The identifier of the peer to remove from the 
-     * partial view. 
+     * @param {string} peerId The identifier of the peer to remove from the
+     * partial view.
      */
-    removeYoungest (peerId) {
-        if (!this.has(peerId)) {
-            throw new ExPeerNotFound('removeYoungest', peerId);
-        };
-        this.get(peerId).shift();
-        (this.get(peerId).length === 0) && this.delete(peerId);
+  removeYoungest (peerId) {
+    if (!this.has(peerId)) {
+      throw new ExPeerNotFound('removeYoungest', peerId)
     };
+    this.get(peerId).shift();
+    (this.get(peerId).length === 0) && this.delete(peerId)
+  };
 
-    /**
+  /**
      * Remove the oldest entry of the peer from the partial view.
-     * @param {string} peerId The identifier of the peer to remove from the 
-     * partial view. 
+     * @param {string} peerId The identifier of the peer to remove from the
+     * partial view.
      */
-    removeOldest (peerId) {
-        if (!this.has(peerId)) {
-            throw new ExPeerNotFound('removeOldest', peerId);
-        };
-        this.get(peerId).pop();
-        (this.get(peerId).length === 0) && this.delete(peerId);
+  removeOldest (peerId) {
+    if (!this.has(peerId)) {
+      throw new ExPeerNotFound('removeOldest', peerId)
     };
+    this.get(peerId).pop();
+    (this.get(peerId).length === 0) && this.delete(peerId)
+  };
 
-    
-    /**
+  /**
      * Remove all entries of the peer from the partial view.
-     * @param {string} peerId The identifier of the peer to remove from the 
+     * @param {string} peerId The identifier of the peer to remove from the
      * partial view.
      * @returns {number} The number of occurrences of peerId removed.
      */
-    removeAll (peerId) {
-        if (!this.has(peerId)) {
-            throw new ExPeerNotFound('removeAll', peerId);
-        };
-        const occ = this.get(peerId).length;
-        this.delete(peerId);
-        return occ;
+  removeAll (peerId) {
+    if (!this.has(peerId)) {
+      throw new ExPeerNotFound('removeAll', peerId)
     };
-       
+    const occ = this.get(peerId).length
+    this.delete(peerId)
+    return occ
+  };
 
-    /**
+  /**
      * Get the least frequent peer. If multiple peers have the same number of
      * occurrences, it chooses one among them at random.
      * @returns {string} The identifier of a least frequent peer.
      */
-    get leastFrequent () {
-        let leastFrequent = [];
-        let frequency = Infinity;
-        this.forEach( (ages, peerId) => {
-            if (ages.length < frequency){
-                leastFrequent = [];
-                frequency = ages.length;
-            };
-            (ages.length === frequency) && leastFrequent.push(peerId);
-        });
-        return leastFrequent[Math.floor(Math.random() * leastFrequent.length)];
-    };    
+  get leastFrequent () {
+    let leastFrequent = []
+    let frequency = Infinity
+    this.forEach((ages, peerId) => {
+      if (ages.length < frequency) {
+        leastFrequent = []
+        frequency = ages.length
+      };
+      (ages.length === frequency) && leastFrequent.push(peerId)
+    })
+    return leastFrequent[Math.floor(Math.random() * leastFrequent.length)]
+  };
 }
 
+module.exports = PartialView
 
-module.exports = PartialView;
-
-},{"./exceptions/expeernotfound.js":4}],9:[function(require,module,exports){
+},{"./exceptions/expeernotfound.js":3}],8:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -396,9 +366,9 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -2136,7 +2106,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":9,"ieee754":17}],12:[function(require,module,exports){
+},{"base64-js":8,"ieee754":16}],11:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2247,7 +2217,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":19}],13:[function(require,module,exports){
+},{"../../is-buffer/index.js":18}],12:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -2446,7 +2416,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":14,"_process":41}],14:[function(require,module,exports){
+},{"./debug":13,"_process":40}],13:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -2673,7 +2643,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":22}],15:[function(require,module,exports){
+},{"ms":21}],14:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -3104,24 +3074,28 @@ EventEmitter.prototype.removeAllListeners =
       return this;
     };
 
-EventEmitter.prototype.listeners = function listeners(type) {
-  var evlistener;
-  var ret;
-  var events = this._events;
+function _listeners(target, type, unwrap) {
+  var events = target._events;
 
   if (!events)
-    ret = [];
-  else {
-    evlistener = events[type];
-    if (!evlistener)
-      ret = [];
-    else if (typeof evlistener === 'function')
-      ret = [evlistener.listener || evlistener];
-    else
-      ret = unwrapListeners(evlistener);
-  }
+    return [];
 
-  return ret;
+  var evlistener = events[type];
+  if (!evlistener)
+    return [];
+
+  if (typeof evlistener === 'function')
+    return unwrap ? [evlistener.listener || evlistener] : [evlistener];
+
+  return unwrap ? unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
+}
+
+EventEmitter.prototype.listeners = function listeners(type) {
+  return _listeners(this, type, true);
+};
+
+EventEmitter.prototype.rawListeners = function rawListeners(type) {
+  return _listeners(this, type, false);
 };
 
 EventEmitter.listenerCount = function(emitter, type) {
@@ -3194,7 +3168,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 // originally pulled out of simple-peer
 
 module.exports = function getBrowserRTC () {
@@ -3211,7 +3185,7 @@ module.exports = function getBrowserRTC () {
   return wrtc
 }
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -3297,7 +3271,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -3322,7 +3296,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -3345,14 +3319,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 (function (global){
 /**
  * Lodash (Custom Build) <https://lodash.com/>
@@ -5319,7 +5293,7 @@ function stubFalse() {
 module.exports = merge;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -5473,7 +5447,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5496,7 +5470,7 @@ class MConnectTo {
 
 module.exports = MConnectTo;
 
-},{}],24:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5511,7 +5485,7 @@ class MDirect {
 
 module.exports = MDirect;
 
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5534,7 +5508,7 @@ class MForwarded {
 
 module.exports = MForwarded;
 
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5556,7 +5530,7 @@ class MForwardTo {
 
 module.exports = MForwardTo;
 
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 const debug = (require('debug'))('n2n-overlay-wrtc');
@@ -5788,6 +5762,15 @@ class N2N extends EventEmitter {
         } else if (this.o.has(peerId)) {
             promise = this.IO.send(peerId, message, retry);
         } else {
+          // determine if it is an inview id or an outview arc and in case of inview, tranform it to outview and try to find it in the outview, reverse method for outview id
+          const root = peerId.substr(0, peerId.length-2)
+          const inv = root+'-I'
+          const out = root+'-O'
+          if(this.o.has(inv)) {
+            promise = this.IO.send(inv, message, retry);
+          } else if(this.i.has(out)) {
+            promise = this.II.send(out, message, retry);
+          } else {
             // #2 last chance behavior
             promise = new Promise( (resolve, reject) => {
                 const _send = (r) => {
@@ -5806,6 +5789,7 @@ class N2N extends EventEmitter {
                                 }));};
                 _send(0);
             });
+          }
         };
         return promise;
     };
@@ -5867,7 +5851,8 @@ class N2N extends EventEmitter {
             this.II.disconnect();
             this.IO.disconnect();
         } else {
-            this.IO.disconnect(peerId);
+          if(this.i.has(peerId)) this.II.disconnect(peerId);
+          if(this.o.has(peerId)) this.IO.disconnect(peerId);
         };
     }
 
@@ -5907,7 +5892,7 @@ class N2N extends EventEmitter {
 
 module.exports = N2N;
 
-},{"./messages/mconnectto.js":23,"./messages/mdirect.js":24,"./messages/mforwarded.js":25,"./messages/mforwardto.js":26,"debug":13,"events":15,"lodash.merge":21,"neighborhood-wrtc":39,"uuid/v4":58}],28:[function(require,module,exports){
+},{"./messages/mconnectto.js":22,"./messages/mdirect.js":23,"./messages/mforwarded.js":24,"./messages/mforwardto.js":25,"debug":12,"events":14,"lodash.merge":20,"neighborhood-wrtc":38,"uuid/v4":58}],27:[function(require,module,exports){
 'use strict'
 
 const ELiving = require('./entries/eliving.js')
@@ -6062,7 +6047,7 @@ class ArcStore {
 
 module.exports = ArcStore
 
-},{"./entries/eliving.js":30,"./exceptions/exsocketnotfound.js":34}],29:[function(require,module,exports){
+},{"./entries/eliving.js":29,"./exceptions/exsocketnotfound.js":33}],28:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6085,7 +6070,7 @@ class EDying {
 
 module.exports = EDying
 
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6153,7 +6138,7 @@ class ELiving {
 
 module.exports = ELiving
 
-},{}],31:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6182,7 +6167,7 @@ class EPending {
 
 module.exports = EPending
 
-},{}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6204,7 +6189,7 @@ class ExIncompleteMessage {
 
 module.exports = ExIncompleteMessage
 
-},{}],33:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6224,7 +6209,7 @@ class ExProtocolExists {
 
 module.exports = ExProtocolExists
 
-},{}],34:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6248,7 +6233,7 @@ class ExSocketNotFound {
 
 module.exports = ExSocketNotFound
 
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6310,7 +6295,7 @@ class INeighborhood {
 
 module.exports = INeighborhood
 
-},{}],36:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6340,7 +6325,7 @@ class MRequest {
 
 module.exports = MRequest
 
-},{}],37:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6369,7 +6354,7 @@ class MResponse {
 
 module.exports = MResponse
 
-},{}],38:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict'
 
 /**
@@ -6393,7 +6378,7 @@ class MSend {
 
 module.exports = MSend
 
-},{}],39:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict'
 
 const debug = (require('debug'))('neighborhood-wrtc')
@@ -6930,7 +6915,7 @@ class Neighborhood {
 
 module.exports = Neighborhood
 
-},{"./arcstore.js":28,"./entries/edying.js":29,"./entries/epending.js":31,"./exceptions/exincompletemessage.js":32,"./exceptions/exprotocolexists.js":33,"./interfaces/ineighborhood.js":35,"./messages/mrequest.js":36,"./messages/mresponse.js":37,"./messages/msend.js":38,"debug":13,"lodash.merge":21,"simple-peer":53,"uuid/v4":58}],40:[function(require,module,exports){
+},{"./arcstore.js":27,"./entries/edying.js":28,"./entries/epending.js":30,"./exceptions/exincompletemessage.js":31,"./exceptions/exprotocolexists.js":32,"./interfaces/ineighborhood.js":34,"./messages/mrequest.js":35,"./messages/mresponse.js":36,"./messages/msend.js":37,"debug":12,"lodash.merge":20,"simple-peer":52,"uuid/v4":58}],39:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -6978,7 +6963,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":41}],41:[function(require,module,exports){
+},{"_process":40}],40:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7164,7 +7149,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],42:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 (function (process,global){
 'use strict'
 
@@ -7206,7 +7191,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":41,"safe-buffer":52}],43:[function(require,module,exports){
+},{"_process":40,"safe-buffer":51}],42:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7338,7 +7323,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":45,"./_stream_writable":47,"core-util-is":12,"inherits":18,"process-nextick-args":40}],44:[function(require,module,exports){
+},{"./_stream_readable":44,"./_stream_writable":46,"core-util-is":11,"inherits":17,"process-nextick-args":39}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7386,7 +7371,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":46,"core-util-is":12,"inherits":18}],45:[function(require,module,exports){
+},{"./_stream_transform":45,"core-util-is":11,"inherits":17}],44:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8408,7 +8393,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":43,"./internal/streams/BufferList":48,"./internal/streams/destroy":49,"./internal/streams/stream":50,"_process":41,"core-util-is":12,"events":15,"inherits":18,"isarray":20,"process-nextick-args":40,"safe-buffer":52,"string_decoder/":54,"util":10}],46:[function(require,module,exports){
+},{"./_stream_duplex":42,"./internal/streams/BufferList":47,"./internal/streams/destroy":48,"./internal/streams/stream":49,"_process":40,"core-util-is":11,"events":14,"inherits":17,"isarray":19,"process-nextick-args":39,"safe-buffer":51,"string_decoder/":53,"util":9}],45:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8623,8 +8608,8 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":43,"core-util-is":12,"inherits":18}],47:[function(require,module,exports){
-(function (process,global){
+},{"./_stream_duplex":42,"core-util-is":11,"inherits":17}],46:[function(require,module,exports){
+(function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9312,8 +9297,8 @@ Writable.prototype._destroy = function (err, cb) {
   this.end();
   cb(err);
 };
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":43,"./internal/streams/destroy":49,"./internal/streams/stream":50,"_process":41,"core-util-is":12,"inherits":18,"process-nextick-args":40,"safe-buffer":52,"util-deprecate":55}],48:[function(require,module,exports){
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+},{"./_stream_duplex":42,"./internal/streams/destroy":48,"./internal/streams/stream":49,"_process":40,"core-util-is":11,"inherits":17,"process-nextick-args":39,"safe-buffer":51,"timers":54,"util-deprecate":55}],47:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9393,7 +9378,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":52,"util":10}],49:[function(require,module,exports){
+},{"safe-buffer":51,"util":9}],48:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -9468,10 +9453,10 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":40}],50:[function(require,module,exports){
+},{"process-nextick-args":39}],49:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":15}],51:[function(require,module,exports){
+},{"events":14}],50:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -9480,7 +9465,7 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":43,"./lib/_stream_passthrough.js":44,"./lib/_stream_readable.js":45,"./lib/_stream_transform.js":46,"./lib/_stream_writable.js":47}],52:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":42,"./lib/_stream_passthrough.js":43,"./lib/_stream_readable.js":44,"./lib/_stream_transform.js":45,"./lib/_stream_writable.js":46}],51:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -9544,7 +9529,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":11}],53:[function(require,module,exports){
+},{"buffer":10}],52:[function(require,module,exports){
 (function (Buffer){
 module.exports = Peer
 
@@ -9589,7 +9574,6 @@ function Peer (opts) {
   self.constraints = self._transformConstraints(opts.constraints || Peer.constraints)
   self.offerConstraints = self._transformConstraints(opts.offerConstraints || {})
   self.answerConstraints = self._transformConstraints(opts.answerConstraints || {})
-  self.reconnectTimer = opts.reconnectTimer || false
   self.sdpTransform = opts.sdpTransform || function (sdp) { return sdp }
   self.streams = opts.streams || (opts.stream ? [opts.stream] : []) // support old "stream" option
   self.trickle = opts.trickle !== undefined ? opts.trickle : true
@@ -9633,7 +9617,6 @@ function Peer (opts) {
   self._chunk = null
   self._cb = null
   self._interval = null
-  self._reconnectTimeout = null
 
   self._pc = new (self._wrtc.RTCPeerConnection)(self.config, self.constraints)
 
@@ -9914,9 +9897,7 @@ Peer.prototype._destroy = function (err, cb) {
   self._senderMap = null
 
   clearInterval(self._interval)
-  clearTimeout(self._reconnectTimeout)
   self._interval = null
-  self._reconnectTimeout = null
   self._chunk = null
   self._cb = null
 
@@ -10111,7 +10092,6 @@ Peer.prototype._onIceStateChange = function () {
   self.emit('iceStateChange', iceConnectionState, iceGatheringState)
 
   if (iceConnectionState === 'connected' || iceConnectionState === 'completed') {
-    clearTimeout(self._reconnectTimeout)
     self._pcReady = true
     self._maybeReady()
   }
@@ -10481,7 +10461,7 @@ function makeError (message, code) {
 function noop () {}
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":11,"debug":13,"get-browser-rtc":16,"inherits":18,"randombytes":42,"readable-stream":51}],54:[function(require,module,exports){
+},{"buffer":10,"debug":12,"get-browser-rtc":15,"inherits":17,"randombytes":41,"readable-stream":50}],53:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10778,7 +10758,86 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":52}],55:[function(require,module,exports){
+},{"safe-buffer":51}],54:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":40,"timers":54}],55:[function(require,module,exports){
 (function (global){
 
 /**
@@ -10952,7 +11011,6 @@ const MExchange = require('./messages/mexchange.js')
 const MJoin = require('./messages/mjoin.js')
 const MLeave = require('./messages/mleave.js')
 
-const ExEmptyView = require('./exceptions/exemptyview.js')
 const ExMessage = require('./exceptions/exmessage.js')
 const ExJoin = require('./exceptions/exjoin.js')
 
@@ -10960,7 +11018,7 @@ const ExJoin = require('./exceptions/exjoin.js')
  * Implementation of the random peer-sampling Spray.
  */
 class Spray extends N2N {
-    /**
+  /**
      * You can pass other parameters such as webrtc options
      * @param {object} [options = {}] Object with all options
      * @param {string} [options.pid = 'spray-wrtc'] The identifier of this
@@ -10971,112 +11029,120 @@ class Spray extends N2N {
      * to a*log(N) + b, where N is the number of peers in the network.
      * @param {nubmer} [options.b = 0] See above.
      */
-    constructor (options = {}) {
-        // #0 initialize our N2N-parent
-        super(merge({ pid: 'spray-wrtc',
-                      delta: 1000 * 60 * 2,
-                      timeout: 1000 * 60 * 1,
-                      a: 1,
-                      b: 0,
-                      retry: 5 }, options))
-        // #1 constants (from N2N)
-        // this.PID = protocol identifier
-        // this.PEER = peer Id comprising inview and outview Ids
-        debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER)
-        // #2 initialize the partial view containing ages
-        this.partialView = new PartialView()
-        // #3 initialize the connectedness state of this protocol
-        this.state = 'disconnected'
-        // #4 periodic shuffling
-        this.periodic = null
-        // #5 events
-        this.on('receive', (peerId, message) => this._receive(peerId, message))
-        // this.on('stream', (peerId, message) => { } ); // (TODO) ?;
-        this.on('open', (peerId) => {
-            this._open(peerId)
-            this._updateState()
-        })
-        this.on('close', (peerId) => {
-            this._close(peerId)
-            this._updateState()
-        })
-        this.on('fail', (peerId) => {
-            this._onArcDown(peerId)
-            this._updateState()
-        })
-    };
+  constructor (options = {}) {
+    // #0 initialize our N2N-parent
+    super(merge({ pid: 'spray-wrtc',
+      delta: 1000 * 60 * 2,
+      timeout: 1000 * 60 * 1,
+      a: 1,
+      b: 0,
+      retry: 5 }, options))
+    // #1 constants (from N2N)
+    // this.PID = protocol identifier
+    // this.PEER = peer Id comprising inview and outview Ids
+    debug('[%s] Initalized with ==> %s ==>', this.PID, this.PEER)
+    // #2 initialize the partial view containing ages
+    this.partialView = new PartialView()
+    // #3 initialize the connectedness state of this protocol
+    this.state = 'disconnected'
+    // #4 periodic shuffling
+    this.periodic = null
+    // #5 events
+    this.on('receive', (peerId, message) => this._receive(peerId, message))
+    // this.on('stream', (peerId, message) => { } ); // (TODO) ?;
+    this.on('open', (peerId) => {
+      this._open(peerId)
+      this._updateState()
+    })
+    this.on('close', (peerId) => {
+      this._close(peerId)
+      this._updateState()
+    })
+    this.on('fail', (peerId) => {
+      this._onArcDown(peerId)
+      this._updateState()
+    })
+  };
 
-    /**
+  /**
      * @private Start periodic shuffling.
      */
-    _start (delay = this.options.delta) {
-        this.periodic = setInterval(() => {
-            this._exchange()
-        }, delay)
-    };
+  _start (delay = this.options.delta) {
+    this.periodic = setInterval(() => {
+      this._exchange()
+    }, delay)
+  };
 
-    /**
+  /**
      * @private Stop periodic shuffling.
      */
-    _stop () {
-        clearInterval(this.periodic)
-    };
+  _stop () {
+    clearInterval(this.periodic)
+  };
 
-    /**
+  /**
      * @private Called each time this protocol receives a message.
      * @param {string} peerId The identifier of the peer that sent the message.
      * @param {object|MExchange|MJoin} message The message received.
      */
-    _receive (peerId, message) {
-        if (message.type && message.type === 'MExchange') {
-            this._onExchange(peerId, message)
-        } else if (message.type && message.type === 'MJoin') {
-            this._onJoin(peerId)
-        } else if (message.type && message.type === 'MLeave') {
-            this._onLeave(peerId)
-        } else {
-            throw new ExMessage('_receive', message, 'unhandled')
-        };
+  _receive (peerId, message) {
+    if (message.type && message.type === 'MExchange') {
+      this._onExchange(peerId, message)
+    } else if (message.type && message.type === 'MJoin') {
+      this._onJoin(peerId)
+    } else if (message.type && message.type === 'MLeave') {
+      this._onLeave(peerId)
+    } else {
+      throw new ExMessage('_receive', message, 'unhandled')
     };
+  };
 
-    /**
+  /**
      * @private Behavior when a connection is ready to be added in the partial
      * view.
      * @param {string} peerId The identifier of the new neighbor.
      */
-    _open (peerId) {
-        debug('[%s] %s ===> %s', this.PID, this.PEER, peerId)
-        this.partialView.add(peerId)
-    };
+  _open (peerId) {
+    debug('[%s] Open %s ===> %s', this.PID, this.PEER, peerId)
+    this.partialView.add(peerId)
+  };
 
-    /**
+  /**
      * @private Behavior when a connection is closed.
      * @param {string} peerId The identifier of the removed arc.
      */
-    _close (peerId) {
-        debug('[%s] %s =†=> %s', this.PID, this.PEER, peerId)
-    };
+  _close (peerId) {
+    debug('[%s] Close %s =†=> %s', this.PID, this.PEER, peerId)
+    // wait 5 seconds before checking if the peer is still in the partialView or
+    // NOTE: we do this cause of concurrency, The connection could be correctly deleted and if we delete the connection sooner, the number of arcs reinjected could be higher than expected.
+    setTimeout(() => {
+      if (!this.o.has(peerId) && this.partialView.has(peerId)) {
+        console.log('removing peer: ', peerId)
+        this._onPeerDown(peerId)
+      };
+    }, 5000)
+  };
 
-    /**
+  /**
      * @private Update the connectedness state of the peer.
      */
-    _updateState () {
-        const remember = this.state
-        if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected') {
-            this.state = 'connected'
-        } else if ((this.i.size > 0 && this.o.size <= 0 ||
-                    this.o.size > 0 && this.i.size <= 0) &&
+  _updateState () {
+    const remember = this.state
+    if (this.i.size > 0 && this.o.size > 0 && remember !== 'connected') {
+      this.state = 'connected'
+    } else if (((this.i.size > 0 && this.o.size <= 0) ||
+                    (this.o.size > 0 && this.i.size <= 0)) &&
                    remember !== 'partially connected') {
-            this.state = 'partially connected'
-        } else if (this.i.size <= 0 && this.o.size <= 0 &&
+      this.state = 'partially connected'
+    } else if (this.i.size <= 0 && this.o.size <= 0 &&
                    remember !== 'disconnected') {
-            this.state = 'disconnected'
-            // this._stop();
-        };
-        (remember !== this.state) && this.emit('statechange', this.state)
+      this.state = 'disconnected'
+      // this._stop();
     };
+    (remember !== this.state) && this.emit('statechange', this.state)
+  };
 
-    /**
+  /**
      * Joining a network.
      * @param {callback} sender Function that will be called each time an offer
      * arrives to this peer. It is the responsability of the caller to send
@@ -11085,132 +11151,138 @@ class Spray extends N2N {
      * network -- the resolve contains the peerId; rejected after a timeout, or
      * already connected state.
      */
-    join (sender) {
-        let result = new Promise((resolve, reject) => {
-            // #0 connectedness state check
-            (this.state !== 'disconnected') &&
+  join (sender) {
+    let result = new Promise((resolve, reject) => {
+      // #0 connectedness state check
+      (this.state !== 'disconnected') &&
                 reject(new ExJoin('join', 'Already connected.'))
-            // #1 set timeout before reject
-            let to = setTimeout(() => {
-                reject(new ExJoin('join', 'Timeout exceeded.'))
-            }, this.options.timeout)
-            // #2 very first call, only done once
-            this.once('open', (peerId) => {
-                this.send(peerId, new MJoin(), this.options.retry)
-                    .then(() => {
-                        clearTimeout(to)
-                        this._start() // start shuffling process
-                        this._inject(this.options.a - 1, 0, peerId)
-                        resolve(peerId)
-                    }).catch(() => {
-                        reject(new ExJoin('join',
-                                          'Could not notify remote contact.'))
-                    })
-            })
-        })
-        // #3 engage the very first connection of this peer
-        this.connect(sender)
-        return result
-    };
+      // #1 set timeout before reject
+      let to = setTimeout(() => {
+        reject(new ExJoin('join', 'Timeout exceeded.'))
+      }, this.options.timeout)
+      // #2 very first call, only done once
+      this.once('open', (peerId) => {
+        this.send(peerId, new MJoin(), this.options.retry)
+          .then(() => {
+            clearTimeout(to)
+            this._start() // start shuffling process
+            this._inject(this.options.a - 1, 0, peerId)
+            resolve(peerId)
+          }).catch(() => {
+            reject(new ExJoin('join',
+              'Could not notify remote contact.'))
+          })
+      })
+    })
+    // #3 engage the very first connection of this peer
+    this.connect(sender)
+    return result
+  };
 
-    /**
+  /**
      * @private Behavior of the contact peer when a newcomer arrives.
      * @param {string} peerId The identifier of the newcomer.
      */
-    _onJoin (peerId) {
-        if (this.partialView.size > 0) {
-            // #1 all neighbors -> peerId
-            debug('[%s] %s ===> join %s ===> %s neighbors',
-                  this.PID, peerId, this.PEER, this.partialView.size)
-            this.partialView.forEach((ages, neighbor) => {
-                ages.forEach((age) => {
-                    this.connect(neighbor, peerId)
-                })
-            })
-        } else {
-            // #2 Seems like a 2-peer network;  this -> peerId;
-            debug('[%s] %s ===> join %s ===> %s',
-                  this.PID, peerId, this.PEER, peerId)
-            this._inject(2*this.options.a, 2*this.options.b, peerId)
-            this._start()
-        };
+  _onJoin (peerId) {
+    // cause of crash and rapid refresh
+    // some connection can stay in the partialView after a crash
+    // This appears in a 2-peers network where one of them refresh its "page".
+    // We receive the join event before the 'close' event
+    // we need to delete it before engaging the _onJoin process.
+    this._checkPartialView()
+    if (this.partialView.size > 0) {
+      // #1 all neighbors -> peerId
+      debug('[%s] %s ===> join %s ===> %s neighbors',
+        this.PID, peerId, this.PEER, this.partialView.size)
+      this.partialView.forEach((ages, neighbor) => {
+        ages.forEach((age) => {
+          this.connect(neighbor, peerId)
+        })
+      })
+    } else {
+      // #2 Seems like a 2-peer network;  this -> peerId;
+      debug('[%s] %s ===> join %s ===> %s',
+        this.PID, peerId, this.PEER, peerId)
+      this._inject(2 * this.options.a, 2 * this.options.b, peerId)
+      this._start()
     };
+  };
 
-    /**
+  /**
      * Leave the network. If time is given, it tries to patch the network before
      * leaving.
      * @param {number} [time = 0] The time (in milliseconds) given to this peer
      * to patch the network before trully leaving.
      */
-    leave (time = 0) {
-        // ugly way
-        const saveNITimeout = this.NI.options.timeout
-        const saveNOTimeout = this.NO.options.timeout
-        this.NI.options.timeout = time
-        this.NO.options.timeout = time
+  leave (time = 0) {
+    // ugly way
+    const saveNITimeout = this.NI.options.timeout
+    const saveNOTimeout = this.NO.options.timeout
+    this.NI.options.timeout = time
+    this.NO.options.timeout = time
 
-        // #0 stop shufflings
-        this._stop()
-        if (time > 0) {
-            // #1 patch the network; in total must remove a.log(N) + b arcs
-            // inview -> this -> outview   becomes   inview -> outview
-            // #A flatten the inview and the outview
-            let inview = this.getInview()
-            let flattenI = []
-            inview.forEach((occ, peerId) => flattenI.push(peerId))
-            let outview = this.getOutview()
-            let flattenO = []
-            outview.forEach((occ, peerId) => flattenO.push(peerId))
-            // #B process the number of arc to save
-            // (TODO) double check this proportion
-            let toKeep = outview.size - this.options.a
-            // #C bridge connections
-            // (TODO) check more than 2 in flattenI and flattenO is ≠
-            for (let i = 0; i < Math.floor(toKeep); ++i) {
-                const rnI = Math.floor(Math.random() * flattenI.length)
-                let different = flattenO
-                    .filter((peerId) => peerId !== flattenI[rnI])
-                if (different.length > 0) {
-                    const rnO = Math.floor(Math.random() * different.length)
-                    this.connect(flattenI[rnI], different[rnO])
-                };
-            };
-            // (TODO) add probabilistic bridging if toKeep is a floating number
-
-            flattenI.forEach((peerId) => {
-                this.send(peerId, new MLeave(), this.options.retry)
-                    .catch((e) => { })
-            })
-
-            flattenO.forEach((peerId) => {
-                this._onLeave(peerId)
-            })
-        } else {
-            // #2 just leave
-            this.partialView.clear()
-            this.disconnect()
+    // #0 stop shufflings
+    this._stop()
+    if (time > 0) {
+      // #1 patch the network; in total must remove a.log(N) + b arcs
+      // inview -> this -> outview   becomes   inview -> outview
+      // #A flatten the inview and the outview
+      let inview = this.getInview()
+      let flattenI = []
+      inview.forEach((occ, peerId) => flattenI.push(peerId))
+      let outview = this.getOutview()
+      let flattenO = []
+      outview.forEach((occ, peerId) => flattenO.push(peerId))
+      // #B process the number of arc to save
+      // (TODO) double check this proportion
+      let toKeep = outview.size - this.options.a
+      // #C bridge connections
+      // (TODO) check more than 2 in flattenI and flattenO is ≠
+      for (let i = 0; i < Math.floor(toKeep); ++i) {
+        const rnI = Math.floor(Math.random() * flattenI.length)
+        let different = flattenO
+          .filter((peerId) => peerId !== flattenI[rnI])
+        if (different.length > 0) {
+          const rnO = Math.floor(Math.random() * different.length)
+          this.connect(flattenI[rnI], different[rnO])
         };
+      };
+      // (TODO) add probabilistic bridging if toKeep is a floating number
 
-        this.NI.options.timeout = saveNITimeout
-        this.NO.options.timeout = saveNOTimeout
+      flattenI.forEach((peerId) => {
+        this.send(peerId, new MLeave(), this.options.retry)
+          .catch((e) => { })
+      })
+
+      flattenO.forEach((peerId) => {
+        this._onLeave(peerId)
+      })
+    } else {
+      // #2 just leave
+      this.partialView.clear()
+      this.disconnect()
     };
 
-    /**
+    this.NI.options.timeout = saveNITimeout
+    this.NO.options.timeout = saveNOTimeout
+  };
+
+  /**
      * @private A remote peer we target just left the network. We remove it from
      * our partial view.
      * @param {string} peerId The identifier of the peer that just left.
      */
-    _onLeave (peerId) {
-        if (this.partialView.has(peerId)) {
-            debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId)
-            const occ = this.partialView.removeAll(peerId)
-            for (let i = 0; i < occ; ++i) {
-                this.disconnect(peerId)
-            };
-        };
+  _onLeave (peerId) {
+    if (this.partialView.has(peerId)) {
+      debug('[%s] %s ==> ††† %s †††', this.PID, this.PEER, peerId)
+      const occ = this.partialView.removeAll(peerId)
+      for (let i = 0; i < occ; ++i) {
+        this.disconnect(peerId)
+      };
     };
+  };
 
-    /**
+  /**
      * Get k neighbors from the partial view. If k is not reached, it tries to
      * fill the gap with neighbors from the inview.  It is worth noting that
      * each peer controls its outview but not its inview. The more the neigbhors
@@ -11219,241 +11291,243 @@ class Spray extends N2N {
      * it returns every known identifiers of the partial view.
      * @return {string[]} Array of identifiers.
      */
-    getPeers (k) {
-        let peers = []
-        if (typeof k === 'undefined') {
-            // #1 get all the partial view
-            this.partialView.forEach((occ, peerId) => {
-                peers.push(peerId)
-            })
-        } else {
-            // #2 get random identifier from outview
-            let out = []
-            this.partialView.forEach((ages, peerId) => out.push(peerId))
-            while (peers.length < k && out.length > 0) {
-                let rn = Math.floor(Math.random() * out.length)
-                peers.push(out[rn])
-                out.splice(rn, 1)
-            };
-            // #3 get random identifier from the inview to fill k-entries
-            let inView = []
-            this.i.forEach((occ, peerId) => inView.push(peerId))
-            while (peers.length < k && inView.length > 0) {
-                let rn = Math.floor(Math.random() * inView.length)
-                peers.push(inView[rn])
-                inView.splice(rn, 1)
-            };
-        };
-        debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length)
-        return peers
+  getPeers (k) {
+    let peers = []
+    if (typeof k === 'undefined') {
+      // #1 get all the partial view
+      this.partialView.forEach((occ, peerId) => {
+        peers.push(peerId)
+      })
+    } else {
+      // #2 get random identifier from outview
+      let out = []
+      this.partialView.forEach((ages, peerId) => out.push(peerId))
+      while (peers.length < k && out.length > 0) {
+        let rn = Math.floor(Math.random() * out.length)
+        peers.push(out[rn])
+        out.splice(rn, 1)
+      };
+      // #3 get random identifier from the inview to fill k-entries
+      let inView = []
+      this.i.forEach((occ, peerId) => inView.push(peerId))
+      while (peers.length < k && inView.length > 0) {
+        let rn = Math.floor(Math.random() * inView.length)
+        peers.push(inView[rn])
+        inView.splice(rn, 1)
+      };
     };
+    debug('[%s] %s provides %s peers', this.PID, this.PEER, peers.length)
+    return peers
+  };
 
-    /* *********************************
+  /* *********************************
      * Spray's protocol implementation *
      ***********************************/
 
-    /**
+  /**
      * @private Check the partial view, i.e., weither or not connections are
      * still up and usable.
      */
-    _checkPartialView () {
-        let down = []
-        this.partialView.forEach((ages, peerId) => {
-            if (!this.o.has(peerId)) {
-                down.push(peerId)
-            };
-        })
-        down.forEach((peerId) => {
-            this._onPeerDown(peerId)
-        })
-    };
+  _checkPartialView () {
+    let down = []
+    this.partialView.forEach((ages, peerId) => {
+      if (!this.o.has(peerId)) {
+        down.push(peerId)
+      };
+    })
+    down.forEach((peerId) => {
+      this._onPeerDown(peerId)
+    })
+  };
 
-    /**
+  /**
      * @private Get a sample of the partial view.
      * @param {string} [peerId] The identifier of the oldest neighbor chosen to
      * perform a view exchange.
      * @return {string[]} An array containing the identifiers of neighbors from
      * this partial view.
      */
-    _getSample (peerId) {
-        let sample = []
-        // #1 create a flatten version of the partial view
-        let flatten = []
-        this.partialView.forEach((ages, neighbor) => {
-            ages.forEach((age) => {
-                flatten.push(neighbor)
-            })
-        })
-        // #2 process the size of the sample
-        const sampleSize = Math.ceil(flatten.length / 2)
-        // #3 initiator removes a chosen neighbor entry and adds it to sample
-        if (typeof peerId !== 'undefined') {
-            flatten.splice(flatten.indexOf(peerId), 1)
-            sample.push(peerId)
-        };
-        // #4 add neighbors to the sample chosen at random
-        while (sample.length < sampleSize) {
-            const rn = Math.floor(Math.random() * flatten.length)
-            sample.push(flatten[rn])
-            flatten.splice(rn, 1)
-        };
-        return sample
+  _getSample (peerId) {
+    let sample = []
+    // #1 create a flatten version of the partial view
+    let flatten = []
+    this.partialView.forEach((ages, neighbor) => {
+      ages.forEach((age) => {
+        flatten.push(neighbor)
+      })
+    })
+    // #2 process the size of the sample
+    const sampleSize = Math.ceil(flatten.length / 2)
+    // #3 initiator removes a chosen neighbor entry and adds it to sample
+    if (typeof peerId !== 'undefined') {
+      flatten.splice(flatten.indexOf(peerId), 1)
+      sample.push(peerId)
     };
+    // #4 add neighbors to the sample chosen at random
+    while (sample.length < sampleSize) {
+      const rn = Math.floor(Math.random() * flatten.length)
+      sample.push(flatten[rn])
+      flatten.splice(rn, 1)
+    };
+    return sample
+  };
 
-    /**
+  /**
      * @private Periodically called function that aims to balance the partial
      * view and to mix the neighborhoods.
      */
-    _exchange () {
-        this._checkPartialView()
-        // #0 if the partial view is empty --- could be due to disconnections,
-        // failure, or _onExchange started with other peers --- skip this round.
-        if (this.partialView.size <= 0) { return }
-        this.partialView.increment()
-        const oldest = this.partialView.oldest
-        // #1 send the notification to oldest that we perform an exchange
-        this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)
-            .then(() => {
-                // #A setup the exchange
-                // #2 get a sample from our partial view
-                let sample = this._getSample(oldest)
-                debug('[%s] %s ==> exchange %s ==> %s',
-                      this.PID, this.PEER, sample.length, oldest)
-                // #3 replace occurrences to oldest by ours
-                sample = sample.map((peerId) => {
-                    return ((peerId === oldest) && this.getInviewId()) || peerId
-                })
-                // #4 connect oldest -> sample
-                sample.forEach((peerId) => {
-                    this.connect(oldest, peerId)
-                })
-                // #5 remove our own connection
-                sample = sample.map((peerId) => {
-                    return ((peerId === this.getInviewId()) && oldest) || peerId
-                })
-                sample.forEach((peerId) => {
-                    this.disconnect(peerId)
-                    if (peerId === oldest) {
-                        this.partialView.removeOldest(peerId)
-                    } else {
-                        this.partialView.removeYoungest(peerId)
-                    };
-                })
-            }).catch((e) => {
-                // #B the peer cannot be reached, he is supposedly dead
-                debug('[%s] %s =X> exchange =X> %s',
-                      this.PID, this.PEER, oldest)
-                this._onPeerDown(oldest)
-            })
-    };
+  _exchange () {
+    this._checkPartialView()
+    // #0 if the partial view is empty --- could be due to disconnections,
+    // failure, or _onExchange started with other peers --- skip this round.
+    if (this.partialView.size <= 0) { return }
+    this.partialView.increment()
+    const oldest = this.partialView.oldest
+    // #1 send the notification to oldest that we perform an exchange
+    this.send(oldest, new MExchange(this.getInviewId()), this.options.retry)
+      .then(() => {
+        // #A setup the exchange
+        // #2 get a sample from our partial view
+        let sample = this._getSample(oldest)
+        debug('[%s] %s ==> exchange %s ==> %s',
+          this.PID, this.PEER, sample.length, oldest)
+        // #3 replace occurrences to oldest by ours
+        sample = sample.map((peerId) => {
+          return ((peerId === oldest) && this.getInviewId()) || peerId
+        })
+        // #4 connect oldest -> sample
+        sample.forEach((peerId) => {
+          this.connect(oldest, peerId)
+        })
+        // #5 remove our own connection
+        sample = sample.map((peerId) => {
+          return ((peerId === this.getInviewId()) && oldest) || peerId
+        })
+        sample.forEach((peerId) => {
+          this.disconnect(peerId)
+          if (peerId === oldest) {
+            this.partialView.removeOldest(peerId)
+          } else {
+            this.partialView.removeYoungest(peerId)
+          };
+        })
+      }).catch((e) => {
+        // #B the peer cannot be reached, he is supposedly dead
+        debug('[%s] %s =X> exchange =X> %s',
+          this.PID, this.PEER, oldest)
+        this._onPeerDown(oldest)
+      })
+  };
 
-    /**
+  /**
      * @private Behavior when this peer receives a shuffling request.
      * @param {string} neighbor The identifier of the peer that sent this
      * exchange request.
      * @param {MExchange} message message containing the identifier of the peer
      * that started the exchange.
      */
-    _onExchange (neighbor, message) {
-        this._checkPartialView()
-        // #1 get a sample of neighbors from our partial view
-        this.partialView.increment()
-        let sample = this._getSample()
-        debug('[%s] %s ==> exchange %s ==> %s',
-              this.PID, neighbor, sample.length, this.PEER)
-        // #2 replace occurrences of the initiator by ours
-        sample = sample.map((peerId) => {
-            return (peerId === message.inview) && this.getInviewId() || peerId
-        })
-        // #3 establish connections
-        sample.forEach((peerId) => {
-            this.connect(neighbor, peerId)
-        })
-        // #4 inverse replacement
-        sample = sample.map((peerId) => {
-            return (peerId === this.getInviewId()) && message.inview || peerId
-        })
-        // #5 disconnect arcs
-        sample.forEach((peerId) => {
-            this.disconnect(peerId)
-            this.partialView.removeYoungest(peerId)
-        })
-    };
+  _onExchange (neighbor, message) {
+    this._checkPartialView()
+    // #1 get a sample of neighbors from our partial view
+    this.partialView.increment()
+    let sample = this._getSample()
+    debug('[%s] %s ==> exchange %s ==> %s',
+      this.PID, neighbor, sample.length, this.PEER)
+    // #2 replace occurrences of the initiator by ours
+    sample = sample.map((peerId) => {
+      if (peerId === message.inview) return this.getInviewId()
+      return peerId
+    })
+    // #3 establish connections
+    sample.forEach((peerId) => {
+      this.connect(neighbor, peerId)
+    })
+    // #4 inverse replacement
+    sample = sample.map((peerId) => {
+      if (peerId === this.getInviewId()) return message.inview
+      return peerId
+    })
+    // #5 disconnect arcs
+    sample.forEach((peerId) => {
+      this.disconnect(peerId)
+      this.partialView.removeYoungest(peerId)
+    })
+  };
 
-    /**
+  /**
      * @private The function called when a neighbor is unreachable and
      * supposedly crashed/departed. It probabilistically duplicates an arc.
      * @param {string} peerId The identifier of the peer that seems down.
      */
-    _onPeerDown (peerId) {
-        debug('[%s] ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId)
-        // #1 remove all occurrences of the peer in the partial view
-        const occ = this.partialView.removeAll(peerId)
-        // #2 probabilistically recreate arcs to a known peer
-        // (TODO) double check this
-        const proba = this.options.a / (this.partialView.size + occ)
+  _onPeerDown (peerId) {
+    debug('[%s] onPeerDown ==> %s ==> XXX %s XXX', this.PID, this.PEER, peerId)
+    // #1 remove all occurrences of the peer in the partial view
+    const occ = this.partialView.removeAll(peerId)
+    // #2 probabilistically recreate arcs to a known peer
+    // (TODO) double check this
+    const proba = this.options.a / (this.partialView.size + occ)
 
-        if (this.partialView.size > 0) {
-            // #A normal behavior
-            for (let i = 0; i < occ; ++i) {
-                if (Math.random() > proba) {
-                    // probabilistically duplicate the least frequent peers
-                    this.connect(null, this.partialView.leastFrequent)
-                }
-            }
-        } else {
-            // #B last chance behavior (TODO) ask inview
-        };
+    if (this.partialView.size > 0) {
+      // #A normal behavior
+      for (let i = 0; i < occ; ++i) {
+        if (Math.random() > proba) {
+          // probabilistically duplicate the least frequent peers
+          this.connect(null, this.partialView.leastFrequent)
+        }
+      }
+    } else {
+      // #B last chance behavior (TODO) ask inview
     };
+  };
 
-    /**
+  /**
      * @private A connection failed to establish properly, systematically
      * duplicates an element of the partial view.
      * @param {string|null} peerId The identifier of the peer we failed to
      * establish a connection with. Null if it was yet to be known.
      */
-    _onArcDown (peerId) {
-        debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown')
-        if (this.partialView.size > 0) {
-            // #1 normal behavior
-            this.connect(null, this.partialView.leastFrequent)
-        } else {
-            // #2 last chance behavior
-            // (TODO) ask inview
-            // const rn = Math.floor(Math.random() * this.i.size);
-            // let it = this.i.keys();
-            // this.II.connect(null, this.i.
-        };
+  _onArcDown (peerId) {
+    debug('[%s] ==> %s =X> %s', this.PID, this.PEER, peerId || 'unknown')
+    if (this.partialView.size > 0) {
+      // #1 normal behavior
+      this.connect(null, this.partialView.leastFrequent)
+    } else {
+      // #2 last chance behavior
+      // (TODO) ask inview
+      // const rn = Math.floor(Math.random() * this.i.size);
+      // let it = this.i.keys();
+      // this.II.connect(null, this.i.
     };
+  };
 
-    /**
+  /**
      * @private Inject a*log(N) + b arcs leading to peerId. When parameters are
      * not integers, the floating part is added probabilistically.
      * @param {number} a  a * log
      * @param {number} b + b
      * @param {string} peerId The identifier of the peer to duplicate.
      */
-    _inject (a, b, peerId) {
-        let copyA = a
-        for (let i = 0; i < Math.floor(a); ++i) {
-            this.connect(null, peerId)
-            copyA -= 1
-        };
-        if (Math.random() < copyA) {
-            this.connect(null, peerId)
-        };
-
-        let copyB = b
-        for (let i = 0; i < Math.floor(b); ++i) {
-            this.connect(null, peerId)
-            copyB -= 1
-        };
-        if (Math.random() < copyB) {
-            this.connect(null, peerId)
-        };
+  _inject (a, b, peerId) {
+    let copyA = a
+    for (let i = 0; i < Math.floor(a); ++i) {
+      this.connect(null, peerId)
+      copyA -= 1
     };
+    if (Math.random() < copyA) {
+      this.connect(null, peerId)
+    };
+
+    let copyB = b
+    for (let i = 0; i < Math.floor(b); ++i) {
+      this.connect(null, peerId)
+      copyB -= 1
+    };
+    if (Math.random() < copyB) {
+      this.connect(null, peerId)
+    };
+  };
 };
 
 module.exports = Spray
 
-},{"./exceptions/exemptyview.js":1,"./exceptions/exjoin.js":2,"./exceptions/exmessage.js":3,"./messages/mexchange.js":5,"./messages/mjoin.js":6,"./messages/mleave.js":7,"./partialview.js":8,"debug":13,"lodash.merge":21,"n2n-overlay-wrtc":27}]},{},[]);
+},{"./exceptions/exjoin.js":1,"./exceptions/exmessage.js":2,"./messages/mexchange.js":4,"./messages/mjoin.js":5,"./messages/mleave.js":6,"./partialview.js":7,"debug":12,"lodash.merge":20,"n2n-overlay-wrtc":26}]},{},[]);
