@@ -161,7 +161,6 @@ class Spray extends N2N {
     // NOTE: we do this cause of concurrency, The connection could be correctly deleted and if we delete the connection sooner, the number of arcs reinjected could be higher than expected.
     setTimeout(() =&gt; {
       if (!this.o.has(peerId) &amp;&amp; this.partialView.has(peerId)) {
-        console.log(&apos;removing peer: &apos;, peerId)
         this._onPeerDown(peerId)
       };
     }, 5000)
