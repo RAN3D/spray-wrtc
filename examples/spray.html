@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Spray example</title>
+    <style type='text/css'>
+    #graph {
+      border: 1px solid black;
+      max-width: 80%;
+      height: 30em;
+      margin: auto;
+    }
+    </style>
+  </head>
+
+  <body>
+    Please: Open the console!
+    <p> Theoretical number of arcs: ~<span id="theoretical"></span> <br/>
+      Actual number of arcs(including duplicates): <span id="actualarcs"></span><br/>
+      Actual number of duplicates: <span id="actualdup"></span><br/>
+      Actual number of arcs without duplicates: <span id="actualwodup"></span><br/>
+      Pourcentage of duplicate: <span id="actualpourcentage"></span><br/>
+      Average PV size: <span id="pv"></span><br/>
+      </p>
+    <div id="graph"></div>
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </body>
+
+  <script src='../bin/spray-wrtc.bundle.js'></script>
+  <script src='../node_modules/chart.js/dist/Chart.min.js'></script>
+  <script src="../node_modules/sigma/build/sigma.min.js"></script>
+  <script src="../node_modules/sigma/build/plugins/sigma.parsers.json.min.js"></script>
+  <script src="../node_modules/sigma/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js"></script>
+  <script type='text/javascript'>
+    let g = new sigma({ // eslint-disable-line
+      renderer: {
+        container: 'graph',
+        type: 'canvas'
+      },
+      settings: Object.assign(sigma.settings, {
+        defaultEdgeType: 'curvedArrow',
+        minArrowSize: 10,
+        scalingMode: 'inside',
+        sideMargin: 0.5
+      }) // eslint-disable-line
+    }) // eslint-disable-line
+    localStorage.debug = ''
+    let Spray = spray
+    console.log(Spray)
+    let revertedIndex = new Map()
+    const max = 50
+    const spray_a = 1
+    const spray_b = 5
+    const delta = 15 * 1000
+    const connection = 100
+    document.getElementById("theoretical").innerHTML = ""+ (max* (spray_a*Math.log(max) + spray_b))
+    let apps = []
+    for(let i = 0; i<(max); i++) {
+      const spray = createApp('C-' + i)
+      apps.push(spray)
+      g.graph.addNode({
+        'id': spray.id,
+        'firstLabel': spray.id,
+        'label': spray.id,
+        'x': Math.floor(Math.random() * max),
+        'y': Math.floor(Math.random() * max),
+        'size': 2,
+        color: randomColor()
+      })
+      spray.on('out', (peerId) => {
+        // console.log('[%s] A new peer is connected to us: ', spray.id, peerId)
+        if (!g.graph.edges(spray.id + peerId)) {
+          g.graph.addEdge({
+            id: spray.id + peerId,
+            source: spray.id,
+            target: peerId
+          })
+          g.refresh()
+        }
+      })
+      spray.on('close_out', (peerId) => {
+        // console.log('[%s] A is disconnected from us: ', spray.id, peerId)
+        if(!spray.view.livingOutview.exist(peerId)) {
+          g.graph.dropEdge(spray.id + peerId)
+          g.refresh()
+        }
+      })
+      spray.on('receive', (id, message) => {
+        console.log('[%s] message receive from %s ', spray.id, id, message)
+      })
+    }
+    g.refresh()
+    //
+    const loaded = []
+    apps.reduce((acc, spray) => acc.then(() => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          let chosen = Math.floor(Math.random() * loaded.length)
+          //chosen = loaded.length - 1
+          if(loaded.length === 0)  {
+            chosen = Math.floor(Math.random() * apps.length)
+            spray.connect().then(() => {
+              loaded.push(spray)
+              setTimeout(() => {
+                spray._exchange()
+                resolve()
+              }, connection / 2)
+            }).catch(e => {
+              console.error(e)
+              resolve()
+            })
+          } else {
+            chosen = Math.floor(Math.random() * loaded.length)
+            const average = loaded.reduce((acc, cur) => acc+cur.partialView.size, 0) / loaded.length
+            const arr = loaded.map( cur => [...cur.getNeighbours()].reduce((acc, cur) => acc+cur.peer.occurences, 0))
+            chosen = arr.indexOf(closest(average, arr))
+            console.log('Average: %f, Chosen: %f', average, chosen, arr)
+            loaded[chosen].connect(spray).then(() => {
+              loaded.push(spray)
+              setTimeout(() => {
+                spray._exchange()
+                resolve()
+              }, connection / 2)
+            }).catch(e => {
+              console.error(e)
+              resolve()
+            })
+
+
+            // //chosen = Math.floor(Math.random(loaded.length))
+            // spray.connect().then(() => {
+            //   loaded.push(spray)
+            //   setTimeout(() => {
+            //     spray._exchange()
+            //     resolve()
+            //   }, connection)
+            // }).catch(e => {
+            //   console.error(e)
+            //   resolve()
+            // })
+          }
+        }, connection)
+      })
+    }), Promise.resolve()).then(() => {
+      const withoutduplicates = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)
+      const numberofduplicates = apps.reduce((acc, cur) => {
+        return acc+[...cur.partialView.values()].reduce((acc, cur) => acc+cur.length - 1, 0)
+      }, 0)
+      const pv = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)/apps.length
+      document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
+      document.getElementById("actualwodup").innerHTML = ""+ withoutduplicates
+      document.getElementById("actualarcs").innerHTML = ""+ (numberofduplicates + withoutduplicates)
+      document.getElementById("actualpourcentage").innerHTML = ""+ numberofduplicates / (numberofduplicates+withoutduplicates) * 100 + '%'
+      document.getElementById("pv").innerHTML = ""+ pv + " / "+ (spray_a*Math.log(max) + spray_b)
+      // Any of the following formats may be used
+      addData(myChart, "Round "+r, {x: r, y:numberofduplicates+withoutduplicates})
+      r++
+      setInterval(() => {
+        apps.reduce((acc, fog) => acc.then(() => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              fog._exchange()
+              resolve()
+            }, delta / (max+1))
+          })
+        }), Promise.resolve()).then(() => {
+          setTimeout(() => {
+            const withoutduplicates = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)
+            const numberofduplicates = apps.reduce((acc, cur) => {
+              return acc+[...cur.partialView.values()].reduce((acc, cur) => acc+cur.length - 1, 0)
+            }, 0)
+            const pv = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)/apps.length
+            document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
+            document.getElementById("actualwodup").innerHTML = ""+ withoutduplicates
+            document.getElementById("actualarcs").innerHTML = ""+ (numberofduplicates + withoutduplicates)
+            document.getElementById("actualpourcentage").innerHTML = ""+ numberofduplicates / (numberofduplicates+withoutduplicates) * 100 + '%'
+            document.getElementById("pv").innerHTML = ""+ pv + " / "+ (spray_a*Math.log(max) + spray_b)
+            // Any of the following formats may be used
+            addData(myChart, "Round "+r, {x: r, y:numberofduplicates+withoutduplicates})
+            r++
+          }, 0)
+        })
+      }, delta)
+    })
+
+    setInterval(() => {
+      const withoutduplicates = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)
+      const numberofduplicates = apps.reduce((acc, cur) => {
+        return acc+[...cur.partialView.values()].reduce((acc, cur) => acc+cur.length - 1, 0)
+      }, 0)
+      const pv = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)/apps.length
+      document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
+      document.getElementById("actualwodup").innerHTML = ""+ withoutduplicates
+      document.getElementById("actualarcs").innerHTML = ""+ (numberofduplicates + withoutduplicates)
+      document.getElementById("actualpourcentage").innerHTML = ""+ numberofduplicates / (numberofduplicates+withoutduplicates) * 100 + '%'
+      document.getElementById("pv").innerHTML = ""+ pv + " / "+ (spray_a*Math.log(max) + spray_b)
+    }, 2000)
+
+    function createApp(id) {
+      console.log(id)
+      return new Spray({
+        spray: {
+          a: spray_a,
+          b: spray_b,
+          delta: 3600 * 60 * 1000,
+          timeout: 10 * 1000,
+        },
+        n2n: {
+          id
+        },
+        socket: {
+          trickle: true,
+          moc: true
+        },
+        signaling: {
+          room: 'spray-wrtc'
+        }
+      })
+    }
+    var ctx = document.getElementById("myChart")
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["arcs"],
+            datasets: [{
+                label: '#Arcs',
+                data: []
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+    let r = 0
+
+
+    function addData(chart, label, data) {
+        chart.data.labels.push(label)
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data)
+        })
+        chart.update()
+    }
+
+    let scramblecount = 0
+    let scramble = (delay = 0) => {
+        scramblecount++
+        for (let i = 0; i < max; ++i) {
+            setTimeout ( (nth) => {
+                apps[nth]._exchange() // force exchange
+                if(i === max-1) {
+                  const average = apps.reduce((acc, cur) => acc+cur.getNeighbours(true).length, 0) / apps.length
+                  console.log('Round: %f, averagepv=%f', scramblecount, average)
+                }
+            }, i*delay, i)
+        }
+    }
+
+
+    function neigh() {
+      apps.forEach(c => {
+        console.log(c.getNeighbours())
+      })
+    }
+
+    function closest (num, arr) {
+      return arr.reduce(function(prev, curr) {
+        return (Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev);
+      })
+    }
+    function randomColor () {
+      const letters = '0123456789ABCDEF'
+      let color = '#'
+      for (let i = 0; i < 3; i++) {
+        color += letters[Math.floor(Math.random() * 16)]
+      }
+      return color
+    }
+  </script>
+</html>

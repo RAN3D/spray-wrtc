@@ -42,13 +42,9 @@ peers. The resulting network has a low clustering coefficient.
 
 ```$ npm install spray-wrtc```
 
-## API
+Find the bundle in **bin/spray-wtrtc.bundle.js** (debug mode) or in **bin/spray-wtrtc.bundle.min.js** (production mode)
 
-You can find the API [here](https://ran3d.github.io/spray-wrtc/).
-
-## Example
-
-A usage example of this module is available [here](https://ran3d.github.io/spray-wrtc/example/browser.html).
+## [Documentation](https://ran3d.github.io/spray-wrtc/) 
 
 ## Miscellaneous
 

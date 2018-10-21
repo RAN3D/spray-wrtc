@@ -2,8 +2,9 @@ language: node_js
 node_js: node
 script:
   - npm test
-after_success:
-  - bash deploy_doc.sh
+  - npm run build:debug
+  - npm run build:prod
+  - npm run doc:build
 
 deploy:
   provider: npm
@@ -14,3 +15,12 @@ deploy:
     repo: RAN3D/spray-wrtc
 notifications:
   email: false
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GH_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  local_dir: docs
+  on:
+    branch: master

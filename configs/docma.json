@@ -1,0 +1,81 @@
+{
+  "src": [
+        "./lib/**/*.js",
+        "./README.md"
+    ],
+    "dest": "./docs/",
+    "assets": {
+      "/assets/img": "./assets/img/*.png",
+      "/assets/css": "./assets/css/*.css"
+    },
+    "clean": true,
+    "app": {
+      "title": "n2n-wrtc",
+      "entrance": "content:readme",
+      "base": "/n2n-wrtc/",
+      "server": "github"
+    },
+    "markdown": {
+      "gfm": true,
+      "sanitize": false,
+      "xhtml": true
+    },
+    "template": {
+        "path": "zebra",
+        "options": {
+            "title": {
+                "label": "n2n-wrtc",
+                "href": "?content=readme"
+            },
+            "sidebar": {
+                "enabled": true,
+                "outline": "tree",
+                "collapsed": false,
+                "toolbar": true,
+                "itemsFolded": false,
+                "itemsOverflow": "crop",
+                "badges": true,
+                "search": true,
+                "animations": true
+            },
+            "symbols": {
+                "autoLink": true,
+                "params": "list",
+                "enums": "list",
+                "props": "list",
+                "meta": false
+            },
+            "contentView": {
+                "bookmarks": true
+            },
+            "navbar": {
+                "enabled": true,
+                "dark": false,
+                "animations": true,
+                "menu": [
+                    {
+                        "label": "Docs",
+                        "iconClass": "fas fa-book",
+                        "href": "?api"
+                    },
+                    {
+                        "label": "Download",
+                        "iconClass": "fas fa-cloud-download-alt",
+                        "items": [
+                            {
+                                "label": "Latest Version",
+                                "href": "https://github.com/RAN3D/n2n-wrtc/archive/master.zip"
+                            }
+                        ]
+                    },
+                    {
+                        "label": "GitHub",
+                        "iconClass": "fab fa-github",
+                        "href": "https://github.com/RAN3D/n2n-wrtc",
+                        "target": "_blank"
+                    }
+                ]
+            }
+        }
+    }
+}
