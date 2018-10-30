@@ -21,7 +21,8 @@
   "dependencies": {
     "debug": "^3.1.0",
     "lodash": "^4.17.10",
-    "n2n-wrtc": "git+https://github.com/ran3d/n2n-wrtc.git"
+    "n2n-wrtc": "git+https://github.com/ran3d/n2n-wrtc.git",
+    "short-uuid": "^3.0.1"
   },
   "bundledDependencies": [
     "lodash",

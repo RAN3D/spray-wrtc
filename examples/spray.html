@@ -44,156 +44,117 @@
         sideMargin: 0.5
       }) // eslint-disable-line
     }) // eslint-disable-line
-    localStorage.debug = ''
+    localStorage.debug = 'spray-wrtc, n2n:n2n'
     let Spray = spray
-    console.log(Spray)
     let revertedIndex = new Map()
-    const max = 50
+    const max = 10
+    const mod = 5
+    const room = Math.floor(Math.random() * max)
     const spray_a = 1
-    const spray_b = 5
-    const delta = 15 * 1000
-    const connection = 100
+    const spray_b = 2
+    const delta = 100000 * 1000
+    const connection = 500
+    const moc = false
+    const timeout = 5 * 1000
+    // const iceServers = []
+    const iceServers = [{
+      url: 'stun:127.0.0.2:3478'
+    }]
+    /*{
+      urls: "turn:localhost:3478?transport=udp",
+      username: "username",
+      credential: "password"
+    }*/
     document.getElementById("theoretical").innerHTML = ""+ (max* (spray_a*Math.log(max) + spray_b))
     let apps = []
-    for(let i = 0; i<(max); i++) {
+    init(0)
+    init(1)
+    if(max < 2) throw new Error('need to have at least 2 peers')
+
+    apps[0].connect(apps[1]).then(() => {
+      for(let i = 2; i<(max); i++) {
+        init(i)
+      }
+      g.refresh()
+      const loaded = [apps[0], apps[1]]
+      const tmp = apps.slice(2)
+      tmp.reduce((acc, spray) => acc.then(() => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            chosen = Math.floor(Math.random() * loaded.length)
+            spray.connect(loaded[chosen]).then(() => {
+              // loaded[chosen]._exchange().then(() => {
+                loaded.push(spray)
+                resolve()
+              // })
+            })
+          }, connection)
+        })
+      }), Promise.resolve()).then(() => {
+        update()
+        setTimeout(() => {
+          shuffle(delta)
+        }, delta)
+      })
+    })
+
+    function init (i) {
       const spray = createApp('C-' + i)
       apps.push(spray)
       g.graph.addNode({
         'id': spray.id,
         'firstLabel': spray.id,
         'label': spray.id,
-        'x': Math.floor(Math.random() * max),
-        'y': Math.floor(Math.random() * max),
+        'x': i % mod,
+        'y': Math.floor(i / mod),
         'size': 2,
         color: randomColor()
       })
       spray.on('out', (peerId) => {
-        // console.log('[%s] A new peer is connected to us: ', spray.id, peerId)
-        if (!g.graph.edges(spray.id + peerId)) {
-          g.graph.addEdge({
-            id: spray.id + peerId,
-            source: spray.id,
-            target: peerId
-          })
-          g.refresh()
-        }
+        console.log('[%s] A new peer is connected to us: ', spray.id, peerId)
+        setTimeout(() => {
+          if (!g.graph.edges(spray.id + peerId)) {
+            g.graph.addEdge({
+              id: spray.id + peerId,
+              source: spray.id,
+              target: peerId
+            })
+            g.refresh()
+          }
+        }, 500)
       })
       spray.on('close_out', (peerId) => {
-        // console.log('[%s] A is disconnected from us: ', spray.id, peerId)
-        if(!spray.view.livingOutview.exist(peerId)) {
+        console.log('[%s] we disconnect the peer %s from us', spray.id, peerId)
+        if (g.graph.edges(spray.id + peerId)) {
           g.graph.dropEdge(spray.id + peerId)
           g.refresh()
         }
+      })
+      spray.on('close_in', (peerId) => {
+        console.log('[%s] A peer (%s) is disconnected from us: ', spray.id, peerId)
+        check()
+        if(apps[Number(peerId.substr(2))].livingOutview.has(peerId)) debugger
       })
       spray.on('receive', (id, message) => {
         console.log('[%s] message receive from %s ', spray.id, id, message)
       })
     }
-    g.refresh()
-    //
-    const loaded = []
-    apps.reduce((acc, spray) => acc.then(() => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          let chosen = Math.floor(Math.random() * loaded.length)
-          //chosen = loaded.length - 1
-          if(loaded.length === 0)  {
-            chosen = Math.floor(Math.random() * apps.length)
-            spray.connect().then(() => {
-              loaded.push(spray)
-              setTimeout(() => {
-                spray._exchange()
-                resolve()
-              }, connection / 2)
-            }).catch(e => {
-              console.error(e)
-              resolve()
-            })
-          } else {
-            chosen = Math.floor(Math.random() * loaded.length)
-            const average = loaded.reduce((acc, cur) => acc+cur.partialView.size, 0) / loaded.length
-            const arr = loaded.map( cur => [...cur.getNeighbours()].reduce((acc, cur) => acc+cur.peer.occurences, 0))
-            chosen = arr.indexOf(closest(average, arr))
-            console.log('Average: %f, Chosen: %f', average, chosen, arr)
-            loaded[chosen].connect(spray).then(() => {
-              loaded.push(spray)
-              setTimeout(() => {
-                spray._exchange()
-                resolve()
-              }, connection / 2)
-            }).catch(e => {
-              console.error(e)
-              resolve()
-            })
 
-
-            // //chosen = Math.floor(Math.random(loaded.length))
-            // spray.connect().then(() => {
-            //   loaded.push(spray)
-            //   setTimeout(() => {
-            //     spray._exchange()
-            //     resolve()
-            //   }, connection)
-            // }).catch(e => {
-            //   console.error(e)
-            //   resolve()
-            // })
-          }
-        }, connection)
-      })
-    }), Promise.resolve()).then(() => {
-      const withoutduplicates = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)
-      const numberofduplicates = apps.reduce((acc, cur) => {
-        return acc+[...cur.partialView.values()].reduce((acc, cur) => acc+cur.length - 1, 0)
-      }, 0)
-      const pv = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)/apps.length
-      document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
-      document.getElementById("actualwodup").innerHTML = ""+ withoutduplicates
-      document.getElementById("actualarcs").innerHTML = ""+ (numberofduplicates + withoutduplicates)
-      document.getElementById("actualpourcentage").innerHTML = ""+ numberofduplicates / (numberofduplicates+withoutduplicates) * 100 + '%'
-      document.getElementById("pv").innerHTML = ""+ pv + " / "+ (spray_a*Math.log(max) + spray_b)
-      // Any of the following formats may be used
-      addData(myChart, "Round "+r, {x: r, y:numberofduplicates+withoutduplicates})
-      r++
-      setInterval(() => {
-        apps.reduce((acc, fog) => acc.then(() => {
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              fog._exchange()
-              resolve()
-            }, delta / (max+1))
-          })
-        }), Promise.resolve()).then(() => {
+    function shuffle (delta) {
+      console.log('begin round: ', r)
+      return ebAsync(apps).then(() => {
+        return new Promise((resolve, reject) => {
           setTimeout(() => {
-            const withoutduplicates = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)
-            const numberofduplicates = apps.reduce((acc, cur) => {
-              return acc+[...cur.partialView.values()].reduce((acc, cur) => acc+cur.length - 1, 0)
-            }, 0)
-            const pv = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)/apps.length
-            document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
-            document.getElementById("actualwodup").innerHTML = ""+ withoutduplicates
-            document.getElementById("actualarcs").innerHTML = ""+ (numberofduplicates + withoutduplicates)
-            document.getElementById("actualpourcentage").innerHTML = ""+ numberofduplicates / (numberofduplicates+withoutduplicates) * 100 + '%'
-            document.getElementById("pv").innerHTML = ""+ pv + " / "+ (spray_a*Math.log(max) + spray_b)
-            // Any of the following formats may be used
-            addData(myChart, "Round "+r, {x: r, y:numberofduplicates+withoutduplicates})
-            r++
-          }, 0)
+            resolve()
+          }, delta)
+        }).then(() => {
+          return shuffle(delta)
         })
-      }, delta)
-    })
+      })
+    }
 
     setInterval(() => {
-      const withoutduplicates = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)
-      const numberofduplicates = apps.reduce((acc, cur) => {
-        return acc+[...cur.partialView.values()].reduce((acc, cur) => acc+cur.length - 1, 0)
-      }, 0)
-      const pv = apps.reduce((acc, cur) => acc+cur.partialView.size, 0)/apps.length
-      document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
-      document.getElementById("actualwodup").innerHTML = ""+ withoutduplicates
-      document.getElementById("actualarcs").innerHTML = ""+ (numberofduplicates + withoutduplicates)
-      document.getElementById("actualpourcentage").innerHTML = ""+ numberofduplicates / (numberofduplicates+withoutduplicates) * 100 + '%'
-      document.getElementById("pv").innerHTML = ""+ pv + " / "+ (spray_a*Math.log(max) + spray_b)
+      update(false)
     }, 2000)
 
     function createApp(id) {
@@ -203,17 +164,21 @@
           a: spray_a,
           b: spray_b,
           delta: 3600 * 60 * 1000,
-          timeout: 10 * 1000,
+          timeout,
         },
         n2n: {
-          id
+          id,
+          timeout
         },
         socket: {
           trickle: true,
-          moc: true
+          config: {
+            iceServers
+          },
+          moc
         },
         signaling: {
-          room: 'spray-wrtc'
+          room: 'spray-wrtc' + room
         }
       })
     }
@@ -281,6 +246,120 @@
         color += letters[Math.floor(Math.random() * 16)]
       }
       return color
+    }
+
+    function ebAsync (tab) {
+      let res = []
+      tab.forEach(p => {
+        res.push(p._exchange().then(() => {
+          return Promise.resolve()
+        }))
+      })
+      return Promise.all(res).then(() => {
+        setTimeout(() => {
+          log()
+          update()
+        }, 5000)
+      })
+    }
+
+    function log () {
+      apps.forEach(p => {
+        console.log('[%s] Living Inview', p.id, p.livingInview)
+        console.log('[%s] Pending Inview', p.id, p.pendingInview)
+        if(p.pendingInview.size > 0) {
+          console.log('PENDING INVIEW IS NOT EMPTY!')
+        }
+        console.log('[%s] Living outview', p.id, p.livingOutview)
+        console.log('[%s] Pending outview', p.id, p.pendingOutview)
+        if(p.pendingOutview.size > 0) {
+          console.log('PENDING OUTVIEW IS NOT EMPTY!')
+        }
+      })
+    }
+
+    function update(add = true) {
+      const withoutduplicates = apps.reduce((acc, cur) => acc+cur.livingOutview.size, 0)
+      const numberofduplicates = apps.reduce((acc, cur) => {
+        return acc+[...cur.livingOutview].reduce((acc, cur) => {
+          return acc+cur[1].occurences - 1
+        }, 0)
+      }, 0)
+      const pv = apps.reduce((acc, cur) => acc+cur.livingOutview.size, 0)/apps.length
+      document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
+      document.getElementById("actualwodup").innerHTML = ""+ withoutduplicates
+      document.getElementById("actualarcs").innerHTML = ""+ (numberofduplicates + withoutduplicates)
+      document.getElementById("actualpourcentage").innerHTML = ""+ numberofduplicates / (numberofduplicates+withoutduplicates) * 100 + '%'
+      document.getElementById("pv").innerHTML = ""+ pv + " / "+ (spray_a*Math.log(max) + spray_b)
+      g.refresh()
+      if(add) {
+        // Any of the following formats may be used
+        addData(myChart, "Round "+r, {x: r, y:numberofduplicates+withoutduplicates})
+        r++
+      }
+    }
+
+    function ebSync(tab) {
+      return tab.reduce((acc, cur) => acc.then(() => {
+        return new Promise((resolve, reject) => {
+          cur._exchange().then(() => {
+            resolve()
+          }).catch(e => {
+            reject(e)
+          })
+        })
+      }), Promise.resolve()).then((res) => {
+        console.log('Exchange sync finished', res)
+        setTimeout(() => {
+          update()
+        }, 5000)
+        return Promise.resolve()
+      }).catch(e => {
+        console.error(e)
+        return Promise.reject(e)
+      })
+    }
+
+    function checkTURNServer (config, timeout) {
+      return new Promise(function(resolve, reject){
+        setTimeout(function(){
+            if(promiseResolved) return;
+            resolve(false);
+            promiseResolved = true;
+        }, timeout || 5000);
+        var promiseResolved = false
+          , myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection   //compatibility for firefox and chrome
+          , pc = new myPeerConnection({iceServers:[config]})
+          , noop = function(){};
+        pc.createDataChannel("test");    //create a bogus data channel
+        pc.createOffer(function(sdp){
+          if(sdp.sdp.indexOf('typ relay') > -1){ // sometimes sdp contains the ice candidates...
+            promiseResolved = true;
+            resolve(true);
+          }
+          pc.setLocalDescription(sdp, noop, noop);
+        }, noop);    // create offer and set local description
+        pc.onicecandidate = function(ice){  //listen for candidate events
+          if(promiseResolved || !ice || !ice.candidate || !ice.candidate.candidate || !(ice.candidate.candidate.indexOf('typ relay')>-1))  return;
+          promiseResolved = true;
+          resolve(true);
+        };
+      });
+    }
+
+    function testIces() {
+      iceServers.forEach(ice => {
+        checkTURNServer(ice, 1000).then((res) => {
+          console.log('Ice:', ice, ' Working?', res)
+        })
+      })
+    }
+
+    function check () {
+      const all = apps.map(p => p.getNeighbours().map(peer => apps[Number((peer.id).substr(2))].livingInview.has(p.id)))
+      console.log(all)
+      const status = all.map(p => p.reduce((a, c) => a && c, true)).reduce((a, c) => a && c, true)
+      console.log('Status: ', status)
     }
   </script>
 </html>
