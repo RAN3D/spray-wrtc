@@ -628,10 +628,10 @@ class N2N extends EventEmitter {
       } else if (p.occurences > 0 && p.occurences > p.lock) {
         this.livingOutview.get(peerId).occurences--
         if (this.livingOutview.get(peerId).occurences === 0) {
-          this._signalDisconnect(peerId, true)
+          this._signalDisconnect(peerId, true, false)
           return p.socket.disconnect()
         } else {
-          this._signalDisconnect(peerId, true) // signal disconnect
+          this._signalDisconnect(peerId, true, false) // signal disconnect
         }
       } else {
         throw new Error('PLEASE REPORT: decreaseOccOutview')
@@ -662,13 +662,6 @@ class N2N extends EventEmitter {
   createNewSocket (options, id, outview = false, timeout = this.options.n2n.timeout) {
     const newSocket = new this.options.n2n.SocketClass(options)
     const sid = newSocket.socketId
-    // const s = {
-    //   from: this.id,
-    //   to: id,
-    //   socket: newSocket
-    // }
-    // this._pending.set(sid, s)
-    // this._all.set(sid, s)
     this._debug('[%s] new socket created: %s with timeout', this.id, newSocket.socketId, timeout)
     const tout = setTimeout(() => {
       // deletion, the sid need to be the same as declared... otherwise report this error.
@@ -772,14 +765,14 @@ class N2N extends EventEmitter {
       if (p.socket.socketId === socketId) {
         this._debug('[%s] close outview: ', this.id, peerId, outview, p)
         for (let i = 0; i < (p.occurences); ++i) {
-          this._signalDisconnect(peerId, outview)
+          this._signalDisconnect(peerId, outview, true)
         }
         this._deleteLiving(peerId, outview)
       } // else, nothing to do
     } else if (!outview && this.livingInview.has(peerId)) {
       const p = this.livingInview.get(peerId)
       if (p.socket.socketId === socketId) {
-        this._signalDisconnect(peerId, outview)
+        this._signalDisconnect(peerId, outview, true)
         this._debug('[%s] close inview: ', this.id, peerId, outview)
         this._deleteLiving(peerId, outview)
       }
@@ -842,13 +835,14 @@ class N2N extends EventEmitter {
    * @description Signal when an arc is closed
    * @param  {string} id Id of the peer of the arc
    * @param  {Boolean} outview Is an inview or an outview arc
+   * @param  {Boolean} if the arc is a failed arc or an arc that has been well disconnected
    * @return {void}
    */
-  _signalDisconnect (id, outview) {
+  _signalDisconnect (id, outview, fail = false) {
     if (outview) {
-      this.emit('close_out', id, outview)
+      this.emit('close_out', id, outview, fail)
     } else {
-      this.emit('close_in', id, outview)
+      this.emit('close_in', id, outview, fail)
     }
   }
 
@@ -961,42 +955,57 @@ class N2N extends EventEmitter {
   }
 
   _receive (id, message) {
-    try {
-      if (message && 'type' in message && 'id' in message && message.type === events.n2n.CONNECT_TO_US) {
+    switch (message.type) {
+      case events.n2n.CONNECT_TO_US:
         this.signaling.direct._connectToUs(message)
-      } else if (message && 'type' in message && 'response' in message && message.type === events.n2n.RESPONSE) {
+        break
+      case events.n2n.RESPONSE:
         this.events.emit(message.jobId, message)
-      } else if (message && 'type' in message && message.type === events.n2n.DIRECT_TO) {
+        break
+      case events.n2n.DIRECT_TO:
         this.signaling.direct.receiveOffer(message)
-      } else if (message && 'type' in message && message.type === events.n2n.DIRECT_BACK) {
+        break
+      case events.n2n.DIRECT_BACK:
         this.signaling.direct.receiveOffer(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeIO.BRIDGE) {
+        break
+      case events.n2n.bridgeIO.BRIDGE:
         this.signaling.bridgeIO._bridge(id, message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeIO.BRIDGE_FORWARD) {
+        break
+      case events.n2n.bridgeIO.BRIDGE_FORWARD:
         this.signaling.bridgeIO.forward(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeIO.BRIDGE_FORWARD_BACK) {
+        break
+      case events.n2n.bridgeIO.BRIDGE_FORWARD_BACK:
         this.signaling.bridgeIO.forwardBack(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeIO.BRIDGE_FORWARD_RESPONSE) {
+        break
+      case events.n2n.bridgeIO.BRIDGE_FORWARD_RESPONSE:
         this.signaling.bridgeIO.receiveOffer(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOO.BRIDGE) {
-        this.signaling.bridgeOO._bridge(id, message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOO.BRIDGE_FORWARD) {
-        this.signaling.bridgeOO.forward(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOO.BRIDGE_FORWARD_BACK) {
-        this.signaling.bridgeOO.forwardBack(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOO.BRIDGE_FORWARD_RESPONSE) {
-        this.signaling.bridgeOO.receiveOffer(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOI.BRIDGE) {
+        break
+      case events.n2n.bridgeOI.BRIDGE:
         this.signaling.bridgeOI._bridge(id, message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOI.BRIDGE_FORWARD) {
+        break
+      case events.n2n.bridgeOI.BRIDGE_FORWARD:
         this.signaling.bridgeOI.forward(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOI.BRIDGE_FORWARD_BACK) {
+        break
+      case events.n2n.bridgeOI.BRIDGE_FORWARD_BACK:
         this.signaling.bridgeOI.forwardBack(message)
-      } else if (message && 'type' in message && message.type === events.n2n.bridgeOI.BRIDGE_FORWARD_RESPONSE) {
+        break
+      case events.n2n.bridgeOI.BRIDGE_FORWARD_RESPONSE:
         this.signaling.bridgeOI.receiveOffer(message)
-      }
-    } catch (e) {
-      console.error('An error here? hum please report...', e)
+        break
+      case events.n2n.bridgeOO.BRIDGE:
+        this.signaling.bridgeOO._bridge(id, message)
+        break
+      case events.n2n.bridgeOO.BRIDGE_FORWARD:
+        this.signaling.bridgeOO.forward(message)
+        break
+      case events.n2n.bridgeOO.BRIDGE_FORWARD_BACK:
+        this.signaling.bridgeOO.forwardBack(message)
+        break
+      case events.n2n.bridgeOO.BRIDGE_FORWARD_RESPONSE:
+        this.signaling.bridgeOO.receiveOffer(message)
+        break
+      default:
+        throw new Error('case not handled.')
     }
   }
 }
@@ -18175,10 +18184,11 @@ class Spray extends N2N {
         protocol: 'spray-wrtc',
         delta: 1000 * 60 * 2,
         a: 1,
-        b: 0
+        b: 5
       }
     }, options))
     this.debug = (__webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js"))('spray-wrtc')
+    this.debug('initialized with: ', this.options.spray)
     // #2 initialize the partial view containing ages
     // this.partialView = new PartialView()
     // #3 periodic shuffling
@@ -18192,7 +18202,6 @@ class Spray extends N2N {
       this._out++
     })
     this.on('close_out', (peerId, outview, fail) => {
-      console.log('[%s/%s] close %s', this.id, this.options.n2n.protocol, peerId, outview, fail)
       if (fail) {
         this._onArcDown(peerId)
       }
@@ -18221,7 +18230,6 @@ class Spray extends N2N {
         const args = this.buffer[0].args
         const resolve = this.buffer[0].resolve
         const reject = this.buffer[0].reject
-        console.log(fun, args, resolve, reject)
         fun.apply(this, args).then((res) => {
           this._bufferActive = false
           this.buffer.shift()
@@ -18290,7 +18298,7 @@ class Spray extends N2N {
      * @param {string} peerId The identifier of the new neighbor.
      */
   _open (peerId) {
-    this.debug('[%s/%s] Open %s ===> %s', this.id, this.options.spray.protocol, this.id, peerId)
+    this.debug('[%s] Arc opened (%s ===> %s)', this.id, this.options.spray.protocol, this.id, peerId)
     // this.partialView.add(peerId)
   }
 
@@ -18299,7 +18307,7 @@ class Spray extends N2N {
      * @param {string} peerId The identifier of the removed arc.
      */
   _close (peerId) {
-    this.debug('[%s/%s] Close %s =†=> %s', this.id, this.options.spray.protocol, this.id, peerId)
+    this.debug('[%s] Arc closes (%s =†=> %s)', this.id, this.options.spray.protocol, this.id, peerId)
   }
 
   /**
@@ -18314,17 +18322,16 @@ class Spray extends N2N {
         return new Promise((resolve, reject) => {
           this.lock(id)
           this._start() // start shuffling process
-          this._inject(this.options.spray.a - 1, 0, id).then(() => {
+          this._inject(this.options.spray.a - 1, 0, null, id).then(() => {
             const jobId = translator.new()
             this.events.once(jobId, (id, topology) => {
-              // means 2-peers network
+              console.log(id, topology)
               if (topology) {
-                this._injectReverse(2 * this.options.spray.a, 2 * this.options.spray.b, id).then(() => {
+                this._inject(2 * this.options.spray.a, 2 * this.options.spray.b, id, null).then(() => {
                   this.unlock(id)
                   resolve()
                 }).catch(e => {
                   this.unlock(id)
-                  console.error(e)
                   resolve()
                 })
               } else {
@@ -18359,15 +18366,14 @@ class Spray extends N2N {
       this._start()
       if (this.getNeighbours().length > 0) {
         // #1 all neighbors -> peerId
-        this.debug('[%s] %s ===> join %s ===> %s neighbors', this.options.n2n.protocol, peerId, this.id, this.getNeighbours().length)
+        this.debug('[%s] %s ===> join %s ===> %s neighbors', this.options.spray.protocol, peerId, this.id, this.getNeighbours().length)
         const pv = []
         this.getNeighbours().forEach(({ peer, id }) => {
           const ages = []
           for (let i = 0; i < peer.occurences - peer.lock; ++i) {
             ages.push(id)
-            this.lock(id)
           }
-          this.debug('[%s] chosing %f times the peer %s...', this.id, peer.occurences, id, peer.occurences)
+          this.debug('[%s] chosing %f times the peer %s...', this.id, peer.occurences, id)
           pv.push({ ages, neighbor: id })
         })
         pv.reduce((acc, cur) => acc.then(() => {
@@ -18375,11 +18381,13 @@ class Spray extends N2N {
             return new Promise((res, rej) => { //eslint-disable-line
               this.debug('[%s] joining %s with %s...', this.id, cur.neighbor, peerId)
               // use bridgeOI because we bridge from an outview neighbor to the joining peer
+              this.lock(cur.neighbor)
               this.bridgeOI(cur.neighbor, peerId).then(() => {
+                console.log('[%s] onJoin finish to connect the neighbor with the joining peer: %s -> %s', this.id, cur.neighbor, peerId)
                 this.unlock(cur.neighbor)
                 res()
               }).catch(e => {
-                console.error(e)
+                console.log('[%s] onJoin error: ', this.id, e)
                 this.unlock(cur.neighbor)
                 res()
               })
@@ -18391,12 +18399,12 @@ class Spray extends N2N {
           })
           resolve()
         }).catch(e => {
-          console.error('ONJOIN error: ', e)
+          console.warning('[%s] you cnanot have error in this part please report...', this.id)
           reject(e)
         })
       } else {
         this.send(this.options.spray.protocol, peerId, new MJoinBack(jobId, true), false).catch(e => {
-          console.error('cannot send back the MJoinBack message.', e)
+          console.error('[%s] cannot send back the MJoinBack message.', this.id, e)
         })
         resolve()
       }
@@ -18467,7 +18475,7 @@ class Spray extends N2N {
   _onLeave (peerId) {
     // console.log('[%s]OnLeave %s ', this.id, peerId)
     // if (this.partialView.has(peerId)) {
-    //   this.debug('[%s] %s ==> ††† %s †††', this.options.n2n.protocol, this.id, peerId)
+    //   this.debug('[%s] %s ==> ††† %s †††', this.options.spray.protocol, this.id, peerId)
     //   const occ = this.partialView.removeAll(peerId)
     //   for (let i = 0; i < occ; ++i) {
     //     this.disconnect(peerId)
@@ -18539,6 +18547,11 @@ class Spray extends N2N {
     return arr[Math.floor(Math.random() * arr.length)]
   }
 
+  /**
+   * Get a sample of peers with the oldest
+   * @param  {Boolean} [withOldest=true] determine if we want the oldest or not
+   * @return {Object} Object = {available: Array<String>, oldest: <String>}
+   */
   _getSample (withOldest = true) {
     // #1 check if we have available conenctions
     const res = []
@@ -18618,16 +18631,22 @@ class Spray extends N2N {
               this.debug('[%s] send MExchange message to %s', this.id, oldest)
               this.send(this.options.spray.protocol, oldest, new MExchange(this.id)).then(() => {
                 this.debug('[%s] disconnect oldest', this.id, oldest)
-                this._disconnectSample([oldest], oldest).then(() => {
+                this._disconnectSample([oldest], oldest).then((res) => {
+                  if (res.length > 0) {
+                    console.warning('[%s] Please remove a random arc', this.id)
+                  }
                   done()
                 }).catch(e => {
-                  console.error(new Error('need to remove a random arc'))
+                  console.warning('[%s] Please report, not possible in this part (disconnect oldest only)', this.id)
                 })
               }).catch(e => {
-                this._disconnectSample([oldest], oldest).then(() => {
+                this._disconnectSample([oldest], oldest).then((res) => {
+                  if (res.length > 0) {
+                    console.warning('[%s] Please remove a random arc', this.id)
+                  }
                   done()
                 }).catch(e => {
-                  console.error(new Error('need to remove a random arc'))
+                  console.warning('[%s] Please report, not possible in this part (disconnect oldest only)', this.id)
                 })
               })
             }).catch(e => {
@@ -18656,7 +18675,7 @@ class Spray extends N2N {
                     return peerId
                   }
                 })
-                this.debug('[%s/%s] %s ==> exchange %f ==> %s', this.id, this.options.spray.protocol, this.id, sample.available.length, oldest)
+                this.debug('[%s] %s ==> exchange %f ==> %s', this.id, this.id, sample.available.length, oldest)
                 // set outview to false because we are connected to oldest
                 this._connectSample(oldest, sample.available).then((result) => {
                   result.notconnected.forEach(id => {
@@ -18676,35 +18695,32 @@ class Spray extends N2N {
                   // add the connection to oldest into the list of disconnected socket
                   result.connected.push(oldest)
                   // need to unlock all connections and disconnect all result.connected peer from us
-                  this.debug('[%s] disconnect sample', this.id)
-                  this._disconnectSample(result.connected, oldest).then((notdisconnected) => {
-                    this.N = this.N - result.connected.length + notdisconnected.length
-                    this.debug('[%s] after disconnect sample: oldest=%s disconnected:', this.id, oldest, notdisconnected)
-                    if (notdisconnected.length > 0) {
-                      console.log('need to delete arcs....')
+                  this.debug('[%s] Disconnect a sample of %f peers', this.id, result.connected.length)
+                  this._disconnectSample(result.connected, oldest).then((res) => {
+                    if (res.length > 0) {
+                      console.warning('[%s] Please remove random arc(s) (Not disconnected = %f)', this.id, res.length)
                     }
                     done()
                   }).catch(e => {
                     // need to remove a random arcs
-                    console.error(new Error('need to remove a random arc', e))
+                    console.warning('[%s] Please report, not possible in this part (disconnect sample)', this.id, e)
                     done(e)
                   })
                 }).catch(e => {
-                  console.error(e)
+                  console.warning('[%s] Please report, not possible in this part (connect sample)', this.id, e)
                   done(e)
                 })
               }).catch(e => {
                 // onPeerDown perhaps?
-                console.error('PLEASE REPORT, cannot contact the oldest peer', e)
+                console.warning('[%s] Cannot contact the oldest, perhaps make a onPeerDown?', this.id, e)
                 done(e)
               })
             }).catch(e => {
-              console.error(e)
+              console.error('[%s] Cannot reverse the arc (exchange part 2)', this.id, e)
               done(e)
             })
           } else {
-            // onPeerDown perhaps?
-            done(new Error('not found'))
+            console.warning('[%s] We do not have oldest (%s) in our outview, stop.', this.id)
           }
         }
       }
@@ -18733,9 +18749,9 @@ class Spray extends N2N {
       if (!this.livingOutview.has(neighbor)) {
         resolve()
       } else {
-        this.debug('[%s] begin onExchange', this.id)
+        this.debug('[%s] Begin the passive part of Spray...', this.id)
         const done = (e) => {
-          this.debug('[%s] end onExchange', this.id)
+          this.debug('[%s] Passive part of Spray finished.', this.id)
           this.unlock(neighbor)
           if (e) {
             reject(e)
@@ -18759,6 +18775,7 @@ class Spray extends N2N {
           }
         })
         // set outview to true because neigh is connected to us
+        this.debug('[%s] %s ==> exchange %f ==> %s', this.id, this.id, sample.available.length, neighbor)
         this._connectSample(neighbor, sample.available).then((result) => {
           result.notconnected.forEach(id => {
             if (id === this.id) {
@@ -18775,7 +18792,7 @@ class Spray extends N2N {
             return id
           })
           // readd the occurence of the neighbor before disconnecting them
-          // result.connected.push(neighbor)
+          this.debug('[%s] Disconnect a sample of %f peers', this.id, result.connected.length)
           this._disconnectSample(result.connected, neighbor).then((notdisconnected) => {
             if (notdisconnected.length > 0) {
               console.log('need to delete arcs....')
@@ -18798,29 +18815,34 @@ class Spray extends N2N {
      * @param {string} peerId The identifier of the peer that seems down.
      */
   _onPeerDown (peerId) {
-    // console.log('[%s] onPeerDown %s ', this.id, peerId)
-    // this.debug('[%s] onPeerDown ==> %s ==> XXX %s XXX', this.options.n2n.protocol, this.id, peerId)
-    // let occ = 0
-    // if (this.livingOutview.has(peerId)) {
-    //   // #1 remove all occurrences of the peer in the partial view
-    //   occ = this.partialView.removeAll(peerId)
-    // }
-    // // #2 probabilistically recreate arcs to a known peer
-    // // (TODO) double check this
-    // const proba = this.options.spray.a / (this.partialView.size + occ)
-    // if (this.partialView.size > 0) {
-    //   // #A normal behavior
-    //   for (let i = 0; i < occ; ++i) {
-    //     if (Math.random() > proba) {
-    //       // probabilistically duplicate the least frequent peers
-    //       this.connect4u(null, this.partialView.leastFrequent).then(() => {
-    //         this._balance++
-    //       })
-    //     }
-    //   }
-    // } else {
-    //   // #B last chance behavior (TODO) ask inview
-    // }
+    console.log('[%s] onPeerDown %s ', this.id, peerId)
+    this.debug('[%s] onPeerDown ==> %s ==> XXX %s XXX', this.options.spray.protocol, this.id, peerId)
+    let occ = 0
+    if (this.livingOutview.has(peerId)) {
+      // #1 remove all occurrences of the peer in the partial view
+      occ = this.livingOutview.get(peerId).occurences
+    }
+    // #2 probabilistically recreate arcs to a known peer
+    // (TODO) double check this
+    const proba = this.options.spray.a / (this.partialView.size + occ)
+    if (this.getNeighbours().size > 0) {
+      const neigh = this.getNeighbours()
+      // #A normal behavior
+      for (let i = 0; i < occ; ++i) {
+        if (Math.random() > proba) {
+          const rn = Math.floor(Math.random() * neigh.length)
+          const p = neigh[rn].id
+          // probabilistically duplicate the least frequent peers
+          this.connect4u(null, p).then(() => {
+            this._balance++
+          }).catch(e => {
+            console.warning('[%s] (onPeerDown) An arc could not be established with %s, It could unbalance the network.', this.id, p, e.message)
+          })
+        }
+      }
+    } else {
+      // #B last chance behavior (TODO) ask inview
+    }
   }
   /**
      * @private A connection failed to establish properly, systematically
@@ -18829,12 +18851,14 @@ class Spray extends N2N {
      * establish a connection with. Null if it was yet to be known.
      */
   _onArcDown (peerId) {
-    this.debug('[%s] onArcDown ==> %s =X> %s', this.options.n2n.protocol, this.id, peerId || 'unknown')
+    this.debug('[%s] onArcDown ==> %s =X> %s', this.id, this.id, peerId || 'unknown')
     if (this.getNeighbours().length > 0) {
       // #1 normal behavior
       const rNeigh = this._pickNeighbour(this.getNeighboursIds())
       this.connect4u(null, rNeigh).then(() => {
         this._balance++
+      }).catch(e => {
+        console.warning('[%s] (onArcDow) An arc could not be established with %s, It could unbalance the network.', this.id, rNeigh, e.message)
       })
     } else {
       // #2 last chance behavior
@@ -18845,10 +18869,10 @@ class Spray extends N2N {
         this.connect4u(rNeigh, null).then(() => {
           this._balance++
         }).catch(e => {
-          console.warning('An arc has been removed but not readded in the system. It could unbalance the network.')
+          console.warning('[%s] An arc has been removed but not readded in the system. It could unbalance the network.', this.id, e.message)
         })
       } else {
-        console.warning('An arc has been removed but not readded in the system. It could unbalance the network.')
+        console.warning('[%s] No arcs in the outview and in the outview, it means that we are alone in the dark...', this.id)
       }
     }
   }
@@ -18859,131 +18883,61 @@ class Spray extends N2N {
      * @param {number} a  a * log
      * @param {number} b + b
      * @param {string} peerId The identifier of the peer to duplicate.
+     * @return {Promise} Resolved when all connections are finished whenever they are rejected or resolved.
      */
-  _inject (a, b, peerId) {
-    // console.log('Inject: ', a, b, peerId)
+  _inject (a, b, from, to) {
     let copyA = a
     let copyB = b
     let resA = []
     let resB = []
     for (let i = 0; i < Math.floor(a); ++i) resA.push(i)
     for (let i = 0; i < Math.floor(b); ++i) resB.push(i)
-    return resA.reduce((acc, cur) => acc.then(() => {
-      return new Promise((resolve, reject) => {
-        copyA -= 1
-        this.connect4u(null, peerId).then(() => {
-          resolve()
-        }).catch(e => {
-          console.error(e)
-          reject(e)
-        })
-      })
-    }), Promise.resolve()).then(() => {
-      return new Promise((resolve, reject) => {
-        if (Math.random() < copyA) {
-          this.connect4u(null, peerId).then(() => {
-            resolve()
-          }).catch(e => {
-            console.error(e)
-            reject(e)
-          })
-        } else {
-          resolve()
-        }
-      })
-    }).then(() => {
-      return resB.reduce((acc, cur) => acc.then(() => {
-        return new Promise((resolve, reject) => {
-          copyB -= 1
-          this.connect4u(null, peerId).then(() => {
-            resolve()
-          }).catch(e => {
-            console.error(e)
-            reject(e)
-          })
-        })
-      }), Promise.resolve())
-    }).then(() => {
-      return new Promise((resolve, reject) => {
-        if (Math.random() < copyB) {
-          this.connect4u(null, peerId).then(() => {
-            resolve()
-          }).catch(e => {
-            console.error(e)
-            reject(e)
-          })
-        } else {
-          resolve()
-        }
-      })
-    })
-  }
 
-  /**
-     * @private Inject a*log(N) + b arcs leading to peerId. When parameters are
-     * not integers, the floating part is added probabilistically.
-     * @param {number} a  a * log
-     * @param {number} b + b
-     * @param {string} peerId The identifier of the peer to duplicate.
-     * @return {Promise} Resolved when all connection are done. reject when one is rejected.
-     */
-  _injectReverse (a, b, peerId) {
-    // console.log('InjectBack: ', a, b, peerId)
-    let copyA = a
-    let copyB = b
-    let resA = []
-    let resB = []
-    for (let i = 0; i < Math.floor(a); ++i) resA.push(i)
-    for (let i = 0; i < Math.floor(b); ++i) resB.push(i)
-    return resA.reduce((acc, cur) => acc.then(() => {
-      return new Promise((resolve, reject) => {
-        copyA -= 1
-        this.connect4u(peerId, null).then(() => {
+    let promises = []
+    resA.forEach(p => {
+      copyA -= 1
+      promises.push(new Promise((resolve, reject) => {
+        this.connect4u(from, to).then(() => {
           resolve()
         }).catch(e => {
-          console.error(e)
-          reject(e)
-        })
-      })
-    }), Promise.resolve()).then(() => {
-      return new Promise((resolve, reject) => {
-        if (Math.random() < copyA) {
-          this.connect4u(peerId, null).then(() => {
-            resolve()
-          }).catch(e => {
-            console.error(e)
-            reject(e)
-          })
-        } else {
+          console.error('[%s] error copyA normal inject: ', this.id, e)
           resolve()
-        }
-      })
-    }).then(() => {
-      return resB.reduce((acc, cur) => acc.then(() => {
-        return new Promise((resolve, reject) => {
-          copyB -= 1
-          this.connect4u(peerId, null).then(() => {
-            resolve()
-          }).catch(e => {
-            console.error(e)
-            reject(e)
-          })
         })
-      }), Promise.resolve())
-    }).then(() => {
-      return new Promise((resolve, reject) => {
-        if (Math.random() < copyB) {
-          this.connect4u(peerId, null).then(() => {
-            resolve()
-          }).catch(e => {
-            console.error(e)
-            reject(e)
-          })
-        } else {
-          resolve()
-        }
-      })
+      }))
     })
+    if (Math.random() < copyA) {
+      promises.push(new Promise((resolve, reject) => {
+        this.connect4u(from, to).then(() => {
+          resolve()
+        }).catch(e => {
+          console.error('[%s] error copyA random inject: ', this.id, e)
+          resolve()
+        })
+      }))
+    }
+    resB.forEach(p => {
+      copyB -= 1
+      promises.push(new Promise((resolve, reject) => {
+        this.connect4u(from, to).then(() => {
+          resolve()
+        }).catch(e => {
+          console.error('[%s] error copyB normal inject: ', this.id, e)
+          resolve()
+        })
+      }))
+    })
+    if (Math.random() < copyB) {
+      promises.push(new Promise((resolve, reject) => {
+        this.connect4u(from, to).then(() => {
+          resolve()
+        }).catch(e => {
+          console.error('[%s] error copyB random inject: ', this.id, e)
+          resolve()
+        })
+      }))
+    }
+
+    return Promise.all(promises)
   }
 }
 

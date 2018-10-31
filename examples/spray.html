@@ -44,27 +44,27 @@
         sideMargin: 0.5
       }) // eslint-disable-line
     }) // eslint-disable-line
-    localStorage.debug = 'spray-wrtc, n2n:n2n'
+    localStorage.debug = 'spray-wrtc'
     let Spray = spray
     let revertedIndex = new Map()
-    const max = 10
-    const mod = 5
+    const max = 5
+    const mod = 8
     const room = Math.floor(Math.random() * max)
     const spray_a = 1
-    const spray_b = 2
+    const spray_b = 5
     const delta = 100000 * 1000
-    const connection = 500
-    const moc = false
+    const connection = 1000
+    const moc = true
     const timeout = 5 * 1000
-    // const iceServers = []
-    const iceServers = [{
-      url: 'stun:127.0.0.2:3478'
-    }]
-    /*{
-      urls: "turn:localhost:3478?transport=udp",
-      username: "username",
-      credential: "password"
-    }*/
+    const iceServers = []
+    // const iceServers = [{
+    //   url: 'stun:127.0.0.1:3478'
+    // }]
+    // const iceServers = [{
+    //   urls: "turn:localhost:3478?transport=udp",
+    //   username: "username",
+    //   credential: "password"
+    // }]
     document.getElementById("theoretical").innerHTML = ""+ (max* (spray_a*Math.log(max) + spray_b))
     let apps = []
     init(0)
@@ -78,23 +78,31 @@
       g.refresh()
       const loaded = [apps[0], apps[1]]
       const tmp = apps.slice(2)
-      tmp.reduce((acc, spray) => acc.then(() => {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            chosen = Math.floor(Math.random() * loaded.length)
-            spray.connect(loaded[chosen]).then(() => {
-              // loaded[chosen]._exchange().then(() => {
+      ebSync(loaded).then(() => {
+        tmp.reduce((acc, spray) => acc.then(() => {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              chosen = Math.floor(Math.random() * loaded.length)
+              const average = loaded.map(p => p.getNeighbours().reduce((a, c) => a + c.peer.occurences, 0)).reduce((a , c) => a + c, 0) / loaded.length
+              const arr = loaded.map(p => p.getNeighbours().reduce((a, c) => a + c.peer.occurences, 0))
+              chosen = arr.indexOf(closest(average, arr))
+              // console.log('Average = ', average, loaded[chosen].id)
+              spray.connect(loaded[chosen]).then(() => {
                 loaded.push(spray)
-                resolve()
-              // })
-            })
-          }, connection)
+                setTimeout(() => {
+                  ebAsync(loaded).then(() => {
+                    resolve()
+                  })
+                }, connection)
+              })
+            }, connection)
+          })
+        }), Promise.resolve()).then(() => {
+          update()
+          setTimeout(() => {
+            shuffle(delta)
+          }, delta)
         })
-      }), Promise.resolve()).then(() => {
-        update()
-        setTimeout(() => {
-          shuffle(delta)
-        }, delta)
       })
     })
 
@@ -142,7 +150,7 @@
 
     function shuffle (delta) {
       console.log('begin round: ', r)
-      return ebAsync(apps).then(() => {
+      return ebAsync(apps, 10000).then(() => {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve()
@@ -235,7 +243,7 @@
     }
 
     function closest (num, arr) {
-      return arr.reduce(function(prev, curr) {
+      return arr.reduce(function(prev, curr, index) {
         return (Math.abs(curr - num) < Math.abs(prev - num) ? curr : prev);
       })
     }
@@ -248,7 +256,7 @@
       return color
     }
 
-    function ebAsync (tab) {
+    function ebAsync (tab, time = 5000) {
       let res = []
       tab.forEach(p => {
         res.push(p._exchange().then(() => {
@@ -259,7 +267,7 @@
         setTimeout(() => {
           log()
           update()
-        }, 5000)
+        }, time)
       })
     }
 
@@ -281,9 +289,13 @@
     function update(add = true) {
       const withoutduplicates = apps.reduce((acc, cur) => acc+cur.livingOutview.size, 0)
       const numberofduplicates = apps.reduce((acc, cur) => {
-        return acc+[...cur.livingOutview].reduce((acc, cur) => {
-          return acc+cur[1].occurences - 1
+        const occ = cur.getNeighbours().reduce((acc, c) => {
+          // console.log('from %s to %s, occ: %f', cur.id, c.id, c.peer.occurences)
+          return acc + c.peer.occurences - 1
         }, 0)
+        const total = acc + occ
+        // console.log('total of duplicates: %f for peer %s', total, cur.id, total)
+        return total
       }, 0)
       const pv = apps.reduce((acc, cur) => acc+cur.livingOutview.size, 0)/apps.length
       document.getElementById("actualdup").innerHTML = ""+ numberofduplicates
