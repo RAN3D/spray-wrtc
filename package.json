@@ -41,6 +41,7 @@
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
+    "all": "npm run lint && npm run build:debug && npm run build:prod && npm run doc:build",
     "signaling": "node ./node_modules/n2n-wrtc/bin/signaling-server.js",
     "build:dev": "webpack --watch --mode development --config ./configs/webpack-config.js",
     "build:debug": "webpack --mode development --config ./configs/webpack-config.js",
@@ -55,9 +56,10 @@
   "license": "MIT",
   "standard": {
     "ignore": [
-      "/build/",
+      "/bin/",
       "/img/",
-      "/examples/"
+      "/examples/",
+      "/docs/"
     ]
   }
 }

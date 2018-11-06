@@ -5,7 +5,7 @@
     ],
     "dest": "./docs/",
     "assets": {
-      "/assets/img": "./img/*.png"
+      "/img": "./img/*"
     },
     "clean": true,
     "app": {

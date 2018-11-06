@@ -7,14 +7,23 @@ module.exports = lmerge(webpackconfig, {
   output: {
     'filename': 'spray-wrtc.bundle.min.js'
   },
-  plugins: [
-    new UglifyJSPlugin({
-      sourceMap: true,
+  optimization: {
+    minimizer: [new UglifyJSPlugin({
+      sourceMap: false,
+      parallel: true,
       uglifyOptions: {
-        compress: true,
-        mangle: true,
+        warnings: false,
+        parse: {},
+        compress: {},
+        mangle: true, // Note `mangle.properties` is `false` by default.
+        output: {
+          comments: false
+        },
+        toplevel: false,
+        nameCache: null,
+        ie8: false,
         keep_fnames: false
       }
-    })
-  ]
+    })]
+  }
 })

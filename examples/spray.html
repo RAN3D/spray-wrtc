@@ -47,15 +47,15 @@
     localStorage.debug = 'spray-wrtc'
     let Spray = spray
     let revertedIndex = new Map()
-    const max = 5
+    const max = 4
     const mod = 8
     const room = Math.floor(Math.random() * max)
     const spray_a = 1
-    const spray_b = 5
+    const spray_b = 2
     const delta = 100000 * 1000
-    const connection = 1000
-    const moc = true
-    const timeout = 5 * 1000
+    const connection = 500
+    const moc = false
+    const timeout = 1 * 1000
     const iceServers = []
     // const iceServers = [{
     //   url: 'stun:127.0.0.1:3478'
@@ -82,22 +82,25 @@
         tmp.reduce((acc, spray) => acc.then(() => {
           return new Promise((resolve, reject) => {
             setTimeout(() => {
-              chosen = Math.floor(Math.random() * loaded.length)
+              // chosen = Math.floor(Math.random() * loaded.length)
               const average = loaded.map(p => p.getNeighbours().reduce((a, c) => a + c.peer.occurences, 0)).reduce((a , c) => a + c, 0) / loaded.length
               const arr = loaded.map(p => p.getNeighbours().reduce((a, c) => a + c.peer.occurences, 0))
               chosen = arr.indexOf(closest(average, arr))
               // console.log('Average = ', average, loaded[chosen].id)
               spray.connect(loaded[chosen]).then(() => {
                 loaded.push(spray)
-                setTimeout(() => {
-                  ebAsync(loaded).then(() => {
-                    resolve()
-                  })
-                }, connection)
+                resolve()
+                // setTimeout(() => {
+                //   ebAsync(loaded).then(() => {
+                //     resolve()
+                //   })
+                // }, connection)
               })
             }, connection)
           })
         }), Promise.resolve()).then(() => {
+          // init(3)
+          // apps[3].connect(apps[1])
           update()
           setTimeout(() => {
             shuffle(delta)
@@ -119,7 +122,7 @@
         color: randomColor()
       })
       spray.on('out', (peerId) => {
-        console.log('[%s] A new peer is connected to us: ', spray.id, peerId)
+        console.log('[%s] out: ', spray.id, peerId)
         setTimeout(() => {
           if (!g.graph.edges(spray.id + peerId)) {
             g.graph.addEdge({
@@ -131,17 +134,16 @@
           }
         }, 500)
       })
-      spray.on('close_out', (peerId) => {
-        console.log('[%s] we disconnect the peer %s from us', spray.id, peerId)
+      spray.on('close_out', (peerId, fail) => {
+        console.log('[%s] close_out: %s fail: %s', spray.id, peerId, fail)
         if (g.graph.edges(spray.id + peerId)) {
           g.graph.dropEdge(spray.id + peerId)
           g.refresh()
         }
       })
-      spray.on('close_in', (peerId) => {
-        console.log('[%s] A peer (%s) is disconnected from us: ', spray.id, peerId)
+      spray.on('close_in', (peerId, fail) => {
+        console.log('[%s] close_in: %s fail: %s', spray.id, peerId, fail)
         check()
-        if(apps[Number(peerId.substr(2))].livingOutview.has(peerId)) debugger
       })
       spray.on('receive', (id, message) => {
         console.log('[%s] message receive from %s ', spray.id, id, message)
@@ -166,7 +168,7 @@
     }, 2000)
 
     function createApp(id) {
-      console.log(id)
+      console.log('Create Spray client: ', id)
       return new Spray({
         spray: {
           a: spray_a,
@@ -372,6 +374,36 @@
       console.log(all)
       const status = all.map(p => p.reduce((a, c) => a && c, true)).reduce((a, c) => a && c, true)
       console.log('Status: ', status)
+    }
+
+    function estimate(app) {
+      const pvSize = app.livingOutview.size
+      const neighbourSize = [...app.livingOutview.keys()].map(i => {
+        return apps.find(e => e.id === i).livingOutview.size
+      }).reduce((acc, cur) => acc + cur, 0)
+      const bis = (pvSize + neighbourSize) / (pvSize + 1)
+      return {
+        id: app.id,
+        average: Math.exp(bis)
+      }
+    }
+
+    function estimatorSimple() {
+      console.log(apps.map(p => estimate(p)))
+    }
+
+    function estimatorComplexe() {
+      const average = apps.map(p => estimate(p))
+      const neighbourAverage = average.map((av, index) => {
+        return [...apps[index].livingOutview.keys()].map((id, ind) => {
+          return average.find(e => e.id === id).average
+        })
+      }).map(arr => {
+        // compute average on average
+        return arr.reduce((acc, cur) => acc + cur, 0) / arr.length
+      })
+      return neighbourAverage
+
     }
   </script>
 </html>

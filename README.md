@@ -44,7 +44,7 @@ peers. The resulting network has a low clustering coefficient.
 
 Find the bundle in **bin/spray-wtrtc.bundle.js** (debug mode) or in **bin/spray-wtrtc.bundle.min.js** (production mode)
 
-## [Documentation](https://ran3d.github.io/spray-wrtc/) 
+## [Documentation](https://ran3d.github.io/spray-wrtc/)
 
 ## Miscellaneous
 
