@@ -1,0 +1,63 @@
+
+<html><head></head><body><h1 id="spray-wrtc">spray-wrtc <a href="https://travis-ci.org/RAN3D/spray-wrtc"><img src="https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master" alt="Build Status" style="max-width: 100%;"></a> <a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="JavaScript Style Guide" style="max-width: 100%;"></a></h1>
+<hr />
+<p><i>Keywords: Random peer-sampling, adaptive, browser-to-browser communication,
+WebRTC</i></p>
+<p>This project aims to provide a <a href="http://www.webrtc.org">WebRTC</a> implementation of
+Spray.</p>
+<p>Spray [1] is a random peer-sampling protocol [2] inspired by both Cyclon [3] and
+Scamp [4]. It adapts the partial view of each member to the network size using
+local knowledge only. Therefore, without any configuration, each peer
+automatically adjust its functioning to the need of the network.</p>
+<h2 id="principle">Principle</h2>
+<hr />
+<p align="center">
+    <img src="./img/joining.gif" style="max-width: 100%;">
+</p>
+
+<p>Peers joining the network inject a logarithmic number of arcs with them. Thus, a
+10-peers network has on average 2.3 connections per peer, a 100-peers network
+has on average 4.6 connections per peer, a 1000 peers network has on average 6.9
+connections per peer etc. Consequently, the number of connections scales well in
+terms of number of peers.</p>
+<p>The figure shows that peers are highly clustered. Furthermore, the oldest peers
+have many outgoing arcs while the newest only has one outgoing arc. To solve
+this issue, the peers must periodically shuffle their partial view of the
+network.</p>
+<p align="center">
+    <img src="./img/shuffling.gif" style="max-width: 100%;">
+</p>
+
+<p>Periodically, a peer chooses one of its neighbor to exchange with. Both peers
+provide half of their partial view comprising neighbors chosen at random. Both
+peers disconnect from the neighbors they provided and connect to the neighbors
+they obtained. Periodic shufflings balance the outgoing arcs among the
+peers. The resulting network has a low clustering coefficient.</p>
+<h2 id="installation">Installation</h2>
+<hr />
+<p><code>$ npm install spray-wrtc</code></p>
+<p>Find the bundle in <strong>bin/spray-wtrtc.bundle.js</strong> (debug mode) or in <strong>bin/spray-wtrtc.bundle.min.js</strong> (production mode)</p>
+<h2 id="documentation"><a href="https://ran3d.github.io/spray-wrtc/">Documentation</a></h2>
+<hr />
+<h2 id="miscellaneous">Miscellaneous</h2>
+<hr />
+<p>Peersim [5] simulations of Spray are available at
+<a href="https://github.com/justayak/peersim-spray">peersim-spray</a>.</p>
+<h2 id="references">References</h2>
+<hr />
+<p>[1] B. Nédelec, J. Tanke, D. Frey, P. Molli, and A. Mostéfaoui. Spray: an
+Adaptive Random Peer Sampling Protocol. <i>Technical Report, LINA-University of
+Nantes; INRIA Rennes - Bretagne Atlantique, Sept 2015.</i></p>
+<p>[2] M. Jelasity, S. Voulgaris, R. Guerraoui, A.-M. Kermarrec, and M. Van
+Steen. Gossip-based peer sampling. <i>ACM Transactions on Computer Systems
+(TOCS)</i>, 25(3):8, 2007.</p>
+<p>[3] S. Voulgaris, D. Gavidia, and M. van Steen. Cyclon: Inexpensive membership
+management for unstructured p2p overlays. <i>Journal of Network and Systems
+Management</i>, 13(2):197–217, 2005.</p>
+<p>[4] A. Ganesh, A.-M. Kermarrec, and L. Massoulié. Peer-to-peer membership
+management for gossip-based protocols. <i>IEEE Transactions on Computers</i>,
+52(2):139–149, Feb 2003.</p>
+<p>[5] A. Montresor and M. Jelasity. Peersim: A scalable P2P simulator. <i>Proc. of
+the 9th Int. Conference on Peer-to-Peer (P2P’09)</i>, pages 99–100, Seattle, WA,
+Sept. 2009.</p>
+</body></html>
