@@ -1,0 +1,34 @@
+<html>
+<head>
+  <style type="text/css">
+    #graph {
+      border: 1px solid black;
+      max-width: 80%;
+      height: 30em;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1> Spray Network example using WebRTC connections</h1>
+    <p> Please: Open the console! </p>
+    <p> Please: <b>chrome://webrtc-internals</b> in Chrome or <b>about:webrtc</b> in Firefox </p>
+    <p> Theoretical number of arcs: ~<span id="theoretical"></span> <br/>
+      Actual number of arcs(including duplicates): <span id="actualarcs"></span><br/>
+      Actual number of duplicates: <span id="actualdup"></span><br/>
+      Actual number of arcs without duplicates: <span id="actualwodup"></span><br/>
+      Pourcentage of duplicate: <span id="actualpourcentage"></span><br/>
+      Average PV size: <span id="pv"></span><br/>
+      </p>
+    <div id="graph"></div>
+    <!-- <canvas id="myChart" width="400" height="400"></canvas> -->
+  </div>
+  <script type='text/javascript' src='/js/spray-wrtc.bundle.js'></script>
+  <script type='text/javascript' src='/js/Chart.min.js'></script>
+  <script type='text/javascript' src="/js/sigma.min.js"></script>
+  <script type='text/javascript' src="/js/sigma.parsers.json.min.js"></script>
+  <script type='text/javascript' src="/js/sigma.canvas.edges.curvedArrow.js"></script>
+  <script type='text/javascript' src ='/js/spray.js'></script>
+</body>
+</html>
