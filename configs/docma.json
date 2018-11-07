@@ -6,7 +6,7 @@
     ],
     "dest": "./docs/",
     "assets": {
-      "/js": [
+      "/content/js": [
         "./examples/spray.js",
         "./node_modules/chart.js/dist/Chart.min.js",
         "./node_modules/sigma/build/sigma.min.js",
