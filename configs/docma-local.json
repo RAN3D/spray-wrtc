@@ -65,7 +65,7 @@
                     {
                         "label": "Demo",
                         "iconClass": "fas fa-book",
-                        "href": "/content/demo.html",
+                        "href": "content/demo.html",
                         "target": "_blank"
                     },
                     {
