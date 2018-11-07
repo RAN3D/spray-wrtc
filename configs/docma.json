@@ -1,17 +1,27 @@
 {
   "src": [
         "./lib/**/*.js",
-        "./README.md"
+        "./README.md",
+        { "demo": "./examples/docma/spray-docma.html" }
     ],
     "dest": "./docs/",
     "assets": {
-      "/img": "./img/*.png"
+      "/js": [
+        "./examples/spray.js",
+        "./node_modules/chart.js/dist/Chart.min.js",
+        "./node_modules/sigma/build/sigma.min.js",
+        "./node_modules/sigma/build/plugins/sigma.parsers.json.min.js",
+        "./node_modules/sigma/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js",
+        "./bin/spray-wrtc.bundle.js",
+        "./bin/spray-wrtc.bundle.js.map"
+      ],
+      "/img": "./img/*"
     },
     "clean": true,
     "app": {
-      "title": "n2n-wrtc",
+      "title": "spray-wrtc",
       "entrance": "content:readme",
-      "base": "/n2n-wrtc/",
+      "base": "/spray-wrtc/",
       "server": "github"
     },
     "markdown": {
@@ -23,7 +33,7 @@
         "path": "zebra",
         "options": {
             "title": {
-                "label": "n2n-wrtc",
+                "label": "spray-wrtc",
                 "href": "?content=readme"
             },
             "sidebar": {
@@ -53,6 +63,12 @@
                 "animations": true,
                 "menu": [
                     {
+                        "label": "Demo",
+                        "iconClass": "fas fa-book",
+                        "href": "/content/demo.html",
+                        "target": "_blank"
+                    },
+                    {
                         "label": "Docs",
                         "iconClass": "fas fa-book",
                         "href": "?api"
@@ -63,14 +79,14 @@
                         "items": [
                             {
                                 "label": "Latest Version",
-                                "href": "https://github.com/RAN3D/n2n-wrtc/archive/master.zip"
+                                "href": "https://github.com/RAN3D/spray-wrtc/archive/master.zip"
                             }
                         ]
                     },
                     {
                         "label": "GitHub",
                         "iconClass": "fab fa-github",
-                        "href": "https://github.com/RAN3D/n2n-wrtc",
+                        "href": "https://github.com/RAN3D/spray-wrtc",
                         "target": "_blank"
                     }
                 ]

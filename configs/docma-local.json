@@ -1,15 +1,25 @@
 {
   "src": [
         "./lib/**/*.js",
-        "./README.md"
+        "./README.md",
+        { "demo": "./examples/docma/spray-docma.html" }
     ],
     "dest": "./docs/",
     "assets": {
+      "/js": [
+        "./examples/spray.js",
+        "./node_modules/chart.js/dist/Chart.min.js",
+        "./node_modules/sigma/build/sigma.min.js",
+        "./node_modules/sigma/build/plugins/sigma.parsers.json.min.js",
+        "./node_modules/sigma/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js",
+        "./bin/spray-wrtc.bundle.js",
+        "./bin/spray-wrtc.bundle.js.map"
+      ],
       "/img": "./img/*"
     },
     "clean": true,
     "app": {
-      "title": "n2n-wrtc",
+      "title": "spray-wrtc",
       "entrance": "content:readme",
       "base": "/",
       "server": "static"
@@ -52,6 +62,12 @@
                 "dark": false,
                 "animations": true,
                 "menu": [
+                    {
+                        "label": "Demo",
+                        "iconClass": "fas fa-book",
+                        "href": "/content/demo.html",
+                        "target": "_blank"
+                    },
                     {
                         "label": "Docs",
                         "iconClass": "fas fa-book",

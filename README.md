@@ -1,6 +1,6 @@
-# spray-wrtc [![Build Status](https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master)](https://travis-ci.org/RAN3D/spray-wrtc) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+# spray-wrtc [![Build Status](https://travis-ci.org/RAN3D/spray-wrtc.svg?branch=master)](https://travis-ci.org/RAN3D/spray-wrtc) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![npm version](https://badge.fury.io/js/spray-wrtc.svg)](https://badge.fury.io/js/spray-wrtc)
 
-<i>Keywords: Random peer-sampling, adaptive, browser-to-browser communication,
+<i>**Keywords:** Random peer-sampling, adaptive, browser-to-browser communication,
 WebRTC</i>
 
 This project aims to provide a [WebRTC](http://www.webrtc.org) implementation of
@@ -10,6 +10,9 @@ Spray [1] is a random peer-sampling protocol [2] inspired by both Cyclon [3] and
 Scamp [4]. It adapts the partial view of each member to the network size using
 local knowledge only. Therefore, without any configuration, each peer
 automatically adjust its functioning to the need of the network.
+
+**Publication:**
+- [An adaptive peer-sampling protocol for building networks of browsers](https://hal.inria.fr/hal-01619906/document) **(WWW 2018)**
 
 ## Principle
 

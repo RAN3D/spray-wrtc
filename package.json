@@ -49,8 +49,8 @@
     "doc:build": "docma -c configs/docma.json",
     "doc:dev": "docma -c configs/docma-local.json",
     "doc:serve": "docma serve ./docs",
-    "lint": "standard --verbose \"./lib/**/*.js\" | snazzy",
-    "fix": "standard --fix --verbose \"./lib/**/*.js\" | snazzy",
+    "lint": "standard --verbose \"./lib/**/*.js\" \"./examples/spray.js\" | snazzy",
+    "fix": "standard --fix --verbose \"./lib/**/*.js\" \"./examples/spray.js\" | snazzy",
     "test": "npm run build:prod"
   },
   "license": "MIT",
