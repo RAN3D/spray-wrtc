@@ -12,7 +12,7 @@ local knowledge only. Therefore, without any configuration, each peer
 automatically adjust its functioning to the need of the network.
 
 **Publication:**
-- [An adaptive peer-sampling protocol for building networks of browsers](https://hal.inria.fr/hal-01619906/document) **(WWW 2018)**
+- [An adaptive peer-sampling protocol for building networks of browsers](https://hal.inria.fr/hal-01619906/document) **(Journal WWW 2018)**
 
 ## Principle
 
