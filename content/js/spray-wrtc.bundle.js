@@ -300,6 +300,11 @@ class Spray extends N2N {
     this.on(this.options.spray.protocol, (id, message) => {
       this.___receive(id, message)
     })
+    this.once('out', (peerId) => {
+      // start the shuffling mechanism in case we are the first peer.
+      // this handle the case of direct connections where the _start method is never called.
+      if (!this._active) this._start()
+    })
     // #4 events
     this.on('out', (peerId, outview) => {
       this._open(peerId)
@@ -313,7 +318,7 @@ class Spray extends N2N {
       this.debug('[%s] a peer crash...', this.id, peerId, occurences)
       this._onPeerDown(peerId, occurences)
     })
-
+    this._active = false
     // statistics
     this._balance = 0
     this._out = 0
@@ -356,11 +361,16 @@ class Spray extends N2N {
      * @return {void}
      */
   _start (delay = this.options.spray.delta) {
-    this.periodic = setInterval(() => {
-      this._exchange().catch(e => {
-        console.warn('[%s] an exchange is errored...', e)
-      })
-    }, delay)
+    if (!this._active) {
+      this._active = true
+      this.periodic = setInterval(() => {
+        this._exchange().catch(e => {
+          console.warn('[%s] an exchange is errored...', e)
+        })
+      }, delay)
+    } else {
+      this.debug('[%s] periodic shuffling already activated', this.id)
+    }
   }
 
   /**
