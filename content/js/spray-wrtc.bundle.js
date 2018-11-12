@@ -9382,7 +9382,7 @@ class N2N extends EventEmitter {
       socket: {
         objectMode: false
       },
-      signaling: lmerge({ room: 'default', id }, __webpack_require__(/*! ./signaling/server/config.json */ "./node_modules/n2n-wrtc/lib/signaling/server/config.json"))
+      signaling: lmerge({ room: 'default', parent: this }, __webpack_require__(/*! ./signaling/server/config.json */ "./node_modules/n2n-wrtc/lib/signaling/server/config.json"))
     }, options)
     // debug log
     this._debug = (__webpack_require__(/*! debug */ "./node_modules/n2n-wrtc/node_modules/debug/src/browser.js"))('n2n:n2n')
@@ -9543,8 +9543,6 @@ class N2N extends EventEmitter {
    * @param  {String|null}  [to=null]   peer id
    * @return {Promise} resolved if the promise of chosen case is resolved, otherwise reject with the appropriate method
    * @example
-   * const N2N = require('n2n-wrtc').n2n
-   * @example
    * // Offline connection
    * const N2N = require('n2n-wrtc').n2n
    * const a = new N2N({n2n: {id: 'a'}})
@@ -9584,7 +9582,7 @@ class N2N extends EventEmitter {
   }
 
   /**
-   * Add outview connection to the peer specified by peerId (use an existing connection for that.)
+   * Add an outview occurence to an existing connection to the peer specified by peerId (use an existing connection for that)
    * @param  {String}  peerId peer id to connect with
    * @return {Promise} Resolve when successfully established. Rject otherwise
    * @example
@@ -9594,6 +9592,8 @@ class N2N extends EventEmitter {
    * const b = new N2N({n2n: {id: 'b'}})
    * await a.connect(b)
    * await a.connect4u(null, b.id)
+   * // or
+   * await a.connectFromUs(b.id)
    */
   async connectFromUs (peerId, outview = true) {
     return this.increaseOccurences(peerId, true)
@@ -9615,6 +9615,10 @@ class N2N extends EventEmitter {
    * const b = new N2N({n2n: {id: 'b'}})
    * await a.connect(b)
    * await a.connect4u(b.id, null)
+   * // or
+   * await a.connectToUs(b.id, 5000, true) // peerId is in our outview
+   * // or
+   * await a.connectToUs(b.id, 5000, false) // peerId is in our inview
    */
   async connectToUs (peerId, timeout = this.options.n2n.timeout, outview = true) {
     return this.signaling.direct.connectToUs(peerId, timeout, outview)
@@ -9636,7 +9640,7 @@ class N2N extends EventEmitter {
    * await a.connect(b)
    * await a.connect(c)
    * // bridge between b and c, with b in the inview and c in the outview
-   * await a.connect4u(b.id, c.id) // create the connection from b to c by exchanging offers through a
+   * await a.bridgeIO(b.id, c.id) // create the connection from b to c by exchanging offers through a
    */
   async bridgeIO (from, dest, timeout = this.options.n2n.timeout) {
     return this.signaling.bridgeIO.bridge(from, dest, timeout)
@@ -9657,7 +9661,7 @@ class N2N extends EventEmitter {
    * await a.connect(b)
    * await a.connect(c)
    * // bridge between b and c, with b in the outview and c in the inview
-   * await a.connect4u(b.id, c.id) // create the connection from b to c by exchanging offers through a
+   * await a.bridgeOI(b.id, c.id) // create the connection from b to c by exchanging offers through a
    */
   async bridgeOI (from, dest, timeout = this.options.n2n.timeout) {
     return this.signaling.bridgeOI.bridge(from, dest, timeout)
@@ -9679,6 +9683,8 @@ class N2N extends EventEmitter {
    * await a.connect(c)
    * // bridge between b and c, with both b and c in the outview
    * await a.connect4u(b.id, c.id) // create the connection from b to c by exchanging offers through a
+   * // or
+   * await a.bridgeOO(b.id, c.id)
    */
   async bridgeOO (from, dest, timeout = this.options.n2n.timeout) {
     return this.signaling.bridgeOO.bridge(from, dest, timeout)
@@ -9702,7 +9708,13 @@ class N2N extends EventEmitter {
    * b.on('data', (id, message) => {
    *  console.log('b receive the message from %s:', id, message)
    * })
-   * a.send('data', b.id, 'Hello world') // send the message Hello world on the event 'data', the message will only be delivered on the peer b on the event 'data' (you can change the value of the event). the message will is only sent on the outview. If you want to change, add an additional argument as "a.send('data', b.id, 'Hello world', false)" for sending the message on the inview.
+   * a.send('data', b.id, 'Hello world')
+   * // send the message Hello world on the event 'data'.
+   * // the message will only be delivered on the peer b on the event 'data'
+   * // (you can change the value of the event).
+   * // the message will is only sent on the outview.
+   * // If you want to change, add an additional argument as
+   * // "a.send('data', b.id, 'Hello world', false)" for sending the message on the inview.
    */
   async send (protocol = 'receive', id, msg, outview = true) {
     const message = { protocol, msg }
@@ -9911,25 +9923,26 @@ class N2N extends EventEmitter {
             this._signalDisconnect(peerId, true, false)
             return this.send(this.options.n2n.protocol, peerId, {
               type: events.n2n.DISCONNECT
+            }).catch(e => {
+              console.warn('[%s] cannot send the message to %s', this.id, peerId, e)
             }).then(() => {
               return p.socket.disconnect(this.options.socket)
-            }).catch(e => {
-              return p.socket.disconnect()
             })
           } else {
             this._signalDisconnect(peerId, true, false) // signal disconnect
             return Promise.resolve()
           }
         }).catch(e => {
+          console.error(e)
           console.warn('[%s] cannot send the message to %s', this.id, peerId)
           if (this.livingOutview.get(peerId).occurences === 0) {
             this._signalDisconnect(peerId, true, false)
             return this.send(this.options.n2n.protocol, peerId, {
               type: events.n2n.DISCONNECT
-            }).then(() => {
-              return p.socket.disconnect()
             }).catch(e => {
-              return p.socket.disconnect()
+              console.warn('[%s] cannot send the message to %s', this.id, peerId, e)
+            }).then(() => {
+              return p.socket.disconnect(this.options.socket)
             })
           } else {
             this._signalDisconnect(peerId, true, false) // signal disconnect
@@ -9982,22 +9995,14 @@ class N2N extends EventEmitter {
   /**
    * Simulate a crash by disconnecting all sockets from inview/outview
    * @return {void}
-   * * @example
+   * @example
    * // Offline connection
    * const N2N = require('n2n-wrtc').n2n
    * const a = new N2N({n2n: {id: 'a'}})
    * const b = new N2N({n2n: {id: 'b'}})
-   * a.on('close_out', (id, fail) => {
-   *  console.log('We are disconnected from %s, fail? %s', id, fail)
-   * })
-   * b.on('close_in', (id, fail) => {
-   *  console.log('%s is disconnected from us', fail? %s', fail)
-   * })
-   * await a.connect(b)
-   * await a.connect(b)
+   * a.connect(b)
    * a.crash()
-   * // b will receive a close_in event with fail equals to true
-   * // a will receive a close_out event with fail equals to true
+   * // will receive events on crash_out and crash_in respectively for a and b
    */
   crash () {
     this.livingOutview.forEach(p => {
@@ -10100,7 +10105,6 @@ class N2N extends EventEmitter {
    * @private
    */
   _manageError (error, peerId, outview = false, reject, trace) {
-    console.trace(this.id, error, peerId, outview, reject, outview && this.livingOutview.get(peerId).socket, trace)
     // chrome fix for disconnection
     if (error.message === 'Ice connection failed.') {
       this._debug('Chrome disconnection: ', peerId, error)
@@ -10289,30 +10293,17 @@ class N2N extends EventEmitter {
    * a.connect(b)
    * b.connect(c)
    * b.getNeighbours() => [{peer: {socket: ..., occurences: 1, lock: 0}}, id: 'c']
+   * b.getNeighbours(true) => {outview: [...], inview: [...]}
    */
   getNeighbours (all = false) {
     if (all) {
-      return this.getAllNeighbours()
+      return {
+        outview: this.getNeighboursOutview(),
+        inview: this.getNeighboursInview()
+      }
     } else {
       return this.getNeighboursOutview()
     }
-  }
-  /**
-   * @description Get all reachable neighbours including socket, occurences, lock and ids
-   * Even if the connection is totally locked you can see it
-   * @return {Array<Object>} Array of object [{peer: {socket, occurences, lock}, id}]
-   */
-  getAllNeighbours () {
-    const res = []
-    this.livingOutview.forEach((v, k) => {
-      if (v.occurences > 0 && v.socket.status === 'connected') {
-        res.push({
-          peer: v,
-          id: k
-        })
-      }
-    })
-    return res
   }
 
   /**
@@ -10327,10 +10318,18 @@ class N2N extends EventEmitter {
    * const c = new N2N({n2n: {id: 'c'}})
    * a.connect(b)
    * b.connect(c)
-   * b.getNeighbours() => ['c']
+   * b.getNeighboursIds() => ['c']
+   * b.getNeighboursIds(true) => {outview: ['c'], inview: ['a']}
    */
   getNeighboursIds (all = false) {
-    return this.getNeighbours(all).map(p => p.id)
+    if (all) {
+      const a = this.getNeighbours(all)
+      a.outview = a.outview.map(p => p.id)
+      a.inview = a.inview.map(p => p.id)
+      return a
+    } else {
+      return this.getNeighbours().map(p => p.id)
+    }
   }
 
   /**
@@ -10361,7 +10360,7 @@ class N2N extends EventEmitter {
 
   /**
    * @description Return a list of arcs inview/outview for the peer in an array of object {source: <string>, dest: <string>, outview: <boolean>} even if they are lock or not
-   * @return {ObjectArray<Object>} [{source: <string>, dest: <string>, outview: <boolean>}, ...]
+   * @return {Array<Object>} [{source: <string>, dest: <string>, outview: <boolean>}, ...]
    */
   getArcs () {
     const res = []
@@ -11355,7 +11354,6 @@ class DirectSignaling extends SignalingAPI {
         const jobId = translator.new()
         const tout = setTimeout(() => {
           const e = new Error(`timed out (${timeout} (ms)) jobId= ${jobId}. Cannot establish a connection between us and ${peerId}`)
-          console.error(e)
           reject(e)
         }, timeout) // always put two second to handle a maximum of 2s of delay minimum...
         this.parent.events.once(jobId, (msg) => {
@@ -11377,7 +11375,6 @@ class DirectSignaling extends SignalingAPI {
           this._debug('[%s][%s] connectToUs message sent to %s to connect to US..', this.parent.id, jobId, peerId)
         }).catch(e => {
           clearTimeout(tout)
-          console.error(e)
           reject(e)
         })
       })
@@ -11411,10 +11408,7 @@ class DirectSignaling extends SignalingAPI {
 
         const socket = this.parent.createNewSocket(this.parent.options.socket, peerId, true)
         socket.on('error', (error) => {
-          this.parent._manageError(error, peerId, true, (e) => {
-            this._debug('[%s][%s][_connectToUs] receive an error during the connection %s...', this.parent.id, jobId, id, e)
-            reject(e)
-          }, 'direct')
+          this.parent._manageError(error, peerId, true, reject, 'direct')
         })
         socket.on(events.socket.EMIT_OFFER, (offer) => {
           const off = {
@@ -11683,7 +11677,7 @@ class OnlineSignaling extends SignalingAPI {
         autoConnect: false,
         query: {
           room,
-          id: options.id
+          id: options.parent.id
         }
       })
       socket.connect()
@@ -12336,7 +12330,9 @@ class Manager {
     }
     this.manager = new Map()
     this._options = {
-      latency: (send) => { setTimeout(send, 0) }
+      latency: 0,
+      connections: 100,
+      disconnections: 200
     }
     debugManager('manager initialized')
   }
@@ -12355,17 +12351,22 @@ class Manager {
   connect (from, to) {
     debugManager('peer connected from/to: ', from, to)
     this.manager.get(to)._connectWith(from)
-    this.manager.get(from)._connectWith(to)
+    setTimeout(() => {
+      this.manager.get(from)._connectWith(to)
+    }, this._options.connections)
   }
   // @private
   destroy (from, to) {
     debugManager('peer disconnected from/to: ', from, to)
-    if (this.manager.get(from)) {
+    if (this.manager.has(from)) {
       this.manager.get(from)._close()
     }
-    if (this.manager.get(to)) {
-      this.manager.get(to)._close()
-    }
+    // notify the overside of the socket after 5 seconds
+    setTimeout(() => {
+      if (this.manager.has(to)) {
+        this.manager.get(to)._close()
+      }
+    }, this._options.disconnections)
   }
   // @private
   send (from, to, msg, retry = 0) {
@@ -12374,9 +12375,12 @@ class Manager {
   // @private
   _send (from, to, msg, retry = 0) {
     try {
-      if (!this.manager.has(from) || !this.manager.has(to)) throw new Error('need a (from) and (to) peer.')
-      this.manager.get(to).emit('data', msg)
-      this._statistics.message++
+      if (!this.manager.has(from) || !this.manager.has(to)) {
+        throw new Error('need a (from) and (to) peer.')
+      } else {
+        this._statistics.message++
+        this.manager.get(to)._receive(msg)
+      }
     } catch (e) {
       throw new Error('cannot send the message. perhaps your destination is not reachable.', e)
     }
@@ -12411,13 +12415,15 @@ module.exports = class SimplePeerAbstract extends EventEmitter {
       })
     }
     this._manager.set(this.id, this)
-    this.on('internal_close', () => {
-      this._manager.manager.delete(this.id)
-    })
   }
   // @private
   static get manager () {
     return manager
+  }
+  _receive (data) {
+    setTimeout(() => {
+      this.emit('data', data)
+    }, this._manager._options.latency)
   }
   send (data) {
     if (!this.connectedWith) {
@@ -12454,7 +12460,7 @@ module.exports = class SimplePeerAbstract extends EventEmitter {
   }
   // @private
   _close () {
-    this.emit('internal_close')
+    this._manager.manager.delete(this.id)
     debugManager('[%s] is closed.', this.id)
     this.emit('close')
   }
